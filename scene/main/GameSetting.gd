@@ -173,3 +173,7 @@ func _set_bool(setting: Dictionary, option: String) -> bool:
 			TYPE_REAL:
 				return setting[option] >= 1
 	return false
+
+
+func _on_InitWorld_world_initializing() -> void:
+	load_setting()

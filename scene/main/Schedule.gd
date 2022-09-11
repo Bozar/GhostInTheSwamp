@@ -2,14 +2,6 @@ extends Node2D
 class_name Game_Schedule
 
 
-const FIRST_SIGNALS := ["first_turn_starting", "first_turn_started",]
-const START_SIGNALS := ["turn_starting", "turn_started",]
-const END_SIGNALS := ["turn_ending", "turn_ended",]
-
-# warning-ignore: UNUSED_SIGNAL
-signal first_turn_starting()
-# warning-ignore: UNUSED_SIGNAL
-signal first_turn_started()
 # warning-ignore: UNUSED_SIGNAL
 signal turn_starting(current_sprite)
 # warning-ignore: UNUSED_SIGNAL
@@ -19,11 +11,10 @@ signal turn_ending(current_sprite)
 # warning-ignore: UNUSED_SIGNAL
 signal turn_ended(current_sprite)
 
-var _actors: Array = [null]
-var _pointer: int = 0
-var _end_game: bool = false
-var _end_current_turn: bool = true
-var _start_first_turn: bool = true
+var _actors := [null]
+var _pointer := 0
+var _end_game := false
+var _end_current_turn := true
 
 
 func end_turn() -> void:
@@ -33,34 +24,33 @@ func end_turn() -> void:
 		return
 
 	# Suppose NPC X is the currently active actor, and Y is the next one in row.
-	# 1. EnemyAI calls remove(X).
+	# 1. ActorAction calls remove(X).
 	# 2. In Schedule, _goto_next() is called and _end_current_turn is set to
 	# false.
-	# 3. EnemyAI calls X.end_turn().
+	# 3. ActorAction calls X.end_turn().
 	# 4. In Schedule, we should start Y's turn, rather than ends it.
 	if _end_current_turn:
 		# print("{0}: End turn.".format([_get_current().name]))
-		for i in END_SIGNALS:
-			emit_signal(i, _get_current())
-			if _end_game:
-				return
+		emit_signal("turn_ending", _get_current())
+		emit_signal("turn_ended", _get_current())
+		if _end_game:
+			return
 		_goto_next()
 	else:
 		_end_current_turn = true
 
 	if _end_game:
 		return
-	for i in START_SIGNALS:
-		emit_signal(i, _get_current())
+	start_turn()
 
 
-func init_schedule() -> void:
-	if _start_first_turn:
-		for i in FIRST_SIGNALS:
-			emit_signal(i)
-		for i in START_SIGNALS:
-			emit_signal(i, _get_current())
-		_start_first_turn = false
+func start_turn() -> void:
+	emit_signal("turn_starting", _get_current())
+	emit_signal("turn_started", _get_current())
+
+
+func _on_InitWorld_world_initialized() -> void:
+	start_turn()
 
 
 func _on_CreateObject_sprite_created(new_sprite: Sprite, main_tag: String,

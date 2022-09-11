@@ -70,7 +70,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 # Refer: PCActionTemplate.gd.
-func _on_InitWorld_world_selected(_new_world: String) -> void:
+func _on_InitWorld_world_initializing() -> void:
 	_pc_action = load("res://library/pc_action/PCActionTemplate.gd").new(self)
 
 

@@ -29,20 +29,19 @@ const SIGNAL_BIND := [
 		PLAYER_INPUT, SCHEDULE, DUNGEON, GAME_PROGRESS, OBJECT_DATA,
 	],
 	[
+		"world_initializing", "_on_InitWorld_world_initializing",
+		INIT_WORLD,
+		GAME_SETTING, PLAYER_INPUT, GAME_PROGRESS,
+	],
+	[
+		"world_initialized", "_on_InitWorld_world_initialized",
+		INIT_WORLD,
+		SCHEDULE,
+	],
+	[
 		"world_selected", "_on_InitWorld_world_selected",
 		INIT_WORLD,
-		PLAYER_INPUT, SIDEBAR_GUI, GAME_PROGRESS, HELP_GUI,
-		HELP_INPUT, DEBUG_GUI,
-	],
-	[
-		"first_turn_starting", "_on_Schedule_first_turn_starting",
-		SCHEDULE,
-		GAME_PROGRESS,
-	],
-	[
-		"first_turn_started", "_on_Schedule_first_turn_started",
-		SCHEDULE,
-		PLAYER_INPUT,
+		SIDEBAR_GUI, HELP_GUI, HELP_INPUT, DEBUG_GUI,
 	],
 	[
 		"turn_starting", "_on_Schedule_turn_starting",
@@ -77,7 +76,7 @@ const SIGNAL_BIND := [
 	[
 		"setting_saved", "_on_GameSetting_setting_saved",
 		GAME_SETTING,
-		RANDOM, INIT_WORLD,
+		RANDOM,
 	],
 	[
 		"screen_switched", "_on_SwitchScreen_screen_switched",
@@ -96,7 +95,7 @@ const NODE_REF := [
 	[
 		"_ref_Schedule",
 		SCHEDULE,
-		PLAYER_INPUT, ACTOR_ACTION, GAME_PROGRESS, INIT_WORLD,
+		PLAYER_INPUT, ACTOR_ACTION, GAME_PROGRESS,
 	],
 	[
 		"_ref_RemoveObject",
@@ -131,7 +130,7 @@ const NODE_REF := [
 	[
 		"_ref_GameSetting",
 		GAME_SETTING,
-		INIT_WORLD, PLAYER_INPUT, SIDEBAR_GUI, RANDOM, PALETTE,
+		PLAYER_INPUT, SIDEBAR_GUI, RANDOM, PALETTE,
 	],
 	[
 		"_ref_SwitchScreen",

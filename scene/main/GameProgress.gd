@@ -16,7 +16,7 @@ var _progress: Game_ProgressTemplate
 var _game_over: bool = false
 
 
-func _on_InitWorld_world_selected(_new_world: String) -> void:
+func _on_InitWorld_world_initializing() -> void:
 	_progress = load("res://library/game_progress/ProgressTemplate.gd").new(self)
 
 
