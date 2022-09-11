@@ -5,7 +5,6 @@
 [ext_resource path="res://scene/main/SwitchSprite.gd" type="Script" id=3]
 [ext_resource path="res://scene/main/MainScene.gd" type="Script" id=4]
 [ext_resource path="res://scene/main/Schedule.gd" type="Script" id=5]
-[ext_resource path="res://scene/main/EnemyAI.gd" type="Script" id=6]
 [ext_resource path="res://scene/main/DungeonBoard.gd" type="Script" id=7]
 [ext_resource path="res://scene/main/ObjectState.gd" type="Script" id=8]
 [ext_resource path="res://scene/main/RemoveObject.gd" type="Script" id=9]
@@ -15,6 +14,7 @@
 [ext_resource path="res://scene/main/ObjectData.gd" type="Script" id=13]
 [ext_resource path="res://scene/main/SpriteType.gd" type="Script" id=14]
 [ext_resource path="res://scene/main/HitPoint.gd" type="Script" id=15]
+[ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
 [ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
 [ext_resource path="res://scene/main/GameProgress.gd" type="Script" id=20]
@@ -70,8 +70,8 @@ script = ExtResource( 30 )
 [node name="Schedule" type="Node2D" parent="."]
 script = ExtResource( 5 )
 
-[node name="EnemyAI" type="Node2D" parent="."]
-script = ExtResource( 6 )
+[node name="ActorAction" type="Node2D" parent="."]
+script = ExtResource( 16 )
 
 [node name="GameSetting" type="Node2D" parent="."]
 script = ExtResource( 22 )

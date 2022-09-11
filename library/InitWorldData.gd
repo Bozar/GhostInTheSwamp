@@ -4,10 +4,6 @@ class_name Game_InitWorldData
 const WORLD_PLACEHOLDER := "%str%"
 const HINT_PLACEHOLDER := "[INPUT_HINT]\n"
 
-const INIT_PATH := "res://library/init/Init%str%.gd"
-const ACTION_PATH := "res://library/pc_action/%str%PCAction.gd"
-const AI_PATH := "res://library/npc_ai/%str%AI.gd"
-const PROGRESS_PATH := "res://library/game_progress/%str%Progress.gd"
 const HELP_PATH := "res://user/doc/%str%.md"
 
 const GENERAL_HELP := "res://user/doc/general.md"
@@ -16,22 +12,6 @@ const KEY_BINDING_HELP := "res://user/doc/keybinding.md"
 const HINT_DUNGEON := "res://user/doc/hint_dungeon.md"
 const HINT_GENERAL := "res://user/doc/hint_general.md"
 const HINT_KEY_BINDING := "res://user/doc/hint_keybinding.md"
-
-
-static func get_world_template(world_tag: String) -> Game_WorldTemplate:
-	return _load_data(INIT_PATH, world_tag)
-
-
-static func get_pc_action(world_tag: String) -> Game_PCActionTemplate:
-	return _load_data(ACTION_PATH, world_tag)
-
-
-static func get_enemy_ai(world_tag: String) -> Game_AITemplate:
-	return _load_data(AI_PATH, world_tag)
-
-
-static func get_progress(world_tag: String) -> Game_ProgressTemplate:
-	return _load_data(PROGRESS_PATH, world_tag)
 
 
 static func get_help(world_tag: String) -> Array:

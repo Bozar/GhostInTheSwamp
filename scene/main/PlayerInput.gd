@@ -21,7 +21,6 @@ var _ref_Palette: Game_Palette
 var _pc_action: Game_PCActionTemplate
 var _direction: String
 var _end_game := false
-var _world_tag: String
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,8 +39,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_node(RELOAD_GAME).reload()
 	elif _verify_input(event, Game_InputTag.COPY_SEED):
 		OS.set_clipboard(_ref_RandomNumber.get_rng_seed() as String)
-	elif _verify_input(event, Game_InputTag.COPY_WORLD):
-		OS.set_clipboard(_world_tag)
 	elif _verify_input(event, Game_InputTag.OPEN_HELP):
 		_ref_SwitchScreen.set_screen(Game_ScreenTag.MAIN, Game_ScreenTag.HELP)
 	elif _verify_input(event, Game_InputTag.OPEN_DEBUG):
@@ -73,9 +70,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 # Refer: PCActionTemplate.gd.
-func _on_InitWorld_world_selected(new_world: String) -> void:
-	_pc_action = Game_InitWorldData.get_pc_action(new_world).new(self)
-	_world_tag = Game_WorldTag.TAG_TO_NAME[new_world]
+func _on_InitWorld_world_selected(_new_world: String) -> void:
+	_pc_action = load("res://library/pc_action/PCActionTemplate.gd").new(self)
 
 
 func _on_CreateObject_sprite_created(_new_sprite: Sprite, _main_tag: String,

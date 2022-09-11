@@ -1,9 +1,5 @@
 extends Node2D
 class_name Game_InitWorld
-# Blueprints are scattered in three scripts.
-# * Floors are created in WorldTemplate.gd.
-# * Arrow indicators are created in this script.
-# * Everything else are created by calling _world.get_blueprint().
 
 
 signal world_selected(new_world)
@@ -16,16 +12,11 @@ var _ref_Schedule: Game_Schedule
 var _world_tag: String
 var _world_template: Game_WorldTemplate
 
-# func _unhandled_input(event: InputEvent) -> void:
-# 	if event.is_action_pressed(Game_InputTag.INIT_WORLD):
-# 		init_world()
-#
-# 		set_process_unhandled_input(false)
-
 
 func init_world() -> void:
 	_ref_GameSetting.load_setting()
-	_world_template = _get_world()
+	_get_world()
+	_world_template = load("res://library/init/InitDemo.gd").new(self)
 
 	# sb: SpriteBlueprint
 	for sb in _world_template.get_blueprint():
@@ -42,7 +33,7 @@ func _on_GameSetting_setting_saved(save_data: Game_TransferData,
 	save_data.overwrite_include_world = [_world_tag]
 
 
-func _get_world() -> Game_WorldTemplate:
+func _get_world() -> void:
 	var full_tag: Array = Game_WorldTag.get_full_world_tag()
 	var include_world: Array = _ref_GameSetting.get_include_world()
 	var exclude_world: Array = _ref_GameSetting.get_exclude_world()
@@ -63,8 +54,6 @@ func _get_world() -> Game_WorldTemplate:
 		Game_ArrayHelper.rand_picker(full_tag, 1, _ref_RandomNumber)
 		_world_tag = full_tag[0]
 	emit_signal("world_selected", _world_tag)
-
-	return Game_InitWorldData.get_world_template(_world_tag).new(self)
 
 
 func _init_indicator(x: int, y: int) -> void:
