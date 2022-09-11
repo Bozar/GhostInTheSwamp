@@ -377,7 +377,8 @@ _global_script_class_icons={
 config/name="Ghost in the Swamp"
 run/main_scene="res://scene/main/MainScene.tscn"
 run/low_processor_mode=true
-config/icon="res://resource/icon.png"
+config/icon="res://resource/ghost.png"
+config/windows_native_icon="res://resource/ghost.ico"
 
 [display]
 
