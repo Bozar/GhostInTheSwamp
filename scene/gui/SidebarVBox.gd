@@ -10,7 +10,6 @@ const VERSION := "Lower/Version"
 const SEED := "Lower/Seed"
 
 var _ref_RandomNumber: Game_RandomNumber
-var _ref_CountDown: Game_CountDown
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
@@ -62,7 +61,7 @@ func _set_color() -> void:
 
 
 func _get_turn() -> String:
-	return Game_SidebarText.TURN.format([_ref_CountDown.get_count(true)])
+	return "MP: 3/6|28%\n\nGhost\nLOS: → ← ↓ ↑\n\n???\nParrot\nAccordion"
 
 
 func _get_seed() -> String:

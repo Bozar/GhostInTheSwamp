@@ -13,7 +13,6 @@ var _ref_ObjectData: Game_ObjectData
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_EndGame: Game_EndGame
-var _ref_CountDown: Game_CountDown
 var _ref_SwitchScreen: Game_SwitchScreen
 var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
@@ -57,10 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if _ref_GameSetting.get_wizard_mode():
-		if _verify_input(event, Game_InputTag.ADD_TURN):
-			_ref_CountDown.add_count(1)
-		elif _verify_input(event, Game_InputTag.FULLY_RESTORE_TURN):
-			_ref_CountDown.add_count(99)
+		pass
 
 	if _is_move_input(event) or _is_mouse_move_input(event):
 		_handle_move_input()

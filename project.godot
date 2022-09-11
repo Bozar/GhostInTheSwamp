@@ -40,11 +40,6 @@ _global_script_classes=[ {
 "path": "res://library/CoordCalculator.gd"
 }, {
 "base": "Node2D",
-"class": "Game_CountDown",
-"language": "GDScript",
-"path": "res://scene/main/CountDown.gd"
-}, {
-"base": "Node2D",
 "class": "Game_CreateObject",
 "language": "GDScript",
 "path": "res://scene/main/CreateObject.gd"
@@ -321,7 +316,6 @@ _global_script_class_icons={
 "Game_BoolState": "",
 "Game_ConvertCoord": "",
 "Game_CoordCalculator": "",
-"Game_CountDown": "",
 "Game_CreateObject": "",
 "Game_CrossShapedFOV": "",
 "Game_DebugInput": "",

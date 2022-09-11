@@ -19,7 +19,6 @@ var _ref_RemoveObject: Game_RemoveObject
 var _ref_ObjectData: Game_ObjectData
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_EndGame: Game_EndGame
-var _ref_CountDown: Game_CountDown
 var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
@@ -40,7 +39,6 @@ func _init(parent_node: Node2D) -> void:
 	_ref_ObjectData = parent_node._ref_ObjectData
 	_ref_RandomNumber = parent_node._ref_RandomNumber
 	_ref_EndGame = parent_node._ref_EndGame
-	_ref_CountDown = parent_node._ref_CountDown
 	_ref_SwitchSprite = parent_node._ref_SwitchSprite
 	_ref_CreateObject = parent_node._ref_CreateObject
 	_ref_GameSetting = parent_node._ref_GameSetting

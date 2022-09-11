@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGUI.tscn" type="PackedScene" id=2]
@@ -17,7 +17,6 @@
 [ext_resource path="res://scene/main/HitPoint.gd" type="Script" id=15]
 [ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
-[ext_resource path="res://scene/main/CountDown.gd" type="Script" id=19]
 [ext_resource path="res://scene/main/GameProgress.gd" type="Script" id=20]
 [ext_resource path="res://scene/main/CreateObject.gd" type="Script" id=21]
 [ext_resource path="res://scene/main/GameSetting.gd" type="Script" id=22]
@@ -55,9 +54,6 @@ script = ExtResource( 18 )
 
 [node name="InitWorld" type="Node2D" parent="."]
 script = ExtResource( 1 )
-
-[node name="CountDown" type="Node2D" parent="."]
-script = ExtResource( 19 )
 
 [node name="PlayerInput" type="Node2D" parent="."]
 script = ExtResource( 12 )

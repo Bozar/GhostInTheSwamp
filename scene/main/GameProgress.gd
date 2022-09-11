@@ -11,7 +11,6 @@ var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_ObjectData: Game_ObjectData
 var _ref_EndGame: Game_EndGame
 var _ref_Palette: Game_Palette
-var _ref_CountDown: Game_CountDown
 
 var _progress: Game_ProgressTemplate
 var _game_over: bool = false
@@ -43,7 +42,7 @@ func _on_Schedule_turn_starting(current_sprite: Sprite) -> void:
 		_progress.renew_world(_ref_DungeonBoard.get_pc_coord())
 
 
-func _on_Schedule_turn_ending(current_sprite: Sprite) -> void:
+func _on_Schedule_turn_ended(current_sprite: Sprite) -> void:
 	var pc_coord := _ref_DungeonBoard.get_pc_coord()
 
 	# Do not change world (like adding new NPCs) when the game is over.

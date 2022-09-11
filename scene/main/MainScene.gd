@@ -14,7 +14,6 @@ const OBJECT_DATA := "ObjectData"
 const SWITCH_SPRITE := "SwitchSprite"
 const SWITCH_SCREEN := "SwitchScreen"
 const END_GAME := "EndGame"
-const COUNT_DOWN := "CountDown"
 const GAME_PROGRESS := "GameProgress"
 const GAME_SETTING := "GameSetting"
 const PALETTE := "Palette"
@@ -53,17 +52,12 @@ const SIGNAL_BIND := [
 	[
 		"turn_started", "_on_Schedule_turn_started",
 		SCHEDULE,
-		PLAYER_INPUT, ENEMY_AI, SIDEBAR_GUI, COUNT_DOWN,
-	],
-	[
-		"turn_ending", "_on_Schedule_turn_ending",
-		SCHEDULE,
-		GAME_PROGRESS,
+		PLAYER_INPUT, ENEMY_AI, SIDEBAR_GUI,
 	],
 	[
 		"turn_ended", "_on_Schedule_turn_ended",
 		SCHEDULE,
-		COUNT_DOWN,
+		GAME_PROGRESS,
 	],
 	[
 		"sprite_removed", "_on_RemoveObject_sprite_removed",
@@ -91,11 +85,6 @@ const SIGNAL_BIND := [
 		PLAYER_INPUT, CREATE_OBJECT, SIDEBAR_GUI, HELP_INPUT, HELP_GUI,
 		DEBUG_GUI, DEBUG_INPUT,
 	],
-	# [
-	# 	"enemy_warned", "_on_EnemyAI_enemy_warned",
-	# 	ENEMY_AI,
-	# 	MODELINE,
-	# ],
 ]
 
 const NODE_REF := [
@@ -133,12 +122,7 @@ const NODE_REF := [
 	[
 		"_ref_EndGame",
 		END_GAME,
-		ENEMY_AI, PLAYER_INPUT, COUNT_DOWN, GAME_PROGRESS,
-	],
-	[
-		"_ref_CountDown",
-		COUNT_DOWN,
-		SIDEBAR_GUI, PLAYER_INPUT, ENEMY_AI, GAME_PROGRESS,
+		ENEMY_AI, PLAYER_INPUT, GAME_PROGRESS,
 	],
 	[
 		"_ref_CreateObject",

@@ -12,7 +12,6 @@ var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_ObjectData: Game_ObjectData
 var _ref_EndGame: Game_EndGame
 var _ref_Palette: Game_Palette
-var _ref_CountDown: Game_CountDown
 
 var _spr_Floor := preload("res://sprite/Floor.tscn")
 
@@ -28,7 +27,6 @@ func _init(parent_node: Node2D) -> void:
 	_ref_ObjectData = parent_node._ref_ObjectData
 	_ref_EndGame = parent_node._ref_EndGame
 	_ref_Palette = parent_node._ref_Palette
-	_ref_CountDown = parent_node._ref_CountDown
 
 
 func start_first_turn(_pc_coord: Game_IntCoord) -> void:
