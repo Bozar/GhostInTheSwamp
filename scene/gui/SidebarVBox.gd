@@ -27,6 +27,9 @@ func _on_InitWorld_world_selected(_new_world: String) -> void:
 
 	get_node(STATE).text = _get_state()
 	get_node(MESSAGE).text = ""
+	# get_node(STATE).max_lines_visible = 4
+	# get_node(MESSAGE).text = Game_SidebarText.SEPARATOR \
+	# 		+ "↑|3: Trcik\n↑|3: Trcik\n↑|3: Trcik\n↑|3: Trcik\n↑|3: Trcik"
 
 	get_node(VERSION).text = _get_version()
 	get_node(HELP).text = Game_SidebarText.HELP

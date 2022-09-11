@@ -8,10 +8,6 @@ class_name Game_InitWorld
 
 signal world_selected(new_world)
 
-var _spr_TriangleRight := preload("res://sprite/TriangleRight.tscn")
-var _spr_TriangleDown := preload("res://sprite/TriangleDown.tscn")
-var _spr_TriangleUp := preload("res://sprite/TriangleUp.tscn")
-
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
@@ -35,7 +31,7 @@ func init_world() -> void:
 	for sb in _world_template.get_blueprint():
 		if _is_pc(sb.sub_tag):
 			_init_indicator(sb.x, sb.y)
-		_ref_CreateObject.create_xy(sb.scene, sb.main_tag, sb.sub_tag,
+		_ref_CreateObject.create_xy(sb.main_tag, sb.sub_tag,
 				sb.x, sb.y, sb.sprite_layer)
 	_ref_Schedule.init_schedule()
 	_world_template.clear_blueprint()
@@ -72,17 +68,17 @@ func _get_world() -> Game_WorldTemplate:
 
 
 func _init_indicator(x: int, y: int) -> void:
-	_ref_CreateObject.create_xy(_spr_TriangleRight,
+	_ref_CreateObject.create_xy(
 			Game_MainTag.INDICATOR, Game_SubTag.ARROW_RIGHT,
 			0, y, 0,
 			-Game_DungeonSize.ARROW_MARGIN)
 
-	_ref_CreateObject.create_xy(_spr_TriangleDown,
+	_ref_CreateObject.create_xy(
 			Game_MainTag.INDICATOR, Game_SubTag.ARROW_DOWN,
 			x, 0, 0,
 			0, -Game_DungeonSize.ARROW_MARGIN)
 
-	_ref_CreateObject.create_xy(_spr_TriangleUp,
+	_ref_CreateObject.create_xy(
 			Game_MainTag.INDICATOR, Game_SubTag.ARROW_UP,
 			x, Game_DungeonSize.MAX_Y - 1, 0,
 			0, Game_DungeonSize.ARROW_MARGIN)
