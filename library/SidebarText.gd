@@ -3,17 +3,14 @@ class_name Game_SidebarText
 
 const VERSION := "0.4.4"
 # const VERSION := "0.3.1-\nNightly-\n04-16-2021"
-const BOOL_TO_PREFIX := {true: "+", false: "-"}
-const VERSION_BAR := "\n--------"
 
-const TURN := "Turn: {0}"
+const STATE := "MP: 3/6|28%\n\nGhost\nLOS: → ← ↓ ↑\n\n???\nParrot\nAccordion"
 
-const WIN := "You win.\n[ Space ]"
-const LOSE := "You lose.\n[ Space ]"
+const SEPARATOR := "------------\n"
 
-const MENU_KEY := "Menu: C|V\n"
-const PLAY_KEY := "Play: R|U|O\n"
-const HELP_BAR := "-----------"
-const HELP := MENU_KEY + PLAY_KEY + HELP_BAR
+const WIN := SEPARATOR + "You win.\n[Space]"
+const LOSE := SEPARATOR + "You lose.\n[Space]"
+
+const HELP := "Help: C"
 
 const SEED := "{0}-{1}-{2}"
