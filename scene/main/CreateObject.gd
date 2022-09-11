@@ -14,7 +14,7 @@ func create_and_fetch_xy(main_tag: String, sub_tag: String, x: int, y: int,
 		sprite_layer := 0, x_offset := 0, y_offset := 0) -> Sprite:
 	var new_sprite: Sprite = Game_PackedSceneData.get_packed_scene(sub_tag) \
 			.instance() as Sprite
-	var sprite_color: String = _ref_Palette.get_default_color(main_tag, sub_tag)
+	var sprite_color: String = _ref_Palette.get_default_color(main_tag)
 	var z_index: int = Game_ZIndex.get_z_index(main_tag)
 
 	if _ref_DungeonBoard.has_sprite_xy(main_tag, x, y, sprite_layer):

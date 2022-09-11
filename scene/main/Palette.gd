@@ -69,60 +69,49 @@ const DEFAULT_TAG_TO_COLOR := {
 	# DARK_GUI_TEXT: GREY,
 }
 
-const SUB_TAG_TO_COLOR := {
-	Game_SubTag.PC_MIRROR_IMAGE: DARK_ACTOR,
-}
 
 var _ref_GameSetting: Game_GameSetting
 
 var _tag_to_color := {}
 
 
-func get_default_color(main_tag: String, sub_tag: String = "") -> String:
-	if SUB_TAG_TO_COLOR.has(sub_tag):
-		return _tag_to_color[SUB_TAG_TO_COLOR[sub_tag]]
-	else:
-		match main_tag:
-			Game_MainTag.GROUND:
-				return _tag_to_color[GROUND]
-			Game_MainTag.TRAP:
-				return _tag_to_color[TRAP]
-			Game_MainTag.BUILDING:
-				return _tag_to_color[BUILDING]
-			Game_MainTag.ACTOR:
-				return _tag_to_color[ACTOR]
-			Game_MainTag.INDICATOR:
-				return _tag_to_color[INDICATOR]
-			_:
-				return DEBUG
+func get_default_color(main_tag: String) -> String:
+	match main_tag:
+		Game_MainTag.GROUND:
+			return _tag_to_color[GROUND]
+		Game_MainTag.TRAP:
+			return _tag_to_color[TRAP]
+		Game_MainTag.BUILDING:
+			return _tag_to_color[BUILDING]
+		Game_MainTag.ACTOR:
+			return _tag_to_color[ACTOR]
+		Game_MainTag.INDICATOR:
+			return _tag_to_color[INDICATOR]
+		_:
+			return DEBUG
 
 
-func get_dark_color(main_tag: String, sub_tag: String = "") -> String:
-	if SUB_TAG_TO_COLOR.has(sub_tag):
-		return _tag_to_color[SUB_TAG_TO_COLOR[sub_tag]]
-	else:
-		match main_tag:
-			Game_MainTag.GROUND:
-				return _tag_to_color[DARK_GROUND]
-			Game_MainTag.TRAP:
-				return _tag_to_color[DARK_TRAP]
-			Game_MainTag.BUILDING:
-				return _tag_to_color[DARK_BUILDING]
-			Game_MainTag.ACTOR:
-				return _tag_to_color[DARK_ACTOR]
-			_:
-				return DEBUG
+func get_dark_color(main_tag: String) -> String:
+	match main_tag:
+		Game_MainTag.GROUND:
+			return _tag_to_color[DARK_GROUND]
+		Game_MainTag.TRAP:
+			return _tag_to_color[DARK_TRAP]
+		Game_MainTag.BUILDING:
+			return _tag_to_color[DARK_BUILDING]
+		Game_MainTag.ACTOR:
+			return _tag_to_color[DARK_ACTOR]
+		_:
+			return DEBUG
 
 
-func set_default_color(set_sprite: Sprite, main_tag: String,
-		sub_tag: String = "") -> void:
-	var new_color: String = get_default_color(main_tag, sub_tag)
+func set_default_color(set_sprite: Sprite, main_tag: String) -> void:
+	var new_color: String = get_default_color(main_tag)
 	set_sprite.modulate = new_color
 
 
-func set_dark_color(set_sprite: Sprite, main_tag: String,
-		sub_tag: String = "") -> void:
-	var new_color: String = get_dark_color(main_tag, sub_tag)
+func set_dark_color(set_sprite: Sprite, main_tag: String) -> void:
+	var new_color: String = get_dark_color(main_tag)
 	set_sprite.modulate = new_color
 
 
