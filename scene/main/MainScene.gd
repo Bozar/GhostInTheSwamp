@@ -26,7 +26,7 @@ const SIGNAL_BIND := [
 	[
 		"sprite_created", "_on_CreateObject_sprite_created",
 		CREATE_OBJECT,
-		PLAYER_INPUT, SCHEDULE, DUNGEON, GAME_PROGRESS, OBJECT_DATA,
+		SCHEDULE, DUNGEON, GAME_PROGRESS, OBJECT_DATA,
 	],
 	[
 		"world_initializing", "_on_InitWorld_world_initializing",
@@ -54,6 +54,11 @@ const SIGNAL_BIND := [
 		PLAYER_INPUT, ACTOR_ACTION, SIDEBAR_GUI,
 	],
 	[
+		"turn_ending", "_on_Schedule_turn_ending",
+		SCHEDULE,
+		PLAYER_INPUT,
+	],
+	[
 		"turn_ended", "_on_Schedule_turn_ended",
 		SCHEDULE,
 		GAME_PROGRESS,
@@ -61,7 +66,7 @@ const SIGNAL_BIND := [
 	[
 		"sprite_removed", "_on_RemoveObject_sprite_removed",
 		REMOVE_OBJECT,
-		DUNGEON, SCHEDULE, OBJECT_DATA, GAME_PROGRESS, PLAYER_INPUT,
+		DUNGEON, SCHEDULE, OBJECT_DATA, GAME_PROGRESS,
 	],
 	[
 		"game_over", "_on_EndGame_game_over",

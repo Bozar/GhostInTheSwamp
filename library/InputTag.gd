@@ -6,19 +6,25 @@ const MOVE_LEFT := "move_left"
 const MOVE_RIGHT := "move_right"
 const MOVE_UP := "move_up"
 const MOVE_DOWN := "move_down"
-const WAIT := "wait"
+const USE_POWER := "use_power"
+const TOGGLE_SIGHT := "toggle_sight"
 
 const RELOAD := "reload"
-const REPLAY_DUNGEON := "replay_dungeon"
-const REPLAY_WORLD := "replay_world"
-const QUIT := "quit"
-const OPEN_HELP := "open_help"
-const COPY_SEED := "copy_seed"
-
-const INIT_WORLD := "init_world"
 const FORCE_RELOAD := "force_reload"
-const ADD_TURN := "add_turn"
-const FULLY_RESTORE_TURN := "fully_restore_turn"
+const REPLAY_DUNGEON := "replay_dungeon"
+const QUIT := "quit"
+
+const COPY_SEED := "copy_seed"
+const ADD_MP := "add_mp"
+const FULLY_RESTORE_MP := "fully_restore_mp"
+const ADD_GHOST := "add_ghost"
+const ADD_RUM := "add_rum"
+const ADD_PARROT := "add_parrot"
+const ADD_ACCORDION := "add_accordion"
+
+const OPEN_HELP := "open_help"
+const OPEN_DEBUG := "open_debug"
+const CLOSE_MENU := "close_menu"
 
 const PAGE_DOWN := "page_down"
 const PAGE_UP := "page_up"
@@ -27,13 +33,21 @@ const SCROLL_TO_BOTTOM := "scroll_to_bottom"
 const NEXT_HELP := "next_help"
 const PREVIOUS_HELP := "previous_help"
 
-const OPEN_DEBUG := "open_debug"
-const CLOSE_MENU := "close_menu"
+const MOVE_INPUT := [
+	MOVE_LEFT,
+	MOVE_RIGHT,
+	MOVE_UP,
+	MOVE_DOWN,
+]
 
-const MOVE_BY_MOUSE := "move_by_mouse"
-const WAIT_BY_MOUSE := "wait_by_mouse"
-const RELOAD_BY_MOUSE := "reload_by_mouse"
-const FORCE_RELOAD_BY_MOUSE := "force_reload_by_mouse"
+const WIZARD_INPUT := [
+	ADD_MP,
+	FULLY_RESTORE_MP,
+	ADD_GHOST,
+	ADD_RUM,
+	ADD_PARROT,
+	ADD_ACCORDION,
+]
 
 const DIRECTION_TO_COORD := {
 	MOVE_UP: [0, -1],
@@ -41,13 +55,6 @@ const DIRECTION_TO_COORD := {
 	MOVE_LEFT: [-1, 0],
 	MOVE_RIGHT: [1, 0],
 }
-
-const MOVE_INPUT := [
-	MOVE_LEFT,
-	MOVE_RIGHT,
-	MOVE_UP,
-	MOVE_DOWN,
-]
 
 const INPUT_TO_SPRITE := {
 	MOVE_UP: Game_SpriteTypeTag.UP,
