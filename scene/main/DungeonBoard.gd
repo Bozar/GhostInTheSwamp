@@ -263,32 +263,31 @@ func swap_sprite(main_tag: String, source: Game_IntCoord, target: Game_IntCoord,
 			sprite_layer)
 
 
-func _on_CreateObject_sprite_created(new_sprite: Sprite, main_tag: String,
-		sub_tag: String, _x: int, _y: int, sprite_layer: int) -> void:
+func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
 	var pos: Game_IntCoord
 	var new_tag: String
 
 	# Save references to arrow indicators.
-	if main_tag == Game_MainTag.INDICATOR:
+	if sprite_data.main_tag == Game_MainTag.INDICATOR:
 		for i in _sub_tag_to_sprite.keys():
-			if i == sub_tag:
-				_sub_tag_to_sprite[i] = new_sprite
+			if i == sprite_data.sub_tag:
+				_sub_tag_to_sprite[i] = sprite_data.sprite
 	# Save references to dungeon sprites.
 	else:
 		for i in Game_MainTag.DUNGEON_OBJECT:
-			if i != main_tag:
+			if i != sprite_data.main_tag:
 				continue
-			new_tag = _try_convert_main_tag(i, sprite_layer)
+			new_tag = _try_convert_main_tag(i, sprite_data.sprite_layer)
 			if not _sprite_dict.has(new_tag):
 				_init_dict(new_tag)
-			pos = Game_ConvertCoord.sprite_to_coord(new_sprite)
-			_sprite_dict[new_tag][pos.x][pos.y] = new_sprite
+			pos = Game_ConvertCoord.sprite_to_coord(sprite_data.sprite)
+			_sprite_dict[new_tag][pos.x][pos.y] = sprite_data.sprite
 
 
-func _on_RemoveObject_sprite_removed(_sprite: Sprite, main_tag: String,
-		x: int, y: int, sprite_layer: int) -> void:
-	main_tag = _try_convert_main_tag(main_tag, sprite_layer)
-	_sprite_dict[main_tag][x][y] = null
+func _on_RemoveObject_sprite_removed(sprite_data: Game_BasicSpriteData) -> void:
+	var main_tag := _try_convert_main_tag(sprite_data.main_tag,
+			sprite_data.sprite_layer)
+	_sprite_dict[main_tag][sprite_data.x][sprite_data.y] = null
 
 
 func _init_dict(new_tag: String) -> void:

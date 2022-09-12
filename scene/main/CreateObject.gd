@@ -4,7 +4,7 @@ class_name Game_CreateObject
 
 const ERR_MSG := "Duplicate sprite. MainTag: {0}, x: {1}, y: {2}, layer: {3}."
 
-signal sprite_created(new_sprite, main_tag, sub_tag, x, y, sprite_layer)
+signal sprite_created(basic_sprite_data)
 
 var _ref_Palette: Game_Palette
 var _ref_DungeonBoard: Game_DungeonBoard
@@ -30,8 +30,8 @@ func create_and_fetch_xy(main_tag: String, sub_tag: String, x: int, y: int,
 	new_sprite.modulate = sprite_color
 
 	add_child(new_sprite)
-	emit_signal("sprite_created", new_sprite, main_tag, sub_tag, x, y,
-			sprite_layer)
+	emit_signal("sprite_created", Game_BasicSpriteData.new(new_sprite,
+			main_tag, sub_tag, x, y, sprite_layer))
 	return new_sprite
 
 

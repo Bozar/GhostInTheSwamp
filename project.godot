@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/AutoStart.gd"
 }, {
+"base": "Reference",
+"class": "Game_BasicSpriteData",
+"language": "GDScript",
+"path": "res://library/BasicSpriteData.gd"
+}, {
 "base": "Node2D",
 "class": "Game_BoolState",
 "language": "GDScript",
@@ -319,6 +324,7 @@ _global_script_class_icons={
 "Game_ActorAction": "",
 "Game_ArrayHelper": "",
 "Game_AutoStart": "",
+"Game_BasicSpriteData": "",
 "Game_BoolState": "",
 "Game_ConvertCoord": "",
 "Game_CoordCalculator": "",

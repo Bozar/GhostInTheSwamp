@@ -2,18 +2,19 @@ extends Node2D
 class_name Game_RemoveObject
 
 
-signal sprite_removed(remove_sprite, main_tag, x, y, sprite_layer)
+signal sprite_removed(sprite_data)
 
 var _ref_DungeonBoard: Game_DungeonBoard
 
 
 func remove_xy(main_tag: String, x: int, y: int, sprite_layer := 0) -> void:
-	var remove_this: Sprite = _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
+	var remove_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
 			sprite_layer)
 	if remove_this == null:
 		return
 
-	emit_signal("sprite_removed", remove_this, main_tag, x, y, sprite_layer)
+	emit_signal("sprite_removed", Game_BasicSpriteData.new(remove_this,
+			main_tag, Game_SubTag.REMOVE_SPRITE, x, y, sprite_layer))
 	remove_this.queue_free()
 
 

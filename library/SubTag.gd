@@ -3,9 +3,19 @@ class_name Game_SubTag
 
 
 const INVALID := "invalid"
-const DWARF := "dwarf"
+const REMOVE_SPRITE := "remove_sprite"
+
+const ARROW := "arrow"
+const ARROW_LEFT := "arrow_left"
+const ARROW_RIGHT := "arrow_right"
+const ARROW_UP := "arrow_up"
+const ARROW_DOWN := "arrow_down"
 
 const PC := "pc"
+
+
+
+const DWARF := "dwarf"
 
 const KNIGHT := "knight"
 const KNIGHT_CAPTAIN := "knight_captain"
@@ -31,12 +41,6 @@ const RESPAWN := "respawn"
 const TREASURE := "treasure"
 const RARE_TREASURE := "rare_treasure"
 const FAKE_RARE_TREASURE := "fake_rare_treasure"
-
-const ARROW := "arrow"
-const ARROW_LEFT := "arrow_left"
-const ARROW_RIGHT := "arrow_right"
-const ARROW_UP := "arrow_up"
-const ARROW_DOWN := "arrow_down"
 
 const COUNTER := "counter"
 const SEPARATOR := "separator"

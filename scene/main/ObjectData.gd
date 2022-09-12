@@ -9,17 +9,15 @@ const SPRITE_TYPE := "SpriteType"
 const HIT_POINT := "HitPoint"
 
 
-func _on_CreateObject_sprite_created(new_sprite: Sprite, _main_tag: String,
-		_sub_tag: String, _x: int, _y: int, layer: int) -> void:
-	if layer != 0:
-		set_layer(new_sprite, layer)
+func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
+	if sprite_data.sprite_layer != 0:
+		set_layer(sprite_data.sprite, sprite_data.sprite_layer)
 
 
-func _on_RemoveObject_sprite_removed(remove_sprite: Sprite, _main_tag: String,
-		_x: int, _y: int, _sprite_layer: int) -> void:
+func _on_RemoveObject_sprite_removed(sprite_data: Game_BasicSpriteData) -> void:
 	var child_node: Array = get_children()
 	for i in child_node:
-		i.remove_data(_get_id(remove_sprite))
+		i.remove_data(_get_id(sprite_data.sprite))
 
 
 func get_state(sprite: Sprite) -> int:

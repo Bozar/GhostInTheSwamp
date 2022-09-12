@@ -53,25 +53,23 @@ func _on_InitWorld_world_initialized() -> void:
 	start_turn()
 
 
-func _on_CreateObject_sprite_created(new_sprite: Sprite, main_tag: String,
-		sub_tag: String, _x: int, _y: int, _layer: int) -> void:
-	if main_tag == Game_MainTag.ACTOR:
-		if sub_tag == Game_SubTag.PC:
-			_actors[0] = new_sprite
+func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
+	if sprite_data.main_tag == Game_MainTag.ACTOR:
+		if sprite_data.sub_tag == Game_SubTag.PC:
+			_actors[0] = sprite_data.sprite
 		else:
-			_actors.append(new_sprite)
+			_actors.append(sprite_data.sprite)
 
 
-func _on_RemoveObject_sprite_removed(remove_sprite: Sprite, _main_tag: String,
-		_x: int, _y: int, _sprite_layer: int) -> void:
+func _on_RemoveObject_sprite_removed(sprite_data: Game_BasicSpriteData) -> void:
 	var current_sprite: Sprite
 
-	if remove_sprite == _get_current():
+	if sprite_data.sprite == _get_current():
 		_end_current_turn = false
 		_goto_next()
 	current_sprite = _get_current()
 
-	_actors.erase(remove_sprite)
+	_actors.erase(sprite_data.sprite)
 	_pointer = _actors.find(current_sprite)
 
 
