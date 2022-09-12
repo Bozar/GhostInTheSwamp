@@ -96,6 +96,7 @@ const NODE_REF := [
 		"_ref_DungeonBoard",
 		DUNGEON,
 		PLAYER_INPUT, REMOVE_OBJECT, ACTOR_ACTION, GAME_PROGRESS, CREATE_OBJECT,
+		INIT_WORLD,
 	],
 	[
 		"_ref_Schedule",

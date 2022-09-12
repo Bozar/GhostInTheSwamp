@@ -9,14 +9,12 @@ const TAG_TO_SCENE := {
 	Game_SubTag.ARROW_DOWN: preload("res://sprite/TriangleDown.tscn"),
 	Game_SubTag.ARROW_RIGHT: preload("res://sprite/TriangleRight.tscn"),
 	# Ground.
-	Game_SubTag.FLOOR: preload("res://sprite/Floor.tscn"),
+	Game_SubTag.LAND: preload("res://sprite/Land.tscn"),
 	# Trap.
 	# Building.
-	Game_SubTag.WALL: preload("res://sprite/Wall.tscn"),
+	Game_SubTag.SHRUB: preload("res://sprite/Shrub.tscn"),
 	# Actor.
 	Game_SubTag.PC: preload("res://sprite/PC.tscn"),
-
-	Game_SubTag.DWARF: preload("res://sprite/Dwarf.tscn"),
 }
 
 
