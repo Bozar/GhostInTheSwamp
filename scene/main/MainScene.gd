@@ -26,12 +26,12 @@ const SIGNAL_BIND := [
 	[
 		"sprite_created", "_on_CreateObject_sprite_created",
 		CREATE_OBJECT,
-		SCHEDULE, DUNGEON, GAME_PROGRESS, OBJECT_DATA,
+		SCHEDULE, DUNGEON, OBJECT_DATA,
 	],
 	[
 		"world_initializing", "_on_InitWorld_world_initializing",
 		INIT_WORLD,
-		GAME_SETTING, PLAYER_INPUT, GAME_PROGRESS,
+		GAME_SETTING, PLAYER_INPUT,
 	],
 	[
 		"world_initialized", "_on_InitWorld_world_initialized",
@@ -66,12 +66,12 @@ const SIGNAL_BIND := [
 	[
 		"sprite_removed", "_on_RemoveObject_sprite_removed",
 		REMOVE_OBJECT,
-		DUNGEON, SCHEDULE, OBJECT_DATA, GAME_PROGRESS,
+		DUNGEON, SCHEDULE, OBJECT_DATA,
 	],
 	[
 		"game_over", "_on_EndGame_game_over",
 		END_GAME,
-		SCHEDULE, PLAYER_INPUT, SIDEBAR_GUI, GAME_PROGRESS,
+		SCHEDULE, PLAYER_INPUT, SIDEBAR_GUI,
 	],
 	[
 		"setting_loaded", "_on_GameSetting_setting_loaded",

@@ -204,11 +204,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/PlayerInput.gd"
 }, {
-"base": "Reference",
-"class": "Game_ProgressTemplate",
-"language": "GDScript",
-"path": "res://library/game_progress/ProgressTemplate.gd"
-}, {
 "base": "Node2D",
 "class": "Game_RandomNumber",
 "language": "GDScript",
@@ -359,7 +354,6 @@ _global_script_class_icons={
 "Game_Palette": "",
 "Game_PathFindingData": "",
 "Game_PlayerInput": "",
-"Game_ProgressTemplate": "",
 "Game_RandomNumber": "",
 "Game_ReloadGame": "",
 "Game_RemoveObject": "",
