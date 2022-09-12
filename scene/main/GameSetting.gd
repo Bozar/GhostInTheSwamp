@@ -94,11 +94,11 @@ func load_setting() -> void:
 	emit_signal("setting_loaded")
 
 
-func save_setting(save_tag: int) -> void:
+func save_setting() -> void:
 	var transfer: Game_TransferData = get_tree().root.get_node(TRANSFER_NODE)
 
 	transfer.overwrite_setting = true
-	emit_signal("setting_saved", transfer, save_tag)
+	emit_signal("setting_saved", transfer)
 
 
 func get_wizard_mode() -> bool:

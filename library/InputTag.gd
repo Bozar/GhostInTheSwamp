@@ -62,10 +62,3 @@ const INPUT_TO_SPRITE := {
 	MOVE_LEFT: Game_SpriteTypeTag.LEFT,
 	MOVE_RIGHT: Game_SpriteTypeTag.RIGHT,
 }
-
-const INPUT_TO_STATE := {
-	MOVE_UP: Game_StateTag.UP,
-	MOVE_DOWN: Game_StateTag.DOWN,
-	MOVE_LEFT: Game_StateTag.LEFT,
-	MOVE_RIGHT: Game_StateTag.RIGHT,
-}

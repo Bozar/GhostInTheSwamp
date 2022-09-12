@@ -2,7 +2,7 @@ extends Node2D
 class_name Game_SpriteType
 
 
-var _id_to_sprite_type: Dictionary = {}
+var _id_to_sprite_type := {}
 
 
 func get_sprite_type(id: int) -> String:

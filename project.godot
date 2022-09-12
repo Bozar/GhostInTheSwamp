@@ -130,11 +130,6 @@ _global_script_classes=[ {
 "path": "res://scene/gui/HelpVScroll.gd"
 }, {
 "base": "Node2D",
-"class": "Game_HitPoint",
-"language": "GDScript",
-"path": "res://scene/main/HitPoint.gd"
-}, {
-"base": "Node2D",
 "class": "Game_InitWorld",
 "language": "GDScript",
 "path": "res://scene/main/InitWorld.gd"
@@ -173,11 +168,6 @@ _global_script_classes=[ {
 "class": "Game_ObjectLayer",
 "language": "GDScript",
 "path": "res://scene/main/ObjectLayer.gd"
-}, {
-"base": "Node2D",
-"class": "Game_ObjectState",
-"language": "GDScript",
-"path": "res://scene/main/ObjectState.gd"
 }, {
 "base": "Node2D",
 "class": "Game_PCAction",
@@ -229,11 +219,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/RootNodeTemplate.gd"
 }, {
-"base": "Reference",
-"class": "Game_SaveTag",
-"language": "GDScript",
-"path": "res://library/SaveTag.gd"
-}, {
 "base": "Node2D",
 "class": "Game_Schedule",
 "language": "GDScript",
@@ -273,11 +258,6 @@ _global_script_classes=[ {
 "class": "Game_SpriteTypeTag",
 "language": "GDScript",
 "path": "res://library/SpriteTypeTag.gd"
-}, {
-"base": "Reference",
-"class": "Game_StateTag",
-"language": "GDScript",
-"path": "res://library/StateTag.gd"
 }, {
 "base": "Reference",
 "class": "Game_SubTag",
@@ -344,7 +324,6 @@ _global_script_class_icons={
 "Game_GameSetting": "",
 "Game_HelpInput": "",
 "Game_HelpVScroll": "",
-"Game_HitPoint": "",
 "Game_InitWorld": "",
 "Game_InitWorldData": "",
 "Game_InputTag": "",
@@ -353,7 +332,6 @@ _global_script_class_icons={
 "Game_MainTag": "",
 "Game_ObjectData": "",
 "Game_ObjectLayer": "",
-"Game_ObjectState": "",
 "Game_PCAction": "",
 "Game_PCActionTemplate": "",
 "Game_PackedSceneData": "",
@@ -364,7 +342,6 @@ _global_script_class_icons={
 "Game_ReloadGame": "",
 "Game_RemoveObject": "",
 "Game_RootNodeTemplate": "",
-"Game_SaveTag": "",
 "Game_Schedule": "",
 "Game_ScreenTag": "",
 "Game_ShadowCastFOV": "",
@@ -373,7 +350,6 @@ _global_script_class_icons={
 "Game_SpriteBlueprint": "",
 "Game_SpriteType": "",
 "Game_SpriteTypeTag": "",
-"Game_StateTag": "",
 "Game_SubTag": "",
 "Game_SwitchScreen": "",
 "Game_SwitchSprite": "",

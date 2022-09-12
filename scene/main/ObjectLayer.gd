@@ -4,7 +4,7 @@ class_name Game_ObjectLayer
 # into different layers. Refer to InitBaron.gd.
 
 
-var _id_to_layer: Dictionary = {}
+var _id_to_layer := {}
 
 
 func get_layer(id: int) -> int:
