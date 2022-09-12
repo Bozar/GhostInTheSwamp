@@ -4,21 +4,6 @@ class_name Game_CoordCalculator
 const WARN_RAY_DIRECTION := "Warn: Cannot get ray direction for [{0}, {1}] " + \
 		"and [{2}, {3}]."
 
-enum {
-	INVALID_DIRECTION,
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-}
-
-const DIRECTION_TO_SHIFT := {
-	UP: [0, -1],
-	DOWN: [0, 1],
-	LEFT: [-1, 0],
-	RIGHT: [1, 0],
-}
-
 
 static func get_range_xy(source_x: int, source_y: int,
 		target_x: int, target_y: int) -> int:
@@ -108,20 +93,20 @@ static func get_ray_direction(source_coord: Game_IntCoord,
 		target_coord: Game_IntCoord) -> int:
 	if source_coord.x == target_coord.x:
 		if source_coord.y < target_coord.y:
-			return UP
+			return Game_DirectionTag.UP
 		elif source_coord.y > target_coord.y:
-			return DOWN
+			return Game_DirectionTag.DOWN
 	elif source_coord.y == target_coord.y:
 		if source_coord.x > target_coord.x:
-			return LEFT
+			return Game_DirectionTag.LEFT
 		elif source_coord.x < target_coord.x:
-			return RIGHT
+			return Game_DirectionTag.RIGHT
 	push_warning(WARN_RAY_DIRECTION.format([source_coord.x, source_coord.y,
 			target_coord.x, target_coord.y]))
-	return INVALID_DIRECTION
+	return Game_DirectionTag.INVALID_DIRECTION
 
 
-# ray_direction: Game_CoordCalculator.[UP|DOWN|LEFT|RIGHT]
+# ray_direction: Game_DirectionTag.[UP|DOWN|LEFT|RIGHT]
 # is_obstacle_func(x: int, y: int, optional_arg: Array) -> bool
 # Return an array of coordinates: [Game_IntCoord, ...].
 static func get_ray_path(source_coord: Game_IntCoord, max_range: int,
@@ -131,7 +116,7 @@ static func get_ray_path(source_coord: Game_IntCoord, max_range: int,
 	var x := source_coord.x
 	var y := source_coord.y
 	var is_obstacle := funcref(func_host, is_obstacle_func)
-	var shift: Array = DIRECTION_TO_SHIFT[ray_direction]
+	var shift: Array = Game_DirectionTag.DIRECTION_TO_SHIFT[ray_direction]
 	var ray_path := []
 
 	if has_start_point:
