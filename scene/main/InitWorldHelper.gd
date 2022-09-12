@@ -8,12 +8,14 @@ const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
 
 const LAND_CHAR := "-"
 const EXPAND_LAND_CHAR := "E"
-const HARBOR_CHAR := "H"
+const HARBOR_CHAR := "h"
+const EXPAND_HARBOR_CHAR := "H"
 const SHRUB_CHAR := "#"
 const EXPAND_SHRUB_CHAR := "+"
 const ISLAND_CHAR := "R"
 
 const MAX_EXPAND := 3
+const MAX_HARBOR := 4
 
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_DungeonBoard: Game_DungeonBoard
@@ -25,6 +27,7 @@ func init_ground_building() -> void:
 	var expand_coords := {
 		EXPAND_LAND_CHAR: [],
 		EXPAND_SHRUB_CHAR: [],
+		EXPAND_HARBOR_CHAR: [],
 	}
 
 	_set_reference()
@@ -34,6 +37,7 @@ func init_ground_building() -> void:
 	_create_ground_building(packed_prefab, expand_coords)
 	_create_expand_land(expand_coords[EXPAND_LAND_CHAR])
 	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
+	_create_expand_harbor(expand_coords[EXPAND_HARBOR_CHAR])
 	_create_swamp()
 
 
@@ -80,6 +84,8 @@ func _create_ground_building(packed_prefab: Game_DungeonPrefab.PackedPrefab,
 					out_expand_coords[EXPAND_LAND_CHAR].push_back(coord)
 				EXPAND_SHRUB_CHAR:
 					out_expand_coords[EXPAND_SHRUB_CHAR].push_back(coord)
+				EXPAND_HARBOR_CHAR:
+					out_expand_coords[EXPAND_HARBOR_CHAR].push_back(coord)
 				_:
 					pass
 
@@ -132,3 +138,11 @@ func _create_expand_shrub(expand_coords: Array) -> void:
 	Game_ArrayHelper.rand_picker(expand_coords, half_size, _ref_RandomNumber)
 	for i in expand_coords:
 		_ref_CreateObject.create_building(Game_SubTag.SHRUB, i)
+
+
+func _create_expand_harbor(expand_coords: Array) -> void:
+	if expand_coords.size() > MAX_HARBOR:
+		Game_ArrayHelper.rand_picker(expand_coords, MAX_HARBOR,
+			_ref_RandomNumber)
+	for i in expand_coords:
+		_ref_CreateObject.create_building(Game_SubTag.HARBOR, i)

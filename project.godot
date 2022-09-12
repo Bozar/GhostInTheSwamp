@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/BoolState.gd"
 }, {
+"base": "Node2D",
+"class": "Game_BuildingData",
+"language": "GDScript",
+"path": "res://scene/main/BuildingData.gd"
+}, {
 "base": "Reference",
 "class": "Game_ConvertCoord",
 "language": "GDScript",
@@ -113,6 +118,11 @@ _global_script_classes=[ {
 "class": "Game_GameSetting",
 "language": "GDScript",
 "path": "res://scene/main/GameSetting.gd"
+}, {
+"base": "Node2D",
+"class": "Game_HarborHelper",
+"language": "GDScript",
+"path": "res://scene/main/HarborHelper.gd"
 }, {
 "base": "Game_InputTemplate",
 "class": "Game_HelpInput",
@@ -296,6 +306,7 @@ _global_script_class_icons={
 "Game_AutoStart": "",
 "Game_BasicSpriteData": "",
 "Game_BoolState": "",
+"Game_BuildingData": "",
 "Game_ConvertCoord": "",
 "Game_CoordCalculator": "",
 "Game_CreateObject": "",
@@ -311,6 +322,7 @@ _global_script_class_icons={
 "Game_FileParser": "",
 "Game_GameProgress": "",
 "Game_GameSetting": "",
+"Game_HarborHelper": "",
 "Game_HelpInput": "",
 "Game_HelpVScroll": "",
 "Game_InitWorld": "",

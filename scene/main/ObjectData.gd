@@ -4,17 +4,19 @@ class_name Game_ObjectData
 
 const OBJECT_LAYER := "ObjectLayer"
 const SPRITE_TYPE := "SpriteType"
+const BUILDING_DATA := "BuildingData"
 
 
 func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
-	if sprite_data.sprite_layer != 0:
-		set_layer(sprite_data.sprite, sprite_data.sprite_layer)
+	for i in get_children():
+		if i.has_method("create_object"):
+			i.create_object(sprite_data)
 
 
 func _on_RemoveObject_sprite_removed(sprite_data: Game_BasicSpriteData) -> void:
-	var child_node: Array = get_children()
-	for i in child_node:
-		i.remove_data(_get_id(sprite_data.sprite))
+	for i in get_children():
+		if i.has_method("remove_data"):
+			i.remove_data(_get_id(sprite_data.sprite))
 
 
 func get_layer(sprite: Sprite) -> int:
@@ -31,6 +33,14 @@ func get_sprite_type(sprite: Sprite) -> String:
 
 func set_sprite_type(sprite: Sprite, sprite_type: String) -> void:
 	get_node(SPRITE_TYPE).set_sprite_type(_get_id(sprite), sprite_type)
+
+
+func harbor_is_active(sprite: Sprite) -> bool:
+	return get_node(BUILDING_DATA).harbor_is_active(_get_id(sprite))
+
+
+func set_harbor(sprite: Sprite, is_active: bool) -> void:
+	get_node(BUILDING_DATA).set_harbor(_get_id(sprite), is_active)
 
 
 func _get_id(sprite: Sprite) -> int:

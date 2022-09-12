@@ -19,3 +19,8 @@ func set_layer(id: int, layer: int) -> void:
 
 func remove_data(id: int) -> void:
 	var __ = _id_to_layer.erase(id)
+
+
+func create_object(sprite_data: Game_BasicSpriteData) -> void:
+	if sprite_data.sprite_layer != 0:
+		get_parent().set_layer(sprite_data.sprite, sprite_data.sprite_layer)

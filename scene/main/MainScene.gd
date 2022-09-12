@@ -36,7 +36,7 @@ const SIGNAL_BIND := [
 	[
 		"world_initialized", "_on_InitWorld_world_initialized",
 		INIT_WORLD,
-		SCHEDULE,
+		SCHEDULE, GAME_PROGRESS,
 	],
 	[
 		"world_selected", "_on_InitWorld_world_selected",
