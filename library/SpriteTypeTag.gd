@@ -3,33 +3,29 @@ class_name Game_SpriteTypeTag
 
 
 const DEFAULT := "default"
-const DEFAULT_1 := "default_1"
-const DEFAULT_2 := "default_2"
-const DEFAULT_3 := "default_3"
-
 const ACTIVE := "active"
-const ACTIVE_1 := "active_1"
-const ACTIVE_2 := "active_2"
-const ACTIVE_3 := "active_3"
-const ACTIVE_4 := "active_4"
-const PASSIVE := "passive"
-const PASSIVE_1 := "passive_1"
+
+const USE_POWER := "use_power"
+const DEFAULT_HARBOR := "default_harbor"
+const ACTIVE_HARBOR := "active_harbor"
+const DINGHY := "dinghy"
+const SHIP := "ship"
 
 const UP := "up"
 const DOWN := "down"
 const LEFT := "left"
 const RIGHT := "right"
 
-const ZERO := "zero"
-const ONE := "one"
-const TWO := "two"
-const THREE := "three"
-const FOUR := "four"
-const FIVE := "five"
-const SIX := "six"
-const SEVEN := "seven"
-const EIGHT := "eight"
-const NINE := "nine"
+const ZERO := "0"
+const ONE := "1"
+const TWO := "2"
+const THREE := "3"
+const FOUR := "4"
+const FIVE := "5"
+const SIX := "6"
+const SEVEN := "7"
+const EIGHT := "8"
+const NINE := "9"
 
 const ORDERED_SPRITE_TYPE := [
 	ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,

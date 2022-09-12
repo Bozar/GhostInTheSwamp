@@ -62,42 +62,42 @@ region = Rect2( 216, 108, 24, 36 )
 [node name="default" type="Sprite" parent="."]
 texture = SubResource( 1 )
 
-[node name="zero" type="Sprite" parent="."]
+[node name="0" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 2 )
 
-[node name="one" type="Sprite" parent="."]
+[node name="1" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 3 )
 
-[node name="two" type="Sprite" parent="."]
+[node name="2" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 4 )
 
-[node name="three" type="Sprite" parent="."]
+[node name="3" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 5 )
 
-[node name="four" type="Sprite" parent="."]
+[node name="4" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 6 )
 
-[node name="five" type="Sprite" parent="."]
+[node name="5" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 7 )
 
-[node name="six" type="Sprite" parent="."]
+[node name="6" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 8 )
 
-[node name="seven" type="Sprite" parent="."]
+[node name="7" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 9 )
 
-[node name="eight" type="Sprite" parent="."]
+[node name="8" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 10 )
 
-[node name="nine" type="Sprite" parent="."]
+[node name="9" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 11 )

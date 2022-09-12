@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resource/curses_vector_24x36.png" type="Texture" id=1]
 
@@ -7,25 +7,52 @@ flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 144, 24, 36 )
 
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 360, 108, 24, 36 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 540, 24, 36 )
+
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 264, 468, 24, 36 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=5]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 0, 396, 24, 36 )
+region = Rect2( 24, 0, 24, 36 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 24, 36 )
 
 [node name="PC" type="Sprite"]
 
 [node name="default" type="Sprite" parent="."]
 texture = SubResource( 1 )
 
-[node name="active" type="Sprite" parent="."]
+[node name="use_power" type="Sprite" parent="."]
+visible = false
+texture = SubResource( 4 )
+
+[node name="default_harbor" type="Sprite" parent="."]
+visible = false
+texture = SubResource( 3 )
+
+[node name="active_harbor" type="Sprite" parent="."]
 visible = false
 texture = SubResource( 2 )
 
-[node name="passive" type="Sprite" parent="."]
+[node name="dinghy" type="Sprite" parent="."]
 visible = false
-texture = SubResource( 3 )
+texture = SubResource( 5 )
+
+[node name="ship" type="Sprite" parent="."]
+visible = false
+texture = SubResource( 6 )

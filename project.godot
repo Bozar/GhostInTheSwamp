@@ -70,11 +70,6 @@ _global_script_classes=[ {
 "path": "res://scene/gui/DebugVBox.gd"
 }, {
 "base": "Reference",
-"class": "Game_DemoData",
-"language": "GDScript",
-"path": "res://library/npc_data/DemoData.gd"
-}, {
-"base": "Reference",
 "class": "Game_DijkstraPathFinding",
 "language": "GDScript",
 "path": "res://library/DijkstraPathFinding.gd"
@@ -307,7 +302,6 @@ _global_script_class_icons={
 "Game_CrossShapedFOV": "",
 "Game_DebugInput": "",
 "Game_DebugVBox": "",
-"Game_DemoData": "",
 "Game_DijkstraPathFinding": "",
 "Game_DungeonBoard": "",
 "Game_DungeonPrefab": "",

@@ -17,13 +17,9 @@ var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
 
-var _pc_action: Game_PCAction
-var _direction: String
+var _ref_PCAction: Game_PCAction
+
 var _end_game := false
-
-
-func _ready() -> void:
-	_pc_action = get_node(PC_ACTION)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -54,25 +50,26 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _ref_GameSetting.get_wizard_mode():
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
-			_pc_action.press_wizard_key(input_tag)
+			_ref_PCAction.press_wizard_key(input_tag)
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
-		_pc_action.move(input_tag)
+		_ref_PCAction.move(input_tag)
 	elif _verify_input(event, Game_InputTag.USE_POWER):
-		_pc_action.use_power()
+		_ref_PCAction.use_power()
 	elif _verify_input(event, Game_InputTag.TOGGLE_SIGHT):
-		_pc_action.toggle_sight()
+		_ref_PCAction.toggle_sight()
 
 
 func _on_InitWorld_world_initializing() -> void:
-	_pc_action.set_reference()
+	_ref_PCAction = get_node(PC_ACTION)
+	_ref_PCAction.set_reference()
 	set_process_unhandled_input(true)
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(Game_SubTag.PC):
-		_pc_action.start_turn()
+		_ref_PCAction.start_turn()
 		set_process_unhandled_input(true)
 
 
@@ -83,7 +80,7 @@ func _on_Schedule_turn_ending(current_sprite: Sprite) -> void:
 
 func _on_EndGame_game_over(win: bool) -> void:
 	_end_game = true
-	_pc_action.game_over(win)
+	_ref_PCAction.game_over(win)
 	set_process_unhandled_input(true)
 
 
