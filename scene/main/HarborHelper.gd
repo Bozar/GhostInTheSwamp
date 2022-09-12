@@ -9,4 +9,4 @@ func toggle_harbor(coord: Game_IntCoord, is_active: bool) -> void:
 	if is_active:
 		new_sprite_type = Game_SpriteTypeTag.ACTIVE
 	get_parent()._ref_SwitchSprite.set_sprite(harbor, new_sprite_type)
-	get_parent()._ref_ObjectData.set_harbor(harbor, is_active)
+	get_parent()._ref_ObjectState.set_harbor(harbor, is_active)

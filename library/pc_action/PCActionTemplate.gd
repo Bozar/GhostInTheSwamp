@@ -16,7 +16,7 @@ var end_turn: bool setget set_end_turn, get_end_turn
 
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_RemoveObject: Game_RemoveObject
-var _ref_ObjectData: Game_ObjectData
+var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_EndGame: Game_EndGame
 var _ref_SwitchSprite: Game_SwitchSprite
@@ -36,7 +36,7 @@ var _fov_render_range := 5
 func _init(parent_node: Node2D) -> void:
 	_ref_DungeonBoard = parent_node._ref_DungeonBoard
 	_ref_RemoveObject = parent_node._ref_RemoveObject
-	_ref_ObjectData = parent_node._ref_ObjectData
+	_ref_ObjectState = parent_node._ref_ObjectState
 	_ref_RandomNumber = parent_node._ref_RandomNumber
 	_ref_EndGame = parent_node._ref_EndGame
 	_ref_SwitchSprite = parent_node._ref_SwitchSprite
@@ -289,14 +289,14 @@ func _has_sprite_memory(x: int, y: int, main_tag: String, sprite_layer := 0) \
 		-> bool:
 	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
 			sprite_layer)
-	return _ref_ObjectData.get_bool(this_sprite)
+	return _ref_ObjectState.get_bool(this_sprite)
 
 
 func _set_sprite_memory(x: int, y: int, main_tag: String, sprite_layer := 0) \
 		-> void:
 	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
 			sprite_layer)
-	_ref_ObjectData.set_bool(this_sprite, true)
+	_ref_ObjectState.set_bool(this_sprite, true)
 
 
 func _move_pc_sprite() -> void:

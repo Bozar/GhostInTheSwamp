@@ -5,7 +5,7 @@ const INVALID_START_POINT: String = "Unreachable start point."
 
 var print_text: String setget set_print_text, get_print_text
 
-var _ref_ObjectData: Game_ObjectData
+var _ref_ObjectState: Game_ObjectState
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_EndGame: Game_EndGame
@@ -23,7 +23,7 @@ var _dungeon: Dictionary
 
 # Refer: EnemyAI.gd.
 func _init(parent_node: Node2D) -> void:
-	_ref_ObjectData = parent_node._ref_ObjectData
+	_ref_ObjectState = parent_node._ref_ObjectState
 	_ref_DungeonBoard = parent_node._ref_DungeonBoard
 	_ref_SwitchSprite = parent_node._ref_SwitchSprite
 	_ref_EndGame = parent_node._ref_EndGame

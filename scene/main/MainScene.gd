@@ -10,7 +10,7 @@ const DUNGEON := "DungeonBoard"
 const CREATE_OBJECT := "CreateObject"
 const REMOVE_OBJECT := "RemoveObject"
 const RANDOM := "RandomNumber"
-const OBJECT_DATA := "ObjectData"
+const OBJECT_STATE := "ObjectState"
 const SWITCH_SPRITE := "SwitchSprite"
 const SWITCH_SCREEN := "SwitchScreen"
 const END_GAME := "EndGame"
@@ -26,7 +26,7 @@ const SIGNAL_BIND := [
 	[
 		"sprite_created", "_on_CreateObject_sprite_created",
 		CREATE_OBJECT,
-		SCHEDULE, DUNGEON, OBJECT_DATA,
+		SCHEDULE, DUNGEON, OBJECT_STATE,
 	],
 	[
 		"world_initializing", "_on_InitWorld_world_initializing",
@@ -66,7 +66,7 @@ const SIGNAL_BIND := [
 	[
 		"sprite_removed", "_on_RemoveObject_sprite_removed",
 		REMOVE_OBJECT,
-		DUNGEON, SCHEDULE, OBJECT_DATA,
+		DUNGEON, SCHEDULE, OBJECT_STATE,
 	],
 	[
 		"game_over", "_on_EndGame_game_over",
@@ -114,8 +114,8 @@ const NODE_REF := [
 		INIT_WORLD, PLAYER_INPUT, ACTOR_ACTION, SIDEBAR_GUI, GAME_PROGRESS,
 	],
 	[
-		"_ref_ObjectData",
-		OBJECT_DATA,
+		"_ref_ObjectState",
+		OBJECT_STATE,
 		ACTOR_ACTION, SWITCH_SPRITE, PLAYER_INPUT, GAME_PROGRESS,
 	],
 	[

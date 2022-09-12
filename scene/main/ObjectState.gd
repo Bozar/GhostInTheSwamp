@@ -1,10 +1,10 @@
 extends Node2D
-class_name Game_ObjectData
+class_name Game_ObjectState
 
 
 const OBJECT_LAYER := "ObjectLayer"
 const SPRITE_TYPE := "SpriteType"
-const BUILDING_DATA := "BuildingData"
+const BUILDING_STATE := "BuildingState"
 
 
 func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
@@ -36,11 +36,11 @@ func set_sprite_type(sprite: Sprite, sprite_type: String) -> void:
 
 
 func harbor_is_active(sprite: Sprite) -> bool:
-	return get_node(BUILDING_DATA).harbor_is_active(_get_id(sprite))
+	return get_node(BUILDING_STATE).harbor_is_active(_get_id(sprite))
 
 
 func set_harbor(sprite: Sprite, is_active: bool) -> void:
-	get_node(BUILDING_DATA).set_harbor(_get_id(sprite), is_active)
+	get_node(BUILDING_STATE).set_harbor(_get_id(sprite), is_active)
 
 
 func _get_id(sprite: Sprite) -> int:

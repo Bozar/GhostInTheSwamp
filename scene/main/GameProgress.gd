@@ -5,7 +5,7 @@ class_name Game_GameProgress
 const HARBOR_HELPER := "HarborHelper"
 
 var _ref_SwitchSprite: Game_SwitchSprite
-var _ref_ObjectData: Game_ObjectData
+var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_CreateObject: Game_CreateObject

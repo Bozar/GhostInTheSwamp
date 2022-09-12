@@ -12,13 +12,13 @@
 [ext_resource path="res://scene/main/ReloadGame.gd" type="Script" id=10]
 [ext_resource path="res://scene/main/RandomNumber.gd" type="Script" id=11]
 [ext_resource path="res://scene/main/PlayerInput.gd" type="Script" id=12]
-[ext_resource path="res://scene/main/ObjectData.gd" type="Script" id=13]
+[ext_resource path="res://scene/main/ObjectState.gd" type="Script" id=13]
 [ext_resource path="res://scene/main/SpriteType.gd" type="Script" id=14]
 [ext_resource path="res://scene/main/HarborHelper.gd" type="Script" id=15]
 [ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
 [ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
-[ext_resource path="res://scene/main/BuildingData.gd" type="Script" id=19]
+[ext_resource path="res://scene/main/BuildingState.gd" type="Script" id=19]
 [ext_resource path="res://scene/main/GameProgress.gd" type="Script" id=20]
 [ext_resource path="res://scene/main/CreateObject.gd" type="Script" id=21]
 [ext_resource path="res://scene/main/GameSetting.gd" type="Script" id=22]
@@ -113,14 +113,14 @@ script = ExtResource( 26 )
 [node name="EndGame" type="Node2D" parent="."]
 script = ExtResource( 17 )
 
-[node name="ObjectData" type="Node2D" parent="."]
+[node name="ObjectState" type="Node2D" parent="."]
 script = ExtResource( 13 )
 
-[node name="ObjectLayer" type="Node2D" parent="ObjectData"]
+[node name="ObjectLayer" type="Node2D" parent="ObjectState"]
 script = ExtResource( 28 )
 
-[node name="SpriteType" type="Node2D" parent="ObjectData"]
+[node name="SpriteType" type="Node2D" parent="ObjectState"]
 script = ExtResource( 14 )
 
-[node name="BuildingData" type="Node2D" parent="ObjectData"]
+[node name="BuildingState" type="Node2D" parent="ObjectState"]
 script = ExtResource( 19 )

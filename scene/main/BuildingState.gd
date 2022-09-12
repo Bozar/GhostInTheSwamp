@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_BuildingData
+class_name Game_BuildingState
 
 
 var _id_to_harbor := {}
