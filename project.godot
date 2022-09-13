@@ -284,11 +284,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/gui/SidebarVBoxHelper.gd"
 }, {
-"base": "Game_ObjectStateTemplate",
-"class": "Game_SpriteType",
-"language": "GDScript",
-"path": "res://scene/main/SpriteType.gd"
-}, {
 "base": "Reference",
 "class": "Game_SpriteTypeTag",
 "language": "GDScript",
@@ -307,7 +302,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Game_SwitchSprite",
 "language": "GDScript",
-"path": "res://scene/main/SwitchSprite.gd"
+"path": "res://library/SwitchSprite.gd"
 }, {
 "base": "Node2D",
 "class": "Game_TransferData",
@@ -385,7 +380,6 @@ _global_script_class_icons={
 "Game_SidebarText": "",
 "Game_SidebarVBox": "",
 "Game_SidebarVBoxHelper": "",
-"Game_SpriteType": "",
 "Game_SpriteTypeTag": "",
 "Game_SubTag": "",
 "Game_SwitchScreen": "",

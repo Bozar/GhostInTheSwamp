@@ -3,7 +3,6 @@ class_name Game_HarborHelper
 
 
 var _ref_DungeonBoard: Game_DungeonBoard
-var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_ObjectState: Game_ObjectState
 
 
@@ -13,5 +12,5 @@ func toggle_harbor(coord: Game_IntCoord, is_active: bool) -> void:
 
 	if is_active:
 		new_sprite_type = Game_SpriteTypeTag.ACTIVE
-	_ref_SwitchSprite.set_sprite(harbor, new_sprite_type)
+	Game_SwitchSprite.set_sprite(harbor, new_sprite_type)
 	_ref_ObjectState.set_harbor(harbor, is_active)

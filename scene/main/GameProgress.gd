@@ -4,7 +4,6 @@ class_name Game_GameProgress
 
 const HARBOR_HELPER := "HarborHelper"
 
-var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_DungeonBoard: Game_DungeonBoard
@@ -47,5 +46,5 @@ func _active_the_first_harbor() -> void:
 
 
 func _set_child_reference() -> void:
-	for i in ["_ref_DungeonBoard", "_ref_SwitchSprite", "_ref_ObjectState"]:
+	for i in ["_ref_DungeonBoard", "_ref_ObjectState"]:
 		_ref_HarborHelper[i] = get(i)

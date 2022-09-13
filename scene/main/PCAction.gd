@@ -9,15 +9,14 @@ const RENDER_SPRITES := {
 	Game_MainTag.ACTOR: [],
 }
 
+
 var _ref_Schedule: Game_Schedule
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_RemoveObject: Game_RemoveObject
 var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_EndGame: Game_EndGame
-var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_CreateObject: Game_CreateObject
-var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
 
 var _ref_PCState: Game_PCState
@@ -68,7 +67,20 @@ func toggle_sight() -> void:
 
 
 func press_wizard_key(input_tag: String) -> void:
-	print(input_tag)
+	match input_tag:
+		Game_InputTag.ADD_MP:
+			if _ref_PCState.mp < _ref_PCState.max_mp:
+				_ref_PCState.mp += 1
+		Game_InputTag.FULLY_RESTORE_MP:
+			_ref_PCState.mp = _ref_PCState.max_mp
+		Game_InputTag.ADD_GHOST:
+			_ref_PCState.has_ghost = true
+		Game_InputTag.ADD_RUM:
+			_ref_PCState.add_item(Game_SubTag.RUM)
+		Game_InputTag.ADD_PARROT:
+			_ref_PCState.add_item(Game_SubTag.PARROT)
+		Game_InputTag.ADD_ACCORDION:
+			_ref_PCState.add_item(Game_SubTag.ACCORDION)
 
 
 func is_inside_dungeon() -> bool:
@@ -120,10 +132,10 @@ func render_fov() -> void:
 	var this_pos: Game_IntCoord
 
 	_set_render_sprites()
-	if _ref_GameSetting.get_show_full_map():
-		_render_without_fog_of_war()
-		# _post_process_fov(pc_pos)
-		return
+	# if _ref_GameSetting.get_show_full_map():
+	# 	_render_without_fog_of_war()
+	# 	# _post_process_fov(pc_pos)
+	# 	return
 
 	Game_ShadowCastFOV.set_field_of_view(
 			Game_DungeonSize.MAX_X, Game_DungeonSize.MAX_Y,

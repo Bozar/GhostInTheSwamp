@@ -15,7 +15,6 @@ var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_RemoveObject: Game_RemoveObject
 var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
-var _ref_SwitchSprite: Game_SwitchSprite
 var _ref_EndGame: Game_EndGame
 var _ref_SwitchScreen: Game_SwitchScreen
 var _ref_CreateObject: Game_CreateObject
@@ -124,9 +123,7 @@ func _set_child_reference() -> void:
 		"_ref_ObjectState",
 		"_ref_RandomNumber",
 		"_ref_EndGame",
-		"_ref_SwitchSprite",
 		"_ref_CreateObject",
-		"_ref_GameSetting",
 		"_ref_Palette",
 	]:
 		_ref_PCAction[i] = get(i)
