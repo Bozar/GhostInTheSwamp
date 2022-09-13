@@ -37,12 +37,12 @@ const SIGNAL_BIND := [
 	[
 		"world_initialized", "_on_InitWorld_world_initialized",
 		INIT_WORLD,
-		SCHEDULE, GAME_PROGRESS,
+		SCHEDULE, GAME_PROGRESS, SIDEBAR_GUI,
 	],
 	[
 		"world_selected", "_on_InitWorld_world_selected",
 		INIT_WORLD,
-		SIDEBAR_GUI, HELP_GUI, HELP_INPUT, DEBUG_GUI,
+		HELP_GUI, HELP_INPUT, DEBUG_GUI,
 	],
 	[
 		"turn_starting", "_on_Schedule_turn_starting",
@@ -77,7 +77,7 @@ const SIGNAL_BIND := [
 	[
 		"setting_loaded", "_on_GameSetting_setting_loaded",
 		GAME_SETTING,
-		RANDOM, PALETTE,
+		RANDOM, PALETTE, SIDEBAR_GUI,
 	],
 	[
 		"setting_saved", "_on_GameSetting_setting_saved",
@@ -89,6 +89,11 @@ const SIGNAL_BIND := [
 		SWITCH_SCREEN,
 		PLAYER_INPUT, CREATE_OBJECT, SIDEBAR_GUI, HELP_INPUT, HELP_GUI,
 		DEBUG_GUI, DEBUG_INPUT,
+	],
+	[
+		"seed_updated", "_on_RandomNumber_seed_updated",
+		RANDOM,
+		GAME_SETTING, SIDEBAR_GUI,
 	],
 ]
 
@@ -112,7 +117,7 @@ const NODE_REF := [
 	[
 		"_ref_RandomNumber",
 		RANDOM,
-		INIT_WORLD, PLAYER_INPUT, ACTOR_ACTION, SIDEBAR_GUI, GAME_PROGRESS,
+		INIT_WORLD, PLAYER_INPUT, ACTOR_ACTION, GAME_PROGRESS,
 	],
 	[
 		"_ref_ObjectState",
@@ -142,7 +147,7 @@ const NODE_REF := [
 	[
 		"_ref_GameSetting",
 		GAME_SETTING,
-		PLAYER_INPUT, SIDEBAR_GUI, RANDOM, PALETTE,
+		PLAYER_INPUT,
 	],
 	[
 		"_ref_SwitchScreen",

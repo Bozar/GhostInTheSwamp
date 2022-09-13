@@ -69,9 +69,6 @@ const DEFAULT_TAG_TO_COLOR := {
 	# DARK_GUI_TEXT: GREY,
 }
 
-
-var _ref_GameSetting: Game_GameSetting
-
 var _tag_to_color := {}
 
 
@@ -121,9 +118,9 @@ func get_text_color(is_light_color: bool) -> String:
 	return _tag_to_color[DARK_GUI_TEXT]
 
 
-func _on_GameSetting_setting_loaded() -> void:
-	var palette: Dictionary = _ref_GameSetting.get_palette()
-	var has_color_value: bool = palette.has(COLOR_VALUE) \
+func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
+	var palette := setting.get_palette()
+	var has_color_value := palette.has(COLOR_VALUE) \
 			and (palette[COLOR_VALUE] is Dictionary)
 	var color_regex := RegEx.new()
 	var __ = color_regex.compile(HTML_COLOR_REGEX)

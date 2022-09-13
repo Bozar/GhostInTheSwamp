@@ -2,7 +2,7 @@ extends Node2D
 class_name Game_GameSetting
 
 
-signal setting_loaded()
+signal setting_loaded(game_setting)
 signal setting_saved(save_data)
 
 const WIZARD := "wizard_mode"
@@ -91,7 +91,7 @@ func load_setting() -> void:
 	# otherwise.
 	transfer.overwrite_setting = false
 
-	emit_signal("setting_loaded")
+	emit_signal("setting_loaded", self)
 
 
 func save_setting() -> void:
@@ -177,3 +177,7 @@ func _set_bool(setting: Dictionary, option: String) -> bool:
 
 func _on_InitWorld_world_initializing() -> void:
 	load_setting()
+
+
+func _on_RandomNumber_seed_updated(rng_seed: int) -> void:
+	_rng_seed = rng_seed

@@ -2,9 +2,9 @@ extends Node2D
 class_name Game_RandomNumber
 
 
-var rng_seed: int setget set_rng_seed, get_rng_seed
+signal seed_updated(rng_seed)
 
-var _ref_GameSetting: Game_GameSetting
+var rng_seed: int setget set_rng_seed, get_rng_seed
 
 var _init_seed: int
 var _rng := RandomNumberGenerator.new()
@@ -45,13 +45,15 @@ func set_rng_seed(_rng_seed: int) -> void:
 	return
 
 
-func _on_GameSetting_setting_loaded() -> void:
+func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
 	# _rng.seed = 123
-	_init_seed = _ref_GameSetting.get_rng_seed()
+	_init_seed = setting.get_rng_seed()
 
 	while _init_seed <= 0:
 		_rng.randomize()
 		_init_seed = _rng.randi()
+		if _init_seed > 0:
+			emit_signal("seed_updated", _init_seed)
 
 	_rng.seed = _init_seed
 	print("seed: {0}".format([_init_seed]))
