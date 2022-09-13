@@ -10,6 +10,7 @@ const DUNGEON := "DungeonBoard"
 const CREATE_OBJECT := "CreateObject"
 const REMOVE_OBJECT := "RemoveObject"
 const RANDOM := "RandomNumber"
+const PC_STATE := "PCState"
 const OBJECT_STATE := "ObjectState"
 const SWITCH_SPRITE := "SwitchSprite"
 const SWITCH_SCREEN := "SwitchScreen"
@@ -117,6 +118,11 @@ const NODE_REF := [
 		"_ref_ObjectState",
 		OBJECT_STATE,
 		ACTOR_ACTION, SWITCH_SPRITE, PLAYER_INPUT, GAME_PROGRESS,
+	],
+	[
+		"_ref_PCState",
+		PC_STATE,
+		SIDEBAR_GUI,
 	],
 	[
 		"_ref_SwitchSprite",

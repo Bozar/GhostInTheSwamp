@@ -8,6 +8,8 @@ const HELP := "Lower/Help"
 const VERSION := "Lower/Version"
 const SEED := "Lower/Seed"
 
+var _ref_PCState: Game_PCState
+
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette

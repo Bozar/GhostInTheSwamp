@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGUI.tscn" type="PackedScene" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://scene/main/HelpInput.gd" type="Script" id=24]
 [ext_resource path="res://scene/gui/HelpGUI.tscn" type="PackedScene" id=25]
 [ext_resource path="res://scene/main/Palette.gd" type="Script" id=26]
+[ext_resource path="res://scene/main/PCState.gd" type="Script" id=27]
 [ext_resource path="res://scene/main/ObjectLayer.gd" type="Script" id=28]
 [ext_resource path="res://scene/gui/DebugGUI.tscn" type="PackedScene" id=29]
 [ext_resource path="res://scene/main/DebugInput.gd" type="Script" id=30]
@@ -112,6 +113,9 @@ script = ExtResource( 26 )
 
 [node name="EndGame" type="Node2D" parent="."]
 script = ExtResource( 17 )
+
+[node name="PCState" type="Node2D" parent="."]
+script = ExtResource( 27 )
 
 [node name="ObjectState" type="Node2D" parent="."]
 script = ExtResource( 13 )
