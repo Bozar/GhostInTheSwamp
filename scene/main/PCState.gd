@@ -13,6 +13,7 @@ var max_mp := Game_PCData.MAX_MP
 var mp_progress := 0
 var has_ghost := false
 var sail_duration := 0
+var is_using_power := false
 
 var _tag_to_state := {
 	Game_SubTag.RUM: false,

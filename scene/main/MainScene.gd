@@ -95,6 +95,11 @@ const SIGNAL_BIND := [
 		RANDOM,
 		GAME_SETTING, SIDEBAR_GUI,
 	],
+	[
+		"special_key_pressed", "_on_PlayerInput_special_key_pressed",
+		PLAYER_INPUT,
+		SIDEBAR_GUI,
+	],
 ]
 
 const NODE_REF := [
@@ -127,7 +132,7 @@ const NODE_REF := [
 	[
 		"_ref_PCState",
 		PC_STATE,
-		SIDEBAR_GUI,
+		SIDEBAR_GUI, PLAYER_INPUT,
 	],
 	[
 		"_ref_SwitchSprite",

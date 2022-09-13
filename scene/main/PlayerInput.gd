@@ -5,6 +5,11 @@ class_name Game_PlayerInput
 const RELOAD_GAME := "ReloadGame"
 const PC_ACTION := "PCAction"
 
+const SIGNAL_KEY_PRESSED := "special_key_pressed"
+
+# warning-ignore: UNUSED_SIGNAL
+signal special_key_pressed(input_tag)
+
 var _ref_Schedule: Game_Schedule
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_RemoveObject: Game_RemoveObject
@@ -16,6 +21,8 @@ var _ref_SwitchScreen: Game_SwitchScreen
 var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
+
+var _ref_PCState: Game_PCState
 
 var _ref_PCAction: Game_PCAction
 
@@ -51,19 +58,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
 			_ref_PCAction.press_wizard_key(input_tag)
+			emit_signal(SIGNAL_KEY_PRESSED, Game_InputTag.ANY_WIZARD_KEY)
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
 		_ref_PCAction.move(input_tag)
 	elif _verify_input(event, Game_InputTag.USE_POWER):
 		_ref_PCAction.use_power()
+		emit_signal(SIGNAL_KEY_PRESSED, Game_InputTag.USE_POWER)
 	elif _verify_input(event, Game_InputTag.TOGGLE_SIGHT):
 		_ref_PCAction.toggle_sight()
 
 
 func _on_InitWorld_world_initializing() -> void:
-	_ref_PCAction = get_node(PC_ACTION)
-	_ref_PCAction.set_reference()
+	_set_child_reference()
 	set_process_unhandled_input(true)
 
 
@@ -100,3 +108,19 @@ func _get_wizard_key(event: InputEvent) -> String:
 		if event.is_action_pressed(i):
 			return i
 	return ""
+
+
+func _set_child_reference() -> void:
+	_ref_PCAction = get_node(PC_ACTION)
+	_ref_PCAction._ref_PCState = _ref_PCState
+
+	_ref_PCAction._ref_Schedule = _ref_Schedule
+	_ref_PCAction._ref_DungeonBoard = _ref_DungeonBoard
+	_ref_PCAction._ref_RemoveObject = _ref_RemoveObject
+	_ref_PCAction._ref_ObjectState = _ref_ObjectState
+	_ref_PCAction._ref_RandomNumber = _ref_RandomNumber
+	_ref_PCAction._ref_EndGame = _ref_EndGame
+	_ref_PCAction._ref_SwitchSprite = _ref_SwitchSprite
+	_ref_PCAction._ref_CreateObject = _ref_CreateObject
+	_ref_PCAction._ref_GameSetting = _ref_GameSetting
+	_ref_PCAction._ref_Palette = _ref_Palette

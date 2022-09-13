@@ -5,7 +5,7 @@ const VERSION := "0.4.4"
 # const VERSION := "0.3.1-\nNightly-\n04-16-2021"
 
 const SEPARATOR := "------------\n"
-const GAME_OVER := SEPARATOR + "You %s.\n[Space]"
+const GAME_OVER := "%s\n" + SEPARATOR + "You %s.\n[Space]"
 const WIN := "win"
 const LOSE := "lose"
 
@@ -37,3 +37,14 @@ const SUB_TAG_TO_ITEM := {
     Game_SubTag.PARROT : "Parrot",
     Game_SubTag.ACCORDION : "Accordion",
 }
+
+const POWER_TAG_TO_NAME := {
+    Game_PowerTag.EMBARK: "Embark",
+	Game_PowerTag.LAND: "Land",
+	Game_PowerTag.LIGHT: "Light",
+	Game_PowerTag.PICK: "Pick",
+	Game_PowerTag.SPOOK: "Spook",
+	Game_PowerTag.SWAP: "Swap",
+}
+const POWER_TEMPLATE := "%s|%s: %s\n"
+const LAST_POWER := "_|0: Exit"

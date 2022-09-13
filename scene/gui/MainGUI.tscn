@@ -30,12 +30,6 @@ custom_constants/separation = 20
 margin_right = 210.0
 text = "Turn: 14"
 
-[node name="Message" parent="SidebarVBox/Upper" instance=ExtResource( 1 )]
-margin_top = 51.0
-margin_right = 210.0
-margin_bottom = 82.0
-text = "Message"
-
 [node name="Lower" type="VBoxContainer" parent="SidebarVBox"]
 margin_top = 499.0
 margin_right = 210.0

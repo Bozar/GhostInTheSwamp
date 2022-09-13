@@ -16,12 +16,23 @@ const ORDERED_SUB_TAG := [
 
 var _ref_PCState: Game_PCState
 
+var _state_item: String
+var _state_power: String
 
-func set_reference() -> void:
-	_ref_PCState = get_parent()._ref_PCState
+
+func get_state_item(force_update: bool) -> String:
+	if force_update:
+		_update_state()
+	return _state_item
 
 
-func get_state() -> String:
+func get_state_power(force_update: bool) -> String:
+	if force_update:
+		_update_state()
+	return _state_power
+
+
+func _update_state() -> void:
 	var mp := _ref_PCState.mp
 	var max_mp := _ref_PCState.max_mp
 	var mp_progress := _ref_PCState.mp_progress
@@ -33,16 +44,14 @@ func get_state() -> String:
 	var state_line := Game_SidebarText.STATE % [ghost, los + sink]
 
 	var inventory_line := _get_inventory()
+	var power_line := _get_power()
 
-	var state_panel := Game_SidebarText.STATE_PANEL
-
-	state_panel = state_panel.format([Game_SidebarText.SEPARATOR,
+	_state_item = Game_SidebarText.STATE_PANEL.format([
+			Game_SidebarText.SEPARATOR,
 			mp_line, state_line, inventory_line])
-	return state_panel
-
-
-func get_power() -> String:
-	return ""
+	_state_power = Game_SidebarText.STATE_PANEL.format([
+			Game_SidebarText.SEPARATOR,
+			mp_line, state_line, power_line])
 
 
 func _get_ghost() -> String:
@@ -85,3 +94,22 @@ func _get_inventory() -> String:
 		else:
 			items[i] = ""
 	return Game_SidebarText.INVENTORY % items
+
+
+func _get_power() -> String:
+	var full_text := ""
+	var power_tag: int
+	var power_direction: String
+	var power_cost: int
+	var power_name: String
+
+	for i in ORDERED_DIRECTION:
+		power_tag = _ref_PCState.get_power_tag(i)
+		if power_tag == Game_PowerTag.NO_POWER:
+			continue
+		power_direction = Game_SidebarText.DIRECTION_TO_CHAR[i]
+		power_cost = _ref_PCState.get_power_cost(i)
+		power_name = Game_SidebarText.POWER_TAG_TO_NAME[power_tag]
+		full_text += Game_SidebarText.POWER_TEMPLATE % [power_direction,
+				power_cost, power_name]
+	return full_text + Game_SidebarText.LAST_POWER

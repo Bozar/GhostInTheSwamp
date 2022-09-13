@@ -4,14 +4,12 @@ class_name Game_SidebarVBox
 
 const HELPER := "SidebarVBoxHelper"
 const STATE := "Upper/State"
-const MESSAGE := "Upper/Message"
 const HELP := "Lower/Help"
 const VERSION := "Lower/Version"
 const SEED := "Lower/Seed"
 
 const NODE_TO_LIGHT_COLOR := {
 	STATE: true,
-	MESSAGE: true,
 	HELP: false,
 	VERSION: false,
 	SEED: false,
@@ -22,7 +20,6 @@ var _ref_Palette: Game_Palette
 
 var _ref_SidebarVBoxHelper: Game_SidebarVBoxHelper
 var _ref_State: Label
-var _ref_Message: Label
 
 var _sidebar_seed := ""
 var _sidebar_version := ""
@@ -31,7 +28,10 @@ var _sidebar_version := ""
 func _ready() -> void:
 	_ref_SidebarVBoxHelper = get_node(HELPER)
 	_ref_State = get_node(STATE)
-	_ref_Message = get_node(MESSAGE)
+
+
+func _set_child_reference() -> void:
+	_ref_SidebarVBoxHelper._ref_PCState = _ref_PCState
 
 
 func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
@@ -44,14 +44,10 @@ func _on_RandomNumber_seed_updated(rng_seed: int) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	_ref_SidebarVBoxHelper.set_reference()
+	_set_child_reference()
 	_set_node_color()
 
-	_ref_State.text = _ref_SidebarVBoxHelper.get_state()
-	_ref_Message.text = ""
-	# _ref_State.max_lines_visible = 5
-	# _ref_Message.text = Game_SidebarText.SEPARATOR \
-	# 		+ "↑|3: Trcik\n↑|3: Trcik\n↑|3: Trcik\n↑|3: Trcik\n↑|3: Trcik"
+	_ref_State.text = _ref_SidebarVBoxHelper.get_state_item(true)
 
 	get_node(VERSION).text = _sidebar_version
 	get_node(HELP).text = Game_SidebarText.HELP
@@ -60,16 +56,29 @@ func _on_InitWorld_world_initialized() -> void:
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(Game_SubTag.PC):
-		_ref_State.text = _ref_SidebarVBoxHelper.get_state()
+		_ref_State.text = _ref_SidebarVBoxHelper.get_state_item(true)
 
 
 func _on_EndGame_game_over(win: bool) -> void:
-	_ref_State.text = _ref_SidebarVBoxHelper.get_state()
-	_ref_Message.text = _get_game_over(win)
+	_ref_State.text = Game_SidebarText.GAME_OVER % [
+		_ref_SidebarVBoxHelper.get_state_item(true), _get_game_over(win)
+	]
 
 
 func _on_SwitchScreen_screen_switched(_source: int, target: int) -> void:
 	visible = (target == Game_ScreenTag.MAIN)
+
+
+func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
+	var state_text := _ref_SidebarVBoxHelper.get_state_item(false)
+
+	match input_tag:
+		Game_InputTag.USE_POWER:
+			if _ref_PCState.is_using_power:
+				state_text = _ref_SidebarVBoxHelper.get_state_power(false)
+			_ref_State.text = state_text
+		Game_InputTag.ANY_WIZARD_KEY:
+			_ref_State.text = _ref_SidebarVBoxHelper.get_state_item(true)
 
 
 func _set_node_color() -> void:
@@ -95,8 +104,6 @@ func _set_version(is_wizard: bool) -> void:
 
 
 func _get_game_over(win: bool) -> String:
-	var result := Game_SidebarText.LOSE
-
 	if win:
-		result = Game_SidebarText.WIN
-	return Game_SidebarText.GAME_OVER % [result]
+		return Game_SidebarText.WIN
+	return Game_SidebarText.LOSE

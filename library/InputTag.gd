@@ -13,8 +13,9 @@ const RELOAD := "reload"
 const FORCE_RELOAD := "force_reload"
 const REPLAY_DUNGEON := "replay_dungeon"
 const QUIT := "quit"
-
 const COPY_SEED := "copy_seed"
+
+const ANY_WIZARD_KEY := "any_wizard_key"
 const ADD_MP := "add_mp"
 const FULLY_RESTORE_MP := "fully_restore_mp"
 const ADD_GHOST := "add_ghost"

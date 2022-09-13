@@ -20,26 +20,14 @@ var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
 
+var _ref_PCState: Game_PCState
+
 var _source_position: Game_IntCoord
 var _target_position: Game_IntCoord
 var _input_direction: String
 # Set `_fov_render_range` if we use the default `_fov_render_range()`. Otherwise
 # there is no need to set it.
 var _fov_render_range := 5
-
-
-# Refer: PlayerInput.gd.
-func set_reference() -> void:
-	_ref_Schedule = get_parent()._ref_Schedule
-	_ref_DungeonBoard = get_parent()._ref_DungeonBoard
-	_ref_RemoveObject = get_parent()._ref_RemoveObject
-	_ref_ObjectState = get_parent()._ref_ObjectState
-	_ref_RandomNumber = get_parent()._ref_RandomNumber
-	_ref_EndGame = get_parent()._ref_EndGame
-	_ref_SwitchSprite = get_parent()._ref_SwitchSprite
-	_ref_CreateObject = get_parent()._ref_CreateObject
-	_ref_GameSetting = get_parent()._ref_GameSetting
-	_ref_Palette = get_parent()._ref_Palette
 
 
 func start_turn() -> void:
@@ -70,7 +58,9 @@ func move(input_tag: String) -> void:
 
 
 func use_power() -> void:
-	_ref_Schedule.end_turn()
+	_ref_PCState.is_using_power = not _ref_PCState.is_using_power
+
+	# _ref_Schedule.end_turn()
 
 
 func toggle_sight() -> void:
