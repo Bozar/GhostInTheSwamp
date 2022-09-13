@@ -9,6 +9,7 @@ enum {
 }
 
 var mp := 0
+var max_mp := Game_PCData.MAX_MP
 var mp_progress := 0
 var has_ghost := false
 var sail_duration := 0
