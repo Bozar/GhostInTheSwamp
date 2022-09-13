@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/BasicSpriteData.gd"
 }, {
-"base": "Node2D",
+"base": "Game_ObjectStateTemplate",
 "class": "Game_BuildingState",
 "language": "GDScript",
 "path": "res://scene/main/BuildingState.gd"
@@ -169,7 +169,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/MainTag.gd"
 }, {
-"base": "Node2D",
+"base": "Game_ObjectStateTemplate",
 "class": "Game_ObjectLayer",
 "language": "GDScript",
 "path": "res://scene/main/ObjectLayer.gd"
@@ -178,6 +178,16 @@ _global_script_classes=[ {
 "class": "Game_ObjectState",
 "language": "GDScript",
 "path": "res://scene/main/ObjectState.gd"
+}, {
+"base": "Node2D",
+"class": "Game_ObjectStateTemplate",
+"language": "GDScript",
+"path": "res://library/ObjectStateTemplate.gd"
+}, {
+"base": "Game_ObjectStateTemplate",
+"class": "Game_ObjectTag",
+"language": "GDScript",
+"path": "res://scene/main/ObjectTag.gd"
 }, {
 "base": "Node2D",
 "class": "Game_PCAction",
@@ -269,7 +279,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/gui/SidebarVBox.gd"
 }, {
-"base": "Node2D",
+"base": "Game_ObjectStateTemplate",
 "class": "Game_SpriteType",
 "language": "GDScript",
 "path": "res://scene/main/SpriteType.gd"
@@ -349,6 +359,8 @@ _global_script_class_icons={
 "Game_MainTag": "",
 "Game_ObjectLayer": "",
 "Game_ObjectState": "",
+"Game_ObjectStateTemplate": "",
+"Game_ObjectTag": "",
 "Game_PCAction": "",
 "Game_PCActionTemplate": "",
 "Game_PCData": "",

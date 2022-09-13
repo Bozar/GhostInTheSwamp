@@ -5,18 +5,17 @@ class_name Game_ObjectState
 const OBJECT_LAYER := "ObjectLayer"
 const SPRITE_TYPE := "SpriteType"
 const BUILDING_STATE := "BuildingState"
+const OBJECT_TAG := "ObjectTag"
 
 
 func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
 	for i in get_children():
-		if i.has_method("create_object"):
-			i.create_object(sprite_data)
+		i.create_object(sprite_data)
 
 
 func _on_RemoveObject_sprite_removed(sprite_data: Game_BasicSpriteData) -> void:
 	for i in get_children():
-		if i.has_method("remove_data"):
-			i.remove_data(_get_id(sprite_data.sprite))
+		i.remove_object(_get_id(sprite_data.sprite))
 
 
 func get_layer(sprite: Sprite) -> int:
@@ -41,6 +40,14 @@ func harbor_is_active(sprite: Sprite) -> bool:
 
 func set_harbor(sprite: Sprite, is_active: bool) -> void:
 	get_node(BUILDING_STATE).set_harbor(_get_id(sprite), is_active)
+
+
+func get_main_tag(sprite: Sprite) -> String:
+	return get_node(OBJECT_TAG).get_main_tag(_get_id(sprite))
+
+
+func get_sub_tag(sprite: Sprite) -> String:
+	return get_node(OBJECT_TAG).get_sub_tag(_get_id(sprite))
 
 
 func _get_id(sprite: Sprite) -> int:
