@@ -29,6 +29,10 @@ var _ref_PCAction: Game_PCAction
 var _end_game := false
 
 
+func _ready() -> void:
+	_ref_PCAction = get_node(PC_ACTION)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	var may_have_conflict := true
 	var input_tag := ""
@@ -111,16 +115,18 @@ func _get_wizard_key(event: InputEvent) -> String:
 
 
 func _set_child_reference() -> void:
-	_ref_PCAction = get_node(PC_ACTION)
-	_ref_PCAction._ref_PCState = _ref_PCState
+	for i in [
+		"_ref_PCState",
 
-	_ref_PCAction._ref_Schedule = _ref_Schedule
-	_ref_PCAction._ref_DungeonBoard = _ref_DungeonBoard
-	_ref_PCAction._ref_RemoveObject = _ref_RemoveObject
-	_ref_PCAction._ref_ObjectState = _ref_ObjectState
-	_ref_PCAction._ref_RandomNumber = _ref_RandomNumber
-	_ref_PCAction._ref_EndGame = _ref_EndGame
-	_ref_PCAction._ref_SwitchSprite = _ref_SwitchSprite
-	_ref_PCAction._ref_CreateObject = _ref_CreateObject
-	_ref_PCAction._ref_GameSetting = _ref_GameSetting
-	_ref_PCAction._ref_Palette = _ref_Palette
+		"_ref_Schedule",
+		"_ref_DungeonBoard",
+		"_ref_RemoveObject",
+		"_ref_ObjectState",
+		"_ref_RandomNumber",
+		"_ref_EndGame",
+		"_ref_SwitchSprite",
+		"_ref_CreateObject",
+		"_ref_GameSetting",
+		"_ref_Palette",
+	]:
+		_ref_PCAction[i] = get(i)

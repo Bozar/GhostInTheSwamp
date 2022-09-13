@@ -12,6 +12,12 @@ var _ref_RandomNumber: Game_RandomNumber
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_CreateObject: Game_CreateObject
 
+var _ref_InitWorldHelper: Game_InitWorldHelper
+
+
+func _ready() -> void:
+	_ref_InitWorldHelper = get_node(INIT_WORLD_HELPER)
+
 
 func init_world() -> void:
 	var pc_coord: Game_IntCoord
@@ -19,11 +25,17 @@ func init_world() -> void:
 	emit_signal("world_initializing")
 	emit_signal("world_selected", "demo")
 
-	get_node(INIT_WORLD_HELPER).init_ground_building()
+	_set_child_reference()
+	_ref_InitWorldHelper.init_ground_building()
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)
 
 	emit_signal("world_initialized")
+
+
+func _set_child_reference() -> void:
+	for i in ["_ref_RandomNumber", "_ref_DungeonBoard", "_ref_CreateObject"]:
+		_ref_InitWorldHelper[i] = get(i)
 
 
 func _init_pc() -> Game_IntCoord:

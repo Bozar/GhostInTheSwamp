@@ -2,11 +2,16 @@ extends Node2D
 class_name Game_HarborHelper
 
 
+var _ref_DungeonBoard: Game_DungeonBoard
+var _ref_SwitchSprite: Game_SwitchSprite
+var _ref_ObjectState: Game_ObjectState
+
+
 func toggle_harbor(coord: Game_IntCoord, is_active: bool) -> void:
-	var harbor: Sprite = get_parent()._ref_DungeonBoard.get_building(coord)
+	var harbor := _ref_DungeonBoard.get_building(coord)
 	var new_sprite_type := Game_SpriteTypeTag.DEFAULT
 
 	if is_active:
 		new_sprite_type = Game_SpriteTypeTag.ACTIVE
-	get_parent()._ref_SwitchSprite.set_sprite(harbor, new_sprite_type)
-	get_parent()._ref_ObjectState.set_harbor(harbor, is_active)
+	_ref_SwitchSprite.set_sprite(harbor, new_sprite_type)
+	_ref_ObjectState.set_harbor(harbor, is_active)

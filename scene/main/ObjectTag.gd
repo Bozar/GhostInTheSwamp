@@ -15,7 +15,7 @@ func create_object(sprite_data: Game_BasicSpriteData) -> void:
 
 
 func _set_tag(sprite_data: Game_BasicSpriteData) -> void:
-	var id: int = get_parent()._get_id(sprite_data.sprite)
+	var id := sprite_data.sprite.get_instance_id()
 	var main_tag := sprite_data.main_tag
 	var sub_tag := sprite_data.sub_tag
 

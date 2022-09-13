@@ -23,15 +23,12 @@ var _ref_CreateObject: Game_CreateObject
 
 
 func init_ground_building() -> void:
-	var packed_prefab: Game_DungeonPrefab.PackedPrefab
+	var packed_prefab := _parse_prefab()
 	var expand_coords := {
 		EXPAND_LAND_CHAR: [],
 		EXPAND_SHRUB_CHAR: [],
 		EXPAND_HARBOR_CHAR: [],
 	}
-
-	_set_reference()
-	packed_prefab = _parse_prefab()
 
 	# Land, harbor, shrub, island.
 	_create_ground_building(packed_prefab, expand_coords)
@@ -39,12 +36,6 @@ func init_ground_building() -> void:
 	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
 	_create_expand_harbor(expand_coords[EXPAND_HARBOR_CHAR])
 	_create_swamp()
-
-
-func _set_reference() -> void:
-	_ref_RandomNumber = get_parent()._ref_RandomNumber
-	_ref_DungeonBoard = get_parent()._ref_DungeonBoard
-	_ref_CreateObject = get_parent()._ref_CreateObject
 
 
 func _parse_prefab() -> Game_DungeonPrefab.PackedPrefab:

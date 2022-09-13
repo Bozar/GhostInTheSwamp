@@ -15,5 +15,7 @@ func set_layer(id: int, layer: int) -> void:
 
 
 func create_object(sprite_data: Game_BasicSpriteData) -> void:
+	var id := sprite_data.sprite.get_instance_id()
+
 	if sprite_data.sprite_layer != 0:
-		get_parent().set_layer(sprite_data.sprite, sprite_data.sprite_layer)
+		set_layer(id, sprite_data.sprite_layer)
