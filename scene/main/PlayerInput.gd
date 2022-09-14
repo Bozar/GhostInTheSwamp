@@ -17,8 +17,6 @@ const CHILD_REFERENCE := {
 	],
 }
 
-const SIG_SPECIAL_KEY := "special_key_pressed"
-
 signal special_key_pressed(input_tag)
 
 var _ref_Schedule: Game_Schedule
@@ -66,14 +64,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
 			$PcAction.press_wizard_key(input_tag)
-			emit_signal(SIG_SPECIAL_KEY, Game_InputTag.ANY_WIZARD_KEY)
+			emit_signal(Game_SignalTag.SPECIAL_KEY,
+					Game_InputTag.ANY_WIZARD_KEY)
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
 		$PcAction.move(input_tag)
 	elif _verify_input(event, Game_InputTag.USE_POWER):
 		$PcAction.use_power()
-		emit_signal(SIG_SPECIAL_KEY, Game_InputTag.USE_POWER)
+		emit_signal(Game_SignalTag.SPECIAL_KEY, Game_InputTag.USE_POWER)
 	elif _verify_input(event, Game_InputTag.TOGGLE_SIGHT):
 		$PcAction.toggle_sight()
 

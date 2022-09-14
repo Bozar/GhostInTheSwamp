@@ -295,6 +295,11 @@ _global_script_classes=[ {
 "path": "res://scene/gui/SidebarVBoxHelper.gd"
 }, {
 "base": "Reference",
+"class": "Game_SignalTag",
+"language": "GDScript",
+"path": "res://library/SignalTag.gd"
+}, {
+"base": "Reference",
 "class": "Game_SpriteTypeTag",
 "language": "GDScript",
 "path": "res://library/SpriteTypeTag.gd"
@@ -392,6 +397,7 @@ _global_script_class_icons={
 "Game_SidebarText": "",
 "Game_SidebarVBox": "",
 "Game_SidebarVBoxHelper": "",
+"Game_SignalTag": "",
 "Game_SpriteTypeTag": "",
 "Game_SubTag": "",
 "Game_SwitchScreen": "",

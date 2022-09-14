@@ -2,8 +2,6 @@ extends Node2D
 class_name Game_RandomNumber
 
 
-const SIG_SEED_UPDATED := "seed_updated"
-
 signal seed_updated(rng_seed)
 
 var rng_seed: int setget set_rng_seed, get_rng_seed
@@ -54,7 +52,7 @@ func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
 		_rng.randomize()
 		_init_seed = _rng.randi()
 		if _init_seed > 0:
-			emit_signal(SIG_SEED_UPDATED, _init_seed)
+			emit_signal(Game_SignalTag.SEED_UPDATED, _init_seed)
 
 	_rng.seed = _init_seed
 	print("seed: {0}".format([_init_seed]))

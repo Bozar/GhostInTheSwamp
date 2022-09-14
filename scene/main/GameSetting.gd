@@ -2,9 +2,6 @@ extends Node2D
 class_name Game_GameSetting
 
 
-const SIG_SETTING_LOADED := "setting_loaded"
-const SIG_SETTING_SAVED := "setting_saved"
-
 signal setting_loaded(game_setting)
 signal setting_saved(save_data)
 
@@ -92,7 +89,7 @@ func load_setting() -> void:
 	# otherwise.
 	transfer.overwrite_setting = false
 
-	emit_signal(SIG_SETTING_LOADED, self)
+	emit_signal(Game_SignalTag.SETTING_LOADED, self)
 
 
 func save_setting() -> void:
@@ -100,7 +97,7 @@ func save_setting() -> void:
 			Game_NodeTag.TRANSFER_NODE)
 
 	transfer.overwrite_setting = true
-	emit_signal(SIG_SETTING_SAVED, transfer)
+	emit_signal(Game_SignalTag.SETTING_SAVED, transfer)
 
 
 func get_wizard_mode() -> bool:

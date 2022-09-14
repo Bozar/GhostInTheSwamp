@@ -2,7 +2,6 @@ extends Node2D
 class_name Game_RemoveObject
 
 
-const SIG_SPRITE_REMOVED := "sprite_removed"
 
 signal sprite_removed(sprite_data)
 
@@ -15,8 +14,9 @@ func remove_xy(main_tag: String, x: int, y: int, sprite_layer := 0) -> void:
 	if remove_this == null:
 		return
 
-	emit_signal(SIG_SPRITE_REMOVED, Game_BasicSpriteData.new(remove_this,
-			main_tag, Game_SubTag.REMOVE_SPRITE, x, y, sprite_layer))
+	emit_signal(Game_SignalTag.SPRITE_REMOVED, Game_BasicSpriteData.new(
+			remove_this, main_tag, Game_SubTag.REMOVE_SPRITE, x, y,
+			sprite_layer))
 	remove_this.queue_free()
 
 

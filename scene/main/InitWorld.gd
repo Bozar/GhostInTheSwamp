@@ -8,7 +8,6 @@ const CHILD_REFERENCE := {
 		Game_NodeTag.REF_DUNGEON_BOARD,
 	],
 }
-const SIG_WORLD_INITIALIZED := "world_initialized"
 
 signal world_selected(new_world)
 signal world_initialized()
@@ -30,7 +29,7 @@ func init_world() -> void:
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)
 
-	emit_signal(SIG_WORLD_INITIALIZED)
+	emit_signal(Game_SignalTag.WORLD_INITIALIZED)
 
 
 func _init_pc() -> Game_IntCoord:
