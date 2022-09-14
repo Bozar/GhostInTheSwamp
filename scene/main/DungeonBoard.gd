@@ -13,9 +13,13 @@ const SUB_TAG_TO_SPRITE := {
 	Game_SubTag.ARROW_UP: null,
 }
 
+var pc: Sprite setget set_pc, get_pc
+var pc_coord: Game_IntCoord setget set_pc_coord, get_pc_coord
+var npc: Array setget set_npc, get_npc
+var count_npc: int setget set_count_npc, get_count_npc
+
 # <main_tag: String, <column: int, [sprite]>>
 var _sprite_dict := {}
-var _pc: Sprite
 
 
 func _ready() -> void:
@@ -77,11 +81,11 @@ func get_sprite(main_tag: String, coord: Game_IntCoord, sprite_layer := 0) \
 func get_pc() -> Sprite:
 	var find_pc: Array
 
-	if _pc == null:
+	if pc == null:
 		find_pc = get_sprites_by_tag(Game_SubTag.PC)
 		if find_pc.size() > 0:
-			_pc = find_pc[0]
-	return _pc
+			pc = find_pc[0]
+	return pc
 
 
 func get_pc_coord() -> Game_IntCoord:
@@ -89,13 +93,29 @@ func get_pc_coord() -> Game_IntCoord:
 
 
 func get_npc() -> Array:
-	var npc: Array = get_sprites_by_tag(Game_MainTag.ACTOR)
-	Game_ArrayHelper.filter_element(npc, self, "_filter_get_npc", [])
-	return npc
+	var all_actors := get_sprites_by_tag(Game_MainTag.ACTOR)
+	Game_ArrayHelper.filter_element(all_actors, self, "_filter_get_npc", [])
+	return all_actors
 
 
-func count_npc() -> int:
+func get_count_npc() -> int:
 	return get_npc().size()
+
+
+func set_pc(__: Sprite) -> void:
+	pass
+
+
+func set_pc_coord(__: Game_IntCoord) -> void:
+	pass
+
+
+func set_npc(__: Array) -> void:
+	pass
+
+
+func set_count_npc(__: int) -> void:
+	pass
 
 
 # When we call `foobar.queue_free()`, the node foobar will be deleted at the end

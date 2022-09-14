@@ -25,6 +25,7 @@ const PC_ACTION := "PcAction"
 const SIDEBAR_VBOX_HELPER := "SidebarVBoxHelper"
 const HARBOR_HELPER := "HarborHelper"
 const INIT_WORLD_HELPER := "InitWorldHelper"
+const TRANSFER_NODE := "/root/TransferData"
 
 const REF_PC_STATE = "_ref_PcState"
 const REF_SCHEDULE = "_ref_Schedule"

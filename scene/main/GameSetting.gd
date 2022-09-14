@@ -24,7 +24,6 @@ const PALETTE_RES_PATH := "res://bin/"
 const JSON_EXTENSION := ".json"
 
 const TRANSFER_SCENE := "res://scene/transfer_data/TransferData.tscn"
-const TRANSFER_NODE := "/root/TransferData"
 
 const DEFAULT_EXCLUDE := [Game_WorldTag.DEMO]
 
@@ -56,8 +55,8 @@ func load_setting() -> void:
 
 	# Use settings from previous game if available. However, PALETTE is always
 	# loaded from setting.json.
-	if get_tree().root.has_node(TRANSFER_NODE):
-		transfer = get_tree().root.get_node(TRANSFER_NODE)
+	if get_tree().root.has_node(Game_NodeTag.TRANSFER_NODE):
+		transfer = get_tree().root.get_node(Game_NodeTag.TRANSFER_NODE)
 		if transfer.overwrite_setting:
 			setting_data[INCLUDE_WORLD] = transfer.overwrite_include_world
 			setting_data[SEED] = transfer.overwrite_rng_seed
@@ -78,7 +77,7 @@ func load_setting() -> void:
 	_rng_seed = _set_rng_seed(setting_data)
 	_palette = _set_palette(setting_data)
 
-	if not get_tree().root.has_node(TRANSFER_NODE):
+	if not get_tree().root.has_node(Game_NodeTag.TRANSFER_NODE):
 		# Create TRANSFER_NODE.
 		transfer = load(TRANSFER_SCENE).instance()
 		get_tree().root.add_child(transfer)
@@ -97,7 +96,8 @@ func load_setting() -> void:
 
 
 func save_setting() -> void:
-	var transfer: Game_TransferData = get_tree().root.get_node(TRANSFER_NODE)
+	var transfer: Game_TransferData = get_tree().root.get_node(
+			Game_NodeTag.TRANSFER_NODE)
 
 	transfer.overwrite_setting = true
 	emit_signal(SIG_SETTING_SAVED, transfer)

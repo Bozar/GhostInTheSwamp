@@ -191,7 +191,7 @@ func _is_checkmate() -> bool:
 
 
 func _render_end_game(win: bool) -> void:
-	var pc: Sprite = _ref_DungeonBoard.get_pc()
+	var pc := _ref_DungeonBoard.pc
 
 	render_fov()
 	if not win:
