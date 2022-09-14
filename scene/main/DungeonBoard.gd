@@ -5,16 +5,17 @@ class_name Game_DungeonBoard
 const ERR_SPRITE := ": MainTag: {0}, Coord: ({1}, {2}), Layer: {3}."
 const ERR_NO_SPRITE := "No sprite" + ERR_SPRITE
 const ERR_HAS_SPRITE := "Has sprite" + ERR_SPRITE
+const MAIN_TAG_WITH_LAYER := "%s_%s"
 
-# <main_tag: String, <column: int, [sprite]>>
-var _sprite_dict: Dictionary
-var _pc: Sprite
-
-var _sub_tag_to_sprite: Dictionary = {
+const SUB_TAG_TO_SPRITE := {
 	Game_SubTag.ARROW_RIGHT: null,
 	Game_SubTag.ARROW_DOWN: null,
 	Game_SubTag.ARROW_UP: null,
 }
+
+# <main_tag: String, <column: int, [sprite]>>
+var _sprite_dict := {}
+var _pc: Sprite
 
 
 func _ready() -> void:
@@ -55,15 +56,15 @@ func has_sprite_with_sub_tag(main_tag: String, sub_tag: String,
 
 func get_sprite_xy(main_tag: String, x: int, y: int, sprite_layer := 0) \
 		-> Sprite:
-	main_tag = _try_convert_main_tag(main_tag, sprite_layer)
+	var new_tag := _try_convert_main_tag(main_tag, sprite_layer)
 
 	if not Game_CoordCalculator.is_inside_dungeon(x, y):
 		return null
-	elif not _sprite_dict.has(main_tag):
+	elif not _sprite_dict.has(new_tag):
 		return null
-	elif not _sprite_dict[main_tag].has(x):
+	elif not _sprite_dict[new_tag].has(x):
 		return null
-	return _sprite_dict[main_tag][x][y]
+	return _get_dict_value(new_tag, x, y)
 
 
 func get_sprite(main_tag: String, coord: Game_IntCoord, sprite_layer := 0) \
@@ -209,12 +210,8 @@ func move_sprite_xy(main_tag: String, source_x: int, source_y: int,
 				sprite_layer]))
 		return
 
-	main_tag = _try_convert_main_tag(main_tag, sprite_layer)
-	_sprite_dict[main_tag][source_x][source_y] = null
-	_sprite_dict[main_tag][target_x][target_y] = move_this
-	move_this.position = Game_ConvertCoord.coord_to_vector(target_x, target_y)
-
-	_try_move_arrow(move_this)
+	swap_sprite_xy(main_tag, source_x, source_y, target_x, target_y,
+			sprite_layer)
 
 
 func move_sprite(main_tag: String, source: Game_IntCoord, target: Game_IntCoord,
@@ -240,21 +237,10 @@ func swap_sprite_xy(main_tag: String, source_x: int, source_y: int,
 			sprite_layer)
 	var target_sprite := get_sprite_xy(main_tag, target_x, target_y,
 			sprite_layer)
+	var new_tag := _try_convert_main_tag(main_tag, sprite_layer)
 
-	if (source_sprite == null) or (target_sprite == null):
-		return
-
-	main_tag = _try_convert_main_tag(main_tag, sprite_layer)
-	_sprite_dict[main_tag][source_x][source_y] = target_sprite
-	_sprite_dict[main_tag][target_x][target_y] = source_sprite
-
-	source_sprite.position = Game_ConvertCoord.coord_to_vector(
-			target_x, target_y)
-	target_sprite.position = Game_ConvertCoord.coord_to_vector(
-			source_x, source_y)
-
-	_try_move_arrow(source_sprite)
-	_try_move_arrow(target_sprite)
+	_move_dict_value(new_tag, target_x, target_y, source_sprite)
+	_move_dict_value(new_tag, source_x, source_y, target_sprite)
 
 
 func swap_sprite(main_tag: String, source: Game_IntCoord, target: Game_IntCoord,
@@ -264,14 +250,13 @@ func swap_sprite(main_tag: String, source: Game_IntCoord, target: Game_IntCoord,
 
 
 func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
-	var pos: Game_IntCoord
 	var new_tag: String
 
 	# Save references to arrow indicators.
 	if sprite_data.main_tag == Game_MainTag.INDICATOR:
-		for i in _sub_tag_to_sprite.keys():
+		for i in SUB_TAG_TO_SPRITE.keys():
 			if i == sprite_data.sub_tag:
-				_sub_tag_to_sprite[i] = sprite_data.sprite
+				SUB_TAG_TO_SPRITE[i] = sprite_data.sprite
 	# Save references to dungeon sprites.
 	else:
 		for i in Game_MainTag.DUNGEON_OBJECT:
@@ -280,14 +265,14 @@ func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:
 			new_tag = _try_convert_main_tag(i, sprite_data.sprite_layer)
 			if not _sprite_dict.has(new_tag):
 				_init_dict(new_tag)
-			pos = Game_ConvertCoord.sprite_to_coord(sprite_data.sprite)
-			_sprite_dict[new_tag][pos.x][pos.y] = sprite_data.sprite
+			_set_dict_value(new_tag, sprite_data.x, sprite_data.y,
+					sprite_data.sprite)
 
 
 func _on_RemoveObject_sprite_removed(sprite_data: Game_BasicSpriteData) -> void:
-	var main_tag := _try_convert_main_tag(sprite_data.main_tag,
+	var new_tag := _try_convert_main_tag(sprite_data.main_tag,
 			sprite_data.sprite_layer)
-	_sprite_dict[main_tag][sprite_data.x][sprite_data.y] = null
+	_set_dict_value(new_tag, sprite_data.x, sprite_data.y, null)
 
 
 func _init_dict(new_tag: String) -> void:
@@ -302,22 +287,38 @@ func _try_move_arrow(sprite: Sprite) -> void:
 	if not sprite.is_in_group(Game_SubTag.PC):
 		return
 
-	_sub_tag_to_sprite[Game_SubTag.ARROW_RIGHT].position.y = sprite.position.y
-	_sub_tag_to_sprite[Game_SubTag.ARROW_DOWN].position.x = sprite.position.x
-	_sub_tag_to_sprite[Game_SubTag.ARROW_UP].position.x = sprite.position.x
+	SUB_TAG_TO_SPRITE[Game_SubTag.ARROW_RIGHT].position.y = sprite.position.y
+	SUB_TAG_TO_SPRITE[Game_SubTag.ARROW_DOWN].position.x = sprite.position.x
+	SUB_TAG_TO_SPRITE[Game_SubTag.ARROW_UP].position.x = sprite.position.x
 
 
-func _filter_get_sprites_by_tag(source: Array, index: int,
-		_opt_arg: Array) -> bool:
+func _filter_get_sprites_by_tag(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()
 
 
-func _filter_get_npc(source: Array, index: int, _opt_arg: Array) -> bool:
+func _filter_get_npc(source: Array, index: int, _opt: Array) -> bool:
 	return not (source[index].is_queued_for_deletion() \
 			or source[index].is_in_group(Game_SubTag.PC))
 
 
 func _try_convert_main_tag(main_tag: String, sprite_layer: int) -> String:
-	return main_tag \
-			if sprite_layer == 0 \
-			else main_tag + "_" + String(sprite_layer)
+	if sprite_layer == 0:
+		return main_tag
+	else:
+		return MAIN_TAG_WITH_LAYER % [main_tag, sprite_layer]
+
+
+func _get_dict_value(main_tag: String, x: int, y: int) -> Sprite:
+	return _sprite_dict[main_tag][x][y]
+
+
+func _set_dict_value(main_tag: String, x: int, y: int, sprite: Sprite) -> void:
+	_sprite_dict[main_tag][x][y] = sprite
+
+
+func _move_dict_value(main_tag: String, target_x: int, target_y: int,
+		sprite: Sprite) -> void:
+	_set_dict_value(main_tag, target_x, target_y, sprite)
+	if sprite != null:
+		sprite.position = Game_ConvertCoord.coord_to_vector(target_x, target_y)
+		_try_move_arrow(sprite)
