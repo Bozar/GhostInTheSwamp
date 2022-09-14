@@ -5,9 +5,6 @@ class_name Game_PlayerInput
 const RELOAD_GAME := "ReloadGame"
 const PC_ACTION := "PcAction"
 
-const SIGNAL_KEY_PRESSED := "special_key_pressed"
-
-# warning-ignore: UNUSED_SIGNAL
 signal special_key_pressed(input_tag)
 
 var _ref_Schedule: Game_Schedule
@@ -61,19 +58,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
 			_ref_PcAction.press_wizard_key(input_tag)
-			emit_signal(SIGNAL_KEY_PRESSED, Game_InputTag.ANY_WIZARD_KEY)
+			emit_signal("special_key_pressed", Game_InputTag.ANY_WIZARD_KEY)
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
 		_ref_PcAction.move(input_tag)
 	elif _verify_input(event, Game_InputTag.USE_POWER):
 		_ref_PcAction.use_power()
-		emit_signal(SIGNAL_KEY_PRESSED, Game_InputTag.USE_POWER)
+		emit_signal("special_key_pressed", Game_InputTag.USE_POWER)
 	elif _verify_input(event, Game_InputTag.TOGGLE_SIGHT):
 		_ref_PcAction.toggle_sight()
 
 
-func _on_InitWorld_world_initializing() -> void:
+func _on_InitWorld_world_initialized() -> void:
 	_set_child_reference()
 	set_process_unhandled_input(true)
 
@@ -84,7 +81,7 @@ func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 		set_process_unhandled_input(true)
 
 
-func _on_Schedule_turn_ending(current_sprite: Sprite) -> void:
+func _on_Schedule_turn_ended(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(Game_SubTag.PC):
 		set_process_unhandled_input(false)
 

@@ -175,9 +175,5 @@ func _set_bool(setting: Dictionary, option: String) -> bool:
 	return false
 
 
-func _on_InitWorld_world_initializing() -> void:
-	load_setting()
-
-
 func _on_RandomNumber_seed_updated(rng_seed: int) -> void:
 	_rng_seed = rng_seed

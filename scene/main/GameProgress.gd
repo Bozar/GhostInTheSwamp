@@ -21,10 +21,6 @@ func _ready() -> void:
 	_ref_HarborHelper = get_node(HARBOR_HELPER)
 
 
-func _on_Schedule_turn_starting(_current_sprite: Sprite) -> void:
-	pass
-
-
 func _on_Schedule_turn_ended(_current_sprite: Sprite) -> void:
 	pass
 

@@ -2,13 +2,7 @@ extends Node2D
 class_name Game_Schedule
 
 
-# warning-ignore: UNUSED_SIGNAL
-signal turn_starting(current_sprite)
-# warning-ignore: UNUSED_SIGNAL
 signal turn_started(current_sprite)
-# warning-ignore: UNUSED_SIGNAL
-signal turn_ending(current_sprite)
-# warning-ignore: UNUSED_SIGNAL
 signal turn_ended(current_sprite)
 
 var _actors := [null]
@@ -31,7 +25,6 @@ func end_turn() -> void:
 	# 4. In Schedule, we should start Y's turn, rather than ends it.
 	if _end_current_turn:
 		# print("{0}: End turn.".format([_get_current().name]))
-		emit_signal("turn_ending", _get_current())
 		emit_signal("turn_ended", _get_current())
 		if _end_game:
 			return
@@ -41,16 +34,11 @@ func end_turn() -> void:
 
 	if _end_game:
 		return
-	start_turn()
-
-
-func start_turn() -> void:
-	emit_signal("turn_starting", _get_current())
 	emit_signal("turn_started", _get_current())
 
 
 func _on_InitWorld_world_initialized() -> void:
-	start_turn()
+	emit_signal("turn_started", _get_current())
 
 
 func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:

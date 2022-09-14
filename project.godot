@@ -250,9 +250,9 @@ _global_script_classes=[ {
 "path": "res://scene/main/RemoveObject.gd"
 }, {
 "base": "Node2D",
-"class": "Game_RootNodeTemplate",
+"class": "Game_RootSceneTemplate",
 "language": "GDScript",
-"path": "res://library/RootNodeTemplate.gd"
+"path": "res://library/RootSceneTemplate.gd"
 }, {
 "base": "Node2D",
 "class": "Game_Schedule",
@@ -373,7 +373,7 @@ _global_script_class_icons={
 "Game_RandomNumber": "",
 "Game_ReloadGame": "",
 "Game_RemoveObject": "",
-"Game_RootNodeTemplate": "",
+"Game_RootSceneTemplate": "",
 "Game_Schedule": "",
 "Game_ScreenTag": "",
 "Game_ShadowCastFov": "",

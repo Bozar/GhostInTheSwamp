@@ -1,4 +1,4 @@
-extends Game_RootNodeTemplate
+extends Game_RootSceneTemplate
 
 
 const INIT_WORLD := "InitWorld"
@@ -29,14 +29,9 @@ const SIGNAL_BIND := [
 		SCHEDULE, DUNGEON, OBJECT_STATE,
 	],
 	[
-		"world_initializing", "_on_InitWorld_world_initializing",
-		INIT_WORLD,
-		GAME_SETTING, PLAYER_INPUT,
-	],
-	[
 		"world_initialized", "_on_InitWorld_world_initialized",
 		INIT_WORLD,
-		SCHEDULE, GAME_PROGRESS, SIDEBAR_GUI,
+		SCHEDULE, GAME_PROGRESS, SIDEBAR_GUI, PLAYER_INPUT,
 	],
 	[
 		"world_selected", "_on_InitWorld_world_selected",
@@ -44,24 +39,14 @@ const SIGNAL_BIND := [
 		HELP_GUI, HELP_INPUT, DEBUG_GUI,
 	],
 	[
-		"turn_starting", "_on_Schedule_turn_starting",
-		SCHEDULE,
-		GAME_PROGRESS,
-	],
-	[
 		"turn_started", "_on_Schedule_turn_started",
 		SCHEDULE,
 		PLAYER_INPUT, ACTOR_ACTION, SIDEBAR_GUI,
 	],
 	[
-		"turn_ending", "_on_Schedule_turn_ending",
-		SCHEDULE,
-		PLAYER_INPUT,
-	],
-	[
 		"turn_ended", "_on_Schedule_turn_ended",
 		SCHEDULE,
-		GAME_PROGRESS,
+		PLAYER_INPUT, GAME_PROGRESS,
 	],
 	[
 		"sprite_removed", "_on_RemoveObject_sprite_removed",
@@ -146,7 +131,7 @@ const NODE_REF := [
 	[
 		"_ref_GameSetting",
 		GAME_SETTING,
-		PLAYER_INPUT,
+		PLAYER_INPUT, INIT_WORLD,
 	],
 	[
 		"_ref_SwitchScreen",

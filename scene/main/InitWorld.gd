@@ -5,12 +5,12 @@ class_name Game_InitWorld
 const INIT_WORLD_HELPER := "InitWorldHelper"
 
 signal world_selected(new_world)
-signal world_initializing()
 signal world_initialized()
 
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_CreateObject: Game_CreateObject
+var _ref_GameSetting: Game_GameSetting
 
 var _ref_InitWorldHelper: Game_InitWorldHelper
 
@@ -22,7 +22,7 @@ func _ready() -> void:
 func init_world() -> void:
 	var pc_coord: Game_IntCoord
 
-	emit_signal("world_initializing")
+	_ref_GameSetting.load_setting()
 	emit_signal("world_selected", "demo")
 
 	_set_child_reference()
