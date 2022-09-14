@@ -47,12 +47,11 @@ static func read_as_json(path_to_file: String) -> Game_FileParser:
 # https://docs.godotengine.org/en/stable/classes/class_directory.html
 static func get_file_list(path_to_dir: String) -> Array:
 	var dir := Directory.new()
-	var __
 	var file_name: String
 	var file_list: Array = []
 
 	if dir.open(path_to_dir) == OK:
-		__ = dir.list_dir_begin(true, true)
+		dir.list_dir_begin(true, true)
 		file_name = dir.get_next()
 		while file_name != "":
 			if not dir.current_is_dir():

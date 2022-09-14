@@ -11,4 +11,4 @@ func create_object(_sprite_data: Game_BasicSpriteData) -> void:
 
 
 func remove_object(id: int) -> void:
-	var __ = _id_to_state.erase(id)
+	_id_to_state.erase(id)

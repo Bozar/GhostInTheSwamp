@@ -2,6 +2,9 @@ extends Node2D
 class_name Game_GameSetting
 
 
+const SIG_SETTING_LOADED := "setting_loaded"
+const SIG_SETTING_SAVED := "setting_saved"
+
 signal setting_loaded(game_setting)
 signal setting_saved(save_data)
 
@@ -37,7 +40,6 @@ var _json_parse_error: bool
 
 func load_setting() -> void:
 	var setting_data := {}
-	var __
 	var transfer: Game_TransferData
 	var json_parser: Game_FileParser
 
@@ -91,14 +93,14 @@ func load_setting() -> void:
 	# otherwise.
 	transfer.overwrite_setting = false
 
-	emit_signal("setting_loaded", self)
+	emit_signal(SIG_SETTING_LOADED, self)
 
 
 func save_setting() -> void:
 	var transfer: Game_TransferData = get_tree().root.get_node(TRANSFER_NODE)
 
 	transfer.overwrite_setting = true
-	emit_signal("setting_saved", transfer)
+	emit_signal(SIG_SETTING_SAVED, transfer)
 
 
 func get_wizard_mode() -> bool:

@@ -123,7 +123,7 @@ func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
 	var has_color_value := palette.has(COLOR_VALUE) \
 			and (palette[COLOR_VALUE] is Dictionary)
 	var color_regex := RegEx.new()
-	var __ = color_regex.compile(HTML_COLOR_REGEX)
+	color_regex.compile(HTML_COLOR_REGEX)
 
 	for i in DEFAULT_TAG_TO_COLOR.keys():
 		_tag_to_color[i] = ""

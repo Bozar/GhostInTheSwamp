@@ -2,6 +2,8 @@ extends Node2D
 class_name Game_RandomNumber
 
 
+const SIG_SEED_UPDATED := "seed_updated"
+
 signal seed_updated(rng_seed)
 
 var rng_seed: int setget set_rng_seed, get_rng_seed
@@ -32,9 +34,8 @@ func get_dungeon_coord() -> Game_IntCoord:
 
 
 func shuffle(repeat: int) -> void:
-	var __
 	for _i in range(repeat):
-		__ = get_int(0, 10)
+		get_int(0, 10)
 
 
 func get_rng_seed() -> int:
@@ -53,7 +54,7 @@ func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
 		_rng.randomize()
 		_init_seed = _rng.randi()
 		if _init_seed > 0:
-			emit_signal("seed_updated", _init_seed)
+			emit_signal(SIG_SEED_UPDATED, _init_seed)
 
 	_rng.seed = _init_seed
 	print("seed: {0}".format([_init_seed]))

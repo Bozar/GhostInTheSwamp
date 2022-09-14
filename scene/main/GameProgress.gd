@@ -2,7 +2,11 @@ extends Node2D
 class_name Game_GameProgress
 
 
-const HARBOR_HELPER := "HarborHelper"
+const CHILD_REFERENCE := {
+	Game_NodeTag.HARBOR_HELPER: [
+		Game_NodeTag.REF_DUNGEON_BOARD, Game_NodeTag.REF_OBJECT_STATE,
+	],
+}
 
 var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
@@ -14,19 +18,13 @@ var _ref_Schedule: Game_Schedule
 var _ref_EndGame: Game_EndGame
 var _ref_Palette: Game_Palette
 
-var _ref_HarborHelper: Game_HarborHelper
-
-
-func _ready() -> void:
-	_ref_HarborHelper = get_node(HARBOR_HELPER)
-
 
 func _on_Schedule_turn_ended(_current_sprite: Sprite) -> void:
 	pass
 
 
 func _on_InitWorld_world_initialized() -> void:
-	_set_child_reference()
+	$NodeHelper.set_child_reference(CHILD_REFERENCE)
 	_active_the_first_harbor()
 
 
@@ -37,10 +35,5 @@ func _active_the_first_harbor() -> void:
 
 	for i in Game_CoordCalculator.get_neighbor(coord, 1):
 		if _ref_DungeonBoard.has_building(i):
-			_ref_HarborHelper.toggle_harbor(i, true)
+			$HarborHelper.toggle_harbor(i, true)
 			return
-
-
-func _set_child_reference() -> void:
-	for i in ["_ref_DungeonBoard", "_ref_ObjectState"]:
-		_ref_HarborHelper[i] = get(i)

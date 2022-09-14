@@ -2,7 +2,6 @@ extends VBoxContainer
 class_name Game_SidebarVBox
 
 
-const HELPER := "SidebarVBoxHelper"
 const STATE := "Upper/State"
 const HELP := "Lower/Help"
 const VERSION := "Lower/Version"
@@ -14,24 +13,15 @@ const NODE_TO_LIGHT_COLOR := {
 	VERSION: false,
 	SEED: false,
 }
+const CHILD_REFERENCE := {
+	Game_NodeTag.SIDEBAR_VBOX_HELPER: [Game_NodeTag.REF_PC_STATE,],
+}
 
 var _ref_PcState: Game_PcState
 var _ref_Palette: Game_Palette
 
-var _ref_SidebarVBoxHelper: Game_SidebarVBoxHelper
-var _ref_State: Label
-
 var _sidebar_seed := ""
 var _sidebar_version := ""
-
-
-func _ready() -> void:
-	_ref_SidebarVBoxHelper = get_node(HELPER)
-	_ref_State = get_node(STATE)
-
-
-func _set_child_reference() -> void:
-	_ref_SidebarVBoxHelper._ref_PcState = _ref_PcState
 
 
 func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
@@ -44,24 +34,24 @@ func _on_RandomNumber_seed_updated(rng_seed: int) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	_set_child_reference()
+	$NodeHelper.set_child_reference(CHILD_REFERENCE)
 	_set_node_color()
 
-	_ref_State.text = _ref_SidebarVBoxHelper.get_state_item(true)
+	$"Upper/State".text = $SidebarVBoxHelper.get_state_item(true)
 
-	get_node(VERSION).text = _sidebar_version
-	get_node(HELP).text = Game_SidebarText.HELP
-	get_node(SEED).text = _sidebar_seed
+	$"Lower/Version".text = _sidebar_version
+	$"Lower/Help".text = Game_SidebarText.HELP
+	$"Lower/Seed".text = _sidebar_seed
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(Game_SubTag.PC):
-		_ref_State.text = _ref_SidebarVBoxHelper.get_state_item(true)
+		$"Upper/State".text = $SidebarVBoxHelper.get_state_item(true)
 
 
 func _on_EndGame_game_over(win: bool) -> void:
-	_ref_State.text = Game_SidebarText.GAME_OVER % [
-		_ref_SidebarVBoxHelper.get_state_item(true), _get_game_over(win)
+	$"Upper/State".text = Game_SidebarText.GAME_OVER % [
+		$SidebarVBoxHelper.get_state_item(true), _get_game_over(win)
 	]
 
 
@@ -70,15 +60,15 @@ func _on_SwitchScreen_screen_switched(_source: int, target: int) -> void:
 
 
 func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
-	var state_text := _ref_SidebarVBoxHelper.get_state_item(false)
+	var state_text: String = $SidebarVBoxHelper.get_state_item(false)
 
 	match input_tag:
 		Game_InputTag.USE_POWER:
 			if _ref_PcState.is_using_power:
-				state_text = _ref_SidebarVBoxHelper.get_state_power(false)
-			_ref_State.text = state_text
+				state_text = $SidebarVBoxHelper.get_state_power(false)
+			$"Upper/State".text = state_text
 		Game_InputTag.ANY_WIZARD_KEY:
-			_ref_State.text = _ref_SidebarVBoxHelper.get_state_item(true)
+			$"Upper/State".text= $SidebarVBoxHelper.get_state_item(true)
 
 
 func _set_node_color() -> void:

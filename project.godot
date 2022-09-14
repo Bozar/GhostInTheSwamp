@@ -169,6 +169,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/MainTag.gd"
 }, {
+"base": "Node2D",
+"class": "Game_NodeHelper",
+"language": "GDScript",
+"path": "res://scene/main/NodeHelper.gd"
+}, {
+"base": "Reference",
+"class": "Game_NodeTag",
+"language": "GDScript",
+"path": "res://library/NodeTag.gd"
+}, {
 "base": "Game_ObjectStateTemplate",
 "class": "Game_ObjectLayer",
 "language": "GDScript",
@@ -357,6 +367,8 @@ _global_script_class_icons={
 "Game_InputTemplate": "",
 "Game_IntCoord": "",
 "Game_MainTag": "",
+"Game_NodeHelper": "",
+"Game_NodeTag": "",
 "Game_ObjectLayer": "",
 "Game_ObjectState": "",
 "Game_ObjectStateTemplate": "",
@@ -397,6 +409,12 @@ run/main_scene="res://scene/main/RootScene.tscn"
 run/low_processor_mode=true
 config/icon="res://resource/ghost.png"
 config/windows_native_icon="res://resource/ghost.ico"
+
+[debug]
+
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/integer_division=false
 
 [display]
 

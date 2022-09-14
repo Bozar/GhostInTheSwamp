@@ -45,9 +45,8 @@ var _true_reg := RegEx.new()
 
 
 func _init() -> void:
-	var __
-	__ = _seed_reg.compile(SEED_SEPARATOR_PATTERN)
-	__ = _true_reg.compile(TRUE_PATTERN)
+	_seed_reg.compile(SEED_SEPARATOR_PATTERN)
+	_true_reg.compile(TRUE_PATTERN)
 
 
 func _ready() -> void:

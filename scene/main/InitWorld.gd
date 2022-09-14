@@ -2,7 +2,13 @@ extends Node2D
 class_name Game_InitWorld
 
 
-const INIT_WORLD_HELPER := "InitWorldHelper"
+const CHILD_REFERENCE := {
+	Game_NodeTag.INIT_WORLD_HELPER: [
+		Game_NodeTag.REF_RANDOM_NUMBER, Game_NodeTag.REF_CREATE_OBJECT,
+		Game_NodeTag.REF_DUNGEON_BOARD,
+	],
+}
+const SIG_WORLD_INITIALIZED := "world_initialized"
 
 signal world_selected(new_world)
 signal world_initialized()
@@ -12,12 +18,6 @@ var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
 
-var _ref_InitWorldHelper: Game_InitWorldHelper
-
-
-func _ready() -> void:
-	_ref_InitWorldHelper = get_node(INIT_WORLD_HELPER)
-
 
 func init_world() -> void:
 	var pc_coord: Game_IntCoord
@@ -25,17 +25,12 @@ func init_world() -> void:
 	_ref_GameSetting.load_setting()
 	emit_signal("world_selected", "demo")
 
-	_set_child_reference()
-	_ref_InitWorldHelper.init_ground_building()
+	$NodeHelper.set_child_reference(CHILD_REFERENCE)
+	$InitWorldHelper.init_ground_building()
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)
 
-	emit_signal("world_initialized")
-
-
-func _set_child_reference() -> void:
-	for i in ["_ref_RandomNumber", "_ref_DungeonBoard", "_ref_CreateObject"]:
-		_ref_InitWorldHelper[i] = get(i)
+	emit_signal(SIG_WORLD_INITIALIZED)
 
 
 func _init_pc() -> Game_IntCoord:

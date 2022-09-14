@@ -26,7 +26,6 @@ func _set_path() -> void:
 
 
 func _set_signal() -> void:
-	var __
 	var signal_name: String
 	var func_name: String
 	var path_to_source: String
@@ -39,7 +38,7 @@ func _set_signal() -> void:
 		path_to_source = _get_child_node_path(s[2])
 		for i in range(3, s.size()):
 			path_to_target = _get_child_node_path(s[i])
-			__ = get_node(path_to_source).connect(signal_name,
+			get_node(path_to_source).connect(signal_name,
 					get_node(path_to_target), func_name)
 
 

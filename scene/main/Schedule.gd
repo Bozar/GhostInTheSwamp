@@ -2,6 +2,9 @@ extends Node2D
 class_name Game_Schedule
 
 
+const SIG_TURN_STARTED := "turn_started"
+const SIG_TURN_ENDED := "turn_ended"
+
 signal turn_started(current_sprite)
 signal turn_ended(current_sprite)
 
@@ -25,7 +28,7 @@ func end_turn() -> void:
 	# 4. In Schedule, we should start Y's turn, rather than ends it.
 	if _end_current_turn:
 		# print("{0}: End turn.".format([_get_current().name]))
-		emit_signal("turn_ended", _get_current())
+		emit_signal(SIG_TURN_ENDED, _get_current())
 		if _end_game:
 			return
 		_goto_next()
@@ -34,11 +37,11 @@ func end_turn() -> void:
 
 	if _end_game:
 		return
-	emit_signal("turn_started", _get_current())
+	emit_signal(SIG_TURN_STARTED, _get_current())
 
 
 func _on_InitWorld_world_initialized() -> void:
-	emit_signal("turn_started", _get_current())
+	emit_signal(SIG_TURN_STARTED, _get_current())
 
 
 func _on_CreateObject_sprite_created(sprite_data: Game_BasicSpriteData) -> void:

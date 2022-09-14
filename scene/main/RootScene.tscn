@@ -1,7 +1,8 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scene/main/NodeHelper.gd" type="Script" id=3]
 [ext_resource path="res://scene/main/RootScene.gd" type="Script" id=4]
 [ext_resource path="res://scene/main/Schedule.gd" type="Script" id=5]
 [ext_resource path="res://scene/main/PcAction.gd" type="Script" id=6]
@@ -12,6 +13,7 @@
 [ext_resource path="res://scene/main/RandomNumber.gd" type="Script" id=11]
 [ext_resource path="res://scene/main/PlayerInput.gd" type="Script" id=12]
 [ext_resource path="res://scene/main/ObjectState.gd" type="Script" id=13]
+[ext_resource path="res://scene/main/NodeHelper.gd" type="Script" id=14]
 [ext_resource path="res://scene/main/HarborHelper.gd" type="Script" id=15]
 [ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
 [ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
@@ -59,6 +61,9 @@ script = ExtResource( 1 )
 [node name="InitWorldHelper" type="Node2D" parent="InitWorld"]
 script = ExtResource( 8 )
 
+[node name="NodeHelper" type="Node2D" parent="InitWorld"]
+script = ExtResource( 3 )
+
 [node name="PlayerInput" type="Node2D" parent="."]
 script = ExtResource( 12 )
 
@@ -67,6 +72,9 @@ script = ExtResource( 10 )
 
 [node name="PcAction" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 6 )
+
+[node name="NodeHelper" type="Node2D" parent="PlayerInput"]
+script = ExtResource( 14 )
 
 [node name="HelpInput" type="Node2D" parent="."]
 script = ExtResource( 24 )
@@ -88,6 +96,9 @@ script = ExtResource( 20 )
 
 [node name="HarborHelper" type="Node2D" parent="GameProgress"]
 script = ExtResource( 15 )
+
+[node name="NodeHelper" type="Node2D" parent="GameProgress"]
+script = ExtResource( 3 )
 
 [node name="DungeonBoard" type="Node2D" parent="."]
 script = ExtResource( 7 )
