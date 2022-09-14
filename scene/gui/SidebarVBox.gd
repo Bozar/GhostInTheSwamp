@@ -15,7 +15,7 @@ const NODE_TO_LIGHT_COLOR := {
 	SEED: false,
 }
 
-var _ref_PCState: Game_PCState
+var _ref_PcState: Game_PcState
 var _ref_Palette: Game_Palette
 
 var _ref_SidebarVBoxHelper: Game_SidebarVBoxHelper
@@ -31,7 +31,7 @@ func _ready() -> void:
 
 
 func _set_child_reference() -> void:
-	_ref_SidebarVBoxHelper._ref_PCState = _ref_PCState
+	_ref_SidebarVBoxHelper._ref_PcState = _ref_PcState
 
 
 func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
@@ -74,7 +74,7 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 
 	match input_tag:
 		Game_InputTag.USE_POWER:
-			if _ref_PCState.is_using_power:
+			if _ref_PcState.is_using_power:
 				state_text = _ref_SidebarVBoxHelper.get_state_power(false)
 			_ref_State.text = state_text
 		Game_InputTag.ANY_WIZARD_KEY:

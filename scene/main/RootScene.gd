@@ -10,16 +10,16 @@ const DUNGEON := "DungeonBoard"
 const CREATE_OBJECT := "CreateObject"
 const REMOVE_OBJECT := "RemoveObject"
 const RANDOM := "RandomNumber"
-const PC_STATE := "PCState"
+const PC_STATE := "PcState"
 const OBJECT_STATE := "ObjectState"
 const SWITCH_SCREEN := "SwitchScreen"
 const END_GAME := "EndGame"
 const GAME_PROGRESS := "GameProgress"
 const GAME_SETTING := "GameSetting"
 const PALETTE := "Palette"
-const SIDEBAR_GUI := "MainGUI/SidebarVBox"
-const HELP_GUI := "HelpGUI/HelpVScroll"
-const DEBUG_GUI := "DebugGUI/DebugVBox"
+const SIDEBAR_GUI := "MainGui/SidebarVBox"
+const HELP_GUI := "HelpGui/HelpVScroll"
+const DEBUG_GUI := "DebugGui/DebugVBox"
 const DEBUG_INPUT := "DebugInput"
 
 const SIGNAL_BIND := [
@@ -129,7 +129,7 @@ const NODE_REF := [
 		ACTOR_ACTION, PLAYER_INPUT, GAME_PROGRESS,
 	],
 	[
-		"_ref_PCState",
+		"_ref_PcState",
 		PC_STATE,
 		SIDEBAR_GUI, PLAYER_INPUT,
 	],

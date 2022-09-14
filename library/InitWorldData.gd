@@ -18,14 +18,14 @@ static func get_help(world_tag: String) -> Array:
 	var world_name: String = Game_WorldTag.get_world_name(world_tag).to_lower()
 	var dungeon: String = HELP_PATH.replace(WORLD_PLACEHOLDER, world_name)
 	var parse_help := [
-		Game_FileIOHelper.read_as_text(dungeon),
-		Game_FileIOHelper.read_as_text(KEY_BINDING_HELP),
-		Game_FileIOHelper.read_as_text(GENERAL_HELP),
+		Game_FileIoHelper.read_as_text(dungeon),
+		Game_FileIoHelper.read_as_text(KEY_BINDING_HELP),
+		Game_FileIoHelper.read_as_text(GENERAL_HELP),
 	]
 	var parse_hint := [
-		Game_FileIOHelper.read_as_text(HINT_DUNGEON),
-		Game_FileIOHelper.read_as_text(HINT_KEY_BINDING),
-		Game_FileIOHelper.read_as_text(HINT_GENERAL),
+		Game_FileIoHelper.read_as_text(HINT_DUNGEON),
+		Game_FileIoHelper.read_as_text(HINT_KEY_BINDING),
+		Game_FileIoHelper.read_as_text(HINT_GENERAL),
 	]
 	var help_text: String
 	var hint_text: String

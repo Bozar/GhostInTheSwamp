@@ -44,9 +44,9 @@ func load_setting() -> void:
 	# Load settings from setting.json.
 	_json_parse_error = false
 	for i in [SETTING_EXE_PATH, SETTING_RES_PATH]:
-		if not Game_FileIOHelper.has_file(i):
+		if not Game_FileIoHelper.has_file(i):
 			continue
-		json_parser = Game_FileIOHelper.read_as_json(i)
+		json_parser = Game_FileIoHelper.read_as_json(i)
 		_json_parse_error = not json_parser.parse_success
 		if json_parser.parse_success:
 			setting_data = json_parser.output_json
@@ -159,7 +159,7 @@ func _set_palette(setting: Dictionary) -> Dictionary:
 	file_name = setting[PALETTE]
 	for i in [PALETTE_EXE_PATH, PALETTE_RES_PATH]:
 		for j in ["", JSON_EXTENSION]:
-			json_parser = Game_FileIOHelper.read_as_json(i + file_name + j)
+			json_parser = Game_FileIoHelper.read_as_json(i + file_name + j)
 			if json_parser.parse_success:
 				return json_parser.output_json
 	return {}

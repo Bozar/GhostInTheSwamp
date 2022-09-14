@@ -39,7 +39,7 @@ func init_ground_building() -> void:
 
 
 func _parse_prefab() -> Game_DungeonPrefab.PackedPrefab:
-	var files := Game_FileIOHelper.get_file_list(PATH_TO_PREFAB)
+	var files := Game_FileIoHelper.get_file_list(PATH_TO_PREFAB)
 	var path_to_file: String
 	var edit_arg := [
 			Game_DungeonPrefab.HORIZONTAL_FLIP,

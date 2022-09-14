@@ -55,9 +55,9 @@ _global_script_classes=[ {
 "path": "res://scene/main/CreateObject.gd"
 }, {
 "base": "Reference",
-"class": "Game_CrossShapedFOV",
+"class": "Game_CrossShapedFov",
 "language": "GDScript",
-"path": "res://library/CrossShapedFOV.gd"
+"path": "res://library/CrossShapedFov.gd"
 }, {
 "base": "Game_InputTemplate",
 "class": "Game_DebugInput",
@@ -100,9 +100,9 @@ _global_script_classes=[ {
 "path": "res://scene/main/EndGame.gd"
 }, {
 "base": "Reference",
-"class": "Game_FileIOHelper",
+"class": "Game_FileIoHelper",
 "language": "GDScript",
-"path": "res://library/FileIOHelper.gd"
+"path": "res://library/FileIoHelper.gd"
 }, {
 "base": "Reference",
 "class": "Game_FileParser",
@@ -189,26 +189,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/ObjectTag.gd"
 }, {
-"base": "Node2D",
-"class": "Game_PCAction",
-"language": "GDScript",
-"path": "res://scene/main/PCAction.gd"
-}, {
-"base": "Reference",
-"class": "Game_PCActionTemplate",
-"language": "GDScript",
-"path": "res://library/pc_action/PCActionTemplate.gd"
-}, {
-"base": "Reference",
-"class": "Game_PCData",
-"language": "GDScript",
-"path": "res://library/PCData.gd"
-}, {
-"base": "Node2D",
-"class": "Game_PCState",
-"language": "GDScript",
-"path": "res://scene/main/PCState.gd"
-}, {
 "base": "Reference",
 "class": "Game_PackedSceneData",
 "language": "GDScript",
@@ -223,6 +203,26 @@ _global_script_classes=[ {
 "class": "Game_PathFindingData",
 "language": "GDScript",
 "path": "res://library/PathFindingData.gd"
+}, {
+"base": "Node2D",
+"class": "Game_PcAction",
+"language": "GDScript",
+"path": "res://scene/main/PcAction.gd"
+}, {
+"base": "Reference",
+"class": "Game_PcActionTemplate",
+"language": "GDScript",
+"path": "res://library/pc_action/PCActionTemplate.gd"
+}, {
+"base": "Reference",
+"class": "Game_PcData",
+"language": "GDScript",
+"path": "res://library/PcData.gd"
+}, {
+"base": "Node2D",
+"class": "Game_PcState",
+"language": "GDScript",
+"path": "res://scene/main/PcState.gd"
 }, {
 "base": "Game_InputTemplate",
 "class": "Game_PlayerInput",
@@ -265,9 +265,9 @@ _global_script_classes=[ {
 "path": "res://library/ScreenTag.gd"
 }, {
 "base": "Reference",
-"class": "Game_ShadowCastFOV",
+"class": "Game_ShadowCastFov",
 "language": "GDScript",
-"path": "res://library/ShadowCastFOV.gd"
+"path": "res://library/ShadowCastFov.gd"
 }, {
 "base": "Reference",
 "class": "Game_SidebarText",
@@ -334,7 +334,7 @@ _global_script_class_icons={
 "Game_ConvertCoord": "",
 "Game_CoordCalculator": "",
 "Game_CreateObject": "",
-"Game_CrossShapedFOV": "",
+"Game_CrossShapedFov": "",
 "Game_DebugInput": "",
 "Game_DebugVBox": "",
 "Game_DijkstraPathFinding": "",
@@ -343,7 +343,7 @@ _global_script_class_icons={
 "Game_DungeonPrefab": "",
 "Game_DungeonSize": "",
 "Game_EndGame": "",
-"Game_FileIOHelper": "",
+"Game_FileIoHelper": "",
 "Game_FileParser": "",
 "Game_GameProgress": "",
 "Game_GameSetting": "",
@@ -361,13 +361,13 @@ _global_script_class_icons={
 "Game_ObjectState": "",
 "Game_ObjectStateTemplate": "",
 "Game_ObjectTag": "",
-"Game_PCAction": "",
-"Game_PCActionTemplate": "",
-"Game_PCData": "",
-"Game_PCState": "",
 "Game_PackedSceneData": "",
 "Game_Palette": "",
 "Game_PathFindingData": "",
+"Game_PcAction": "",
+"Game_PcActionTemplate": "",
+"Game_PcData": "",
+"Game_PcState": "",
 "Game_PlayerInput": "",
 "Game_PowerTag": "",
 "Game_RandomNumber": "",
@@ -376,7 +376,7 @@ _global_script_class_icons={
 "Game_RootNodeTemplate": "",
 "Game_Schedule": "",
 "Game_ScreenTag": "",
-"Game_ShadowCastFOV": "",
+"Game_ShadowCastFov": "",
 "Game_SidebarText": "",
 "Game_SidebarVBox": "",
 "Game_SidebarVBoxHelper": "",
@@ -393,7 +393,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Ghost in the Swamp"
-run/main_scene="res://scene/main/MainScene.tscn"
+run/main_scene="res://scene/main/RootScene.tscn"
 run/low_processor_mode=true
 config/icon="res://resource/ghost.png"
 config/windows_native_icon="res://resource/ghost.ico"

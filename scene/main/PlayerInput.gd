@@ -3,7 +3,7 @@ class_name Game_PlayerInput
 
 
 const RELOAD_GAME := "ReloadGame"
-const PC_ACTION := "PCAction"
+const PC_ACTION := "PcAction"
 
 const SIGNAL_KEY_PRESSED := "special_key_pressed"
 
@@ -21,15 +21,15 @@ var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
 
-var _ref_PCState: Game_PCState
+var _ref_PcState: Game_PcState
 
-var _ref_PCAction: Game_PCAction
+var _ref_PcAction: Game_PcAction
 
 var _end_game := false
 
 
 func _ready() -> void:
-	_ref_PCAction = get_node(PC_ACTION)
+	_ref_PcAction = get_node(PC_ACTION)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -60,17 +60,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _ref_GameSetting.get_wizard_mode():
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
-			_ref_PCAction.press_wizard_key(input_tag)
+			_ref_PcAction.press_wizard_key(input_tag)
 			emit_signal(SIGNAL_KEY_PRESSED, Game_InputTag.ANY_WIZARD_KEY)
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
-		_ref_PCAction.move(input_tag)
+		_ref_PcAction.move(input_tag)
 	elif _verify_input(event, Game_InputTag.USE_POWER):
-		_ref_PCAction.use_power()
+		_ref_PcAction.use_power()
 		emit_signal(SIGNAL_KEY_PRESSED, Game_InputTag.USE_POWER)
 	elif _verify_input(event, Game_InputTag.TOGGLE_SIGHT):
-		_ref_PCAction.toggle_sight()
+		_ref_PcAction.toggle_sight()
 
 
 func _on_InitWorld_world_initializing() -> void:
@@ -80,7 +80,7 @@ func _on_InitWorld_world_initializing() -> void:
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(Game_SubTag.PC):
-		_ref_PCAction.start_turn()
+		_ref_PcAction.start_turn()
 		set_process_unhandled_input(true)
 
 
@@ -91,7 +91,7 @@ func _on_Schedule_turn_ending(current_sprite: Sprite) -> void:
 
 func _on_EndGame_game_over(win: bool) -> void:
 	_end_game = true
-	_ref_PCAction.game_over(win)
+	_ref_PcAction.game_over(win)
 	set_process_unhandled_input(true)
 
 
@@ -115,7 +115,7 @@ func _get_wizard_key(event: InputEvent) -> String:
 
 func _set_child_reference() -> void:
 	for i in [
-		"_ref_PCState",
+		"_ref_PcState",
 
 		"_ref_Schedule",
 		"_ref_DungeonBoard",
@@ -126,4 +126,4 @@ func _set_child_reference() -> void:
 		"_ref_CreateObject",
 		"_ref_Palette",
 	]:
-		_ref_PCAction[i] = get(i)
+		_ref_PcAction[i] = get(i)

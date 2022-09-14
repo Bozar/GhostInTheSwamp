@@ -1,5 +1,5 @@
-class_name Game_PCActionTemplate
-# Scripts such as [DungeonType]PCAction.gd inherit this script.
+class_name Game_PcActionTemplate
+# Scripts such as [DungeonType]PcAction.gd inherit this script.
 # All functions except getters and setters can be overriden.
 # The child should also implement _init() to pass arguments.
 
@@ -149,7 +149,7 @@ func render_fov() -> void:
 		# _post_process_fov(pc_pos)
 		return
 
-	Game_ShadowCastFOV.set_field_of_view(
+	Game_ShadowCastFov.set_field_of_view(
 			Game_DungeonSize.MAX_X, Game_DungeonSize.MAX_Y,
 			pc_pos.x, pc_pos.y, _fov_render_range,
 			self, "_block_line_of_sight", [])
@@ -157,7 +157,7 @@ func render_fov() -> void:
 	for mtag in RENDER_SPRITES:
 		for i in RENDER_SPRITES[mtag]:
 			this_pos = Game_ConvertCoord.sprite_to_coord(i)
-			_set_sprite_color(this_pos.x, this_pos.y, mtag, Game_ShadowCastFOV,
+			_set_sprite_color(this_pos.x, this_pos.y, mtag, Game_ShadowCastFov,
 					"is_in_sight")
 
 	_post_process_fov(pc_pos)
