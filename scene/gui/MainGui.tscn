@@ -5,7 +5,7 @@
 [ext_resource path="res://scene/gui/SidebarVBoxHelper.gd" type="Script" id=3]
 [ext_resource path="res://library/NodeHelper.gd" type="Script" id=4]
 [ext_resource path="res://library/FindObject.gd" type="Script" id=5]
-[ext_resource path="res://library/ManageObjectState.gd" type="Script" id=6]
+[ext_resource path="res://library/ObjectState.gd" type="Script" id=6]
 
 [node name="MainGui" type="MarginContainer"]
 margin_right = 800.0
@@ -29,7 +29,7 @@ script = ExtResource( 4 )
 [node name="FindObject" type="Node2D" parent="SidebarVBox"]
 script = ExtResource( 5 )
 
-[node name="ManageObjectState" type="Node2D" parent="SidebarVBox"]
+[node name="ObjectState" type="Node2D" parent="SidebarVBox"]
 script = ExtResource( 6 )
 
 [node name="Upper" type="VBoxContainer" parent="SidebarVBox"]

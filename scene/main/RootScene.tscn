@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
@@ -17,7 +17,6 @@
 [ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
 [ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
-[ext_resource path="res://library/ManageObjectState.gd" type="Script" id=19]
 [ext_resource path="res://scene/main/GameProgress.gd" type="Script" id=20]
 [ext_resource path="res://scene/main/CreateObject.gd" type="Script" id=21]
 [ext_resource path="res://scene/main/GameSetting.gd" type="Script" id=22]
@@ -78,9 +77,6 @@ script = ExtResource( 14 )
 [node name="FindObject" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 13 )
 
-[node name="ManageObjectState" type="Node2D" parent="PlayerInput"]
-script = ExtResource( 19 )
-
 [node name="HelpInput" type="Node2D" parent="."]
 script = ExtResource( 24 )
 
@@ -102,9 +98,6 @@ script = ExtResource( 7 )
 [node name="CreateObject" type="Node2D" parent="."]
 script = ExtResource( 21 )
 
-[node name="ManageObjectState" type="Node2D" parent="CreateObject"]
-script = ExtResource( 19 )
-
 [node name="RemoveObject" type="Node2D" parent="."]
 script = ExtResource( 9 )
 
@@ -119,9 +112,6 @@ script = ExtResource( 20 )
 
 [node name="FindObject" type="Node2D" parent="GameProgress"]
 script = ExtResource( 13 )
-
-[node name="ManageObjectState" type="Node2D" parent="GameProgress"]
-script = ExtResource( 19 )
 
 [node name="NodeHelper" type="Node2D" parent="GameProgress"]
 script = ExtResource( 14 )

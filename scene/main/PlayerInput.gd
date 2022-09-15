@@ -38,6 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var input_tag := ""
 
 	if _verify_input(event, InputTag.QUIT):
+		ObjectState.remove_all()
 		get_tree().quit()
 	elif _verify_input(event, InputTag.FORCE_RELOAD):
 		$ReloadGame.reload()
@@ -76,7 +77,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	_pc_state = $ManageObjectState.get_state($FindObject.pc)
+	_pc_state = ObjectState.get_state($FindObject.pc)
 	$NodeHelper.set_child_reference(CHILD_REFERENCE)
 	set_process_unhandled_input(true)
 

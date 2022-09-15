@@ -175,11 +175,6 @@ _global_script_classes=[ {
 "path": "res://library/MainTag.gd"
 }, {
 "base": "Node2D",
-"class": "ManageObjectState",
-"language": "GDScript",
-"path": "res://library/ManageObjectState.gd"
-}, {
-"base": "Node2D",
 "class": "NodeHelper",
 "language": "GDScript",
 "path": "res://library/NodeHelper.gd"
@@ -368,7 +363,6 @@ _global_script_class_icons={
 "InputTemplate": "",
 "IntCoord": "",
 "MainTag": "",
-"ManageObjectState": "",
 "NodeHelper": "",
 "NodeTag": "",
 "ObjectState": "",

@@ -14,6 +14,7 @@ func remove_xy(main_tag: String, x: int, y: int) -> void:
 
 	emit_signal(SignalTag.SPRITE_REMOVED, BasicSpriteData.new(remove_this,
 			main_tag, SubTag.REMOVE_SPRITE, x, y))
+	ObjectState.remove_state(remove_this)
 	remove_this.queue_free()
 
 

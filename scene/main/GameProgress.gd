@@ -4,7 +4,7 @@ class_name GameProgress
 
 const CHILD_REFERENCE := {
 	NodeTag.HARBOR_HELPER: [
-		NodeTag.REF_DUNGEON_BOARD, NodeTag._MANAGE_STATE,
+		NodeTag.REF_DUNGEON_BOARD,
 	],
 }
 
@@ -16,12 +16,6 @@ var _ref_RemoveObject: RemoveObject
 var _ref_Schedule: Schedule
 var _ref_EndGame: EndGame
 var _ref_Palette: Palette
-
-var _manage_state: ManageObjectState
-
-
-func _ready() -> void:
-	_manage_state = $ManageObjectState
 
 
 func _on_Schedule_turn_ended(_current_sprite: Sprite) -> void:

@@ -33,7 +33,7 @@ func create_and_fetch_xy(main_tag: String, sub_tag: String, x: int, y: int,
 	new_sprite.modulate = sprite_color
 
 	add_child(new_sprite)
-	$ManageObjectState.add_state_node(new_basic)
+	ObjectState.add_state(new_basic)
 	emit_signal(SignalTag.SPRITE_CREATED, new_basic)
 
 	return new_sprite

@@ -38,6 +38,5 @@ const REF_SWITCH_SCREEN := "_ref_SwitchScreen"
 const REF_HELP_GUI := "_ref_HelpVScroll"
 
 const _PC := "_pc"
-const _MANAGE_STATE := "_manage_state"
 const _PC_STATE := "_pc_state"
 const _BUILDING_STATE := "_building_state"
