@@ -4,16 +4,15 @@ class_name Game_PlayerInput
 
 const CHILD_REFERENCE := {
 	Game_NodeTag.PC_ACTION:	[
-		Game_NodeTag.REF_PC_STATE,
-
 		Game_NodeTag.REF_SCHEDULE,
 		Game_NodeTag.REF_DUNGEON_BOARD,
 		Game_NodeTag.REF_REMOVE_OBJECT,
-		Game_NodeTag.REF_OBJECT_STATE,
 		Game_NodeTag.REF_RANDOM_NUMBER,
 		Game_NodeTag.REF_END_GAME,
 		Game_NodeTag.REF_CREATE_OBJECT,
 		Game_NodeTag.REF_PALETTE,
+
+		Game_NodeTag._PC_STATE
 	],
 }
 
@@ -22,7 +21,6 @@ signal special_key_pressed(input_tag)
 var _ref_Schedule: Game_Schedule
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_RemoveObject: Game_RemoveObject
-var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_EndGame: Game_EndGame
 var _ref_SwitchScreen: Game_SwitchScreen
@@ -30,7 +28,7 @@ var _ref_CreateObject: Game_CreateObject
 var _ref_GameSetting: Game_GameSetting
 var _ref_Palette: Game_Palette
 
-var _ref_PcState: Game_PcState
+var _pc_state: Game_PcState
 
 var _end_game := false
 
@@ -78,6 +76,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
+	_pc_state = $ManageObjectState.get_state($FindObject.pc)
 	$NodeHelper.set_child_reference(CHILD_REFERENCE)
 	set_process_unhandled_input(true)
 

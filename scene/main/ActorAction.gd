@@ -3,7 +3,6 @@ class_name Game_ActorAction
 
 
 var _ref_Schedule: Game_Schedule
-var _ref_ObjectState: Game_ObjectState
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_EndGame: Game_EndGame
 var _ref_RandomNumber: Game_RandomNumber

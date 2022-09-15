@@ -28,9 +28,14 @@ static func mouse_to_coord(mouse_event: InputEvent) -> Game_IntCoord:
 	return Game_IntCoord.new(x, y)
 
 
-static func coord_to_vector(x: int, y: int, x_offset := 0, y_offset := 0) \
+static func coord_to_vector(coord: Game_IntCoord, x_offset := 0,
+		y_offset := 0) -> Vector2:
+	return xy_to_vector(coord.x, coord.y, x_offset, y_offset)
+
+
+static func xy_to_vector(x: int, y: int, x_offset := 0, y_offset := 0) \
 		-> Vector2:
-	var x_vector: int = START_X + STEP_X * x + x_offset
-	var y_vector: int = START_Y + STEP_Y * y + y_offset
+	var x_vector := START_X + STEP_X * x + x_offset
+	var y_vector := START_Y + STEP_Y * y + y_offset
 
 	return Vector2(x_vector, y_vector)

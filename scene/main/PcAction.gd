@@ -13,13 +13,12 @@ const RENDER_SPRITES := {
 var _ref_Schedule: Game_Schedule
 var _ref_DungeonBoard: Game_DungeonBoard
 var _ref_RemoveObject: Game_RemoveObject
-var _ref_ObjectState: Game_ObjectState
 var _ref_RandomNumber: Game_RandomNumber
 var _ref_EndGame: Game_EndGame
 var _ref_CreateObject: Game_CreateObject
 var _ref_Palette: Game_Palette
 
-var _ref_PcState: Game_PcState
+var _pc_state: Game_PcState
 
 var _source_position: Game_IntCoord
 var _target_position: Game_IntCoord
@@ -57,7 +56,7 @@ func move(input_tag: String) -> void:
 
 
 func use_power() -> void:
-	_ref_PcState.is_using_power = not _ref_PcState.is_using_power
+	_pc_state.is_using_power = not _pc_state.is_using_power
 
 	# _ref_Schedule.end_turn()
 
@@ -69,18 +68,17 @@ func toggle_sight() -> void:
 func press_wizard_key(input_tag: String) -> void:
 	match input_tag:
 		Game_InputTag.ADD_MP:
-			if _ref_PcState.mp < _ref_PcState.max_mp:
-				_ref_PcState.mp += 1
+			_pc_state.mp += 1
 		Game_InputTag.FULLY_RESTORE_MP:
-			_ref_PcState.mp = _ref_PcState.max_mp
+			_pc_state.mp = _pc_state.max_mp
 		Game_InputTag.ADD_GHOST:
-			_ref_PcState.has_ghost = true
+			_pc_state.has_ghost = true
 		Game_InputTag.ADD_RUM:
-			_ref_PcState.add_item(Game_SubTag.RUM)
+			_pc_state.add_item(Game_SubTag.RUM)
 		Game_InputTag.ADD_PARROT:
-			_ref_PcState.add_item(Game_SubTag.PARROT)
+			_pc_state.add_item(Game_SubTag.PARROT)
 		Game_InputTag.ADD_ACCORDION:
-			_ref_PcState.add_item(Game_SubTag.ACCORDION)
+			_pc_state.add_item(Game_SubTag.ACCORDION)
 
 
 func is_inside_dungeon() -> bool:
@@ -181,14 +179,13 @@ func _render_without_fog_of_war() -> void:
 
 # is_in_sight_func(x: int, y: int) -> bool
 func _set_sprite_color(x: int, y: int, main_tag: String, func_host: Object,
-		is_in_sight_func: String, sprite_layer := 0) -> void:
-	var set_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
-			sprite_layer)
+		is_in_sight_func: String) -> void:
+	var set_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
 	var is_in_sight := funcref(func_host, is_in_sight_func)
 
 	if set_this == null:
 		return
-	set_this.visible = _sprite_is_visible(main_tag, x, y, false, sprite_layer)
+	set_this.visible = _sprite_is_visible(main_tag, x, y, false)
 	if is_in_sight.call_func(x, y):
 		_ref_Palette.set_default_color(set_this, main_tag)
 	else:
@@ -197,34 +194,30 @@ func _set_sprite_color(x: int, y: int, main_tag: String, func_host: Object,
 
 # is_in_sight_func(x: int, y: int) -> bool
 func _set_sprite_color_with_memory(x: int, y: int, main_tag: String,
-		ues_memory: bool, func_host: Object, is_in_sight_func: String,
-		sprite_layer := 0) -> void:
-	var set_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
-			sprite_layer)
+		ues_memory: bool, func_host: Object, is_in_sight_func: String) -> void:
+	var set_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
 	var is_in_sight := funcref(func_host, is_in_sight_func)
 
 	if set_this == null:
 		return
 	set_this.visible = true
 	if is_in_sight.call_func(x, y):
-		set_this.visible = _sprite_is_visible(main_tag, x, y, false,
-				sprite_layer)
+		set_this.visible = _sprite_is_visible(main_tag, x, y, false)
 		if ues_memory:
-			_set_sprite_memory(x, y, main_tag, sprite_layer)
+			_set_sprite_memory(x, y, main_tag)
 		_ref_Palette.set_default_color(set_this, main_tag)
 	else:
 		# Set visibility based on whether a sprite is covered.
-		set_this.visible = _sprite_is_visible(main_tag, x, y, ues_memory,
-				sprite_layer)
-		if ues_memory and _has_sprite_memory(x, y, main_tag, sprite_layer):
+		set_this.visible = _sprite_is_visible(main_tag, x, y, ues_memory)
+		if ues_memory and _has_sprite_memory(x, y, main_tag):
 			_ref_Palette.set_dark_color(set_this, main_tag)
 		else:
 			# Set visibility based on whether a sprite is remembered.
 			set_this.visible = false
 
 
-func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool,
-		sprite_layer := 0) -> bool:
+func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
+		-> bool:
 	var start_index: int = Game_ZIndex.get_z_index(main_tag) + 1
 	var max_index: int = Game_ZIndex.LAYERED_MAIN_TAG.size()
 	var current_tag: String
@@ -233,11 +226,11 @@ func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool,
 	for i in range(start_index, max_index):
 		current_tag = Game_ZIndex.LAYERED_MAIN_TAG[i]
 		# There is a sprite on a certian layer.
-		if _ref_DungeonBoard.has_sprite_xy(current_tag, x, y, sprite_layer):
+		if _ref_DungeonBoard.has_sprite_xy(current_tag, x, y):
 			# Show or hide sprites based on memory and stacking layers.
 			if use_memory:
 				# There is a sprite on a higher layer and we remember it.
-				if _has_sprite_memory(x, y, current_tag, sprite_layer):
+				if _has_sprite_memory(x, y, current_tag):
 					return false
 				# There is a sprite on a higher layer but we do not remember it.
 				# Therefore it is invisible for this rendering.
@@ -255,18 +248,19 @@ func _block_line_of_sight(x: int, y: int, _opt_arg: Array) -> bool:
 			or _ref_DungeonBoard.has_actor_xy(x, y)
 
 
-func _has_sprite_memory(x: int, y: int, main_tag: String, sprite_layer := 0) \
-		-> bool:
-	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
-			sprite_layer)
-	return _ref_ObjectState.get_bool(this_sprite)
+func _has_sprite_memory(x: int, y: int, main_tag: String) -> bool:
+	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
+	# Temp code. Remove _ref_ObjectState.
+	return this_sprite == null
+	# return _ref_ObjectState.get_bool(this_sprite)
 
 
-func _set_sprite_memory(x: int, y: int, main_tag: String, sprite_layer := 0) \
-		-> void:
-	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y,
-			sprite_layer)
-	_ref_ObjectState.set_bool(this_sprite, true)
+func _set_sprite_memory(x: int, y: int, main_tag: String) -> void:
+	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
+	# Temp code. Remove _ref_ObjectState.
+	if this_sprite == null:
+		pass
+	# _ref_ObjectState.set_bool(this_sprite, true)
 
 
 func _move_pc_sprite() -> void:

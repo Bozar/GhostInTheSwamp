@@ -1,12 +1,9 @@
-extends Game_ObjectStateTemplate
+extends Game_StoreStateTemplate
 class_name Game_BuildingState
 
 
-func harbor_is_active(id: int) -> bool:
-	if not _id_to_state.has(id):
-		_id_to_state[id] = false
-	return _id_to_state[id]
+func _init(_basic_data: Game_BasicSpriteData).(_basic_data)-> void:
+	is_active = false
 
 
-func set_harbor(id: int, is_active: bool) -> void:
-	_id_to_state[id] = is_active
+var is_active: bool

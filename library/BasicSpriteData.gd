@@ -6,24 +6,22 @@ var main_tag: String setget set_main_tag, get_main_tag
 var sub_tag: String setget set_sub_tag, get_sub_tag
 var x: int setget set_x, get_x
 var y: int setget set_y, get_y
-var sprite_layer: int setget set_sprite_layer, get_sprite_layer
 
 
-func _init(_sprite: Sprite, _main_tag: String, _sub_tag: String,
-		_x: int, _y: int, _sprite_layer) -> void:
-	sprite = _sprite
-	main_tag = _main_tag
-	sub_tag = _sub_tag
-	x = _x
-	y = _y
-	sprite_layer = _sprite_layer
+func _init(sprite_: Sprite, main_tag_: String, sub_tag_: String, x_: int,
+		y_: int) -> void:
+	sprite = sprite_
+	main_tag = main_tag_
+	sub_tag = sub_tag_
+	x = x_
+	y = y_
 
 
 func get_sprite() -> Sprite:
 	return sprite
 
 
-func set_sprite(_sprite: Sprite) -> void:
+func set_sprite(__: Sprite) -> void:
 	return
 
 
@@ -31,7 +29,7 @@ func get_main_tag() -> String:
 	return main_tag
 
 
-func set_main_tag(_main_tag: String) -> void:
+func set_main_tag(__: String) -> void:
 	return
 
 
@@ -39,7 +37,7 @@ func get_sub_tag() -> String:
 	return sub_tag
 
 
-func set_sub_tag(_sub_tag: String) -> void:
+func set_sub_tag(__: String) -> void:
 	return
 
 
@@ -47,7 +45,7 @@ func get_x() -> int:
 	return x
 
 
-func set_x(_x: int) -> void:
+func set_x(__: int) -> void:
 	return
 
 
@@ -55,13 +53,5 @@ func get_y() -> int:
 	return y
 
 
-func set_y(_y: int) -> void:
-	return
-
-
-func get_sprite_layer() -> int:
-	return sprite_layer
-
-
-func set_sprite_layer(_sprite_layer: int) -> void:
+func set_y(__: int) -> void:
 	return

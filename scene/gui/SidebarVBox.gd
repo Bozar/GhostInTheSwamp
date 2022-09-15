@@ -14,14 +14,14 @@ const NODE_TO_LIGHT_COLOR := {
 	SEED: false,
 }
 const CHILD_REFERENCE := {
-	Game_NodeTag.SIDEBAR_VBOX_HELPER: [Game_NodeTag.REF_PC_STATE,],
+	Game_NodeTag.SIDEBAR_VBOX_HELPER: [Game_NodeTag._PC_STATE,],
 }
 
-var _ref_PcState: Game_PcState
 var _ref_Palette: Game_Palette
 
 var _sidebar_seed := ""
 var _sidebar_version := ""
+var _pc_state: Game_PcState
 
 
 func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
@@ -34,7 +34,7 @@ func _on_RandomNumber_seed_updated(rng_seed: int) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	$NodeHelper.set_child_reference(CHILD_REFERENCE)
+	_set_reference()
 	_set_node_color()
 
 	$"Upper/State".text = $SidebarVBoxHelper.get_state_item(true)
@@ -64,7 +64,7 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 
 	match input_tag:
 		Game_InputTag.USE_POWER:
-			if _ref_PcState.is_using_power:
+			if _pc_state.is_using_power:
 				state_text = $SidebarVBoxHelper.get_state_power(false)
 			$"Upper/State".text = state_text
 		Game_InputTag.ANY_WIZARD_KEY:
@@ -97,3 +97,8 @@ func _get_game_over(win: bool) -> String:
 	if win:
 		return Game_SidebarText.WIN
 	return Game_SidebarText.LOSE
+
+
+func _set_reference() -> void:
+	_pc_state = $ManageObjectState.get_state($FindObject.pc)
+	$NodeHelper.set_child_reference(CHILD_REFERENCE)

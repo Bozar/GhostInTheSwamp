@@ -5,7 +5,7 @@ const SIGNAL_BIND := [
 	[
 		Game_SignalTag.SPRITE_CREATED, Game_NodeTag.CREATE_OBJECT,
 		Game_NodeTag.CREATE_OBJECT,
-		Game_NodeTag.SCHEDULE, Game_NodeTag.DUNGEON, Game_NodeTag.OBJECT_STATE,
+		Game_NodeTag.SCHEDULE, Game_NodeTag.DUNGEON,
 	],
 	[
 		Game_SignalTag.WORLD_INITIALIZED, Game_NodeTag.INIT_WORLD,
@@ -32,7 +32,7 @@ const SIGNAL_BIND := [
 	[
 		Game_SignalTag.SPRITE_REMOVED, Game_NodeTag.REMOVE_OBJECT,
 		Game_NodeTag.REMOVE_OBJECT,
-		Game_NodeTag.DUNGEON, Game_NodeTag.SCHEDULE, Game_NodeTag.OBJECT_STATE,
+		Game_NodeTag.DUNGEON, Game_NodeTag.SCHEDULE,
 	],
 	[
 		Game_SignalTag.GAME_OVER, Game_NodeTag.END_GAME,
@@ -94,17 +94,6 @@ const NODE_REF := [
 		Game_NodeTag.RANDOM,
 		Game_NodeTag.INIT_WORLD, Game_NodeTag.PLAYER_INPUT,
 		Game_NodeTag.ACTOR_ACTION, Game_NodeTag.GAME_PROGRESS,
-	],
-	[
-		Game_NodeTag.REF_OBJECT_STATE,
-		Game_NodeTag.OBJECT_STATE,
-		Game_NodeTag.ACTOR_ACTION, Game_NodeTag.PLAYER_INPUT,
-		Game_NodeTag.GAME_PROGRESS,
-	],
-	[
-		Game_NodeTag.REF_PC_STATE,
-		Game_NodeTag.PC_STATE,
-		Game_NodeTag.SIDEBAR_GUI, Game_NodeTag.PLAYER_INPUT,
 	],
 	[
 		Game_NodeTag.REF_END_GAME,

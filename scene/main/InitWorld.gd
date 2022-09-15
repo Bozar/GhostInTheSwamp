@@ -44,14 +44,19 @@ func _init_pc() -> Game_IntCoord:
 
 
 func _init_indicator(x: int, y: int) -> void:
-	_ref_CreateObject.create_xy(Game_MainTag.INDICATOR, Game_SubTag.ARROW_RIGHT,
-			0, y, 0,
-			-Game_DungeonSize.ARROW_MARGIN, 0)
+	var tag_to_data := {
+		Game_SubTag.ARROW_RIGHT: [
+			0, y, -Game_DungeonSize.ARROW_MARGIN, 0
+		],
+		Game_SubTag.ARROW_DOWN: [
+			x, 0, 0, -Game_DungeonSize.ARROW_MARGIN
+		],
+		Game_SubTag.ARROW_UP: [
+			x, Game_DungeonSize.MAX_Y - 1, 0, Game_DungeonSize.ARROW_MARGIN
+		],
+	}
 
-	_ref_CreateObject.create_xy(Game_MainTag.INDICATOR, Game_SubTag.ARROW_DOWN,
-			x, 0, 0,
-			0, -Game_DungeonSize.ARROW_MARGIN)
-
-	_ref_CreateObject.create_xy(Game_MainTag.INDICATOR, Game_SubTag.ARROW_UP,
-			x, Game_DungeonSize.MAX_Y - 1, 0,
-			0, Game_DungeonSize.ARROW_MARGIN)
+	for i in tag_to_data.keys():
+		_ref_CreateObject.create_xy(Game_MainTag.INDICATOR, i,
+				tag_to_data[i][0], tag_to_data[i][1],
+				tag_to_data[i][2], tag_to_data[i][3])

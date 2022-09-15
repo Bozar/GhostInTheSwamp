@@ -1,23 +1,23 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scene/main/PcAction.gd" type="Script" id=3]
 [ext_resource path="res://scene/main/RootScene.gd" type="Script" id=4]
 [ext_resource path="res://scene/main/Schedule.gd" type="Script" id=5]
+[ext_resource path="res://library/HarborHelper.gd" type="Script" id=6]
 [ext_resource path="res://scene/main/DungeonBoard.gd" type="Script" id=7]
-[ext_resource path="res://scene/main/InitWorldHelper.gd" type="Script" id=8]
+[ext_resource path="res://library/InitWorldHelper.gd" type="Script" id=8]
 [ext_resource path="res://scene/main/RemoveObject.gd" type="Script" id=9]
 [ext_resource path="res://scene/main/ReloadGame.gd" type="Script" id=10]
 [ext_resource path="res://scene/main/RandomNumber.gd" type="Script" id=11]
 [ext_resource path="res://scene/main/PlayerInput.gd" type="Script" id=12]
-[ext_resource path="res://scene/main/ObjectState.gd" type="Script" id=13]
-[ext_resource path="res://scene/main/NodeHelper.gd" type="Script" id=14]
-[ext_resource path="res://scene/main/HarborHelper.gd" type="Script" id=15]
+[ext_resource path="res://library/FindObject.gd" type="Script" id=13]
+[ext_resource path="res://library/NodeHelper.gd" type="Script" id=14]
 [ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
 [ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
-[ext_resource path="res://scene/main/BuildingState.gd" type="Script" id=19]
+[ext_resource path="res://library/ManageObjectState.gd" type="Script" id=19]
 [ext_resource path="res://scene/main/GameProgress.gd" type="Script" id=20]
 [ext_resource path="res://scene/main/CreateObject.gd" type="Script" id=21]
 [ext_resource path="res://scene/main/GameSetting.gd" type="Script" id=22]
@@ -25,11 +25,8 @@
 [ext_resource path="res://scene/main/HelpInput.gd" type="Script" id=24]
 [ext_resource path="res://scene/gui/HelpGui.tscn" type="PackedScene" id=25]
 [ext_resource path="res://scene/main/Palette.gd" type="Script" id=26]
-[ext_resource path="res://scene/main/PcState.gd" type="Script" id=27]
-[ext_resource path="res://scene/main/ObjectLayer.gd" type="Script" id=28]
 [ext_resource path="res://scene/gui/DebugGui.tscn" type="PackedScene" id=29]
 [ext_resource path="res://scene/main/DebugInput.gd" type="Script" id=30]
-[ext_resource path="res://scene/main/ObjectTag.gd" type="Script" id=31]
 
 [node name="RootScene" type="Node2D"]
 script = ExtResource( 4 )
@@ -75,6 +72,12 @@ script = ExtResource( 3 )
 [node name="NodeHelper" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 14 )
 
+[node name="FindObject" type="Node2D" parent="PlayerInput"]
+script = ExtResource( 13 )
+
+[node name="ManageObjectState" type="Node2D" parent="PlayerInput"]
+script = ExtResource( 19 )
+
 [node name="HelpInput" type="Node2D" parent="."]
 script = ExtResource( 24 )
 
@@ -90,20 +93,14 @@ script = ExtResource( 16 )
 [node name="GameSetting" type="Node2D" parent="."]
 script = ExtResource( 22 )
 
-[node name="GameProgress" type="Node2D" parent="."]
-script = ExtResource( 20 )
-
-[node name="HarborHelper" type="Node2D" parent="GameProgress"]
-script = ExtResource( 15 )
-
-[node name="NodeHelper" type="Node2D" parent="GameProgress"]
-script = ExtResource( 14 )
-
 [node name="DungeonBoard" type="Node2D" parent="."]
 script = ExtResource( 7 )
 
 [node name="CreateObject" type="Node2D" parent="."]
 script = ExtResource( 21 )
+
+[node name="ManageObjectState" type="Node2D" parent="CreateObject"]
+script = ExtResource( 19 )
 
 [node name="RemoveObject" type="Node2D" parent="."]
 script = ExtResource( 9 )
@@ -114,23 +111,23 @@ script = ExtResource( 11 )
 [node name="SwitchScreen" type="Node2D" parent="."]
 script = ExtResource( 23 )
 
-[node name="Palette" type="Node2D" parent="."]
-script = ExtResource( 26 )
+[node name="GameProgress" type="Node2D" parent="."]
+script = ExtResource( 20 )
+
+[node name="FindObject" type="Node2D" parent="GameProgress"]
+script = ExtResource( 13 )
+
+[node name="ManageObjectState" type="Node2D" parent="GameProgress"]
+script = ExtResource( 19 )
+
+[node name="NodeHelper" type="Node2D" parent="GameProgress"]
+script = ExtResource( 14 )
+
+[node name="HarborHelper" type="Node2D" parent="GameProgress"]
+script = ExtResource( 6 )
 
 [node name="EndGame" type="Node2D" parent="."]
 script = ExtResource( 17 )
 
-[node name="PcState" type="Node2D" parent="."]
-script = ExtResource( 27 )
-
-[node name="ObjectState" type="Node2D" parent="."]
-script = ExtResource( 13 )
-
-[node name="ObjectLayer" type="Node2D" parent="ObjectState"]
-script = ExtResource( 28 )
-
-[node name="BuildingState" type="Node2D" parent="ObjectState"]
-script = ExtResource( 19 )
-
-[node name="ObjectTag" type="Node2D" parent="ObjectState"]
-script = ExtResource( 31 )
+[node name="Palette" type="Node2D" parent="."]
+script = ExtResource( 26 )

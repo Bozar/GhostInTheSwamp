@@ -1,4 +1,4 @@
-extends Node2D
+extends Game_StoreStateTemplate
 class_name Game_PcState
 
 
@@ -8,9 +8,9 @@ enum {
 	POWER_TAG,
 }
 
-var mp := 0
+var mp := 0 setget set_mp, get_mp
 var max_mp := Game_PcData.MAX_MP
-var mp_progress := 0
+var mp_progress := 0 setget set_mp_progress, get_mp_progress
 var has_ghost := false
 var sail_duration := 0
 var is_using_power := false
@@ -23,13 +23,35 @@ var _tag_to_state := {
 var _direction_to_state := {}
 
 
-func _ready() -> void:
+func _init(_basic_data: Game_BasicSpriteData).(_basic_data)-> void:
 	for i in Game_DirectionTag.VALID_DIRECTIONS:
 		_direction_to_state[i] = {
 			NPC_SIGHT: false,
 			POWER_COST: 0,
 			POWER_TAG: Game_PowerTag.NO_POWER,
 		}
+
+
+func get_mp() -> int:
+	return mp
+
+
+# MP can be negative.
+func set_mp(new_mp: int) -> void:
+	mp = new_mp
+	if mp > max_mp:
+		mp = max_mp
+
+
+func get_mp_progress() -> int:
+	return mp_progress
+
+
+# MP progress cannot be negative.
+func set_mp_progress(new_progress: int) -> void:
+	mp_progress = new_progress
+	if mp_progress < 0:
+		mp_progress = 0
 
 
 func has_item(sub_tag: String) -> bool:
