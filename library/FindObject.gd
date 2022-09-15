@@ -4,8 +4,6 @@ class_name FindObject
 
 var pc: Sprite setget set_pc, get_pc
 var pc_coord: IntCoord setget set_pc_coord, get_pc_coord
-var npc: Array setget set_npc, get_npc
-var count_npc: int setget set_count_npc, get_count_npc
 
 
 # There should be only one sprite in the group `SubTag.PC`.
@@ -24,29 +22,11 @@ func get_pc_coord() -> IntCoord:
 	return ConvertCoord.sprite_to_coord(get_pc())
 
 
-func get_npc() -> Array:
-	var all_actors := get_sprites_by_tag(MainTag.ACTOR)
-	ArrayHelper.filter_element(all_actors, self, "_filter_get_npc")
-	return all_actors
-
-
-func get_count_npc() -> int:
-	return get_npc().size()
-
-
 func set_pc(__: Sprite) -> void:
 	pass
 
 
 func set_pc_coord(__: IntCoord) -> void:
-	pass
-
-
-func set_npc(__: Array) -> void:
-	pass
-
-
-func set_count_npc(__: int) -> void:
 	pass
 
 
@@ -84,10 +64,23 @@ func get_sprites_by_tag(tag: String) -> Array:
 	# return get_tree().get_nodes_in_group(tag)
 
 
+func get_sprite(tag: String, coord: IntCoord, out_stacked := []) -> Sprite:
+	var sprites := get_sprites_by_tag(tag)
+	var source_size := out_stacked.size()
+	var this_coord: IntCoord
+
+	for i in sprites:
+		this_coord = ConvertCoord.sprite_to_coord(i)
+		if CoordCalculator.is_same_coord(this_coord, coord):
+			out_stacked.push_back(i)
+	if source_size == out_stacked.size():
+		return null
+	return out_stacked.pop_back()
+
+
+func has_sprite(tag: String, coord: IntCoord) -> bool:
+	return get_sprite(tag, coord) != null
+
+
 func _filter_get_sprites_by_tag(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()
-
-
-func _filter_get_npc(source: Array, index: int, _opt: Array) -> bool:
-	return not (source[index].is_queued_for_deletion() \
-			or source[index].is_in_group(SubTag.PC))

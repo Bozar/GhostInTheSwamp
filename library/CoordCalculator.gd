@@ -1,8 +1,7 @@
 class_name CoordCalculator
 
 
-const WARN_RAY_DIRECTION := "Warn: Cannot get ray direction for [{0}, {1}] " + \
-		"and [{2}, {3}]."
+const RAY_DIRECTION := "Invalid ray direction: [%s, %s] -> [%s, %s]."
 
 
 static func get_range_xy(source_x: int, source_y: int,
@@ -100,8 +99,8 @@ static func get_ray_direction(source_coord: IntCoord, target_coord: IntCoord) \
 			return DirectionTag.LEFT
 		elif source_coord.x < target_coord.x:
 			return DirectionTag.RIGHT
-	push_warning(WARN_RAY_DIRECTION.format([source_coord.x, source_coord.y,
-			target_coord.x, target_coord.y]))
+	push_warning(RAY_DIRECTION % [source_coord.x, source_coord.y,
+			target_coord.x, target_coord.y])
 	return DirectionTag.INVALID_DIRECTION
 
 
@@ -138,3 +137,7 @@ static func is_in_square(coord: IntCoord, center: IntCoord, half_size: int) \
 		if abs(coord[i] - center[i]) > half_size:
 			return false
 	return true
+
+
+static func is_same_coord(this_coord: IntCoord, that_coord: IntCoord) -> bool:
+	return (this_coord.x == that_coord.x) and (this_coord.y == that_coord.y)
