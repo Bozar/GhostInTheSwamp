@@ -1,4 +1,4 @@
-class_name Game_BasicSpriteData
+class_name BasicSpriteData
 
 
 var sprite: Sprite setget set_sprite, get_sprite

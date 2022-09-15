@@ -1,4 +1,4 @@
-class_name Game_WorldTag
+class_name WorldTag
 # setting.json requires a string tag.
 
 

@@ -1,4 +1,4 @@
-class_name Game_PcData
+class_name PcData
 
 
 const MAX_MP := 3

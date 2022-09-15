@@ -1,4 +1,4 @@
-class_name Game_SpriteTypeTag
+class_name SpriteTypeTag
 # SpriteType.set_sprite_type() requires a string tag.
 
 

@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_SwitchSprite
+class_name SwitchSprite
 
 
 const WARN_NO_SPRITE_TYPE := "Warn: [%s] not found."
@@ -21,4 +21,4 @@ static func get_sprite(sprite: Sprite) -> String:
 	for i in sprite.get_children():
 		if i.visible:
 			return i.name
-	return Game_SpriteTypeTag.DEFAULT
+	return SpriteTypeTag.DEFAULT

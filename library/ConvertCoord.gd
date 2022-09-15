@@ -1,4 +1,4 @@
-class_name Game_ConvertCoord
+class_name ConvertCoord
 
 
 const START_X := 50
@@ -10,26 +10,26 @@ const MOUSE_START_X := START_X - 10
 const MOUSE_START_Y := START_Y - 10
 
 
-static func sprite_to_coord(this_sprite: Sprite) -> Game_IntCoord:
+static func sprite_to_coord(this_sprite: Sprite) -> IntCoord:
 	return vector_to_coord(this_sprite.position)
 
 
-static func vector_to_coord(vector_coord: Vector2) -> Game_IntCoord:
+static func vector_to_coord(vector_coord: Vector2) -> IntCoord:
 	var x := int((vector_coord.x - START_X) / STEP_X)
 	var y := int((vector_coord.y - START_Y) / STEP_Y)
 
-	return Game_IntCoord.new(x, y)
+	return IntCoord.new(x, y)
 
 
-static func mouse_to_coord(mouse_event: InputEvent) -> Game_IntCoord:
+static func mouse_to_coord(mouse_event: InputEvent) -> IntCoord:
 	var x := int((mouse_event.position.x - MOUSE_START_X) / STEP_X)
 	var y := int((mouse_event.position.y - MOUSE_START_Y) / STEP_Y)
 
-	return Game_IntCoord.new(x, y)
+	return IntCoord.new(x, y)
 
 
-static func coord_to_vector(coord: Game_IntCoord, x_offset := 0,
-		y_offset := 0) -> Vector2:
+static func coord_to_vector(coord: IntCoord, x_offset := 0, y_offset := 0) \
+		-> Vector2:
 	return xy_to_vector(coord.x, coord.y, x_offset, y_offset)
 
 

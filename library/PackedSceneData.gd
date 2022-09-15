@@ -1,23 +1,23 @@
-class_name Game_PackedSceneData
+class_name PackedSceneData
 
 
 const ERR_NO_SCENE := "Error: Packed scene [{0}] not found."
 
 const TAG_TO_SCENE := {
 	# Indicator.
-	Game_SubTag.ARROW_UP: preload("res://sprite/TriangleUp.tscn"),
-	Game_SubTag.ARROW_DOWN: preload("res://sprite/TriangleDown.tscn"),
-	Game_SubTag.ARROW_RIGHT: preload("res://sprite/TriangleRight.tscn"),
+	SubTag.ARROW_UP: preload("res://sprite/TriangleUp.tscn"),
+	SubTag.ARROW_DOWN: preload("res://sprite/TriangleDown.tscn"),
+	SubTag.ARROW_RIGHT: preload("res://sprite/TriangleRight.tscn"),
 	# Ground.
-	Game_SubTag.LAND: preload("res://sprite/Land.tscn"),
-	Game_SubTag.SWAMP: preload("res://sprite/Swamp.tscn"),
+	SubTag.LAND: preload("res://sprite/Land.tscn"),
+	SubTag.SWAMP: preload("res://sprite/Swamp.tscn"),
 	# Trap.
 	# Building.
-	Game_SubTag.SHRUB: preload("res://sprite/Shrub.tscn"),
-	Game_SubTag.ISLAND: preload("res://sprite/Island.tscn"),
-	Game_SubTag.HARBOR: preload("res://sprite/Harbor.tscn"),
+	SubTag.SHRUB: preload("res://sprite/Shrub.tscn"),
+	SubTag.ISLAND: preload("res://sprite/Island.tscn"),
+	SubTag.HARBOR: preload("res://sprite/Harbor.tscn"),
 	# Actor.
-	Game_SubTag.PC: preload("res://sprite/PC.tscn"),
+	SubTag.PC: preload("res://sprite/PC.tscn"),
 }
 
 

@@ -1,5 +1,5 @@
-extends Game_StoreStateTemplate
-class_name Game_PcState
+extends StoreStateTemplate
+class_name PcState
 
 
 enum {
@@ -9,26 +9,26 @@ enum {
 }
 
 var mp := 0 setget set_mp, get_mp
-var max_mp := Game_PcData.MAX_MP
+var max_mp := PcData.MAX_MP
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 var has_ghost := false
 var sail_duration := 0
 var is_using_power := false
 
 var _tag_to_state := {
-	Game_SubTag.RUM: false,
-	Game_SubTag.PARROT: false,
-	Game_SubTag.ACCORDION: false,
+	SubTag.RUM: false,
+	SubTag.PARROT: false,
+	SubTag.ACCORDION: false,
 }
 var _direction_to_state := {}
 
 
-func _init(_basic_data: Game_BasicSpriteData).(_basic_data)-> void:
-	for i in Game_DirectionTag.VALID_DIRECTIONS:
+func _init(_basic_data: BasicSpriteData).(_basic_data)-> void:
+	for i in DirectionTag.VALID_DIRECTIONS:
 		_direction_to_state[i] = {
 			NPC_SIGHT: false,
 			POWER_COST: 0,
-			POWER_TAG: Game_PowerTag.NO_POWER,
+			POWER_TAG: PowerTag.NO_POWER,
 		}
 
 

@@ -1,8 +1,8 @@
 extends Node2D
-class_name Game_GameSetting
+class_name GameSetting
 
 
-signal setting_loaded(game_setting)
+signal setting_loaded(setting)
 signal setting_saved(save_data)
 
 const WIZARD := "wizard_mode"
@@ -22,7 +22,7 @@ const JSON_EXTENSION := ".json"
 
 const TRANSFER_SCENE := "res://scene/transfer_data/TransferData.tscn"
 
-const DEFAULT_EXCLUDE := [Game_WorldTag.DEMO]
+const DEFAULT_EXCLUDE := [WorldTag.DEMO]
 
 var _wizard_mode: bool
 var _mouse_input: bool
@@ -36,15 +36,15 @@ var _json_parse_error: bool
 
 func load_setting() -> void:
 	var setting_data := {}
-	var transfer: Game_TransferData
-	var json_parser: Game_FileParser
+	var transfer: TransferData
+	var json_parser: FileParser
 
 	# Load settings from setting.json.
 	_json_parse_error = false
 	for i in [SETTING_EXE_PATH, SETTING_RES_PATH]:
-		if not Game_FileIoHelper.has_file(i):
+		if not FileIoHelper.has_file(i):
 			continue
-		json_parser = Game_FileIoHelper.read_as_json(i)
+		json_parser = FileIoHelper.read_as_json(i)
 		_json_parse_error = not json_parser.parse_success
 		if json_parser.parse_success:
 			setting_data = json_parser.output_json
@@ -52,8 +52,8 @@ func load_setting() -> void:
 
 	# Use settings from previous game if available. However, PALETTE is always
 	# loaded from setting.json.
-	if get_tree().root.has_node(Game_NodeTag.TRANSFER_NODE):
-		transfer = get_tree().root.get_node(Game_NodeTag.TRANSFER_NODE)
+	if get_tree().root.has_node(NodeTag.TRANSFER_NODE):
+		transfer = get_tree().root.get_node(NodeTag.TRANSFER_NODE)
 		if transfer.overwrite_setting:
 			setting_data[INCLUDE_WORLD] = transfer.overwrite_include_world
 			setting_data[SEED] = transfer.overwrite_rng_seed
@@ -74,7 +74,7 @@ func load_setting() -> void:
 	_rng_seed = _set_rng_seed(setting_data)
 	_palette = _set_palette(setting_data)
 
-	if not get_tree().root.has_node(Game_NodeTag.TRANSFER_NODE):
+	if not get_tree().root.has_node(NodeTag.TRANSFER_NODE):
 		# Create TRANSFER_NODE.
 		transfer = load(TRANSFER_SCENE).instance()
 		get_tree().root.add_child(transfer)
@@ -89,15 +89,14 @@ func load_setting() -> void:
 	# otherwise.
 	transfer.overwrite_setting = false
 
-	emit_signal(Game_SignalTag.SETTING_LOADED, self)
+	emit_signal(SignalTag.SETTING_LOADED, self)
 
 
 func save_setting() -> void:
-	var transfer: Game_TransferData = get_tree().root.get_node(
-			Game_NodeTag.TRANSFER_NODE)
+	var transfer: TransferData = get_tree().root.get_node(NodeTag.TRANSFER_NODE)
 
 	transfer.overwrite_setting = true
-	emit_signal(Game_SignalTag.SETTING_SAVED, transfer)
+	emit_signal(SignalTag.SETTING_SAVED, transfer)
 
 
 func get_wizard_mode() -> bool:
@@ -150,7 +149,7 @@ func _set_array(setting: Dictionary, option: String, default_array := []) \
 
 func _set_palette(setting: Dictionary) -> Dictionary:
 	var file_name: String = ""
-	var json_parser: Game_FileParser
+	var json_parser: FileParser
 
 	if not (setting.has(PALETTE) and (setting[PALETTE] is String)):
 		return {}
@@ -158,7 +157,7 @@ func _set_palette(setting: Dictionary) -> Dictionary:
 	file_name = setting[PALETTE]
 	for i in [PALETTE_EXE_PATH, PALETTE_RES_PATH]:
 		for j in ["", JSON_EXTENSION]:
-			json_parser = Game_FileIoHelper.read_as_json(i + file_name + j)
+			json_parser = FileIoHelper.read_as_json(i + file_name + j)
 			if json_parser.parse_success:
 				return json_parser.output_json
 	return {}

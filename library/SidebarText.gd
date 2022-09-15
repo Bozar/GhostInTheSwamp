@@ -1,4 +1,4 @@
-class_name Game_SidebarText
+class_name SidebarText
 
 
 const VERSION := "0.4.4"
@@ -26,25 +26,25 @@ const GHOST := "Ghost"
 const LINE_OF_SIGHT := "LOS: %s"
 const SINK := "Sink: %s"
 const DIRECTION_TO_CHAR := {
-    Game_DirectionTag.LEFT: "←",
-    Game_DirectionTag.RIGHT: "→",
-    Game_DirectionTag.UP: "↑",
-    Game_DirectionTag.DOWN: "↓",
+    DirectionTag.LEFT: "←",
+    DirectionTag.RIGHT: "→",
+    DirectionTag.UP: "↑",
+    DirectionTag.DOWN: "↓",
 }
 
 const SUB_TAG_TO_ITEM := {
-    Game_SubTag.RUM: "Rum",
-    Game_SubTag.PARROT : "Parrot",
-    Game_SubTag.ACCORDION : "Accordion",
+    SubTag.RUM: "Rum",
+    SubTag.PARROT : "Parrot",
+    SubTag.ACCORDION : "Accordion",
 }
 
 const POWER_TAG_TO_NAME := {
-    Game_PowerTag.EMBARK: "Embark",
-	Game_PowerTag.LAND: "Land",
-	Game_PowerTag.LIGHT: "Light",
-	Game_PowerTag.PICK: "Pick",
-	Game_PowerTag.SPOOK: "Spook",
-	Game_PowerTag.SWAP: "Swap",
+    PowerTag.EMBARK: "Embark",
+	PowerTag.LAND: "Land",
+	PowerTag.LIGHT: "Light",
+	PowerTag.PICK: "Pick",
+	PowerTag.SPOOK: "Spook",
+	PowerTag.SWAP: "Swap",
 }
 const POWER_TEMPLATE := "%s|%s: %s\n"
 const LAST_POWER := "_|0: Exit"

@@ -1,4 +1,4 @@
-class_name Game_ShadowCastFov
+class_name ShadowCastFov
 
 
 # Recursive Shadow Casting Field of View

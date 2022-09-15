@@ -1,4 +1,4 @@
-class_name Game_DungeonSize
+class_name DungeonSize
 
 
 const MAX_X := 21
@@ -51,6 +51,6 @@ static func init_all_coords(out_coords: Array) -> void:
 	out_coords.resize(MAX_X * MAX_Y)
 	for x in range(0, MAX_X):
 		for y in range(0, MAX_Y):
-			out_coords[x + y + row] = Game_IntCoord.new(x, y)
+			out_coords[x + y + row] = IntCoord.new(x, y)
 		# Every row has (MAX_Y - 1) elements.
 		row += MAX_Y - 1

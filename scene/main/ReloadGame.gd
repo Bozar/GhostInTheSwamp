@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_ReloadGame
+class_name ReloadGame
 
 
 const PATH_TO_ROOT := "res://scene/main/RootScene.tscn"

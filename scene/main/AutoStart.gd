@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_AutoStart
+class_name AutoStart
 
 
 const PATH_TO_INIT := "../InitWorld"

@@ -1,4 +1,4 @@
-class_name Game_SignalTag
+class_name SignalTag
 
 
 const SPRITE_CREATED := "sprite_created"

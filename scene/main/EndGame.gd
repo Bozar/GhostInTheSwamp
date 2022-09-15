@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_EndGame
+class_name EndGame
 
 
 # 1. Emit this signal when PC's turn has already started, or when it is not PC's
@@ -12,8 +12,8 @@ signal game_over(win)
 
 
 func player_lose() -> void:
-	emit_signal(Game_SignalTag.GAME_OVER, false)
+	emit_signal(SignalTag.GAME_OVER, false)
 
 
 func player_win() -> void:
-	emit_signal(Game_SignalTag.GAME_OVER, true)
+	emit_signal(SignalTag.GAME_OVER, true)

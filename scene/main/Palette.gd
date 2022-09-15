@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_Palette
+class_name Palette
 
 
 const BACKGROUND := "background"
@@ -74,15 +74,15 @@ var _tag_to_color := {}
 
 func get_default_color(main_tag: String) -> String:
 	match main_tag:
-		Game_MainTag.GROUND:
+		MainTag.GROUND:
 			return _tag_to_color[GROUND]
-		Game_MainTag.TRAP:
+		MainTag.TRAP:
 			return _tag_to_color[TRAP]
-		Game_MainTag.BUILDING:
+		MainTag.BUILDING:
 			return _tag_to_color[BUILDING]
-		Game_MainTag.ACTOR:
+		MainTag.ACTOR:
 			return _tag_to_color[ACTOR]
-		Game_MainTag.INDICATOR:
+		MainTag.INDICATOR:
 			return _tag_to_color[INDICATOR]
 		_:
 			return DEBUG
@@ -90,13 +90,13 @@ func get_default_color(main_tag: String) -> String:
 
 func get_dark_color(main_tag: String) -> String:
 	match main_tag:
-		Game_MainTag.GROUND:
+		MainTag.GROUND:
 			return _tag_to_color[DARK_GROUND]
-		Game_MainTag.TRAP:
+		MainTag.TRAP:
 			return _tag_to_color[DARK_TRAP]
-		Game_MainTag.BUILDING:
+		MainTag.BUILDING:
 			return _tag_to_color[DARK_BUILDING]
-		Game_MainTag.ACTOR:
+		MainTag.ACTOR:
 			return _tag_to_color[DARK_ACTOR]
 		_:
 			return DEBUG
@@ -118,7 +118,7 @@ func get_text_color(is_light_color: bool) -> String:
 	return _tag_to_color[DARK_GUI_TEXT]
 
 
-func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
+func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
 	var palette := setting.get_palette()
 	var has_color_value := palette.has(COLOR_VALUE) \
 			and (palette[COLOR_VALUE] is Dictionary)

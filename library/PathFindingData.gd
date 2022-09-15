@@ -1,4 +1,4 @@
-class_name Game_PathFindingData
+class_name PathFindingData
 
 
 const DESTINATION := 0

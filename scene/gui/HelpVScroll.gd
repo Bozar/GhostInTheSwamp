@@ -1,12 +1,12 @@
 extends ScrollContainer
-class_name Game_HelpVScroll
+class_name HelpVScroll
 
 
 const SCROLL_LINE := 20
 const SCROLL_PAGE := 300
 const DUNGEON := "Dungeon"
 
-var _ref_Palette: Game_Palette
+var _ref_Palette: Palette
 
 var _help_text: Array
 var _help_index: int
@@ -56,7 +56,7 @@ func switch_help_text(switch_to_next: bool) -> void:
 
 
 func _on_InitWorld_world_selected(new_world: String) -> void:
-	_help_text = Game_InitWorldData.get_help(new_world)
+	_help_text = InitWorldData.get_help(new_world)
 	_reset_index()
 
 	get_node(DUNGEON).modulate = _ref_Palette.get_text_color(true)
@@ -66,7 +66,7 @@ func _on_InitWorld_world_selected(new_world: String) -> void:
 func _on_SwitchScreen_screen_switched(_source: int, target: int) -> void:
 	_reset_scroll_bar()
 	_reset_index()
-	visible = (target == Game_ScreenTag.HELP)
+	visible = (target == ScreenTag.HELP)
 	get_node(DUNGEON).text = _help_text[_help_index]
 
 

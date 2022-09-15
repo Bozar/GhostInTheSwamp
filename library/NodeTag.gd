@@ -1,4 +1,4 @@
-class_name Game_NodeTag
+class_name NodeTag
 
 
 const INIT_WORLD := "InitWorld"
@@ -13,8 +13,8 @@ const RANDOM := "RandomNumber"
 const OBJECT_STATE := "ObjectState"
 const SWITCH_SCREEN := "SwitchScreen"
 const END_GAME := "EndGame"
-const GAME_PROGRESS := "GameProgress"
-const GAME_SETTING := "GameSetting"
+const PROGRESS := "GameProgress"
+const SETTING := "GameSetting"
 const PALETTE := "Palette"
 const SIDEBAR_GUI := "MainGui/SidebarVBox"
 const HELP_GUI := "HelpGui/HelpVScroll"
@@ -33,7 +33,7 @@ const REF_RANDOM_NUMBER := "_ref_RandomNumber"
 const REF_END_GAME := "_ref_EndGame"
 const REF_CREATE_OBJECT := "_ref_CreateObject"
 const REF_PALETTE := "_ref_Palette"
-const REF_GAME_SETTING := "_ref_GameSetting"
+const REF_SETTING := "_ref_GameSetting"
 const REF_SWITCH_SCREEN := "_ref_SwitchScreen"
 const REF_HELP_GUI := "_ref_HelpVScroll"
 

@@ -1,4 +1,4 @@
-class_name Game_ScreenTag
+class_name ScreenTag
 
 
 enum {

@@ -1,17 +1,17 @@
 extends Node2D
-class_name Game_ObjectState
+class_name ObjectState
 
 
 const WARN_SET_TWICE := "State set twice: MainTag: %s, SubTag: %s."
 
-var store_state: Game_StoreStateTemplate setget set_store_state, get_store_state
+var store_state: StoreStateTemplate setget set_store_state, get_store_state
 
 
-func get_store_state() -> Game_StoreStateTemplate:
+func get_store_state() -> StoreStateTemplate:
 	return store_state
 
 
-func set_store_state(new_state: Game_StoreStateTemplate) -> void:
+func set_store_state(new_state: StoreStateTemplate) -> void:
 	if store_state == null:
 		store_state = new_state
 	else:

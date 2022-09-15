@@ -1,5 +1,5 @@
 extends VBoxContainer
-class_name Game_DebugVBox
+class_name DebugVBox
 
 
 const TRANSFER_NODE := "/root/TransferData"
@@ -38,7 +38,7 @@ const ARRAY_SEPARATOR := ","
 const TRAILING_SPACE := " "
 const SEED_SEPARATOR_PATTERN := "[-,.\\s]"
 
-var _ref_Palette: Game_Palette
+var _ref_Palette: Palette
 
 var _seed_reg := RegEx.new()
 var _true_reg := RegEx.new()
@@ -60,11 +60,11 @@ func _on_InitWorld_world_selected(_new_world: String) -> void:
 
 
 func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
-	if target == Game_ScreenTag.DEBUG:
+	if target == ScreenTag.DEBUG:
 		visible = true
 		get_node(SEED_INPUT).grab_focus()
 		_load_settings()
-	elif source == Game_ScreenTag.DEBUG:
+	elif source == ScreenTag.DEBUG:
 		visible = false
 		_save_settings()
 
@@ -72,7 +72,7 @@ func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
 func _init_label_text() -> void:
 	var label_to_text := {
 		HEADER: HEADER_TEXT,
-		FOOTER: Game_SidebarText.VERSION.format([VERSION_PREFIX]),
+		FOOTER: SidebarText.VERSION.format([VERSION_PREFIX]),
 		SEED_LABEL: SEED_TEXT,
 		INCLUDE_LABEL: INCLUDE_TEXT,
 		WIZARD_LABEL: WIZARD_TEXT,
@@ -111,7 +111,7 @@ func _init_text_color() -> void:
 
 
 func _load_settings() -> void:
-	var transfer: Game_TransferData = get_node(TRANSFER_NODE)
+	var transfer: TransferData = get_node(TRANSFER_NODE)
 
 	_load_as_string(transfer.rng_seed, SEED_INPUT)
 	_load_as_string(transfer.wizard_mode, WIZARD_INPUT)
@@ -123,7 +123,7 @@ func _load_settings() -> void:
 
 
 func _save_settings() -> void:
-	var transfer: Game_TransferData = get_node(TRANSFER_NODE)
+	var transfer: TransferData = get_node(TRANSFER_NODE)
 
 	transfer.rng_seed = _save_as_float(SEED_INPUT)
 

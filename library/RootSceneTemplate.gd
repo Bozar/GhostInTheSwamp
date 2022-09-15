@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_RootSceneTemplate
+class_name RootSceneTemplate
 
 
 # "/root/RootScene"

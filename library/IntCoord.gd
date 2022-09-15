@@ -1,4 +1,4 @@
-class_name Game_IntCoord
+class_name IntCoord
 
 
 var x: int setget set_x, get_x

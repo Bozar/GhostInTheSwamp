@@ -1,4 +1,4 @@
-class_name Game_CrossShapedFov
+class_name CrossShapedFov
 
 
 # How to use it?

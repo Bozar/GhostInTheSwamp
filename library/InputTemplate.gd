@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_InputTemplate
+class_name InputTemplate
 
 
 func _ready() -> void:

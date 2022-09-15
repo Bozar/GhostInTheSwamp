@@ -1,9 +1,9 @@
-class_name Game_FileIoHelper
+class_name FileIoHelper
 
 
-static func read_as_text(path_to_file: String) -> Game_FileParser:
+static func read_as_text(path_to_file: String) -> FileParser:
 	var new_file: File = File.new()
-	var file_parser := Game_FileParser.new()
+	var file_parser := FileParser.new()
 
 	if new_file.open(path_to_file, File.READ) == OK:
 		file_parser.parse_success = true
@@ -14,9 +14,9 @@ static func read_as_text(path_to_file: String) -> Game_FileParser:
 	return file_parser
 
 
-static func read_as_line(path_to_file: String) -> Game_FileParser:
+static func read_as_line(path_to_file: String) -> FileParser:
 	var new_file: File = File.new()
-	var file_parser := Game_FileParser.new()
+	var file_parser := FileParser.new()
 	var row: int = 0
 
 	if new_file.open(path_to_file, File.READ) == OK:
@@ -31,8 +31,8 @@ static func read_as_line(path_to_file: String) -> Game_FileParser:
 	return file_parser
 
 
-static func read_as_json(path_to_file: String) -> Game_FileParser:
-	var file_parser: Game_FileParser = read_as_text(path_to_file)
+static func read_as_json(path_to_file: String) -> FileParser:
+	var file_parser := read_as_text(path_to_file)
 	var json_parser: JSONParseResult
 
 	if file_parser.parse_success:

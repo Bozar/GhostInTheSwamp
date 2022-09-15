@@ -1,9 +1,9 @@
-extends Game_InputTemplate
-class_name Game_HelpInput
+extends InputTemplate
+class_name HelpInput
 
 
-var _ref_SwitchScreen: Game_SwitchScreen
-var _ref_HelpVScroll: Game_HelpVScroll
+var _ref_SwitchScreen: SwitchScreen
+var _ref_HelpVScroll: HelpVScroll
 
 var _input_to_funcref: Dictionary
 
@@ -13,24 +13,23 @@ func _on_InitWorld_world_selected(_new_world: String) -> void:
 		return
 
 	_input_to_funcref = {
-		Game_InputTag.CLOSE_MENU:
-			[_ref_SwitchScreen, "set_screen", [Game_ScreenTag.HELP,
-					Game_ScreenTag.MAIN]],
-		Game_InputTag.MOVE_DOWN:
+		InputTag.CLOSE_MENU:
+			[_ref_SwitchScreen, "set_screen", [ScreenTag.HELP, ScreenTag.MAIN]],
+		InputTag.MOVE_DOWN:
 			[_ref_HelpVScroll, "slide_scroll_bar", [true, true]],
-		Game_InputTag.MOVE_UP:
+		InputTag.MOVE_UP:
 			[_ref_HelpVScroll, "slide_scroll_bar", [true, false]],
-		Game_InputTag.PAGE_DOWN:
+		InputTag.PAGE_DOWN:
 			[_ref_HelpVScroll, "slide_scroll_bar", [false, true]],
-		Game_InputTag.PAGE_UP:
+		InputTag.PAGE_UP:
 			[_ref_HelpVScroll, "slide_scroll_bar", [false, false]],
-		Game_InputTag.SCROLL_TO_BOTTOM:
+		InputTag.SCROLL_TO_BOTTOM:
 			[_ref_HelpVScroll, "scroll_to_top_or_bottom", [true]],
-		Game_InputTag.SCROLL_TO_TOP:
+		InputTag.SCROLL_TO_TOP:
 			[_ref_HelpVScroll, "scroll_to_top_or_bottom", [false]],
-		Game_InputTag.NEXT_HELP:
+		InputTag.NEXT_HELP:
 			[_ref_HelpVScroll, "switch_help_text", [true]],
-		Game_InputTag.PREVIOUS_HELP:
+		InputTag.PREVIOUS_HELP:
 			[_ref_HelpVScroll, "switch_help_text", [false]],
 	}
 
@@ -44,4 +43,4 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_SwitchScreen_screen_switched(_source: int, target: int) -> void:
-	set_process_unhandled_input(target == Game_ScreenTag.HELP)
+	set_process_unhandled_input(target == ScreenTag.HELP)

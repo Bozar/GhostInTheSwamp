@@ -60,6 +60,9 @@ script = ExtResource( 8 )
 [node name="NodeHelper" type="Node2D" parent="InitWorld"]
 script = ExtResource( 14 )
 
+[node name="FindObject" type="Node2D" parent="InitWorld"]
+script = ExtResource( 13 )
+
 [node name="PlayerInput" type="Node2D" parent="."]
 script = ExtResource( 12 )
 

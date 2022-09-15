@@ -1,4 +1,4 @@
-class_name Game_MainTag
+class_name MainTag
 # is_in_group() requires a string tag.
 
 

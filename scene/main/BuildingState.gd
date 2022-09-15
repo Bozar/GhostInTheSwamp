@@ -1,8 +1,8 @@
-extends Game_StoreStateTemplate
-class_name Game_BuildingState
+extends StoreStateTemplate
+class_name BuildingState
 
 
-func _init(_basic_data: Game_BasicSpriteData).(_basic_data)-> void:
+func _init(_basic_data: BasicSpriteData).(_basic_data)-> void:
 	is_active = false
 
 

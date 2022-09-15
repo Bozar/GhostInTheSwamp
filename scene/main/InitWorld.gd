@@ -1,25 +1,25 @@
 extends Node2D
-class_name Game_InitWorld
+class_name InitWorld
 
 
 const CHILD_REFERENCE := {
-	Game_NodeTag.INIT_WORLD_HELPER: [
-		Game_NodeTag.REF_RANDOM_NUMBER, Game_NodeTag.REF_CREATE_OBJECT,
-		Game_NodeTag.REF_DUNGEON_BOARD,
+	NodeTag.INIT_WORLD_HELPER: [
+		NodeTag.REF_RANDOM_NUMBER, NodeTag.REF_CREATE_OBJECT,
+		NodeTag.REF_DUNGEON_BOARD,
 	],
 }
 
 signal world_selected(new_world)
 signal world_initialized()
 
-var _ref_RandomNumber: Game_RandomNumber
-var _ref_DungeonBoard: Game_DungeonBoard
-var _ref_CreateObject: Game_CreateObject
-var _ref_GameSetting: Game_GameSetting
+var _ref_RandomNumber: RandomNumber
+var _ref_DungeonBoard: DungeonBoard
+var _ref_CreateObject: CreateObject
+var _ref_GameSetting: GameSetting
 
 
 func init_world() -> void:
-	var pc_coord: Game_IntCoord
+	var pc_coord: IntCoord
 
 	_ref_GameSetting.load_setting()
 	emit_signal("world_selected", "demo")
@@ -29,34 +29,34 @@ func init_world() -> void:
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)
 
-	emit_signal(Game_SignalTag.WORLD_INITIALIZED)
+	emit_signal(SignalTag.WORLD_INITIALIZED)
 
 
-func _init_pc() -> Game_IntCoord:
-	var grounds := _ref_DungeonBoard.get_sprites_by_tag(Game_SubTag.LAND)
-	var ground_coord: Game_IntCoord
+func _init_pc() -> IntCoord:
+	var grounds: Array = $FindObject.get_sprites_by_tag(SubTag.LAND)
+	var ground_coord: IntCoord
 
-	Game_ArrayHelper.shuffle(grounds, _ref_RandomNumber)
-	ground_coord = Game_ConvertCoord.sprite_to_coord(grounds[0])
-	_ref_CreateObject.create_actor(Game_SubTag.PC, ground_coord)
+	ArrayHelper.shuffle(grounds, _ref_RandomNumber)
+	ground_coord = ConvertCoord.sprite_to_coord(grounds[0])
+	_ref_CreateObject.create_actor(SubTag.PC, ground_coord)
 
 	return ground_coord
 
 
 func _init_indicator(x: int, y: int) -> void:
 	var tag_to_data := {
-		Game_SubTag.ARROW_RIGHT: [
-			0, y, -Game_DungeonSize.ARROW_MARGIN, 0
+		SubTag.ARROW_RIGHT: [
+			0, y, -DungeonSize.ARROW_MARGIN, 0
 		],
-		Game_SubTag.ARROW_DOWN: [
-			x, 0, 0, -Game_DungeonSize.ARROW_MARGIN
+		SubTag.ARROW_DOWN: [
+			x, 0, 0, -DungeonSize.ARROW_MARGIN
 		],
-		Game_SubTag.ARROW_UP: [
-			x, Game_DungeonSize.MAX_Y - 1, 0, Game_DungeonSize.ARROW_MARGIN
+		SubTag.ARROW_UP: [
+			x, DungeonSize.MAX_Y - 1, 0, DungeonSize.ARROW_MARGIN
 		],
 	}
 
 	for i in tag_to_data.keys():
-		_ref_CreateObject.create_xy(Game_MainTag.INDICATOR, i,
+		_ref_CreateObject.create_xy(MainTag.INDICATOR, i,
 				tag_to_data[i][0], tag_to_data[i][1],
 				tag_to_data[i][2], tag_to_data[i][3])

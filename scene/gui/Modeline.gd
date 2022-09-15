@@ -6,7 +6,7 @@ func _ready() -> void:
 
 
 func _on_Schedule_turn_ending(current_sprite: Sprite) -> void:
-	if current_sprite.is_in_group(Game_SubTag.PC):
+	if current_sprite.is_in_group(SubTag.PC):
 		text = ""
 
 

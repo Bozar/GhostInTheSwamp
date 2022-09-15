@@ -1,4 +1,4 @@
-class_name Game_InitWorldData
+class_name InitWorldData
 
 
 const WORLD_PLACEHOLDER := "%str%"
@@ -15,17 +15,17 @@ const HINT_KEY_BINDING := "res://user/doc/hint_keybinding.md"
 
 
 static func get_help(world_tag: String) -> Array:
-	var world_name: String = Game_WorldTag.get_world_name(world_tag).to_lower()
+	var world_name: String = WorldTag.get_world_name(world_tag).to_lower()
 	var dungeon: String = HELP_PATH.replace(WORLD_PLACEHOLDER, world_name)
 	var parse_help := [
-		Game_FileIoHelper.read_as_text(dungeon),
-		Game_FileIoHelper.read_as_text(KEY_BINDING_HELP),
-		Game_FileIoHelper.read_as_text(GENERAL_HELP),
+		FileIoHelper.read_as_text(dungeon),
+		FileIoHelper.read_as_text(KEY_BINDING_HELP),
+		FileIoHelper.read_as_text(GENERAL_HELP),
 	]
 	var parse_hint := [
-		Game_FileIoHelper.read_as_text(HINT_DUNGEON),
-		Game_FileIoHelper.read_as_text(HINT_KEY_BINDING),
-		Game_FileIoHelper.read_as_text(HINT_GENERAL),
+		FileIoHelper.read_as_text(HINT_DUNGEON),
+		FileIoHelper.read_as_text(HINT_KEY_BINDING),
+		FileIoHelper.read_as_text(HINT_GENERAL),
 	]
 	var help_text: String
 	var hint_text: String
@@ -43,7 +43,7 @@ static func get_help(world_tag: String) -> Array:
 
 
 static func _load_data(file_path: String, world_tag: String):
-	var world_name: String = Game_WorldTag.get_world_name(world_tag)
+	var world_name: String = WorldTag.get_world_name(world_tag)
 	var full_path: String = file_path.replace(WORLD_PLACEHOLDER, world_name)
 
 	return load(full_path)

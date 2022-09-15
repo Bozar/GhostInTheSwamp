@@ -1,4 +1,4 @@
-class_name Game_PowerTag
+class_name PowerTag
 
 
 enum {

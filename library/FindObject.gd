@@ -1,32 +1,32 @@
 extends Node2D
-class_name Game_FindObject
+class_name FindObject
 
 
 var pc: Sprite setget set_pc, get_pc
-var pc_coord: Game_IntCoord setget set_pc_coord, get_pc_coord
+var pc_coord: IntCoord setget set_pc_coord, get_pc_coord
 var npc: Array setget set_npc, get_npc
 var count_npc: int setget set_count_npc, get_count_npc
 
 
-# There should be only one sprite in the group `Game_SubTag.PC`.
+# There should be only one sprite in the group `SubTag.PC`.
 # The PC sprite should not be removed throughout the game.
 func get_pc() -> Sprite:
 	var find_pc: Array
 
 	if pc == null:
-		find_pc = get_sprites_by_tag(Game_SubTag.PC)
+		find_pc = get_sprites_by_tag(SubTag.PC)
 		if find_pc.size() > 0:
 			pc = find_pc[0]
 	return pc
 
 
-func get_pc_coord() -> Game_IntCoord:
-	return Game_ConvertCoord.sprite_to_coord(get_pc())
+func get_pc_coord() -> IntCoord:
+	return ConvertCoord.sprite_to_coord(get_pc())
 
 
 func get_npc() -> Array:
-	var all_actors := get_sprites_by_tag(Game_MainTag.ACTOR)
-	Game_ArrayHelper.filter_element(all_actors, self, "_filter_get_npc")
+	var all_actors := get_sprites_by_tag(MainTag.ACTOR)
+	ArrayHelper.filter_element(all_actors, self, "_filter_get_npc")
 	return all_actors
 
 
@@ -38,7 +38,7 @@ func set_pc(__: Sprite) -> void:
 	pass
 
 
-func set_pc_coord(__: Game_IntCoord) -> void:
+func set_pc_coord(__: IntCoord) -> void:
 	pass
 
 
@@ -79,7 +79,7 @@ func get_sprites_by_tag(tag: String) -> Array:
 	# 	sprites[counter] = verify
 	# 	counter += 1
 	# sprites.resize(counter)
-	Game_ArrayHelper.filter_element(sprites, self, "_filter_get_sprites_by_tag")
+	ArrayHelper.filter_element(sprites, self, "_filter_get_sprites_by_tag")
 	return sprites
 	# return get_tree().get_nodes_in_group(tag)
 
@@ -90,4 +90,4 @@ func _filter_get_sprites_by_tag(source: Array, index: int, _opt: Array) -> bool:
 
 func _filter_get_npc(source: Array, index: int, _opt: Array) -> bool:
 	return not (source[index].is_queued_for_deletion() \
-			or source[index].is_in_group(Game_SubTag.PC))
+			or source[index].is_in_group(SubTag.PC))

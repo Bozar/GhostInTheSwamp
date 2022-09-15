@@ -1,14 +1,14 @@
-class_name Game_WorldGenerator
+class_name WorldGenerator
 
 
 const HARD_RETRY_LIMIT := 999
 const WARN_RETRY := "Too many retries."
-const WARN_RAND := "Rand is not of type Game_RandomNumber."
+const WARN_RAND := "Rand is not of type RandomNumber."
 
 
-# is_valid_coord_func(coord: Game_IntCoord, retry: int,
+# is_valid_coord_func(coord: IntCoord, retry: int,
 #> is_valid_coord_opt_arg: Array) -> bool
-# create_here_func(coord: Game_IntCoord, create_here_opt_arg: Array) -> void
+# create_here_func(coord: IntCoord, create_here_opt_arg: Array) -> void
 static func create_by_coord(all_coords: Array,
 		count_remaining: int, rand, func_host: Object,
 		is_valid_coord_func: String, is_valid_coord_opt_arg: Array,
@@ -18,7 +18,7 @@ static func create_by_coord(all_coords: Array,
 	var create_here := funcref(func_host, create_here_func)
 
 	# print(retry)
-	if not (rand is Game_RandomNumber):
+	if not (rand is RandomNumber):
 		push_warning(WARN_RAND)
 	if max_retry > HARD_RETRY_LIMIT:
 		max_retry = HARD_RETRY_LIMIT
@@ -30,7 +30,7 @@ static func create_by_coord(all_coords: Array,
 	elif count_remaining < 1:
 		return
 
-	Game_ArrayHelper.shuffle(all_coords, rand)
+	ArrayHelper.shuffle(all_coords, rand)
 	for i in all_coords:
 		if is_valid_coord.call_func(i, retry, is_valid_coord_opt_arg):
 			create_here.call_func(i, create_here_opt_arg)

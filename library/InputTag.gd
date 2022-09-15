@@ -1,4 +1,4 @@
-class_name Game_InputTag
+class_name InputTag
 # InputTemplate._verify_input() requires a string tag.
 
 
@@ -58,8 +58,8 @@ const DIRECTION_TO_COORD := {
 }
 
 const INPUT_TO_SPRITE := {
-	MOVE_UP: Game_SpriteTypeTag.UP,
-	MOVE_DOWN: Game_SpriteTypeTag.DOWN,
-	MOVE_LEFT: Game_SpriteTypeTag.LEFT,
-	MOVE_RIGHT: Game_SpriteTypeTag.RIGHT,
+	MOVE_UP: SpriteTypeTag.UP,
+	MOVE_DOWN: SpriteTypeTag.DOWN,
+	MOVE_LEFT: SpriteTypeTag.LEFT,
+	MOVE_RIGHT: SpriteTypeTag.RIGHT,
 }

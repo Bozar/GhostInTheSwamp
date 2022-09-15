@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_TransferData
+class_name TransferData
 
 
 # Press R or U to replay a game.

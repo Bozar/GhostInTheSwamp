@@ -1,14 +1,14 @@
-extends Game_InputTemplate
-class_name Game_DebugInput
+extends InputTemplate
+class_name DebugInput
 
 
-var _ref_SwitchScreen: Game_SwitchScreen
+var _ref_SwitchScreen: SwitchScreen
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _verify_input(event, Game_InputTag.CLOSE_MENU):
-		_ref_SwitchScreen.set_screen(Game_ScreenTag.DEBUG, Game_ScreenTag.MAIN)
+	if _verify_input(event, InputTag.CLOSE_MENU):
+		_ref_SwitchScreen.set_screen(ScreenTag.DEBUG, ScreenTag.MAIN)
 
 
 func _on_SwitchScreen_screen_switched(_source: int, target: int) -> void:
-	set_process_unhandled_input(target == Game_ScreenTag.DEBUG)
+	set_process_unhandled_input(target == ScreenTag.DEBUG)

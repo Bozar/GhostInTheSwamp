@@ -1,4 +1,4 @@
-class_name Game_DirectionTag
+class_name DirectionTag
 
 
 const INVALID_DIRECTION := -99

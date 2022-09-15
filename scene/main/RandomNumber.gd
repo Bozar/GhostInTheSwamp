@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_RandomNumber
+class_name RandomNumber
 
 
 signal seed_updated(rng_seed)
@@ -20,15 +20,15 @@ func get_percent_chance(chance: int) -> bool:
 
 
 func get_x_coord() -> int:
-	return get_int(0, Game_DungeonSize.MAX_X)
+	return get_int(0, DungeonSize.MAX_X)
 
 
 func get_y_coord() -> int:
-	return get_int(0, Game_DungeonSize.MAX_Y)
+	return get_int(0, DungeonSize.MAX_Y)
 
 
-func get_dungeon_coord() -> Game_IntCoord:
-	return Game_IntCoord.new(get_x_coord(), get_y_coord())
+func get_dungeon_coord() -> IntCoord:
+	return IntCoord.new(get_x_coord(), get_y_coord())
 
 
 func shuffle(repeat: int) -> void:
@@ -44,7 +44,7 @@ func set_rng_seed(_rng_seed: int) -> void:
 	return
 
 
-func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
+func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
 	# _rng.seed = 123
 	_init_seed = setting.get_rng_seed()
 
@@ -52,11 +52,11 @@ func _on_GameSetting_setting_loaded(setting: Game_GameSetting) -> void:
 		_rng.randomize()
 		_init_seed = _rng.randi()
 		if _init_seed > 0:
-			emit_signal(Game_SignalTag.SEED_UPDATED, _init_seed)
+			emit_signal(SignalTag.SEED_UPDATED, _init_seed)
 
 	_rng.seed = _init_seed
 	print("seed: {0}".format([_init_seed]))
 
 
-func _on_GameSetting_setting_saved(save_data: Game_TransferData) -> void:
+func _on_GameSetting_setting_saved(save_data: TransferData) -> void:
 	save_data.overwrite_rng_seed = get_rng_seed()

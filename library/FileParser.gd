@@ -1,4 +1,4 @@
-class_name Game_FileParser
+class_name FileParser
 
 
 var output_text: String setget set_output_text, get_output_text

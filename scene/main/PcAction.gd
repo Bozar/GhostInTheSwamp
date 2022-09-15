@@ -1,27 +1,27 @@
 extends Node2D
-class_name Game_PcAction
+class_name PcAction
 
 
 const RENDER_SPRITES := {
-	Game_MainTag.GROUND: [],
-	Game_MainTag.TRAP: [],
-	Game_MainTag.BUILDING: [],
-	Game_MainTag.ACTOR: [],
+	MainTag.GROUND: [],
+	MainTag.TRAP: [],
+	MainTag.BUILDING: [],
+	MainTag.ACTOR: [],
 }
 
 
-var _ref_Schedule: Game_Schedule
-var _ref_DungeonBoard: Game_DungeonBoard
-var _ref_RemoveObject: Game_RemoveObject
-var _ref_RandomNumber: Game_RandomNumber
-var _ref_EndGame: Game_EndGame
-var _ref_CreateObject: Game_CreateObject
-var _ref_Palette: Game_Palette
+var _ref_Schedule: Schedule
+var _ref_DungeonBoard: DungeonBoard
+var _ref_RemoveObject: RemoveObject
+var _ref_RandomNumber: RandomNumber
+var _ref_EndGame: EndGame
+var _ref_CreateObject: CreateObject
+var _ref_Palette: Palette
 
-var _pc_state: Game_PcState
+var _pc_state: PcState
 
-var _source_position: Game_IntCoord
-var _target_position: Game_IntCoord
+var _source_position: IntCoord
+var _target_position: IntCoord
 var _input_direction: String
 # Set `_fov_render_range` if we use the default `_fov_render_range()`. Otherwise
 # there is no need to set it.
@@ -67,22 +67,22 @@ func toggle_sight() -> void:
 
 func press_wizard_key(input_tag: String) -> void:
 	match input_tag:
-		Game_InputTag.ADD_MP:
+		InputTag.ADD_MP:
 			_pc_state.mp += 1
-		Game_InputTag.FULLY_RESTORE_MP:
+		InputTag.FULLY_RESTORE_MP:
 			_pc_state.mp = _pc_state.max_mp
-		Game_InputTag.ADD_GHOST:
+		InputTag.ADD_GHOST:
 			_pc_state.has_ghost = true
-		Game_InputTag.ADD_RUM:
-			_pc_state.add_item(Game_SubTag.RUM)
-		Game_InputTag.ADD_PARROT:
-			_pc_state.add_item(Game_SubTag.PARROT)
-		Game_InputTag.ADD_ACCORDION:
-			_pc_state.add_item(Game_SubTag.ACCORDION)
+		InputTag.ADD_RUM:
+			_pc_state.add_item(SubTag.RUM)
+		InputTag.ADD_PARROT:
+			_pc_state.add_item(SubTag.PARROT)
+		InputTag.ADD_ACCORDION:
+			_pc_state.add_item(SubTag.ACCORDION)
 
 
 func is_inside_dungeon() -> bool:
-	return Game_CoordCalculator.is_inside_dungeon(
+	return CoordCalculator.is_inside_dungeon(
 			_target_position.x, _target_position.y)
 
 
@@ -116,9 +116,9 @@ func set_source_position() -> void:
 
 
 func set_target_position(direction: String) -> void:
-	var shift: Array = Game_InputTag.DIRECTION_TO_COORD[direction]
+	var shift: Array = InputTag.DIRECTION_TO_COORD[direction]
 
-	_target_position = Game_IntCoord.new(
+	_target_position = IntCoord.new(
 		_source_position.x + shift[0],
 		_source_position.y + shift[1]
 	)
@@ -127,7 +127,7 @@ func set_target_position(direction: String) -> void:
 
 func render_fov() -> void:
 	var pc_pos := _ref_DungeonBoard.get_pc_coord()
-	var this_pos: Game_IntCoord
+	var this_pos: IntCoord
 
 	_set_render_sprites()
 	# if _ref_GameSetting.get_show_full_map():
@@ -135,24 +135,24 @@ func render_fov() -> void:
 	# 	# _post_process_fov(pc_pos)
 	# 	return
 
-	Game_ShadowCastFov.set_field_of_view(
-			Game_DungeonSize.MAX_X, Game_DungeonSize.MAX_Y,
+	ShadowCastFov.set_field_of_view(
+			DungeonSize.MAX_X, DungeonSize.MAX_Y,
 			pc_pos.x, pc_pos.y, _fov_render_range,
 			self, "_block_line_of_sight", [])
 
 	for mtag in RENDER_SPRITES:
 		for i in RENDER_SPRITES[mtag]:
-			this_pos = Game_ConvertCoord.sprite_to_coord(i)
-			_set_sprite_color(this_pos.x, this_pos.y, mtag, Game_ShadowCastFov,
+			this_pos = ConvertCoord.sprite_to_coord(i)
+			_set_sprite_color(this_pos.x, this_pos.y, mtag, ShadowCastFov,
 					"is_in_sight")
 
 	_post_process_fov(pc_pos)
 
 
 func _is_occupied(x: int, y: int) -> bool:
-	if not Game_CoordCalculator.is_inside_dungeon(x, y):
+	if not CoordCalculator.is_inside_dungeon(x, y):
 		return true
-	for i in Game_MainTag.ABOVE_GROUND_OBJECT:
+	for i in MainTag.ABOVE_GROUND_OBJECT:
 		if _ref_DungeonBoard.has_sprite_xy(i, x, y):
 			return true
 	return false
@@ -163,17 +163,17 @@ func _render_end_game(win: bool) -> void:
 
 	render_fov()
 	if not win:
-		_ref_Palette.set_dark_color(pc, Game_MainTag.ACTOR)
+		_ref_Palette.set_dark_color(pc, MainTag.ACTOR)
 
 
 func _render_without_fog_of_war() -> void:
-	var pos: Game_IntCoord
+	var pos: IntCoord
 
 	for mtag in RENDER_SPRITES:
 		for i in RENDER_SPRITES[mtag]:
-			pos = Game_ConvertCoord.sprite_to_coord(i)
+			pos = ConvertCoord.sprite_to_coord(i)
 			i.visible = _sprite_is_visible(mtag, pos.x, pos.y, false)
-			if mtag == Game_MainTag.GROUND:
+			if mtag == MainTag.GROUND:
 				_ref_Palette.set_dark_color(i, mtag)
 
 
@@ -218,13 +218,13 @@ func _set_sprite_color_with_memory(x: int, y: int, main_tag: String,
 
 func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
 		-> bool:
-	var start_index: int = Game_ZIndex.get_z_index(main_tag) + 1
-	var max_index: int = Game_ZIndex.LAYERED_MAIN_TAG.size()
+	var start_index: int = ZIndex.get_z_index(main_tag) + 1
+	var max_index: int = ZIndex.LAYERED_MAIN_TAG.size()
 	var current_tag: String
 
 	# Check sprites from lower layer to higher ones.
 	for i in range(start_index, max_index):
-		current_tag = Game_ZIndex.LAYERED_MAIN_TAG[i]
+		current_tag = ZIndex.LAYERED_MAIN_TAG[i]
 		# There is a sprite on a certian layer.
 		if _ref_DungeonBoard.has_sprite_xy(current_tag, x, y):
 			# Show or hide sprites based on memory and stacking layers.
@@ -268,7 +268,7 @@ func _move_pc_sprite() -> void:
 
 
 # Render dungeon objects at the end of the default render_fov().
-func _post_process_fov(_pc_coord: Game_IntCoord) -> void:
+func _post_process_fov(_pc_coord: IntCoord) -> void:
 	pass
 
 

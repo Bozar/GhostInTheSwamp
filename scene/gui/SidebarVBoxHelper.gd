@@ -1,20 +1,20 @@
 extends Node2D
-class_name Game_SidebarVBoxHelper
+class_name SidebarVBoxHelper
 
 
 const ORDERED_DIRECTION := [
-	Game_DirectionTag.LEFT,
-	Game_DirectionTag.RIGHT,
-	Game_DirectionTag.UP,
-	Game_DirectionTag.DOWN,
+	DirectionTag.LEFT,
+	DirectionTag.RIGHT,
+	DirectionTag.UP,
+	DirectionTag.DOWN,
 ]
 const ORDERED_SUB_TAG := [
-	Game_SubTag.RUM,
-	Game_SubTag.PARROT,
-	Game_SubTag.ACCORDION,
+	SubTag.RUM,
+	SubTag.PARROT,
+	SubTag.ACCORDION,
 ]
 
-var _pc_state: Game_PcState
+var _pc_state: PcState
 
 var _state_item: String
 var _state_power: String
@@ -36,27 +36,27 @@ func _update_state() -> void:
 	var mp := _pc_state.mp
 	var max_mp := _pc_state.max_mp
 	var mp_progress := _pc_state.mp_progress
-	var mp_line := Game_SidebarText.MP % [mp, max_mp, mp_progress]
+	var mp_line := SidebarText.MP % [mp, max_mp, mp_progress]
 
 	var ghost := _get_ghost()
 	var los := _get_line_of_sight()
 	var sink := _get_sink()
-	var state_line := Game_SidebarText.STATE % [ghost, los + sink]
+	var state_line := SidebarText.STATE % [ghost, los + sink]
 
 	var inventory_line := _get_inventory()
 	var power_line := _get_power()
 
-	_state_item = Game_SidebarText.STATE_PANEL.format([
-			Game_SidebarText.SEPARATOR,
+	_state_item = SidebarText.STATE_PANEL.format([
+			SidebarText.SEPARATOR,
 			mp_line, state_line, inventory_line])
-	_state_power = Game_SidebarText.STATE_PANEL.format([
-			Game_SidebarText.SEPARATOR,
+	_state_power = SidebarText.STATE_PANEL.format([
+			SidebarText.SEPARATOR,
 			mp_line, state_line, power_line])
 
 
 func _get_ghost() -> String:
 	if _pc_state.has_ghost:
-		return Game_SidebarText.GHOST
+		return SidebarText.GHOST
 	return ""
 
 
@@ -65,11 +65,11 @@ func _get_line_of_sight() -> String:
 
 	for i in ORDERED_DIRECTION:
 		if _pc_state.is_in_npc_sight(i):
-			los += " " + Game_SidebarText.DIRECTION_TO_CHAR[i]
+			los += " " + SidebarText.DIRECTION_TO_CHAR[i]
 	los = los.strip_edges()
 
 	if los.length() > 0:
-		return Game_SidebarText.LINE_OF_SIGHT % [los]
+		return SidebarText.LINE_OF_SIGHT % [los]
 	return los
 
 
@@ -77,8 +77,8 @@ func _get_sink() -> String:
 	var sink: int
 
 	if _pc_state.sail_duration > 0:
-		sink = Game_PcData.MAX_SAIL - _pc_state.sail_duration
-		return Game_SidebarText.SINK % [sink]
+		sink = PcData.MAX_SAIL - _pc_state.sail_duration
+		return SidebarText.SINK % [sink]
 	return ""
 
 
@@ -90,10 +90,10 @@ func _get_inventory() -> String:
 	for i in range(0, items.size()):
 		sub_tag = ORDERED_SUB_TAG[i]
 		if _pc_state.has_item(sub_tag):
-			items[i] = Game_SidebarText.SUB_TAG_TO_ITEM[sub_tag]
+			items[i] = SidebarText.SUB_TAG_TO_ITEM[sub_tag]
 		else:
 			items[i] = ""
-	return Game_SidebarText.INVENTORY % items
+	return SidebarText.INVENTORY % items
 
 
 func _get_power() -> String:
@@ -105,11 +105,11 @@ func _get_power() -> String:
 
 	for i in ORDERED_DIRECTION:
 		power_tag = _pc_state.get_power_tag(i)
-		if power_tag == Game_PowerTag.NO_POWER:
+		if power_tag == PowerTag.NO_POWER:
 			continue
-		power_direction = Game_SidebarText.DIRECTION_TO_CHAR[i]
+		power_direction = SidebarText.DIRECTION_TO_CHAR[i]
 		power_cost = _pc_state.get_power_cost(i)
-		power_name = Game_SidebarText.POWER_TAG_TO_NAME[power_tag]
-		full_text += Game_SidebarText.POWER_TEMPLATE % [power_direction,
+		power_name = SidebarText.POWER_TAG_TO_NAME[power_tag]
+		full_text += SidebarText.POWER_TEMPLATE % [power_direction,
 				power_cost, power_name]
-	return full_text + Game_SidebarText.LAST_POWER
+	return full_text + SidebarText.LAST_POWER

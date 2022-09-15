@@ -1,8 +1,8 @@
-class_name Game_ArrayHelper
+class_name ArrayHelper
 
 
 const ELEMENT_WARNING := "rand_picker(): Pick too many elements."
-const RAND_WARNING := "rand_picker(): Rand is not of type Game_RandomNumber."
+const RAND_WARNING := "rand_picker(): Rand is not of type RandomNumber."
 
 
 static func rand_picker(source_array: Array, num_of_element: int, rand) -> void:
@@ -10,7 +10,7 @@ static func rand_picker(source_array: Array, num_of_element: int, rand) -> void:
 
 	if num_of_element > source_array.size():
 		push_warning(ELEMENT_WARNING)
-	elif not (rand is Game_RandomNumber):
+	elif not (rand is RandomNumber):
 		push_warning(RAND_WARNING)
 	else:
 		for i in range(num_of_element):

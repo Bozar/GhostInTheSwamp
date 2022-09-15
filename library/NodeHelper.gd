@@ -1,5 +1,5 @@
 extends Node2D
-class_name Game_NodeHelper
+class_name NodeHelper
 
 
 const WARN_NO_CHILD := "Warn: Parent [%s] has no child node [%s]."
