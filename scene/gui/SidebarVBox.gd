@@ -101,4 +101,4 @@ func _get_over(win: bool) -> String:
 
 func _set_reference() -> void:
 	_pc_state = ObjectState.get_state($FindObject.pc)
-	$NodeHelper.set_child_reference(CHILD_REFERENCE)
+	NodeHelper.set_child_reference(self, CHILD_REFERENCE)

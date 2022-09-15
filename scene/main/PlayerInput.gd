@@ -78,7 +78,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_InitWorld_world_initialized() -> void:
 	_pc_state = ObjectState.get_state($FindObject.pc)
-	$NodeHelper.set_child_reference(CHILD_REFERENCE)
+	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	set_process_unhandled_input(true)
 
 

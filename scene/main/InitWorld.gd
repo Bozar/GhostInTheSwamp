@@ -24,7 +24,7 @@ func init_world() -> void:
 	_ref_GameSetting.load_setting()
 	emit_signal("world_selected", "demo")
 
-	$NodeHelper.set_child_reference(CHILD_REFERENCE)
+	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	$InitWorldHelper.init_ground_building()
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)

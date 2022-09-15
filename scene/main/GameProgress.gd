@@ -23,7 +23,7 @@ func _on_Schedule_turn_ended(_current_sprite: Sprite) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	$NodeHelper.set_child_reference(CHILD_REFERENCE)
+	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	_active_the_first_harbor()
 
 
