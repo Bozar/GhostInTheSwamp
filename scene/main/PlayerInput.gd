@@ -44,9 +44,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif _verify_input(event, InputTag.COPY_SEED):
 		OS.set_clipboard(_ref_RandomNumber.get_rng_seed() as String)
 	elif _verify_input(event, InputTag.OPEN_HELP):
-		_ref_SwitchScreen.set_screen(ScreenTag.MAIN, ScreenTag.HELP)
+		_ref_SwitchScreen.set_screen(ScreenTag.HELP)
 	elif _verify_input(event, InputTag.OPEN_DEBUG):
-		_ref_SwitchScreen.set_screen(ScreenTag.MAIN, ScreenTag.DEBUG)
+		_ref_SwitchScreen.set_screen(ScreenTag.DEBUG)
 	elif _end_game:
 		if _verify_input(event, InputTag.RELOAD):
 			$ReloadGame.reload()

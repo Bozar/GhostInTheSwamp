@@ -58,7 +58,7 @@ const SIGNAL_BIND := [
 const NODE_REF := [
 	[
 		NodeTag.REF_SCHEDULE, NodeTag.SCHEDULE,
-		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
+		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
 	],
 	[
 		NodeTag.REF_REMOVE_OBJECT, NodeTag.REMOVE_OBJECT,
@@ -93,8 +93,7 @@ const NODE_REF := [
 	[
 		NodeTag.REF_PALETTE, NodeTag.PALETTE,
 		NodeTag.PLAYER_INPUT, NodeTag.SIDEBAR_GUI, NodeTag.CREATE_OBJECT,
-		NodeTag.HELP_GUI, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
-		NodeTag.DEBUG_GUI,
+		NodeTag.HELP_GUI, NodeTag.ACTOR_ACTION, NodeTag.DEBUG_GUI,
 	],
 ]
 

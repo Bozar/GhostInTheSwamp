@@ -14,7 +14,7 @@ func _on_InitWorld_world_selected(_new_world: String) -> void:
 
 	_input_to_funcref = {
 		InputTag.CLOSE_MENU:
-			[_ref_SwitchScreen, "set_screen", [ScreenTag.HELP, ScreenTag.MAIN]],
+			[_ref_SwitchScreen, "set_screen", [ScreenTag.MAIN]],
 		InputTag.MOVE_DOWN:
 			[_ref_HelpVScroll, "slide_scroll_bar", [true, true]],
 		InputTag.MOVE_UP:

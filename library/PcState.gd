@@ -3,6 +3,7 @@ class_name PcState
 
 
 enum {
+	SEAL_DICT,
 	NPC_SIGHT,
 	POWER_COST,
 	POWER_TAG,
@@ -47,7 +48,12 @@ func set_coord(new_coord: IntCoord) -> void:
 
 
 func set_tag_to_arrow(sub_tag: String, sprite: Sprite) -> void:
+	if _tag_to_arrow.get(SEAL_DICT, false):
+		return
+
 	_tag_to_arrow[sub_tag] = sprite
+	if _tag_to_arrow.size() == 3:
+		_tag_to_arrow[SEAL_DICT] = true
 
 
 func get_mp() -> int:

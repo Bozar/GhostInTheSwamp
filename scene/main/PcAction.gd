@@ -30,14 +30,8 @@ var _render_this: Sprite
 
 
 func set_reference() -> void:
-	var sub_tag: String
-
 	_pc = $FindObject.pc
 	_pc_state = ObjectState.get_state(_pc)
-
-	for i in $FindObject.get_sprites_by_tag(MainTag.INDICATOR):
-		sub_tag = ObjectState.get_state(i).sub_tag
-		_pc_state.set_tag_to_arrow(sub_tag, i)
 
 
 func start_turn() -> void:

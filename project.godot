@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "StoreStateTemplate",
 "class": "BuildingState",
 "language": "GDScript",
-"path": "res://scene/main/BuildingState.gd"
+"path": "res://library/BuildingState.gd"
 }, {
 "base": "Reference",
 "class": "ConvertCoord",
