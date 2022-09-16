@@ -88,5 +88,37 @@ func has_sprite(tag: String, coord: IntCoord) -> bool:
 	return get_sprite(tag, coord) != null
 
 
+func get_ground(coord: IntCoord, out_stacked := []) -> Sprite:
+	return get_sprite(MainTag.GROUND, coord, out_stacked)
+
+
+func get_trap(coord: IntCoord, out_stacked := []) -> Sprite:
+	return get_sprite(MainTag.TRAP, coord, out_stacked)
+
+
+func get_building(coord: IntCoord, out_stacked := []) -> Sprite:
+	return get_sprite(MainTag.BUILDING, coord, out_stacked)
+
+
+func get_actor(coord: IntCoord, out_stacked := []) -> Sprite:
+	return get_sprite(MainTag.ACTOR, coord, out_stacked)
+
+
+func has_ground(coord: IntCoord) -> bool:
+	return has_sprite(MainTag.GROUND, coord)
+
+
+func has_trap(coord: IntCoord) -> bool:
+	return has_sprite(MainTag.TRAP, coord)
+
+
+func has_building(coord: IntCoord) -> bool:
+	return has_sprite(MainTag.BUILDING, coord)
+
+
+func has_actor(coord: IntCoord) -> bool:
+	return has_sprite(MainTag.ACTOR, coord)
+
+
 func _filter_get_sprites_by_tag(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()

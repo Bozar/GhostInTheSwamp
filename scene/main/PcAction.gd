@@ -87,15 +87,15 @@ func is_inside_dungeon() -> bool:
 
 
 func is_npc() -> bool:
-	return $FindObject.has_sprite(MainTag.ACTOR, _target_position)
+	return $FindObject.has_actor(_target_position)
 
 
 func is_building() -> bool:
-	return $FindObject.has_sprite(MainTag.BUILDING, _target_position)
+	return $FindObject.has_building(_target_position)
 
 
 func is_trap() -> bool:
-	return $FindObject.has_sprite(MainTag.TRAP, _target_position)
+	return $FindObject.has_trap(_target_position)
 
 
 func attack() -> void:
@@ -248,8 +248,7 @@ func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
 
 func _block_line_of_sight(x: int, y: int, _opt_arg: Array) -> bool:
 	var coord := IntCoord.new(x, y)
-	return $FindObject.has_sprite(MainTag.BUILDING, coord) \
-			or $FindObject.has_sprite(MainTag.ACTOR, coord)
+	return $FindObject.has_building(coord) or $FindObject.has_actor(coord)
 
 
 func _has_sprite_memory(x: int, y: int, main_tag: String) -> bool:
@@ -270,7 +269,7 @@ func _set_sprite_memory(x: int, y: int, main_tag: String) -> void:
 
 
 func _move_pc_sprite() -> void:
-	var actor: Sprite = $FindObject.get_sprite(MainTag.ACTOR, _source_position)
+	var actor: Sprite = $FindObject.pc
 	actor.position = ConvertCoord.coord_to_vector(_target_position)
 
 	var sub_tag: String

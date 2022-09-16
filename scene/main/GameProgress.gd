@@ -25,7 +25,7 @@ func _active_the_first_harbor() -> void:
 	var harbor: Sprite
 
 	for i in CoordCalculator.get_neighbor(coord, 1):
-		if $FindObject.has_sprite(MainTag.BUILDING, i):
-			harbor = $FindObject.get_sprite(MainTag.BUILDING, i)
+		harbor = $FindObject.get_building(i)
+		if harbor != null:
 			$HarborHelper.toggle_harbor(harbor, true)
 			return
