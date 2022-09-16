@@ -51,13 +51,13 @@ script = ExtResource( 18 )
 [node name="InitWorld" type="Node2D" parent="."]
 script = ExtResource( 1 )
 
+[node name="FindObject" type="Node2D" parent="InitWorld"]
+script = ExtResource( 14 )
+
 [node name="InitWorldHelper" type="Node2D" parent="InitWorld"]
 script = ExtResource( 8 )
 
 [node name="FindObject" type="Node2D" parent="InitWorld/InitWorldHelper"]
-script = ExtResource( 14 )
-
-[node name="FindObject" type="Node2D" parent="InitWorld"]
 script = ExtResource( 14 )
 
 [node name="PlayerInput" type="Node2D" parent="."]
@@ -66,13 +66,13 @@ script = ExtResource( 12 )
 [node name="ReloadGame" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 10 )
 
+[node name="FindObject" type="Node2D" parent="PlayerInput"]
+script = ExtResource( 14 )
+
 [node name="PcAction" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 3 )
 
 [node name="FindObject" type="Node2D" parent="PlayerInput/PcAction"]
-script = ExtResource( 14 )
-
-[node name="FindObject" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 14 )
 
 [node name="HelpInput" type="Node2D" parent="."]

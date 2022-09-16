@@ -10,8 +10,6 @@ const CHILD_REFERENCE := {
 		NodeTag.REF_END_GAME,
 		NodeTag.REF_CREATE_OBJECT,
 		NodeTag.REF_PALETTE,
-
-		NodeTag._PC_STATE
 	],
 }
 
@@ -77,6 +75,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_InitWorld_world_initialized() -> void:
 	_pc_state = ObjectState.get_state($FindObject.pc)
 	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
+	$PcAction.set_reference()
 	set_process_unhandled_input(true)
 
 

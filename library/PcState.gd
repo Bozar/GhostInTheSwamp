@@ -21,6 +21,7 @@ var _tag_to_state := {
 	SubTag.ACCORDION: false,
 }
 var _direction_to_state := {}
+var _tag_to_arrow := {}
 
 
 func _init(_basic_data: BasicSpriteData).(_basic_data)-> void:
@@ -30,6 +31,23 @@ func _init(_basic_data: BasicSpriteData).(_basic_data)-> void:
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,
 		}
+
+
+func set_coord(new_coord: IntCoord) -> void:
+	.set_coord(new_coord)
+
+	for i in _tag_to_arrow.keys():
+		match i:
+			SubTag.ARROW_RIGHT:
+				_tag_to_arrow[i].position.y = _self_sprite.position.y
+			SubTag.ARROW_DOWN:
+				_tag_to_arrow[i].position.x = _self_sprite.position.x
+			SubTag.ARROW_UP:
+				_tag_to_arrow[i].position.x = _self_sprite.position.x
+
+
+func set_tag_to_arrow(sub_tag: String, sprite: Sprite) -> void:
+	_tag_to_arrow[sub_tag] = sprite
 
 
 func get_mp() -> int:

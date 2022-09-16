@@ -20,6 +20,10 @@ var _state_item: String
 var _state_power: String
 
 
+func set_reference() -> void:
+	_pc_state = ObjectState.get_state($FindObject.pc)
+
+
 func get_state_item(force_update: bool) -> String:
 	if force_update:
 		_update_state()

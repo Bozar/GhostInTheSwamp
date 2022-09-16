@@ -17,6 +17,7 @@ var _ref_EndGame: EndGame
 var _ref_CreateObject: CreateObject
 var _ref_Palette: Palette
 
+var _pc: Sprite
 var _pc_state: PcState
 
 var _source_position: IntCoord
@@ -26,6 +27,17 @@ var _input_direction: String
 # there is no need to set it.
 var _fov_render_range := 5
 var _render_this: Sprite
+
+
+func set_reference() -> void:
+	var sub_tag: String
+
+	_pc = $FindObject.pc
+	_pc_state = ObjectState.get_state(_pc)
+
+	for i in $FindObject.get_sprites_by_tag(MainTag.INDICATOR):
+		sub_tag = ObjectState.get_state(i).sub_tag
+		_pc_state.set_tag_to_arrow(sub_tag, i)
 
 
 func start_turn() -> void:
@@ -51,7 +63,7 @@ func move(input_tag: String) -> void:
 	elif is_trap():
 		interact_with_trap()
 	else:
-		_move_pc_sprite()
+		_pc_state.coord = _target_position
 		_ref_Schedule.end_turn()
 
 
@@ -266,23 +278,6 @@ func _set_sprite_memory(x: int, y: int, main_tag: String) -> void:
 	if this_sprite == null:
 		pass
 	# _ref_ObjectState.set_bool(this_sprite, true)
-
-
-func _move_pc_sprite() -> void:
-	var actor: Sprite = $FindObject.pc
-	actor.position = ConvertCoord.coord_to_vector(_target_position)
-
-	var sub_tag: String
-
-	for i in $FindObject.get_sprites_by_tag(MainTag.INDICATOR):
-		sub_tag = ObjectState.get_state(i).sub_tag
-		match sub_tag:
-			SubTag.ARROW_RIGHT:
-				i.position.y = actor.position.y
-			SubTag.ARROW_DOWN:
-				i.position.x = actor.position.x
-			SubTag.ARROW_UP:
-				i.position.x = actor.position.x
 
 
 # Render dungeon objects at the end of the default render_fov().

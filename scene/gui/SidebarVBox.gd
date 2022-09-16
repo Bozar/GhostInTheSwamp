@@ -13,9 +13,6 @@ const NODE_TO_LIGHT_COLOR := {
 	VERSION: false,
 	SEED: false,
 }
-const CHILD_REFERENCE := {
-	NodeTag.SIDEBAR_VBOX_HELPER: [NodeTag._PC_STATE,],
-}
 
 var _ref_Palette: Palette
 
@@ -101,4 +98,4 @@ func _get_over(win: bool) -> String:
 
 func _set_reference() -> void:
 	_pc_state = ObjectState.get_state($FindObject.pc)
-	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
+	$SidebarVBoxHelper.set_reference()

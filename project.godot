@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
-"class": "AITemplate",
-"language": "GDScript",
-"path": "res://library/npc_ai/AITemplate.gd"
-}, {
 "base": "Node2D",
 "class": "ActorAction",
 "language": "GDScript",
@@ -325,7 +320,6 @@ _global_script_classes=[ {
 "path": "res://library/ZIndex.gd"
 } ]
 _global_script_class_icons={
-"AITemplate": "",
 "ActorAction": "",
 "ArrayHelper": "",
 "AutoStart": "",

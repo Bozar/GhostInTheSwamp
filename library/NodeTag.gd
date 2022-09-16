@@ -34,7 +34,3 @@ const REF_PALETTE := "_ref_Palette"
 const REF_SETTING := "_ref_GameSetting"
 const REF_SWITCH_SCREEN := "_ref_SwitchScreen"
 const REF_HELP_GUI := "_ref_HelpVScroll"
-
-const _PC := "_pc"
-const _PC_STATE := "_pc_state"
-const _BUILDING_STATE := "_building_state"

@@ -18,10 +18,13 @@ size_flags_horizontal = 8
 custom_constants/separation = 20
 script = ExtResource( 2 )
 
+[node name="FindObject" type="Node2D" parent="SidebarVBox"]
+script = ExtResource( 5 )
+
 [node name="SidebarVBoxHelper" type="Node2D" parent="SidebarVBox"]
 script = ExtResource( 3 )
 
-[node name="FindObject" type="Node2D" parent="SidebarVBox"]
+[node name="FindObject" type="Node2D" parent="SidebarVBox/SidebarVBoxHelper"]
 script = ExtResource( 5 )
 
 [node name="Upper" type="VBoxContainer" parent="SidebarVBox"]
