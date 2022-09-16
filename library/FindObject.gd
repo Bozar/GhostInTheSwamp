@@ -2,6 +2,9 @@ extends Node2D
 class_name FindObject
 
 
+const MULTIPLE_PC := "Find more than one PC object."
+const NO_PC := "Cannot find a PC object."
+
 var pc: Sprite setget set_pc, get_pc
 var pc_coord: IntCoord setget set_pc_coord, get_pc_coord
 
@@ -13,8 +16,11 @@ func get_pc() -> Sprite:
 
 	if pc == null:
 		find_pc = get_sprites_by_tag(SubTag.PC)
-		if find_pc.size() > 0:
-			pc = find_pc[0]
+		if find_pc.size() > 1:
+			push_warning(MULTIPLE_PC)
+		elif find_pc.size() == 0:
+			push_warning(NO_PC)
+		return find_pc.pop_back()
 	return pc
 
 

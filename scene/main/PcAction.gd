@@ -11,7 +11,6 @@ const RENDER_SPRITES := {
 
 
 var _ref_Schedule: Schedule
-var _ref_DungeonBoard: DungeonBoard
 var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_EndGame: EndGame
@@ -26,6 +25,7 @@ var _input_direction: String
 # Set `_fov_render_range` if we use the default `_fov_render_range()`. Otherwise
 # there is no need to set it.
 var _fov_render_range := 5
+var _render_this: Sprite
 
 
 func start_turn() -> void:
@@ -87,15 +87,15 @@ func is_inside_dungeon() -> bool:
 
 
 func is_npc() -> bool:
-	return _ref_DungeonBoard.has_actor(_target_position)
+	return $FindObject.has_sprite(MainTag.ACTOR, _target_position)
 
 
 func is_building() -> bool:
-	return _ref_DungeonBoard.has_building(_target_position)
+	return $FindObject.has_sprite(MainTag.BUILDING, _target_position)
 
 
 func is_trap() -> bool:
-	return _ref_DungeonBoard.has_trap(_target_position)
+	return $FindObject.has_sprite(MainTag.TRAP, _target_position)
 
 
 func attack() -> void:
@@ -112,7 +112,7 @@ func interact_with_trap() -> void:
 
 
 func set_source_position() -> void:
-	_source_position = _ref_DungeonBoard.get_pc_coord()
+	_source_position = $FindObject.pc_coord
 
 
 func set_target_position(direction: String) -> void:
@@ -126,7 +126,7 @@ func set_target_position(direction: String) -> void:
 
 
 func render_fov() -> void:
-	var pc_pos := _ref_DungeonBoard.get_pc_coord()
+	var pc_pos: IntCoord = $FindObject.pc_coord
 	var this_pos: IntCoord
 
 	_set_render_sprites()
@@ -142,6 +142,7 @@ func render_fov() -> void:
 
 	for mtag in RENDER_SPRITES:
 		for i in RENDER_SPRITES[mtag]:
+			_render_this = i
 			this_pos = ConvertCoord.sprite_to_coord(i)
 			_set_sprite_color(this_pos.x, this_pos.y, mtag, ShadowCastFov,
 					"is_in_sight")
@@ -150,16 +151,17 @@ func render_fov() -> void:
 
 
 func _is_occupied(x: int, y: int) -> bool:
+	var coord := IntCoord.new(x, y)
 	if not CoordCalculator.is_inside_dungeon(x, y):
 		return true
 	for i in MainTag.ABOVE_GROUND_OBJECT:
-		if _ref_DungeonBoard.has_sprite_xy(i, x, y):
+		if $FindObject.has_sprite(i, coord):
 			return true
 	return false
 
 
 func _render_end_game(win: bool) -> void:
-	var pc := _ref_DungeonBoard.pc
+	var pc: Sprite = $FindObject.pc
 
 	render_fov()
 	if not win:
@@ -180,7 +182,7 @@ func _render_without_fog_of_war() -> void:
 # is_in_sight_func(x: int, y: int) -> bool
 func _set_sprite_color(x: int, y: int, main_tag: String, func_host: Object,
 		is_in_sight_func: String) -> void:
-	var set_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
+	var set_this := _render_this
 	var is_in_sight := funcref(func_host, is_in_sight_func)
 
 	if set_this == null:
@@ -195,7 +197,7 @@ func _set_sprite_color(x: int, y: int, main_tag: String, func_host: Object,
 # is_in_sight_func(x: int, y: int) -> bool
 func _set_sprite_color_with_memory(x: int, y: int, main_tag: String,
 		ues_memory: bool, func_host: Object, is_in_sight_func: String) -> void:
-	var set_this := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
+	var set_this := _render_this
 	var is_in_sight := funcref(func_host, is_in_sight_func)
 
 	if set_this == null:
@@ -221,12 +223,13 @@ func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
 	var start_index: int = ZIndex.get_z_index(main_tag) + 1
 	var max_index: int = ZIndex.LAYERED_MAIN_TAG.size()
 	var current_tag: String
+	var coord := IntCoord.new(x, y)
 
 	# Check sprites from lower layer to higher ones.
 	for i in range(start_index, max_index):
 		current_tag = ZIndex.LAYERED_MAIN_TAG[i]
 		# There is a sprite on a certian layer.
-		if _ref_DungeonBoard.has_sprite_xy(current_tag, x, y):
+		if $FindObject.has_sprite(current_tag, coord):
 			# Show or hide sprites based on memory and stacking layers.
 			if use_memory:
 				# There is a sprite on a higher layer and we remember it.
@@ -244,19 +247,22 @@ func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
 
 
 func _block_line_of_sight(x: int, y: int, _opt_arg: Array) -> bool:
-	return _ref_DungeonBoard.has_building_xy(x, y) \
-			or _ref_DungeonBoard.has_actor_xy(x, y)
+	var coord := IntCoord.new(x, y)
+	return $FindObject.has_sprite(MainTag.BUILDING, coord) \
+			or $FindObject.has_sprite(MainTag.ACTOR, coord)
 
 
 func _has_sprite_memory(x: int, y: int, main_tag: String) -> bool:
-	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
+	var coord := IntCoord.new(x, y)
+	var this_sprite: Sprite = $FindObject.get_sprite(main_tag, coord)
 	# Temp code. Remove _ref_ObjectState.
 	return this_sprite == null
 	# return _ref_ObjectState.get_bool(this_sprite)
 
 
 func _set_sprite_memory(x: int, y: int, main_tag: String) -> void:
-	var this_sprite := _ref_DungeonBoard.get_sprite_xy(main_tag, x, y)
+	var coord := IntCoord.new(x, y)
+	var this_sprite: Sprite = $FindObject.get_sprite(main_tag, coord)
 	# Temp code. Remove _ref_ObjectState.
 	if this_sprite == null:
 		pass
@@ -264,7 +270,20 @@ func _set_sprite_memory(x: int, y: int, main_tag: String) -> void:
 
 
 func _move_pc_sprite() -> void:
-	_ref_DungeonBoard.move_actor(_source_position, _target_position)
+	var actor: Sprite = $FindObject.get_sprite(MainTag.ACTOR, _source_position)
+	actor.position = ConvertCoord.coord_to_vector(_target_position)
+
+	var sub_tag: String
+
+	for i in $FindObject.get_sprites_by_tag(MainTag.INDICATOR):
+		sub_tag = ObjectState.get_state(i).sub_tag
+		match sub_tag:
+			SubTag.ARROW_RIGHT:
+				i.position.y = actor.position.y
+			SubTag.ARROW_DOWN:
+				i.position.x = actor.position.x
+			SubTag.ARROW_UP:
+				i.position.x = actor.position.x
 
 
 # Render dungeon objects at the end of the default render_fov().
@@ -274,4 +293,4 @@ func _post_process_fov(_pc_coord: IntCoord) -> void:
 
 func _set_render_sprites() -> void:
 	for i in RENDER_SPRITES:
-		RENDER_SPRITES[i] = _ref_DungeonBoard.get_sprites_by_tag(i)
+		RENDER_SPRITES[i] = $FindObject.get_sprites_by_tag(i)

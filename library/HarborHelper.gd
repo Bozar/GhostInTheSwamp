@@ -2,9 +2,6 @@ extends Node2D
 class_name HarborHelper
 
 
-var _ref_DungeonBoard: DungeonBoard
-
-
 func toggle_harbor(sprite: Sprite, is_active: bool) -> void:
 	var new_sprite_type := SpriteTypeTag.DEFAULT
 	var state: BuildingState = ObjectState.get_state(sprite)

@@ -142,4 +142,4 @@ func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
 
 
 func _dict_has_string(this_dict: Dictionary, this_key: String) -> bool:
-	return this_dict.has(this_key) and (this_dict[this_key] is String)
+	return this_dict.get(this_key) is String

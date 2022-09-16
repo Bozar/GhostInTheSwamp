@@ -45,17 +45,13 @@ func get_x() -> int:
     return coord.x
 
 
-func set_x(new_x: int) -> void:
-    set_xy(new_x, y)
+func set_x(__: int) -> void:
+    pass
 
 
 func get_y() -> int:
     return coord.y
 
 
-func set_y(new_y: int) -> void:
-    set_xy(x, new_y)
-
-
-func set_xy(new_x: int, new_y: int) -> void:
-    _self_sprite.position = ConvertCoord.xy_to_vector(new_x, new_y)
+func set_y(__: int) -> void:
+    pass

@@ -30,19 +30,19 @@ func _set_signal() -> void:
 	var signal_sender: String
 	var func_name_template := "_on_%s_%s"
 	var func_name: String
-	var path_to_source: String
-	var path_to_target: String
+	var path_to_sender: String
+	var path_to_receiver: String
 
 	for s in _signal_bind:
-		# [signal_name, signal_sender, source, target_1, target_2, ...]
+		# [signal_name, signal_sender, receiver_1, receiver_2, ...]
 		signal_name = s[0]
 		signal_sender = s[1]
 		func_name = func_name_template % [signal_sender, signal_name]
-		path_to_source = _get_child_node_path(s[2])
-		for i in range(3, s.size()):
-			path_to_target = _get_child_node_path(s[i])
-			get_node(path_to_source).connect(signal_name,
-					get_node(path_to_target), func_name)
+		path_to_sender = _get_child_node_path(signal_sender)
+		for i in range(2, s.size()):
+			path_to_receiver = _get_child_node_path(s[i])
+			get_node(path_to_sender).connect(signal_name,
+					get_node(path_to_receiver), func_name)
 
 
 func _set_node_ref() -> void:

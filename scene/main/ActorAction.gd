@@ -3,7 +3,6 @@ class_name ActorAction
 
 
 var _ref_Schedule: Schedule
-var _ref_DungeonBoard: DungeonBoard
 var _ref_EndGame: EndGame
 var _ref_RandomNumber: RandomNumber
 var _ref_RemoveObject: RemoveObject

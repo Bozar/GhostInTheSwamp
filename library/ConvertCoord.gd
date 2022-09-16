@@ -30,12 +30,10 @@ static func mouse_to_coord(mouse_event: InputEvent) -> IntCoord:
 
 static func coord_to_vector(coord: IntCoord, x_offset := 0, y_offset := 0) \
 		-> Vector2:
-	return xy_to_vector(coord.x, coord.y, x_offset, y_offset)
-
-
-static func xy_to_vector(x: int, y: int, x_offset := 0, y_offset := 0) \
-		-> Vector2:
-	var x_vector := START_X + STEP_X * x + x_offset
-	var y_vector := START_Y + STEP_Y * y + y_offset
-
+	var x_vector := START_X + STEP_X * coord.x + x_offset
+	var y_vector := START_Y + STEP_Y * coord.y + y_offset
 	return Vector2(x_vector, y_vector)
+
+
+static func hash_coord(coord: IntCoord, x_multipler := 100) -> int:
+	return coord.x * x_multipler + coord.y

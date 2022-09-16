@@ -5,7 +5,6 @@ class_name PlayerInput
 const CHILD_REFERENCE := {
 	NodeTag.PC_ACTION:	[
 		NodeTag.REF_SCHEDULE,
-		NodeTag.REF_DUNGEON_BOARD,
 		NodeTag.REF_REMOVE_OBJECT,
 		NodeTag.REF_RANDOM_NUMBER,
 		NodeTag.REF_END_GAME,
@@ -19,7 +18,6 @@ const CHILD_REFERENCE := {
 signal special_key_pressed(input_tag)
 
 var _ref_Schedule: Schedule
-var _ref_DungeonBoard: DungeonBoard
 var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_EndGame: EndGame

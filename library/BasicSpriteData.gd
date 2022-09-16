@@ -4,17 +4,15 @@ class_name BasicSpriteData
 var sprite: Sprite setget set_sprite, get_sprite
 var main_tag: String setget set_main_tag, get_main_tag
 var sub_tag: String setget set_sub_tag, get_sub_tag
-var x: int setget set_x, get_x
-var y: int setget set_y, get_y
+var coord: IntCoord setget set_coord, get_coord
 
 
-func _init(sprite_: Sprite, main_tag_: String, sub_tag_: String, x_: int,
-		y_: int) -> void:
+func _init(sprite_: Sprite, main_tag_: String, sub_tag_: String,
+		coord_: IntCoord) -> void:
 	sprite = sprite_
 	main_tag = main_tag_
 	sub_tag = sub_tag_
-	x = x_
-	y = y_
+	coord = coord_
 
 
 func get_sprite() -> Sprite:
@@ -22,7 +20,7 @@ func get_sprite() -> Sprite:
 
 
 func set_sprite(__: Sprite) -> void:
-	return
+	pass
 
 
 func get_main_tag() -> String:
@@ -30,7 +28,7 @@ func get_main_tag() -> String:
 
 
 func set_main_tag(__: String) -> void:
-	return
+	pass
 
 
 func get_sub_tag() -> String:
@@ -38,20 +36,12 @@ func get_sub_tag() -> String:
 
 
 func set_sub_tag(__: String) -> void:
-	return
+	pass
 
 
-func get_x() -> int:
-	return x
+func get_coord() -> IntCoord:
+	return coord
 
 
-func set_x(__: int) -> void:
-	return
-
-
-func get_y() -> int:
-	return y
-
-
-func set_y(__: int) -> void:
-	return
+func set_coord(__: IntCoord) -> void:
+	pass

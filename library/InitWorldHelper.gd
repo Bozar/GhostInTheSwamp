@@ -2,7 +2,7 @@ extends Node2D
 class_name InitWorldHelper
 
 
-const WARN_NO_NEIGHBOR := "[{0}, {1}] has no neighbor."
+const NO_NEIGHBOR := "[%s, %s] has no neighbor."
 
 const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
 
@@ -18,8 +18,9 @@ const MAX_EXPAND := 3
 const MAX_HARBOR := 4
 
 var _ref_RandomNumber: RandomNumber
-var _ref_DungeonBoard: DungeonBoard
 var _ref_CreateObject: CreateObject
+
+var _hash_terrain := {}
 
 
 func init_ground_building() -> void:
@@ -36,6 +37,16 @@ func init_ground_building() -> void:
 	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
 	_create_expand_harbor(expand_coords[EXPAND_HARBOR_CHAR])
 	_create_swamp()
+
+	_hash_terrain.clear()
+
+
+func on_sprite_created(sprite_data: BasicSpriteData) -> void:
+	var this_tag := sprite_data.main_tag
+	var hash_coord := ConvertCoord.hash_coord(sprite_data.coord)
+
+	if (this_tag == MainTag.BUILDING) or (this_tag == MainTag.GROUND):
+		_hash_terrain[hash_coord] = this_tag
 
 
 func _parse_prefab() -> DungeonPrefab.PackedPrefab:
@@ -83,10 +94,13 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 
 func _create_swamp() -> void:
 	var all_coords := []
+	var hash_coord: int
 
 	DungeonSize.init_all_coords(all_coords)
 	for i in all_coords:
-		if _ref_DungeonBoard.has_ground(i) or _ref_DungeonBoard.has_building(i):
+		hash_coord = ConvertCoord.hash_coord(i)
+		# Has ground or building.
+		if _hash_terrain.has(hash_coord):
 			continue
 		_ref_CreateObject.create_ground(SubTag.SWAMP, i)
 
@@ -111,11 +125,13 @@ func _create_expand_land(expand_coords: Array) -> void:
 
 func _get_target_coord(coord: IntCoord) -> IntCoord:
 	var neighbor := CoordCalculator.get_neighbor(coord, 1)
+	var hash_coord: int
 
 	for i in neighbor:
-		if _ref_DungeonBoard.has_sprite(MainTag.GROUND, i):
+		hash_coord = ConvertCoord.hash_coord(i)
+		if _hash_terrain.get(hash_coord, "") == MainTag.GROUND:
 			return CoordCalculator.get_mirror_image(coord, i)
-	push_warning(WARN_NO_NEIGHBOR.format([coord.x, coord.y]))
+	push_warning(NO_NEIGHBOR % [coord.x, coord.y])
 	return null
 
 

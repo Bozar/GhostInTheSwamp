@@ -5,7 +5,6 @@ class_name InitWorld
 const CHILD_REFERENCE := {
 	NodeTag.INIT_WORLD_HELPER: [
 		NodeTag.REF_RANDOM_NUMBER, NodeTag.REF_CREATE_OBJECT,
-		NodeTag.REF_DUNGEON_BOARD,
 	],
 }
 
@@ -13,7 +12,6 @@ signal world_selected(new_world)
 signal world_initialized()
 
 var _ref_RandomNumber: RandomNumber
-var _ref_DungeonBoard: DungeonBoard
 var _ref_CreateObject: CreateObject
 var _ref_GameSetting: GameSetting
 
@@ -55,8 +53,19 @@ func _init_indicator(x: int, y: int) -> void:
 			x, DungeonSize.MAX_Y - 1, 0, DungeonSize.ARROW_MARGIN
 		],
 	}
+	var arrow_data: Array
+	var arrow_coord: IntCoord
+	var x_offset: int
+	var y_offset: int
 
 	for i in tag_to_data.keys():
-		_ref_CreateObject.create_xy(MainTag.INDICATOR, i,
-				tag_to_data[i][0], tag_to_data[i][1],
-				tag_to_data[i][2], tag_to_data[i][3])
+		arrow_data = tag_to_data[i]
+		arrow_coord = IntCoord.new(arrow_data[0], arrow_data[1])
+		x_offset = arrow_data[2]
+		y_offset = arrow_data[3]
+		_ref_CreateObject.create(MainTag.INDICATOR, i, arrow_coord,
+				x_offset, y_offset)
+
+
+func _on_CreateObject_sprite_created(sprite_data: BasicSpriteData) -> void:
+	$InitWorldHelper.on_sprite_created(sprite_data)
