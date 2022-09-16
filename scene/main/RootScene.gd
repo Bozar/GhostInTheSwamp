@@ -8,8 +8,8 @@ const SIGNAL_BIND := [
 	],
 	[
 		SignalTag.WORLD_INITIALIZED, NodeTag.INIT_WORLD,
-		NodeTag.SCHEDULE, NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI,
-		NodeTag.PLAYER_INPUT,
+		NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI, NodeTag.PLAYER_INPUT,
+		NodeTag.SCHEDULE,
 	],
 	[
 		"world_selected", NodeTag.INIT_WORLD,
@@ -21,7 +21,7 @@ const SIGNAL_BIND := [
 	],
 	[
 		SignalTag.TURN_ENDED, NodeTag.SCHEDULE,
-		NodeTag.PLAYER_INPUT, NodeTag.PROGRESS,
+		NodeTag.PLAYER_INPUT,
 	],
 	[
 		SignalTag.SPRITE_REMOVED, NodeTag.REMOVE_OBJECT,
@@ -59,6 +59,10 @@ const NODE_REF := [
 	[
 		NodeTag.REF_SCHEDULE, NodeTag.SCHEDULE,
 		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
+	],
+	[
+		NodeTag.REF_PROGRESS, NodeTag.PROGRESS,
+		NodeTag.SCHEDULE,
 	],
 	[
 		NodeTag.REF_REMOVE_OBJECT, NodeTag.REMOVE_OBJECT,

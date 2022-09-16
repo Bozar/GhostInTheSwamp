@@ -13,5 +13,7 @@ var _ref_Palette: Palette
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(SubTag.PC):
 		return
+
 	# Take action.
+	# print("%s starts turn." % current_sprite.name)
 	_ref_Schedule.end_turn()

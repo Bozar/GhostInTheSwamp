@@ -35,6 +35,7 @@ func set_reference() -> void:
 
 
 func start_turn() -> void:
+	# print("PC starts turn.")
 	set_source_position()
 	render_fov()
 

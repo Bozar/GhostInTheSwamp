@@ -76,7 +76,6 @@ func _on_InitWorld_world_initialized() -> void:
 	_pc_state = ObjectState.get_state($FindObject.pc)
 	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	$PcAction.set_reference()
-	set_process_unhandled_input(true)
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:

@@ -8,10 +8,13 @@ var _ref_RemoveObject: RemoveObject
 var _ref_EndGame: EndGame
 
 
-func _on_Schedule_turn_ended(_current_sprite: Sprite) -> void:
-	pass
+# Renew game world in-between two turns.
+func renew_world(next_actor: Sprite) -> void:
+	if ObjectState.get_state(next_actor).sub_tag:
+		pass
 
 
+# Do not create new sprites here, call `renew_world()` instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
 	_active_the_first_harbor()
 
