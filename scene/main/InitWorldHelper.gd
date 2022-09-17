@@ -20,8 +20,6 @@ const MAX_HARBOR := 4
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 
-var _hash_terrain := {}
-
 
 func init_ground_building() -> void:
 	var packed_prefab := _parse_prefab()
@@ -37,16 +35,6 @@ func init_ground_building() -> void:
 	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
 	_create_expand_harbor(expand_coords[EXPAND_HARBOR_CHAR])
 	_create_swamp()
-
-	_hash_terrain.clear()
-
-
-func on_sprite_created(sprite_data: BasicSpriteData) -> void:
-	var this_tag := sprite_data.main_tag
-	var hash_coord := ConvertCoord.hash_coord(sprite_data.coord)
-
-	if (this_tag == MainTag.BUILDING) or (this_tag == MainTag.GROUND):
-		_hash_terrain[hash_coord] = this_tag
 
 
 func _parse_prefab() -> DungeonPrefab.PackedPrefab:
@@ -94,13 +82,10 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 
 func _create_swamp() -> void:
 	var all_coords := []
-	var hash_coord: int
 
 	DungeonSize.init_all_coords(all_coords)
 	for i in all_coords:
-		hash_coord = ConvertCoord.hash_coord(i)
-		# Has ground or building.
-		if _hash_terrain.has(hash_coord):
+		if FindObject.has_ground(i) or FindObject.has_building(i):
 			continue
 		_ref_CreateObject.create_ground(SubTag.SWAMP, i)
 
@@ -125,11 +110,9 @@ func _create_expand_land(expand_coords: Array) -> void:
 
 func _get_target_coord(coord: IntCoord) -> IntCoord:
 	var neighbor := CoordCalculator.get_neighbor(coord, 1)
-	var hash_coord: int
 
 	for i in neighbor:
-		hash_coord = ConvertCoord.hash_coord(i)
-		if _hash_terrain.get(hash_coord, "") == MainTag.GROUND:
+		if FindObject.has_ground(i):
 			return CoordCalculator.get_mirror_image(coord, i)
 	push_warning(NO_NEIGHBOR % [coord.x, coord.y])
 	return null
@@ -140,7 +123,7 @@ func _is_ray_obstacle(_x: int, _y: int, _opt: Array) -> bool:
 
 
 func _create_expand_shrub(expand_coords: Array) -> void:
-	var half_size := int(floor(expand_coords.size() / 2.0))
+	var half_size := expand_coords.size() / 2
 
 	ArrayHelper.rand_picker(expand_coords, half_size, _ref_RandomNumber)
 	for i in expand_coords:

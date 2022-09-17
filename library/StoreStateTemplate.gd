@@ -12,46 +12,48 @@ var _self_sprite: Sprite
 
 
 func _init(basic_data: BasicSpriteData) -> void:
-    main_tag = basic_data.main_tag
-    sub_tag = basic_data.sub_tag
-    _self_sprite = basic_data.sprite
+	main_tag = basic_data.main_tag
+	sub_tag = basic_data.sub_tag
+	_self_sprite = basic_data.sprite
 
 
 func get_main_tag() -> String:
-    return main_tag
+	return main_tag
 
 
 func set_main_tag(__: String) -> void:
-    pass
+	pass
 
 
 func get_sub_tag() -> String:
-    return sub_tag
+	return sub_tag
 
 
 func set_sub_tag(__: String) -> void:
-    pass
+	pass
 
 
 func get_coord() -> IntCoord:
-    return ConvertCoord.sprite_to_coord(_self_sprite)
+	return ConvertCoord.sprite_to_coord(_self_sprite)
 
 
 func set_coord(new_coord: IntCoord) -> void:
-    _self_sprite.position = ConvertCoord.coord_to_vector(new_coord)
+	# DungeonBoard.remove_by_coord(main_tag, coord)
+	_self_sprite.position = ConvertCoord.coord_to_vector(new_coord)
+	# DungeonBoard.set_by_coord(_self_sprite, main_tag, coord)
 
 
 func get_x() -> int:
-    return coord.x
+	return coord.x
 
 
 func set_x(__: int) -> void:
-    pass
+	pass
 
 
 func get_y() -> int:
-    return coord.y
+	return coord.y
 
 
 func set_y(__: int) -> void:
-    pass
+	pass

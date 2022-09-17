@@ -4,7 +4,7 @@ extends RootSceneTemplate
 const SIGNAL_BIND := [
 	[
 		SignalTag.SPRITE_CREATED, NodeTag.CREATE_OBJECT,
-		NodeTag.SCHEDULE, NodeTag.INIT_WORLD,
+		NodeTag.SCHEDULE,
 	],
 	[
 		SignalTag.WORLD_INITIALIZED, NodeTag.INIT_WORLD,

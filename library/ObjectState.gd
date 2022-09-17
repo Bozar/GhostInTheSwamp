@@ -1,8 +1,9 @@
-extends Node2D
-class_name ObjectState
+extends StateManagerTemplate
+# class_name ObjectState
 
 
 const WARN_SET_TWICE := "State set twice: MainTag: %s, SubTag: %s."
+const NO_STATE := "%s has no data in ObjectState."
 
 const SUB_TAG_TO_STATE := {
 	SubTag.PC: PcState,
@@ -14,7 +15,8 @@ const MAIN_TAG_TO_STATE := {
 const ID_TO_STATE := {}
 
 
-static func add_state(sprite_data: BasicSpriteData) -> void:
+# Any sprite created by CreateObject has a record in ID_TO_STATE.
+func add_state(sprite_data: BasicSpriteData) -> void:
 	var this_sprite := sprite_data.sprite
 	var main_tag := sprite_data.main_tag
 	var sub_tag := sprite_data.sub_tag
@@ -34,11 +36,15 @@ static func add_state(sprite_data: BasicSpriteData) -> void:
 	ID_TO_STATE[id] = new_state
 
 
-static func get_state(sprite: Sprite) -> StoreStateTemplate:
-	return ID_TO_STATE.get(_get_id(sprite))
+func get_state(sprite: Sprite) -> StoreStateTemplate:
+	var store_state: StoreStateTemplate = ID_TO_STATE.get(_get_id(sprite))
+
+	if store_state == null:
+		push_error(NO_STATE % sprite.name)
+	return store_state
 
 
-static func remove_state(sprite: Sprite) -> void:
+func remove_state(sprite: Sprite) -> void:
 	var id := _get_id(sprite)
 
 	# An object needs to be freed manually.
@@ -46,11 +52,11 @@ static func remove_state(sprite: Sprite) -> void:
 	ID_TO_STATE.erase(id)
 
 
-static func remove_all() -> void:
+func remove_all() -> void:
 	for i in ID_TO_STATE.values():
 		i.queue_free()
 	ID_TO_STATE.clear()
 
 
-static func _get_id(sprite: Sprite) -> int:
+func _get_id(sprite: Sprite) -> int:
 	return sprite.get_instance_id()

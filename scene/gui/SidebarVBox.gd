@@ -97,5 +97,5 @@ func _get_over(win: bool) -> String:
 
 
 func _set_reference() -> void:
-	_pc_state = ObjectState.get_state($FindObject.pc)
+	_pc_state = ObjectState.get_state(FindObject.pc)
 	$SidebarVBoxHelper.set_reference()

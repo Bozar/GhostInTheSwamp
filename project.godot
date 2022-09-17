@@ -100,11 +100,6 @@ _global_script_classes=[ {
 "path": "res://library/FileParser.gd"
 }, {
 "base": "Node2D",
-"class": "FindObject",
-"language": "GDScript",
-"path": "res://library/FindObject.gd"
-}, {
-"base": "Node2D",
 "class": "GameProgress",
 "language": "GDScript",
 "path": "res://scene/main/GameProgress.gd"
@@ -117,7 +112,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "HarborHelper",
 "language": "GDScript",
-"path": "res://library/HarborHelper.gd"
+"path": "res://scene/main/HarborHelper.gd"
 }, {
 "base": "InputTemplate",
 "class": "HelpInput",
@@ -142,7 +137,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "InitWorldHelper",
 "language": "GDScript",
-"path": "res://library/InitWorldHelper.gd"
+"path": "res://scene/main/InitWorldHelper.gd"
 }, {
 "base": "Reference",
 "class": "InputTag",
@@ -173,11 +168,6 @@ _global_script_classes=[ {
 "class": "NodeTag",
 "language": "GDScript",
 "path": "res://library/NodeTag.gd"
-}, {
-"base": "Node2D",
-"class": "ObjectState",
-"language": "GDScript",
-"path": "res://library/ObjectState.gd"
 }, {
 "base": "Reference",
 "class": "PackedSceneData",
@@ -223,11 +213,6 @@ _global_script_classes=[ {
 "class": "RandomNumber",
 "language": "GDScript",
 "path": "res://scene/main/RandomNumber.gd"
-}, {
-"base": "Node2D",
-"class": "ReloadGame",
-"language": "GDScript",
-"path": "res://scene/main/ReloadGame.gd"
 }, {
 "base": "Node2D",
 "class": "RemoveObject",
@@ -278,6 +263,11 @@ _global_script_classes=[ {
 "class": "SpriteTypeTag",
 "language": "GDScript",
 "path": "res://library/SpriteTypeTag.gd"
+}, {
+"base": "Node2D",
+"class": "StateManagerTemplate",
+"language": "GDScript",
+"path": "res://library/StateManagerTemplate.gd"
 }, {
 "base": "Node2D",
 "class": "StoreStateTemplate",
@@ -338,7 +328,6 @@ _global_script_class_icons={
 "EndGame": "",
 "FileIoHelper": "",
 "FileParser": "",
-"FindObject": "",
 "GameProgress": "",
 "GameSetting": "",
 "HarborHelper": "",
@@ -353,7 +342,6 @@ _global_script_class_icons={
 "MainTag": "",
 "NodeHelper": "",
 "NodeTag": "",
-"ObjectState": "",
 "PackedSceneData": "",
 "Palette": "",
 "PathFindingData": "",
@@ -363,7 +351,6 @@ _global_script_class_icons={
 "PlayerInput": "",
 "PowerTag": "",
 "RandomNumber": "",
-"ReloadGame": "",
 "RemoveObject": "",
 "RootSceneTemplate": "",
 "Schedule": "",
@@ -374,6 +361,7 @@ _global_script_class_icons={
 "SidebarVBoxHelper": "",
 "SignalTag": "",
 "SpriteTypeTag": "",
+"StateManagerTemplate": "",
 "StoreStateTemplate": "",
 "SubTag": "",
 "SwitchScreen": "",
@@ -391,6 +379,13 @@ run/main_scene="res://scene/main/RootScene.tscn"
 run/low_processor_mode=true
 config/icon="res://resource/ghost.png"
 config/windows_native_icon="res://resource/ghost.ico"
+
+[autoload]
+
+ObjectState="*res://library/ObjectState.gd"
+DungeonBoard="*res://library/DungeonBoard.gd"
+StateManager="*res://library/StateManager.gd"
+FindObject="*res://library/FindObject.gd"
 
 [debug]
 

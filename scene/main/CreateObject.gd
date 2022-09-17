@@ -27,7 +27,7 @@ func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 	new_sprite.modulate = sprite_color
 
 	add_child(new_sprite)
-	ObjectState.add_state(new_basic)
+	StateManager.add_state(new_basic)
 	emit_signal(SignalTag.SPRITE_CREATED, new_basic)
 
 	return new_sprite

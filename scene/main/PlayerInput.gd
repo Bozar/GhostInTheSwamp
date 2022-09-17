@@ -34,13 +34,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	var input_tag := ""
 
 	if _verify_input(event, InputTag.QUIT):
-		ObjectState.remove_all()
-		get_tree().quit()
+		_ref_EndGame.quit()
 	elif _verify_input(event, InputTag.FORCE_RELOAD):
-		$ReloadGame.reload()
+		_ref_EndGame.reload()
 	elif _verify_input(event, InputTag.REPLAY_DUNGEON):
 		_ref_GameSetting.save_setting()
-		$ReloadGame.reload()
+		_ref_EndGame.reload()
 	elif _verify_input(event, InputTag.COPY_SEED):
 		OS.set_clipboard(_ref_RandomNumber.get_rng_seed() as String)
 	elif _verify_input(event, InputTag.OPEN_HELP):
@@ -49,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_ref_SwitchScreen.set_screen(ScreenTag.DEBUG)
 	elif _end_game:
 		if _verify_input(event, InputTag.RELOAD):
-			$ReloadGame.reload()
+			_ref_EndGame.reload()
 	else:
 		may_have_conflict = false
 	if may_have_conflict:
@@ -73,7 +72,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	_pc_state = ObjectState.get_state($FindObject.pc)
+	_pc_state = ObjectState.get_state(FindObject.pc)
 	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	$PcAction.set_reference()
 

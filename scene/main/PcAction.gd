@@ -30,7 +30,7 @@ var _render_this: Sprite
 
 
 func set_reference() -> void:
-	_pc = $FindObject.pc
+	_pc = FindObject.pc
 	_pc_state = ObjectState.get_state(_pc)
 
 
@@ -58,7 +58,7 @@ func move(input_tag: String) -> void:
 	elif is_trap():
 		interact_with_trap()
 	else:
-		_pc_state.coord = _target_position
+		DungeonBoard.move(_pc, _target_position)
 		_ref_Schedule.end_turn()
 
 
@@ -94,15 +94,15 @@ func is_inside_dungeon() -> bool:
 
 
 func is_npc() -> bool:
-	return $FindObject.has_actor(_target_position)
+	return FindObject.has_actor(_target_position)
 
 
 func is_building() -> bool:
-	return $FindObject.has_building(_target_position)
+	return FindObject.has_building(_target_position)
 
 
 func is_trap() -> bool:
-	return $FindObject.has_trap(_target_position)
+	return FindObject.has_trap(_target_position)
 
 
 func attack() -> void:
@@ -119,7 +119,7 @@ func interact_with_trap() -> void:
 
 
 func set_source_position() -> void:
-	_source_position = $FindObject.pc_coord
+	_source_position = FindObject.pc_coord
 
 
 func set_target_position(direction: String) -> void:
@@ -133,7 +133,7 @@ func set_target_position(direction: String) -> void:
 
 
 func render_fov() -> void:
-	var pc_pos: IntCoord = $FindObject.pc_coord
+	var pc_pos: IntCoord = FindObject.pc_coord
 	var this_pos: IntCoord
 
 	_set_render_sprites()
@@ -162,13 +162,13 @@ func _is_occupied(x: int, y: int) -> bool:
 	if not CoordCalculator.is_inside_dungeon(x, y):
 		return true
 	for i in MainTag.ABOVE_GROUND_OBJECT:
-		if $FindObject.has_sprite(i, coord):
+		if FindObject.has_sprite(i, coord):
 			return true
 	return false
 
 
 func _render_end_game(win: bool) -> void:
-	var pc: Sprite = $FindObject.pc
+	var pc: Sprite = FindObject.pc
 
 	render_fov()
 	if not win:
@@ -236,7 +236,7 @@ func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
 	for i in range(start_index, max_index):
 		current_tag = ZIndex.LAYERED_MAIN_TAG[i]
 		# There is a sprite on a certian layer.
-		if $FindObject.has_sprite(current_tag, coord):
+		if FindObject.has_sprite(current_tag, coord):
 			# Show or hide sprites based on memory and stacking layers.
 			if use_memory:
 				# There is a sprite on a higher layer and we remember it.
@@ -255,12 +255,12 @@ func _sprite_is_visible(main_tag: String, x: int, y: int, use_memory: bool) \
 
 func _block_line_of_sight(x: int, y: int, _opt_arg: Array) -> bool:
 	var coord := IntCoord.new(x, y)
-	return $FindObject.has_building(coord) or $FindObject.has_actor(coord)
+	return FindObject.has_building(coord) or FindObject.has_actor(coord)
 
 
 func _has_sprite_memory(x: int, y: int, main_tag: String) -> bool:
 	var coord := IntCoord.new(x, y)
-	var this_sprite: Sprite = $FindObject.get_sprite(main_tag, coord)
+	var this_sprite: Sprite = FindObject.get_sprite(main_tag, coord)
 	# Temp code. Remove _ref_ObjectState.
 	return this_sprite == null
 	# return _ref_ObjectState.get_bool(this_sprite)
@@ -268,7 +268,7 @@ func _has_sprite_memory(x: int, y: int, main_tag: String) -> bool:
 
 func _set_sprite_memory(x: int, y: int, main_tag: String) -> void:
 	var coord := IntCoord.new(x, y)
-	var this_sprite: Sprite = $FindObject.get_sprite(main_tag, coord)
+	var this_sprite: Sprite = FindObject.get_sprite(main_tag, coord)
 	# Temp code. Remove _ref_ObjectState.
 	if this_sprite == null:
 		pass
@@ -282,4 +282,4 @@ func _post_process_fov(_pc_coord: IntCoord) -> void:
 
 func _set_render_sprites() -> void:
 	for i in RENDER_SPRITES:
-		RENDER_SPRITES[i] = $FindObject.get_sprites_by_tag(i)
+		RENDER_SPRITES[i] = FindObject.get_sprites_by_tag(i)

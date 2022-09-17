@@ -1,5 +1,5 @@
 extends Node2D
-class_name FindObject
+# class_name FindObject
 
 
 const MULTIPLE_PC := "Find more than one PC object."
@@ -70,7 +70,11 @@ func get_sprites_by_tag(tag: String) -> Array:
 	# return get_tree().get_nodes_in_group(tag)
 
 
-func get_sprite(tag: String, coord: IntCoord, out_stacked := []) -> Sprite:
+func get_sprite(tag: String, coord: IntCoord, try_dungeon_board := true,
+		only_one_sprite := true, out_stacked := []) -> Sprite:
+	if try_dungeon_board and (tag in MainTag.DUNGEON_OBJECT):
+		return DungeonBoard.get_by_coord(tag, coord)
+
 	var sprites := get_sprites_by_tag(tag)
 	var source_size := out_stacked.size()
 	var this_coord: IntCoord
@@ -78,7 +82,10 @@ func get_sprite(tag: String, coord: IntCoord, out_stacked := []) -> Sprite:
 	for i in sprites:
 		this_coord = ConvertCoord.sprite_to_coord(i)
 		if CoordCalculator.is_same_coord(this_coord, coord):
-			out_stacked.push_back(i)
+			if only_one_sprite:
+				return i
+			else:
+				out_stacked.push_back(i)
 	if source_size == out_stacked.size():
 		return null
 	return out_stacked.pop_back()
@@ -88,20 +95,20 @@ func has_sprite(tag: String, coord: IntCoord) -> bool:
 	return get_sprite(tag, coord) != null
 
 
-func get_ground(coord: IntCoord, out_stacked := []) -> Sprite:
-	return get_sprite(MainTag.GROUND, coord, out_stacked)
+func get_ground(coord: IntCoord) -> Sprite:
+	return get_sprite(MainTag.GROUND, coord)
 
 
-func get_trap(coord: IntCoord, out_stacked := []) -> Sprite:
-	return get_sprite(MainTag.TRAP, coord, out_stacked)
+func get_trap(coord: IntCoord) -> Sprite:
+	return get_sprite(MainTag.TRAP, coord)
 
 
-func get_building(coord: IntCoord, out_stacked := []) -> Sprite:
-	return get_sprite(MainTag.BUILDING, coord, out_stacked)
+func get_building(coord: IntCoord) -> Sprite:
+	return get_sprite(MainTag.BUILDING, coord)
 
 
-func get_actor(coord: IntCoord, out_stacked := []) -> Sprite:
-	return get_sprite(MainTag.ACTOR, coord, out_stacked)
+func get_actor(coord: IntCoord) -> Sprite:
+	return get_sprite(MainTag.ACTOR, coord)
 
 
 func has_ground(coord: IntCoord) -> bool:
