@@ -10,6 +10,10 @@ var _init_seed: int
 var _rng := RandomNumberGenerator.new()
 
 
+func _ready() -> void:
+	add_to_group(MainTag.GAME_SETTING)
+
+
 # Get an integer from min_int (inclusive) to max_int (exclusive).
 func get_int(min_int: int, max_int: int) -> int:
 	return _rng.randi_range(min_int, max_int - 1)
@@ -60,4 +64,4 @@ func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
 
 func _on_GameSetting_setting_saved(input_tag: String) -> void:
 	if input_tag == InputTag.REPLAY_DUNGEON:
-		TransferData.overwrite_rng_seed = get_rng_seed()
+		TransferData.set_overwrite_rng_seed(get_rng_seed(), self)

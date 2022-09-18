@@ -32,6 +32,10 @@ var _palette: Dictionary
 var _json_parse_error: bool
 
 
+func _ready() -> void:
+	add_to_group(MainTag.GAME_SETTING)
+
+
 func load_setting() -> void:
 	var setting_data := {}
 	var json_parser: FileParser
@@ -58,25 +62,27 @@ func load_setting() -> void:
 
 	# Use settings from previous game if available. However, PALETTE is always
 	# loaded from setting.json.
-	if TransferData.is_initialized:
+	if TransferData.initialized:
 		_wizard_mode = TransferData.wizard_mode
-		_mouse_input = TransferData.mouse_input
-		_include_world = TransferData.include_world
-		_exclude_world = TransferData.exclude_world
 		_show_full_map = TransferData.show_full_map
 		if TransferData.overwrite_rng_seed != 0:
 			_rng_seed = TransferData.overwrite_rng_seed
-			TransferData.overwrite_rng_seed = 0
+			TransferData.set_overwrite_rng_seed(0, self)
 		else:
 			_rng_seed = TransferData.rng_seed
+
+		_mouse_input = TransferData.mouse_input
+		_include_world = TransferData.include_world
+		_exclude_world = TransferData.exclude_world
 	else:
-		TransferData.wizard_mode = _wizard_mode
+		TransferData.set_rng_seed(_rng_seed, self)
+		TransferData.set_wizard_mode(_wizard_mode, self)
+		TransferData.set_show_full_map(_show_full_map, self)
+		TransferData.set_initialized(true, self)
+
 		TransferData.mouse_input = _mouse_input
 		TransferData.include_world = _include_world
 		TransferData.exclude_world = _exclude_world
-		TransferData.show_full_map = _show_full_map
-		TransferData.rng_seed = _rng_seed
-		TransferData.is_initialized = true
 
 	emit_signal(SignalTag.SETTING_LOADED, self)
 

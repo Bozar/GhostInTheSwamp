@@ -26,6 +26,9 @@
 [node name="RootScene" type="Node2D"]
 script = ExtResource( 4 )
 
+[node name="AutoStart" type="Node2D" parent="."]
+script = ExtResource( 18 )
+
 [node name="MainGui" parent="." instance=ExtResource( 2 )]
 margin_left = 20.0
 margin_top = 20.0
@@ -42,9 +45,6 @@ mouse_filter = 2
 
 [node name="DebugGui" parent="." instance=ExtResource( 29 )]
 mouse_filter = 2
-
-[node name="AutoStart" type="Node2D" parent="."]
-script = ExtResource( 18 )
 
 [node name="InitWorld" type="Node2D" parent="."]
 script = ExtResource( 1 )

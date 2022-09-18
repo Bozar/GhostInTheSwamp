@@ -14,7 +14,7 @@ const WIZARD_INPUT := "SettingVBox/WizardMode/GuiInput"
 const EXCLUDE_LABEL := "SettingVBox/ExcludeWorld/GuiText"
 const EXCLUDE_INPUT := "SettingVBox/ExcludeWorld/GuiInput"
 const SHOW_LABEL := "SettingVBox/ShowFullMap/GuiText"
-const SHOW_INPUT := "SettingVBox/ShowFullMap/GuiInput"
+const MAP_INPUT := "SettingVBox/ShowFullMap/GuiInput"
 const MOUSE_LABEL := "SettingVBox/MouseInput/GuiText"
 const MOUSE_INPUT := "SettingVBox/MouseInput/GuiInput"
 
@@ -48,6 +48,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	add_to_group(MainTag.GAME_SETTING)
 	visible = false
 
 
@@ -93,7 +94,7 @@ func _init_input_placeholder() -> void:
 		INCLUDE_INPUT: INCLUDE_PLACEHOLDER,
 		WIZARD_INPUT: DEFAULT_FALSE_PLACEHOLDER,
 		EXCLUDE_INPUT: EXCLUDE_PLACEHOLDER,
-		SHOW_INPUT: DEFAULT_FALSE_PLACEHOLDER,
+		MAP_INPUT: DEFAULT_FALSE_PLACEHOLDER,
 		MOUSE_INPUT: DEFAULT_FALSE_PLACEHOLDER,
 	}
 
@@ -115,21 +116,20 @@ func _init_text_color() -> void:
 func _load_settings() -> void:
 	_load_as_string(TransferData.rng_seed, SEED_INPUT)
 	_load_as_string(TransferData.wizard_mode, WIZARD_INPUT)
-	_load_as_string(TransferData.show_full_map, SHOW_INPUT)
-	_load_as_string(TransferData.mouse_input, MOUSE_INPUT)
+	_load_as_string(TransferData.show_full_map, MAP_INPUT)
 
+	_load_as_string(TransferData.mouse_input, MOUSE_INPUT)
 	_load_from_array(TransferData.include_world, INCLUDE_INPUT)
 	_load_from_array(TransferData.exclude_world, EXCLUDE_INPUT)
 
 
 func _save_settings() -> void:
-	TransferData.rng_seed = _save_as_int(SEED_INPUT)
+	TransferData.set_rng_seed(_save_as_int(SEED_INPUT), self)
+	TransferData.set_wizard_mode(_save_as_bool(WIZARD_INPUT), self)
+	TransferData.set_show_full_map(_save_as_bool(MAP_INPUT), self)
 
 	TransferData.include_world = _save_as_array(INCLUDE_INPUT)
 	TransferData.exclude_world = _save_as_array(EXCLUDE_INPUT)
-
-	TransferData.wizard_mode = _save_as_bool(WIZARD_INPUT)
-	TransferData.show_full_map = _save_as_bool(SHOW_INPUT)
 	TransferData.mouse_input = _save_as_bool(MOUSE_INPUT)
 
 
