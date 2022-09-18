@@ -6,8 +6,6 @@ const SCROLL_LINE := 20
 const SCROLL_PAGE := 300
 const DUNGEON := "Dungeon"
 
-var _ref_Palette: Palette
-
 var _help_text: Array
 var _help_index: int
 
@@ -59,7 +57,7 @@ func _on_InitWorld_world_selected(new_world: String) -> void:
 	_help_text = InitWorldData.get_help(new_world)
 	_reset_index()
 
-	get_node(DUNGEON).modulate = _ref_Palette.get_text_color(true)
+	get_node(DUNGEON).modulate = Palette.get_text_color(true)
 	get_node(DUNGEON).text = _help_text[_help_index]
 
 

@@ -90,11 +90,6 @@ const NODE_REF := [
 		NodeTag.REF_HELP_GUI, NodeTag.HELP_GUI,
 		NodeTag.HELP_INPUT,
 	],
-	[
-		NodeTag.REF_PALETTE, NodeTag.PALETTE,
-		NodeTag.PLAYER_INPUT, NodeTag.SIDEBAR_GUI, NodeTag.CREATE_OBJECT,
-		NodeTag.HELP_GUI, NodeTag.ACTOR_ACTION, NodeTag.DEBUG_GUI,
-	],
 ]
 
 

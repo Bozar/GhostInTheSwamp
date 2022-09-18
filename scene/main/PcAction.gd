@@ -15,7 +15,6 @@ var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_EndGame: EndGame
 var _ref_CreateObject: CreateObject
-var _ref_Palette: Palette
 
 var _pc: Sprite
 var _pc_state: PcState
@@ -172,7 +171,7 @@ func _render_end_game(win: bool) -> void:
 
 	render_fov()
 	if not win:
-		_ref_Palette.set_dark_color(pc, MainTag.ACTOR)
+		Palette.set_dark_color(pc, MainTag.ACTOR)
 
 
 func _render_without_fog_of_war() -> void:
@@ -183,7 +182,7 @@ func _render_without_fog_of_war() -> void:
 			pos = ConvertCoord.sprite_to_coord(i)
 			i.visible = _sprite_is_visible(mtag, pos.x, pos.y, false)
 			if mtag == MainTag.GROUND:
-				_ref_Palette.set_dark_color(i, mtag)
+				Palette.set_dark_color(i, mtag)
 
 
 # is_in_sight_func(x: int, y: int) -> bool
@@ -196,9 +195,9 @@ func _set_sprite_color(x: int, y: int, main_tag: String, func_host: Object,
 		return
 	set_this.visible = _sprite_is_visible(main_tag, x, y, false)
 	if is_in_sight.call_func(x, y):
-		_ref_Palette.set_default_color(set_this, main_tag)
+		Palette.set_default_color(set_this, main_tag)
 	else:
-		_ref_Palette.set_dark_color(set_this, main_tag)
+		Palette.set_dark_color(set_this, main_tag)
 
 
 # is_in_sight_func(x: int, y: int) -> bool
@@ -214,12 +213,12 @@ func _set_sprite_color_with_memory(x: int, y: int, main_tag: String,
 		set_this.visible = _sprite_is_visible(main_tag, x, y, false)
 		if ues_memory:
 			_set_sprite_memory(x, y, main_tag)
-		_ref_Palette.set_default_color(set_this, main_tag)
+		Palette.set_default_color(set_this, main_tag)
 	else:
 		# Set visibility based on whether a sprite is covered.
 		set_this.visible = _sprite_is_visible(main_tag, x, y, ues_memory)
 		if ues_memory and _has_sprite_memory(x, y, main_tag):
-			_ref_Palette.set_dark_color(set_this, main_tag)
+			Palette.set_dark_color(set_this, main_tag)
 		else:
 			# Set visibility based on whether a sprite is remembered.
 			set_this.visible = false

@@ -39,8 +39,6 @@ const ARRAY_SEPARATOR := ","
 const TRAILING_SPACE := " "
 const SEED_SEPARATOR_PATTERN := "[-,.\\s]"
 
-var _ref_Palette: Palette
-
 var _seed_reg := RegEx.new()
 var _true_reg := RegEx.new()
 
@@ -100,7 +98,7 @@ func _init_node_text() -> void:
 
 func _init_node_color() -> void:
 	for i in NODE_TO_COLOR.keys():
-		get_node(i).modulate = _ref_Palette.get_text_color(NODE_TO_COLOR[i])
+		get_node(i).modulate = Palette.get_text_color(NODE_TO_COLOR[i])
 
 
 func _load_from_array(source: Array, target: String) -> void:

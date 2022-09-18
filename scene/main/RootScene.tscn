@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scene/main/RootScene.gd" type="Script" id=4]
 [ext_resource path="res://scene/main/Schedule.gd" type="Script" id=5]
 [ext_resource path="res://scene/main/HarborHelper.gd" type="Script" id=6]
+[ext_resource path="res://scene/main/PcFov.gd" type="Script" id=7]
 [ext_resource path="res://scene/main/InitWorldHelper.gd" type="Script" id=8]
 [ext_resource path="res://scene/main/RemoveObject.gd" type="Script" id=9]
 [ext_resource path="res://scene/main/RandomNumber.gd" type="Script" id=11]
@@ -57,6 +58,9 @@ script = ExtResource( 12 )
 
 [node name="PcAction" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 3 )
+
+[node name="PcFov" type="Node2D" parent="PlayerInput"]
+script = ExtResource( 7 )
 
 [node name="HelpInput" type="Node2D" parent="."]
 script = ExtResource( 24 )

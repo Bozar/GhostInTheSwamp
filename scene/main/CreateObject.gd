@@ -4,8 +4,6 @@ class_name CreateObject
 
 signal sprite_created(new_sprite)
 
-var _ref_Palette: Palette
-
 
 func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 		x_offset := 0, y_offset := 0) -> Sprite:
@@ -14,7 +12,7 @@ func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 	var z_index: int
 
 	new_sprite = PackedSceneData.get_packed_scene(sub_tag).instance()
-	sprite_color = _ref_Palette.get_default_color(main_tag)
+	sprite_color = Palette.get_default_color(main_tag)
 	z_index = ZIndex.get_z_index(main_tag)
 
 	new_sprite.position = ConvertCoord.coord_to_vector(coord, x_offset,

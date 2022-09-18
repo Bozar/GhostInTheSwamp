@@ -14,8 +14,6 @@ const NODE_TO_COLOR := {
 	SEED: false,
 }
 
-var _ref_Palette: Palette
-
 var _sidebar_seed := ""
 var _sidebar_version := ""
 var _pc_state: PcState
@@ -66,7 +64,7 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 
 func _set_node_color() -> void:
 	for i in NODE_TO_COLOR.keys():
-		get_node(i).modulate = _ref_Palette.get_text_color(NODE_TO_COLOR[i])
+		get_node(i).modulate = Palette.get_text_color(NODE_TO_COLOR[i])
 
 
 func _set_seed(rng_seed: int) -> void:

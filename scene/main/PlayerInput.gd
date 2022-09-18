@@ -9,7 +9,6 @@ const CHILD_REFERENCE := {
 		NodeTag.REF_RANDOM_NUMBER,
 		NodeTag.REF_END_GAME,
 		NodeTag.REF_CREATE_OBJECT,
-		NodeTag.REF_PALETTE,
 	],
 }
 
@@ -22,9 +21,6 @@ var _ref_EndGame: EndGame
 var _ref_SwitchScreen: SwitchScreen
 var _ref_CreateObject: CreateObject
 var _ref_GameSetting: GameSetting
-var _ref_Palette: Palette
-
-var _pc_state: PcState
 
 var _end_game := false
 
@@ -60,8 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
 			$PcAction.press_wizard_key(input_tag)
-			emit_signal(SignalTag.SPECIAL_KEY,
-					InputTag.ANY_WIZARD_KEY)
+			emit_signal(SignalTag.SPECIAL_KEY, InputTag.ANY_WIZARD_KEY)
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
@@ -74,7 +69,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	_pc_state = ObjectState.get_state(FindObject.pc)
 	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	$PcAction.set_reference()
 

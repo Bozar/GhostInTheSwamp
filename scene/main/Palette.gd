@@ -42,7 +42,7 @@ const DARK_ORANGE := "#854E19"
 
 const DEBUG := "#FE4A49"
 
-const DEFAULT_TAG_TO_COLOR := {
+const DEFAULTTAG_TO_COLOR := {
 	BACKGROUND: BLACK,
 	INDICATOR: GREY,
 
@@ -74,53 +74,53 @@ const DEFAULT_TAG_TO_COLOR := {
 	# DARK_GUI_TEXT: GREY,
 }
 
-var _tag_to_color := {}
+const TAG_TO_COLOR := {}
 
 
-func get_default_color(main_tag: String) -> String:
+static func get_default_color(main_tag: String) -> String:
 	match main_tag:
 		MainTag.GROUND:
-			return _tag_to_color[GROUND]
+			return TAG_TO_COLOR[GROUND]
 		MainTag.TRAP:
-			return _tag_to_color[TRAP]
+			return TAG_TO_COLOR[TRAP]
 		MainTag.BUILDING:
-			return _tag_to_color[BUILDING]
+			return TAG_TO_COLOR[BUILDING]
 		MainTag.ACTOR:
-			return _tag_to_color[ACTOR]
+			return TAG_TO_COLOR[ACTOR]
 		MainTag.INDICATOR:
-			return _tag_to_color[INDICATOR]
+			return TAG_TO_COLOR[INDICATOR]
 		_:
 			return DEBUG
 
 
-func get_dark_color(main_tag: String) -> String:
+static func get_dark_color(main_tag: String) -> String:
 	match main_tag:
 		MainTag.GROUND:
-			return _tag_to_color[DARK_GROUND]
+			return TAG_TO_COLOR[DARK_GROUND]
 		MainTag.TRAP:
-			return _tag_to_color[DARK_TRAP]
+			return TAG_TO_COLOR[DARK_TRAP]
 		MainTag.BUILDING:
-			return _tag_to_color[DARK_BUILDING]
+			return TAG_TO_COLOR[DARK_BUILDING]
 		MainTag.ACTOR:
-			return _tag_to_color[DARK_ACTOR]
+			return TAG_TO_COLOR[DARK_ACTOR]
 		_:
 			return DEBUG
 
 
-func set_default_color(set_sprite: Sprite, main_tag: String) -> void:
+static func set_default_color(set_sprite: Sprite, main_tag: String) -> void:
 	var new_color: String = get_default_color(main_tag)
 	set_sprite.modulate = new_color
 
 
-func set_dark_color(set_sprite: Sprite, main_tag: String) -> void:
+static func set_dark_color(set_sprite: Sprite, main_tag: String) -> void:
 	var new_color: String = get_dark_color(main_tag)
 	set_sprite.modulate = new_color
 
 
-func get_text_color(is_light_color: bool) -> String:
+static func get_text_color(is_light_color: bool) -> String:
 	if is_light_color:
-		return _tag_to_color[GUI_TEXT]
-	return _tag_to_color[DARK_GUI_TEXT]
+		return TAG_TO_COLOR[GUI_TEXT]
+	return TAG_TO_COLOR[DARK_GUI_TEXT]
 
 
 func _on_GameSetting_setting_loaded() -> void:
@@ -129,20 +129,20 @@ func _on_GameSetting_setting_loaded() -> void:
 	var color_regex := RegEx.new()
 	color_regex.compile(HTML_COLOR_REGEX)
 
-	for i in DEFAULT_TAG_TO_COLOR.keys():
-		_tag_to_color[i] = ""
+	for i in DEFAULTTAG_TO_COLOR.keys():
+		TAG_TO_COLOR[i] = ""
 		if _dict_has_string(palette, i):
 			if has_color_value \
 					and _dict_has_string(palette[COLOR_VALUE], palette[i]):
-				_tag_to_color[i] = palette[COLOR_VALUE][palette[i]]
+				TAG_TO_COLOR[i] = palette[COLOR_VALUE][palette[i]]
 			else:
-				_tag_to_color[i] = palette[i]
+				TAG_TO_COLOR[i] = palette[i]
 
-		if color_regex.search(_tag_to_color[i]) == null:
+		if color_regex.search(TAG_TO_COLOR[i]) == null:
 			# print("Invalid color: " + i)
-			_tag_to_color[i] =  DEFAULT_TAG_TO_COLOR[i]
+			TAG_TO_COLOR[i] =  DEFAULTTAG_TO_COLOR[i]
 
-	VisualServer.set_default_clear_color(_tag_to_color[BACKGROUND])
+	VisualServer.set_default_clear_color(TAG_TO_COLOR[BACKGROUND])
 
 
 func _dict_has_string(this_dict: Dictionary, this_key: String) -> bool:
