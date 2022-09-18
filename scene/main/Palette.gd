@@ -2,6 +2,10 @@ extends Node2D
 class_name Palette
 
 
+const PALETTE_EXE_PATH := "data/"
+const PALETTE_RES_PATH := "res://bin/"
+const JSON_EXTENSION := ".json"
+
 const BACKGROUND := "background"
 const INDICATOR := "indicator"
 
@@ -118,8 +122,8 @@ func get_text_color(is_light_color: bool) -> String:
 	return _tag_to_color[DARK_GUI_TEXT]
 
 
-func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
-	var palette := setting.get_palette()
+func _on_GameSetting_setting_loaded() -> void:
+	var palette := _load_palette(TransferData.palette_name)
 	var has_color_value := palette.has(COLOR_VALUE) \
 			and (palette[COLOR_VALUE] is Dictionary)
 	var color_regex := RegEx.new()
@@ -143,3 +147,14 @@ func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
 
 func _dict_has_string(this_dict: Dictionary, this_key: String) -> bool:
 	return this_dict.get(this_key) is String
+
+
+func _load_palette(palette_name: String) -> Dictionary:
+	var json_parser: FileParser
+
+	for i in [PALETTE_EXE_PATH, PALETTE_RES_PATH]:
+		for j in ["", JSON_EXTENSION]:
+			json_parser = FileIoHelper.read_as_json(i + palette_name + j)
+			if json_parser.parse_success:
+				return json_parser.output_json
+	return {}

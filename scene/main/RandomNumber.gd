@@ -2,11 +2,6 @@ extends Node2D
 class_name RandomNumber
 
 
-signal seed_updated(rng_seed)
-
-var rng_seed: int setget set_rng_seed, get_rng_seed
-
-var _init_seed: int
 var _rng := RandomNumberGenerator.new()
 
 
@@ -40,28 +35,15 @@ func shuffle(repeat: int) -> void:
 		get_int(0, 10)
 
 
-func get_rng_seed() -> int:
-	return _init_seed
+func get_initial_seed(input_seed: int) -> int:
+	var init_seed := input_seed
 
-
-func set_rng_seed(_rng_seed: int) -> void:
-	return
-
-
-func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
-	# _rng.seed = 123
-	_init_seed = setting.get_rng_seed()
-
-	while _init_seed <= 0:
+	while init_seed <= 0:
 		_rng.randomize()
-		_init_seed = _rng.randi()
-		if _init_seed > 0:
-			emit_signal(SignalTag.SEED_UPDATED, _init_seed)
+		init_seed = _rng.randi()
+		if init_seed > 0:
+			break
 
-	_rng.seed = _init_seed
-	print("seed: {0}".format([_init_seed]))
-
-
-func _on_GameSetting_setting_saved(input_tag: String) -> void:
-	if input_tag == InputTag.REPLAY_DUNGEON:
-		TransferData.set_overwrite_rng_seed(get_rng_seed(), self)
+	print("seed: %d" % init_seed)
+	_rng.seed = init_seed
+	return init_seed

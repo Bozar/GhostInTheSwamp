@@ -47,29 +47,10 @@ margin_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 
-[node name="IncludeWorld" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
+[node name="WizardMode" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
 margin_top = 45.0
 margin_right = 720.0
 margin_bottom = 86.0
-
-[node name="GuiText" parent="DebugVBox/SettingVBox/IncludeWorld" instance=ExtResource( 2 )]
-margin_right = 119.0
-margin_bottom = 41.0
-size_flags_horizontal = 3
-text = "Include"
-valign = 1
-
-[node name="GuiInput" parent="DebugVBox/SettingVBox/IncludeWorld" instance=ExtResource( 4 )]
-margin_left = 123.0
-margin_right = 720.0
-margin_bottom = 41.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 5.0
-
-[node name="WizardMode" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
-margin_top = 90.0
-margin_right = 720.0
-margin_bottom = 131.0
 
 [node name="GuiText" parent="DebugVBox/SettingVBox/WizardMode" instance=ExtResource( 2 )]
 margin_right = 119.0
@@ -85,19 +66,19 @@ margin_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 
-[node name="ExcludeWorld" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
-margin_top = 135.0
+[node name="Palette" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
+margin_top = 90.0
 margin_right = 720.0
-margin_bottom = 176.0
+margin_bottom = 131.0
 
-[node name="GuiText" parent="DebugVBox/SettingVBox/ExcludeWorld" instance=ExtResource( 2 )]
+[node name="GuiText" parent="DebugVBox/SettingVBox/Palette" instance=ExtResource( 2 )]
 margin_right = 119.0
 margin_bottom = 41.0
 size_flags_horizontal = 3
-text = "Exclude"
+text = "Palette"
 valign = 1
 
-[node name="GuiInput" parent="DebugVBox/SettingVBox/ExcludeWorld" instance=ExtResource( 4 )]
+[node name="GuiInput" parent="DebugVBox/SettingVBox/Palette" instance=ExtResource( 4 )]
 margin_left = 123.0
 margin_right = 720.0
 margin_bottom = 41.0
@@ -106,9 +87,9 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 5.0
 
 [node name="ShowFullMap" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
-margin_top = 180.0
+margin_top = 135.0
 margin_right = 720.0
-margin_bottom = 221.0
+margin_bottom = 176.0
 
 [node name="GuiText" parent="DebugVBox/SettingVBox/ShowFullMap" instance=ExtResource( 2 )]
 margin_right = 119.0
@@ -118,25 +99,6 @@ text = "Reveal"
 valign = 1
 
 [node name="GuiInput" parent="DebugVBox/SettingVBox/ShowFullMap" instance=ExtResource( 4 )]
-margin_left = 123.0
-margin_right = 720.0
-margin_bottom = 41.0
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 5.0
-
-[node name="MouseInput" type="HBoxContainer" parent="DebugVBox/SettingVBox"]
-margin_top = 225.0
-margin_right = 720.0
-margin_bottom = 266.0
-
-[node name="GuiText" parent="DebugVBox/SettingVBox/MouseInput" instance=ExtResource( 2 )]
-margin_right = 119.0
-margin_bottom = 41.0
-size_flags_horizontal = 3
-text = "Mouse"
-valign = 1
-
-[node name="GuiInput" parent="DebugVBox/SettingVBox/MouseInput" instance=ExtResource( 4 )]
 margin_left = 123.0
 margin_right = 720.0
 margin_bottom = 41.0

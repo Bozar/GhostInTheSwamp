@@ -9,11 +9,11 @@ const SIGNAL_BIND := [
 	[
 		SignalTag.WORLD_INITIALIZED, NodeTag.INIT_WORLD,
 		NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI, NodeTag.PLAYER_INPUT,
-		NodeTag.SCHEDULE,
+		NodeTag.SCHEDULE, NodeTag.DEBUG_GUI,
 	],
 	[
 		"world_selected", NodeTag.INIT_WORLD,
-		NodeTag.HELP_GUI, NodeTag.HELP_INPUT, NodeTag.DEBUG_GUI,
+		NodeTag.HELP_GUI, NodeTag.HELP_INPUT,
 	],
 	[
 		SignalTag.TURN_STARTED, NodeTag.SCHEDULE,
@@ -33,21 +33,17 @@ const SIGNAL_BIND := [
 	],
 	[
 		SignalTag.SETTING_LOADED, NodeTag.SETTING,
-		NodeTag.RANDOM, NodeTag.PALETTE, NodeTag.SIDEBAR_GUI,
+		NodeTag.PALETTE, NodeTag.SIDEBAR_GUI, NodeTag.DEBUG_GUI,
 	],
 	[
 		SignalTag.SETTING_SAVED, NodeTag.SETTING,
-		NodeTag.RANDOM, NodeTag.DEBUG_GUI,
+		NodeTag.DEBUG_GUI,
 	],
 	[
 		SignalTag.SCREEN_SWITCHED, NodeTag.SWITCH_SCREEN,
 		NodeTag.PLAYER_INPUT, NodeTag.CREATE_OBJECT, NodeTag.SIDEBAR_GUI,
 		NodeTag.HELP_INPUT, NodeTag.HELP_GUI, NodeTag.DEBUG_GUI,
 		NodeTag.DEBUG_INPUT,
-	],
-	[
-		SignalTag.SEED_UPDATED, NodeTag.RANDOM,
-		NodeTag.SETTING, NodeTag.SIDEBAR_GUI,
 	],
 	[
 		SignalTag.SPECIAL_KEY, NodeTag.PLAYER_INPUT,
@@ -71,7 +67,7 @@ const NODE_REF := [
 	[
 		NodeTag.REF_RANDOM_NUMBER, NodeTag.RANDOM,
 		NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
-		NodeTag.PROGRESS,
+		NodeTag.PROGRESS, NodeTag.SETTING,
 	],
 	[
 		NodeTag.REF_END_GAME, NodeTag.END_GAME,

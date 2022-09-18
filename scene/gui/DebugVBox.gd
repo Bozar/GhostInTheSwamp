@@ -7,31 +7,34 @@ const SETTING := "SettingVBox"
 const FOOTER := "Footer"
 const SEED_LABEL := "SettingVBox/Seed/GuiText"
 const SEED_INPUT := "SettingVBox/Seed/GuiInput"
-const INCLUDE_LABEL := "SettingVBox/IncludeWorld/GuiText"
-const INCLUDE_INPUT := "SettingVBox/IncludeWorld/GuiInput"
 const WIZARD_LABEL := "SettingVBox/WizardMode/GuiText"
 const WIZARD_INPUT := "SettingVBox/WizardMode/GuiInput"
-const EXCLUDE_LABEL := "SettingVBox/ExcludeWorld/GuiText"
-const EXCLUDE_INPUT := "SettingVBox/ExcludeWorld/GuiInput"
-const SHOW_LABEL := "SettingVBox/ShowFullMap/GuiText"
+const PALETTE_LABEL := "SettingVBox/Palette/GuiText"
+const PALETTE_INPUT := "SettingVBox/Palette/GuiInput"
+const MAP_LABEL := "SettingVBox/ShowFullMap/GuiText"
 const MAP_INPUT := "SettingVBox/ShowFullMap/GuiInput"
-const MOUSE_LABEL := "SettingVBox/MouseInput/GuiText"
-const MOUSE_INPUT := "SettingVBox/MouseInput/GuiInput"
 
-const HEADER_TEXT := "# Debug Menu\n\n[Esc: Exit debug]"
-const SEED_TEXT := "Seed"
-const SEED_PLACEHOLDER := "DEFAULT: 0"
-const INCLUDE_TEXT := "Include"
-const INCLUDE_PLACEHOLDER := "EXAMPLE: BARON, FACTORY, RAILGUN"
-const WIZARD_TEXT := "Wizard"
-const DEFAULT_FALSE_PLACEHOLDER := "DEFAULT: FALSE"
-const EXCLUDE_TEXT := "Exclude"
-const EXCLUDE_PLACEHOLDER := "INITIAL: DEMO"
-const SHOW_TEXT := "ShowMap"
-const MOUSE_TEXT := "Mouse"
+const LABEL_TO_NAME := {
+	HEADER: "# Debug Menu\n\n[Esc: Exit debug]",
+	FOOTER: "Parse error: setting.json.",
+	SEED_LABEL: "Seed",
+	WIZARD_LABEL: "Wizard",
+	PALETTE_LABEL: "Palette",
+	MAP_LABEL: "ShowMap",
+}
+const INPUT_TO_PLACEHOLDER := {
+	SEED_INPUT: "DEFAULT: 0",
+	WIZARD_INPUT: "DEFAULT: FALSE",
+	PALETTE_INPUT: "EXAMPLE: BLUE, GREY",
+	MAP_INPUT: "DEFAULT: FALSE",
+}
+const NODE_TO_COLOR := {
+	HEADER: true,
+	SETTING: true,
+	FOOTER: false,
+}
 
 const TRUE_PATTERN := "^(true|t|yes|y|[1-9]\\d*)$"
-const VERSION_PREFIX := "Version: "
 const ARRAY_SEPARATOR := ","
 const TRAILING_SPACE := " "
 const SEED_SEPARATOR_PATTERN := "[-,.\\s]"
@@ -52,11 +55,17 @@ func _ready() -> void:
 	visible = false
 
 
-func _on_InitWorld_world_selected(_new_world: String) -> void:
-	_init_text_color()
-	_init_label_text()
-	_init_input_placeholder()
-	_load_settings()
+func _on_GameSetting_setting_loaded() -> void:
+	# Debug input box requires debug_seed, not rng_seed.
+	_load_as_string(TransferData.debug_seed, SEED_INPUT)
+	_load_as_string(TransferData.wizard_mode, WIZARD_INPUT)
+	_load_as_string(TransferData.show_full_map, MAP_INPUT)
+	_load_as_string(TransferData.palette_name, PALETTE_INPUT)
+
+
+func _on_InitWorld_world_initialized() -> void:
+	_init_node_color()
+	_init_node_text()
 
 
 func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
@@ -68,69 +77,30 @@ func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
 		visible = false
 
 
-func _on_GameSetting_setting_saved(_input_tag: String) -> void:
-	_save_settings()
-
-
-func _init_label_text() -> void:
-	var label_to_text := {
-		HEADER: HEADER_TEXT,
-		FOOTER: SidebarText.VERSION.format([VERSION_PREFIX]),
-		SEED_LABEL: SEED_TEXT,
-		INCLUDE_LABEL: INCLUDE_TEXT,
-		WIZARD_LABEL: WIZARD_TEXT,
-		EXCLUDE_LABEL: EXCLUDE_TEXT,
-		SHOW_LABEL: SHOW_TEXT,
-		MOUSE_LABEL: MOUSE_TEXT,
-	}
-
-	for i in label_to_text.keys():
-		get_node(i).text = label_to_text[i]
-
-
-func _init_input_placeholder() -> void:
-	var input_to_placeholder := {
-		SEED_INPUT: SEED_PLACEHOLDER,
-		INCLUDE_INPUT: INCLUDE_PLACEHOLDER,
-		WIZARD_INPUT: DEFAULT_FALSE_PLACEHOLDER,
-		EXCLUDE_INPUT: EXCLUDE_PLACEHOLDER,
-		MAP_INPUT: DEFAULT_FALSE_PLACEHOLDER,
-		MOUSE_INPUT: DEFAULT_FALSE_PLACEHOLDER,
-	}
-
-	for i in input_to_placeholder.keys():
-		get_node(i).placeholder_text = input_to_placeholder[i]
-
-
-func _init_text_color() -> void:
-	var node_to_color := {
-		HEADER: true,
-		SETTING: true,
-		FOOTER: false,
-	}
-
-	for i in node_to_color:
-		get_node(i).modulate = _ref_Palette.get_text_color(node_to_color[i])
-
-
-func _load_settings() -> void:
-	_load_as_string(TransferData.rng_seed, SEED_INPUT)
-	_load_as_string(TransferData.wizard_mode, WIZARD_INPUT)
-	_load_as_string(TransferData.show_full_map, MAP_INPUT)
-
-	_load_as_string(TransferData.mouse_input, MOUSE_INPUT)
-	_load_from_array(TransferData.include_world, INCLUDE_INPUT)
-	_load_from_array(TransferData.exclude_world, EXCLUDE_INPUT)
-
-
-func _save_settings() -> void:
-	TransferData.set_rng_seed(_save_as_int(SEED_INPUT), self)
+func _on_GameSetting_setting_saved(input_tag: String) -> void:
+	TransferData.set_debug_seed(_save_as_int(SEED_INPUT), self)
 	TransferData.set_wizard_mode(_save_as_bool(WIZARD_INPUT), self)
+	TransferData.set_palette_name(_save_as_string(PALETTE_INPUT), self)
 	TransferData.set_show_full_map(_save_as_bool(MAP_INPUT), self)
 
-	TransferData.include_world = _save_as_array(INCLUDE_INPUT)
-	TransferData.exclude_world = _save_as_array(EXCLUDE_INPUT)
-	TransferData.mouse_input = _save_as_bool(MOUSE_INPUT)
+	# Do not change rng_seed if replay the same dungeon. Otherwise, overwrite
+	# rng_seed with debug_seed.
+	if input_tag != InputTag.REPLAY_DUNGEON:
+		TransferData.set_rng_seed(TransferData.debug_seed, self)
+
+
+func _init_node_text() -> void:
+	for i in LABEL_TO_NAME.keys():
+		get_node(i).text = LABEL_TO_NAME[i]
+	for i in INPUT_TO_PLACEHOLDER.keys():
+		get_node(i).placeholder_text = INPUT_TO_PLACEHOLDER[i]
+	if not TransferData.json_parse_error:
+		get_node(FOOTER).text = ""
+
+
+func _init_node_color() -> void:
+	for i in NODE_TO_COLOR.keys():
+		get_node(i).modulate = _ref_Palette.get_text_color(NODE_TO_COLOR[i])
 
 
 func _load_from_array(source: Array, target: String) -> void:
@@ -158,10 +128,13 @@ func _save_as_array(source: String) -> Array:
 
 
 func _save_as_bool(source: String) -> bool:
-	source = get_node(source).text.to_lower().strip_edges()
-	return _true_reg.search(source) != null
+	return _true_reg.search(_save_as_string(source)) != null
 
 
 func _save_as_int(source: String) -> int:
 	var str_digit: String = get_node(source).text
 	return int(_seed_reg.sub(str_digit, "", true))
+
+
+func _save_as_string(source: String) -> String:
+	return get_node(source).text.to_lower().strip_edges()

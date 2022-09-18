@@ -7,7 +7,7 @@ const HELP := "Lower/Help"
 const VERSION := "Lower/Version"
 const SEED := "Lower/Seed"
 
-const NODE_TO_LIGHT_COLOR := {
+const NODE_TO_COLOR := {
 	STATE: true,
 	HELP: false,
 	VERSION: false,
@@ -21,13 +21,9 @@ var _sidebar_version := ""
 var _pc_state: PcState
 
 
-func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
-	_set_seed(setting.get_rng_seed())
-	_set_version(setting.get_wizard_mode())
-
-
-func _on_RandomNumber_seed_updated(rng_seed: int) -> void:
-	_set_seed(rng_seed)
+func _on_GameSetting_setting_loaded() -> void:
+	_set_seed(TransferData.rng_seed)
+	_set_version(TransferData.wizard_mode)
 
 
 func _on_InitWorld_world_initialized() -> void:
@@ -69,9 +65,8 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 
 
 func _set_node_color() -> void:
-	for i in NODE_TO_LIGHT_COLOR.keys():
-		get_node(i).modulate = _ref_Palette.get_text_color(
-				NODE_TO_LIGHT_COLOR[i])
+	for i in NODE_TO_COLOR.keys():
+		get_node(i).modulate = _ref_Palette.get_text_color(NODE_TO_COLOR[i])
 
 
 func _set_seed(rng_seed: int) -> void:
@@ -84,10 +79,8 @@ func _set_seed(rng_seed: int) -> void:
 
 
 func _set_version(is_wizard: bool) -> void:
-	# Wizard mode, parse error.
-	if is_wizard:
-		pass
-	_sidebar_version = SidebarText.VERSION
+	var wizard_char := "+" if is_wizard else ""
+	_sidebar_version = SidebarText.VERSION % wizard_char
 
 
 func _get_over(win: bool) -> String:

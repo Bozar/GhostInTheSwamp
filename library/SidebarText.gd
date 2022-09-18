@@ -1,7 +1,7 @@
 class_name SidebarText
 
 
-const VERSION := "0.4.4"
+const VERSION := "%s0.4.4"
 # const VERSION := "0.3.1-\nNightly-\n04-16-2021"
 
 const SEPARATOR := "------------\n"

@@ -42,20 +42,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		_ref_GameSetting.save_setting(InputTag.REPLAY_DUNGEON)
 		_ref_EndGame.reload()
 	elif _verify_input(event, InputTag.COPY_SEED):
-		OS.set_clipboard(_ref_RandomNumber.get_rng_seed() as String)
+		OS.set_clipboard(_ref_RandomNumber.rng_seed as String)
 	elif _verify_input(event, InputTag.OPEN_HELP):
 		_ref_SwitchScreen.set_screen(ScreenTag.HELP)
 	elif _verify_input(event, InputTag.OPEN_DEBUG):
 		_ref_SwitchScreen.set_screen(ScreenTag.DEBUG)
 	elif _end_game:
 		if _verify_input(event, InputTag.RELOAD):
+			_ref_GameSetting.save_setting(InputTag.RELOAD)
 			_ref_EndGame.reload()
 	else:
 		may_have_conflict = false
 	if may_have_conflict:
 		return
 
-	if _ref_GameSetting.get_wizard_mode():
+	if TransferData.wizard_mode:
 		input_tag = _get_wizard_key(event)
 		if input_tag != "":
 			$PcAction.press_wizard_key(input_tag)

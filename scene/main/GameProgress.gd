@@ -10,6 +10,7 @@ var _ref_EndGame: EndGame
 
 # Renew game world in-between two turns.
 func renew_world(next_actor: Sprite) -> void:
+	# _ref_EndGame.call_deferred("player_win")
 	if ObjectState.get_state(next_actor).sub_tag:
 		pass
 

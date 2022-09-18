@@ -1,11 +1,6 @@
 {
-    "wizard_mode": false,
     "rng_seed": 0,
-    "include_world": [],
+    "wizard_mode": false,
     "show_full_map": false,
-    "mouse_input": false,
-    "palette": "",
-    "exclude_world": [
-        "demo"
-    ]
+    "palette": ""
 }
