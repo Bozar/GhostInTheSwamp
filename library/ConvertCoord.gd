@@ -43,12 +43,13 @@ static func coord_to_vector(coord: IntCoord, x_offset := 0, y_offset := 0) \
 	return Vector2(x_vector, y_vector)
 
 
-static func hash_coord(coord: IntCoord, main_tag := "", layer := 0) -> int:
+# Add Z index if necessary.
+static func hash_coord(coord: IntCoord, main_tag := "", z_index := 0) -> int:
 	# 543210
-	# LMXXYY | Layer, Main_tag, Coord.X, Coord.Y
+	# ZMXXYY | Z index, Main_tag, Coord.X, Coord.Y
 	var y := coord.y
 	var x := coord.x * pow(10, 2)
 	var hash_tag: int = MAIN_TAG_TO_INT.get(main_tag, 0) * pow(10, 4)
-	var hash_layer := layer * pow(10, 5)
+	var hash_layer := z_index * pow(10, 5)
 
 	return int(y + x + hash_tag + hash_layer)

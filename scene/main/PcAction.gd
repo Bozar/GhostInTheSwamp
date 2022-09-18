@@ -58,7 +58,7 @@ func move(input_tag: String) -> void:
 	elif is_trap():
 		interact_with_trap()
 	else:
-		DungeonBoard.move(_pc, _target_position)
+		MoveObject.move(_pc, _target_position)
 		_ref_Schedule.end_turn()
 
 

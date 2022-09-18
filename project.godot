@@ -24,12 +24,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/AutoStart.gd"
 }, {
-"base": "Reference",
+"base": "Node2D",
 "class": "BasicSpriteData",
 "language": "GDScript",
 "path": "res://library/BasicSpriteData.gd"
 }, {
-"base": "StoreStateTemplate",
+"base": "BasicSpriteData",
 "class": "BuildingState",
 "language": "GDScript",
 "path": "res://library/BuildingState.gd"
@@ -160,6 +160,11 @@ _global_script_classes=[ {
 "path": "res://library/MainTag.gd"
 }, {
 "base": "Node2D",
+"class": "MoveObject",
+"language": "GDScript",
+"path": "res://library/MoveObject.gd"
+}, {
+"base": "Node2D",
 "class": "NodeHelper",
 "language": "GDScript",
 "path": "res://library/NodeHelper.gd"
@@ -194,7 +199,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/PcData.gd"
 }, {
-"base": "StoreStateTemplate",
+"base": "BasicSpriteData",
 "class": "PcState",
 "language": "GDScript",
 "path": "res://library/PcState.gd"
@@ -269,11 +274,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/StateManagerTemplate.gd"
 }, {
-"base": "Node2D",
-"class": "StoreStateTemplate",
-"language": "GDScript",
-"path": "res://library/StoreStateTemplate.gd"
-}, {
 "base": "Reference",
 "class": "SubTag",
 "language": "GDScript",
@@ -340,6 +340,7 @@ _global_script_class_icons={
 "InputTemplate": "",
 "IntCoord": "",
 "MainTag": "",
+"MoveObject": "",
 "NodeHelper": "",
 "NodeTag": "",
 "PackedSceneData": "",
@@ -362,7 +363,6 @@ _global_script_class_icons={
 "SignalTag": "",
 "SpriteTypeTag": "",
 "StateManagerTemplate": "",
-"StoreStateTemplate": "",
 "SubTag": "",
 "SwitchScreen": "",
 "SwitchSprite": "",
@@ -389,6 +389,7 @@ FindObject="*res://library/FindObject.gd"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
 gdscript/warnings/integer_division=false

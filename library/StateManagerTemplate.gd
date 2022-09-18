@@ -8,7 +8,7 @@ const REMOVE := "add_state()"
 const REMOVE_ALL := "remove_all()"
 
 
-func add_state(_sprite_data: BasicSpriteData) -> void:
+func add_state(_sprite: Sprite, _main_tag: String, _sub_tag: String) -> void:
 	push_warning(EMPTY_METHOD % [name, ADD])
 
 

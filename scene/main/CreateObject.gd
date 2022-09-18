@@ -2,7 +2,7 @@ extends Node2D
 class_name CreateObject
 
 
-signal sprite_created(basic_sprite_data)
+signal sprite_created(new_sprite)
 
 var _ref_Palette: Palette
 
@@ -10,12 +10,10 @@ var _ref_Palette: Palette
 func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 		x_offset := 0, y_offset := 0) -> Sprite:
 	var new_sprite: Sprite
-	var new_basic: BasicSpriteData
 	var sprite_color: String
 	var z_index: int
 
 	new_sprite = PackedSceneData.get_packed_scene(sub_tag).instance()
-	new_basic = BasicSpriteData.new(new_sprite, main_tag, sub_tag, coord)
 	sprite_color = _ref_Palette.get_default_color(main_tag)
 	z_index = ZIndex.get_z_index(main_tag)
 
@@ -27,8 +25,8 @@ func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 	new_sprite.modulate = sprite_color
 
 	add_child(new_sprite)
-	StateManager.add_state(new_basic)
-	emit_signal(SignalTag.SPRITE_CREATED, new_basic)
+	StateManager.add_state(new_sprite, main_tag, sub_tag)
+	emit_signal(SignalTag.SPRITE_CREATED, new_sprite)
 
 	return new_sprite
 

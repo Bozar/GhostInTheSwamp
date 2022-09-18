@@ -12,16 +12,13 @@ func get_by_coord(main_tag: String, coord: IntCoord, layer := 0) -> Sprite:
 	return HASH_TO_SPRITE.get(hash_coord, null)
 
 
-func add_state(sprite_data: BasicSpriteData) -> void:
+func add_state(sprite: Sprite, main_tag: String, _sub_tag: String) -> void:
 	# Only record sprites inside the dungeon.
-	if not sprite_data.main_tag in MainTag.DUNGEON_OBJECT:
+	if not main_tag in MainTag.DUNGEON_OBJECT:
 		return
 
-	var coord := sprite_data.coord
-	var sprite := sprite_data.sprite
-	var main_tag := sprite_data.main_tag
-	var layer := 0
-	var hash_coord := ConvertCoord.hash_coord(coord, main_tag, layer)
+	var coord := ConvertCoord.sprite_to_coord(sprite)
+	var hash_coord := ConvertCoord.hash_coord(coord, main_tag)
 	var current_sprite: Sprite = HASH_TO_SPRITE.get(hash_coord, null)
 
 	if current_sprite != null:
@@ -34,7 +31,7 @@ func add_state(sprite_data: BasicSpriteData) -> void:
 # Refer StateManager.
 func remove_state(sprite: Sprite) -> void:
 	var store_state := ObjectState.get_state(sprite)
-	var coord := store_state.coord
+	var coord := ConvertCoord.sprite_to_coord(sprite)
 	var main_tag := store_state.main_tag
 	var layer := 0
 	var hash_coord := ConvertCoord.hash_coord(coord, main_tag, layer)
@@ -50,15 +47,5 @@ func add_sprite(sprite: Sprite) -> void:
 	var store_state := ObjectState.get_state(sprite)
 	var main_tag := store_state.main_tag
 	var sub_tag := store_state.sub_tag
-	var coord := store_state.coord
-	var basic_data := BasicSpriteData.new(sprite, main_tag, sub_tag, coord)
 
-	add_state(basic_data)
-
-
-func move(sprite: Sprite, to_coord: IntCoord) -> void:
-	var store_state := ObjectState.get_state(sprite)
-
-	remove_state(sprite)
-	store_state.coord = to_coord
-	add_sprite(sprite)
+	add_state(sprite, main_tag, sub_tag)

@@ -54,16 +54,18 @@ func _on_InitWorld_world_initialized() -> void:
 	emit_signal(SignalTag.TURN_STARTED, _get_current())
 
 
-func _on_CreateObject_sprite_created(sprite_data: BasicSpriteData) -> void:
-	if sprite_data.main_tag == MainTag.ACTOR:
-		if sprite_data.sub_tag == SubTag.PC:
-			_actors[0] = sprite_data.sprite
+func _on_CreateObject_sprite_created(sprite: Sprite) -> void:
+	var store_state := ObjectState.get_state(sprite)
+
+	if store_state.main_tag == MainTag.ACTOR:
+		if store_state.sub_tag == SubTag.PC:
+			_actors[0] = sprite
 		else:
-			_actors.append(sprite_data.sprite)
+			_actors.append(sprite)
 
 
-func _on_RemoveObject_sprite_removed(sprite_data: BasicSpriteData) -> void:
-	_remove_actors.push_back(sprite_data.sprite)
+func _on_RemoveObject_sprite_removed(sprite: Sprite) -> void:
+	_remove_actors.push_back(sprite)
 
 
 func _on_EndGame_game_over(_win: bool) -> void:

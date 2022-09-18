@@ -2,20 +2,14 @@ extends Node2D
 class_name RemoveObject
 
 
-signal sprite_removed(sprite_data)
+signal sprite_removed(remove_sprite)
 
 
 func remove(remove_this: Sprite) -> void:
 	if remove_this == null:
 		return
 
-	var store_state := ObjectState.get_state(remove_this)
-	var main_tag := store_state.main_tag
-	var coord := store_state.coord
-	var new_basic := BasicSpriteData.new(remove_this, main_tag,
-			SubTag.REMOVE_SPRITE, coord)
-
-	emit_signal(SignalTag.SPRITE_REMOVED, new_basic)
+	emit_signal(SignalTag.SPRITE_REMOVED, remove_this)
 	StateManager.remove_state(remove_this)
 	remove_this.queue_free()
 

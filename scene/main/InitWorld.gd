@@ -54,17 +54,13 @@ func _init_indicator(x: int, y: int) -> void:
 		],
 	}
 	var arrow_data: Array
-	var arrow_coord: IntCoord
+	var coord: IntCoord
 	var x_offset: int
 	var y_offset: int
-	var pc: Sprite = FindObject.pc
-	var arrow_sprite: Sprite
 
 	for i in tag_to_data.keys():
 		arrow_data = tag_to_data[i]
-		arrow_coord = IntCoord.new(arrow_data[0], arrow_data[1])
+		coord = IntCoord.new(arrow_data[0], arrow_data[1])
 		x_offset = arrow_data[2]
 		y_offset = arrow_data[3]
-		arrow_sprite = _ref_CreateObject.create_and_fetch(MainTag.INDICATOR,
-				i, arrow_coord, x_offset, y_offset)
-		ObjectState.get_state(pc).set_tag_to_arrow(i, arrow_sprite)
+		_ref_CreateObject.create(MainTag.INDICATOR, i, coord, x_offset, y_offset)

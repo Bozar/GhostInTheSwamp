@@ -2,17 +2,32 @@ extends StateManagerTemplate
 # class_name StateManager
 
 
+const ORDERED_FUNC := [
+	"ObjectState", "DungeonBoard",
+]
+
+
 # Order matters here. ObjectState should be added first and removed last.
-func add_state(sprite_data: BasicSpriteData) -> void:
-	ObjectState.add_state(sprite_data)
-	DungeonBoard.add_state(sprite_data)
+func add_state(sprite: Sprite, main_tag: String, sub_tag: String) -> void:
+	for i in ORDERED_FUNC:
+		get_tree().root.get_node(i).add_state(sprite, main_tag, sub_tag)
 
 
 func remove_state(sprite: Sprite) -> void:
-	DungeonBoard.remove_state(sprite)
-	ObjectState.remove_state(sprite)
+	ArrayHelper.reverse_iterate(ORDERED_FUNC, self, "_remove_state", [sprite])
 
 
 func remove_all() -> void:
-	DungeonBoard.remove_all()
-	ObjectState.remove_all()
+	ArrayHelper.reverse_iterate(ORDERED_FUNC, self, "_remove_all")
+
+
+func _remove_state(source: Array, current_idx: int, opt_arg: Array) -> void:
+	var sprite: Sprite = opt_arg[0]
+	var node_name: String = source[current_idx]
+
+	get_tree().root.get_node(node_name).remove_state(sprite)
+
+
+func _remove_all(source: Array, current_idx: int, _opt_arg: Array) -> void:
+	var node_name: String = source[current_idx]
+	get_tree().root.get_node(node_name).remove_all()

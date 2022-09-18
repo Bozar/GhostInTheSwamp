@@ -1,9 +1,8 @@
-extends StoreStateTemplate
+extends BasicSpriteData
 class_name PcState
 
 
 enum {
-	SEAL_DICT,
 	NPC_SIGHT,
 	POWER_COST,
 	POWER_TAG,
@@ -22,38 +21,15 @@ var _tag_to_state := {
 	SubTag.ACCORDION: false,
 }
 var _direction_to_state := {}
-var _tag_to_arrow := {}
 
 
-func _init(_basic_data: BasicSpriteData).(_basic_data)-> void:
+func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:
 	for i in DirectionTag.VALID_DIRECTIONS:
 		_direction_to_state[i] = {
 			NPC_SIGHT: false,
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,
 		}
-
-
-func set_coord(new_coord: IntCoord) -> void:
-	.set_coord(new_coord)
-
-	for i in _tag_to_arrow.keys():
-		match i:
-			SubTag.ARROW_RIGHT:
-				_tag_to_arrow[i].position.y = _self_sprite.position.y
-			SubTag.ARROW_DOWN:
-				_tag_to_arrow[i].position.x = _self_sprite.position.x
-			SubTag.ARROW_UP:
-				_tag_to_arrow[i].position.x = _self_sprite.position.x
-
-
-func set_tag_to_arrow(sub_tag: String, sprite: Sprite) -> void:
-	if _tag_to_arrow.get(SEAL_DICT, false):
-		return
-
-	_tag_to_arrow[sub_tag] = sprite
-	if _tag_to_arrow.size() == 3:
-		_tag_to_arrow[SEAL_DICT] = true
 
 
 func get_mp() -> int:
