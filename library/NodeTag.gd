@@ -23,7 +23,6 @@ const PC_ACTION := "PcAction"
 const SIDEBAR_VBOX_HELPER := "SidebarVBoxHelper"
 const HARBOR_HELPER := "HarborHelper"
 const INIT_WORLD_HELPER := "InitWorldHelper"
-const TRANSFER_NODE := "/root/TransferData"
 
 const REF_SCHEDULE := "_ref_Schedule"
 const REF_REMOVE_OBJECT := "_ref_RemoveObject"

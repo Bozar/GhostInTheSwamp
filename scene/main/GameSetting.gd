@@ -3,7 +3,7 @@ class_name GameSetting
 
 
 signal setting_loaded(setting)
-signal setting_saved(save_data)
+signal setting_saved(input_tag)
 
 const WIZARD := "wizard_mode"
 const SEED := "rng_seed"
@@ -20,8 +20,6 @@ const PALETTE_EXE_PATH := "data/"
 const PALETTE_RES_PATH := "res://bin/"
 const JSON_EXTENSION := ".json"
 
-const TRANSFER_SCENE := "res://scene/transfer_data/TransferData.tscn"
-
 const DEFAULT_EXCLUDE := [WorldTag.DEMO]
 
 var _wizard_mode: bool
@@ -36,7 +34,6 @@ var _json_parse_error: bool
 
 func load_setting() -> void:
 	var setting_data := {}
-	var transfer: TransferData
 	var json_parser: FileParser
 
 	# Load settings from setting.json.
@@ -50,21 +47,6 @@ func load_setting() -> void:
 			setting_data = json_parser.output_json
 			break
 
-	# Use settings from previous game if available. However, PALETTE is always
-	# loaded from setting.json.
-	if get_tree().root.has_node(NodeTag.TRANSFER_NODE):
-		transfer = get_tree().root.get_node(NodeTag.TRANSFER_NODE)
-		if transfer.overwrite_setting:
-			setting_data[INCLUDE_WORLD] = transfer.overwrite_include_world
-			setting_data[SEED] = transfer.overwrite_rng_seed
-		else:
-			setting_data[INCLUDE_WORLD] = transfer.include_world
-			setting_data[SEED] = transfer.rng_seed
-		setting_data[WIZARD] = transfer.wizard_mode
-		setting_data[MOUSE_INPUT] = transfer.mouse_input
-		setting_data[EXCLUDE_WORLD] = transfer.exclude_world
-		setting_data[SHOW_FULL_MAP] = transfer.show_full_map
-
 	# Set options for the current playthrough.
 	_wizard_mode = _set_bool(setting_data, WIZARD)
 	_mouse_input = _set_bool(setting_data, MOUSE_INPUT)
@@ -74,29 +56,33 @@ func load_setting() -> void:
 	_rng_seed = _set_rng_seed(setting_data)
 	_palette = _set_palette(setting_data)
 
-	if not get_tree().root.has_node(NodeTag.TRANSFER_NODE):
-		# Create TRANSFER_NODE.
-		transfer = load(TRANSFER_SCENE).instance()
-		get_tree().root.add_child(transfer)
-		# Initialize data.
-		transfer.rng_seed = get_rng_seed()
-		transfer.include_world = get_include_world()
-		transfer.wizard_mode = get_wizard_mode()
-		transfer.mouse_input = get_mouse_input()
-		transfer.exclude_world = get_exclude_world()
-		transfer.show_full_map = get_show_full_map()
-	# Set overwrite_setting to true in save_setting(). Reset it to false
-	# otherwise.
-	transfer.overwrite_setting = false
+	# Use settings from previous game if available. However, PALETTE is always
+	# loaded from setting.json.
+	if TransferData.is_initialized:
+		_wizard_mode = TransferData.wizard_mode
+		_mouse_input = TransferData.mouse_input
+		_include_world = TransferData.include_world
+		_exclude_world = TransferData.exclude_world
+		_show_full_map = TransferData.show_full_map
+		if TransferData.overwrite_rng_seed != 0:
+			_rng_seed = TransferData.overwrite_rng_seed
+			TransferData.overwrite_rng_seed = 0
+		else:
+			_rng_seed = TransferData.rng_seed
+	else:
+		TransferData.wizard_mode = _wizard_mode
+		TransferData.mouse_input = _mouse_input
+		TransferData.include_world = _include_world
+		TransferData.exclude_world = _exclude_world
+		TransferData.show_full_map = _show_full_map
+		TransferData.rng_seed = _rng_seed
+		TransferData.is_initialized = true
 
 	emit_signal(SignalTag.SETTING_LOADED, self)
 
 
-func save_setting() -> void:
-	var transfer: TransferData = get_tree().root.get_node(NodeTag.TRANSFER_NODE)
-
-	transfer.overwrite_setting = true
-	emit_signal(SignalTag.SETTING_SAVED, transfer)
+func save_setting(input_tag: String) -> void:
+	emit_signal(SignalTag.SETTING_SAVED, input_tag)
 
 
 func get_wizard_mode() -> bool:

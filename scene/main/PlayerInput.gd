@@ -36,9 +36,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _verify_input(event, InputTag.QUIT):
 		_ref_EndGame.quit()
 	elif _verify_input(event, InputTag.FORCE_RELOAD):
+		_ref_GameSetting.save_setting(InputTag.FORCE_RELOAD)
 		_ref_EndGame.reload()
 	elif _verify_input(event, InputTag.REPLAY_DUNGEON):
-		_ref_GameSetting.save_setting()
+		_ref_GameSetting.save_setting(InputTag.REPLAY_DUNGEON)
 		_ref_EndGame.reload()
 	elif _verify_input(event, InputTag.COPY_SEED):
 		OS.set_clipboard(_ref_RandomNumber.get_rng_seed() as String)

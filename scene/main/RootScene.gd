@@ -37,7 +37,7 @@ const SIGNAL_BIND := [
 	],
 	[
 		SignalTag.SETTING_SAVED, NodeTag.SETTING,
-		NodeTag.RANDOM,
+		NodeTag.RANDOM, NodeTag.DEBUG_GUI,
 	],
 	[
 		SignalTag.SCREEN_SWITCHED, NodeTag.SWITCH_SCREEN,

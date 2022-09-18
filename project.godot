@@ -289,11 +289,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/SwitchSprite.gd"
 }, {
-"base": "Node2D",
-"class": "TransferData",
-"language": "GDScript",
-"path": "res://scene/transfer_data/TransferData.gd"
-}, {
 "base": "Reference",
 "class": "WorldGenerator",
 "language": "GDScript",
@@ -366,7 +361,6 @@ _global_script_class_icons={
 "SubTag": "",
 "SwitchScreen": "",
 "SwitchSprite": "",
-"TransferData": "",
 "WorldGenerator": "",
 "WorldTag": "",
 "ZIndex": ""
@@ -382,6 +376,7 @@ config/windows_native_icon="res://resource/ghost.ico"
 
 [autoload]
 
+TransferData="*res://library/TransferData.gd"
 ObjectState="*res://library/ObjectState.gd"
 DungeonBoard="*res://library/DungeonBoard.gd"
 StateManager="*res://library/StateManager.gd"

@@ -2,8 +2,6 @@ extends VBoxContainer
 class_name DebugVBox
 
 
-const TRANSFER_NODE := "/root/TransferData"
-
 const HEADER := "Header"
 const SETTING := "SettingVBox"
 const FOOTER := "Footer"
@@ -57,16 +55,20 @@ func _on_InitWorld_world_selected(_new_world: String) -> void:
 	_init_text_color()
 	_init_label_text()
 	_init_input_placeholder()
+	_load_settings()
 
 
 func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
 	if target == ScreenTag.DEBUG:
 		visible = true
 		get_node(SEED_INPUT).grab_focus()
-		_load_settings()
+		get_node(SEED_INPUT).caret_position = 0
 	elif source == ScreenTag.DEBUG:
 		visible = false
-		_save_settings()
+
+
+func _on_GameSetting_setting_saved(_input_tag: String) -> void:
+	_save_settings()
 
 
 func _init_label_text() -> void:
@@ -111,28 +113,24 @@ func _init_text_color() -> void:
 
 
 func _load_settings() -> void:
-	var transfer: TransferData = get_node(TRANSFER_NODE)
+	_load_as_string(TransferData.rng_seed, SEED_INPUT)
+	_load_as_string(TransferData.wizard_mode, WIZARD_INPUT)
+	_load_as_string(TransferData.show_full_map, SHOW_INPUT)
+	_load_as_string(TransferData.mouse_input, MOUSE_INPUT)
 
-	_load_as_string(transfer.rng_seed, SEED_INPUT)
-	_load_as_string(transfer.wizard_mode, WIZARD_INPUT)
-	_load_as_string(transfer.show_full_map, SHOW_INPUT)
-	_load_as_string(transfer.mouse_input, MOUSE_INPUT)
-
-	_load_from_array(transfer.include_world, INCLUDE_INPUT)
-	_load_from_array(transfer.exclude_world, EXCLUDE_INPUT)
+	_load_from_array(TransferData.include_world, INCLUDE_INPUT)
+	_load_from_array(TransferData.exclude_world, EXCLUDE_INPUT)
 
 
 func _save_settings() -> void:
-	var transfer: TransferData = get_node(TRANSFER_NODE)
+	TransferData.rng_seed = _save_as_int(SEED_INPUT)
 
-	transfer.rng_seed = _save_as_float(SEED_INPUT)
+	TransferData.include_world = _save_as_array(INCLUDE_INPUT)
+	TransferData.exclude_world = _save_as_array(EXCLUDE_INPUT)
 
-	transfer.include_world = _save_as_array(INCLUDE_INPUT)
-	transfer.exclude_world = _save_as_array(EXCLUDE_INPUT)
-
-	transfer.wizard_mode = _save_as_bool(WIZARD_INPUT)
-	transfer.show_full_map = _save_as_bool(SHOW_INPUT)
-	transfer.mouse_input = _save_as_bool(MOUSE_INPUT)
+	TransferData.wizard_mode = _save_as_bool(WIZARD_INPUT)
+	TransferData.show_full_map = _save_as_bool(SHOW_INPUT)
+	TransferData.mouse_input = _save_as_bool(MOUSE_INPUT)
 
 
 func _load_from_array(source: Array, target: String) -> void:
@@ -164,6 +162,6 @@ func _save_as_bool(source: String) -> bool:
 	return _true_reg.search(source) != null
 
 
-func _save_as_float(source: String) -> float:
+func _save_as_int(source: String) -> int:
 	var str_digit: String = get_node(source).text
-	return float(_seed_reg.sub(str_digit, "", true))
+	return int(_seed_reg.sub(str_digit, "", true))

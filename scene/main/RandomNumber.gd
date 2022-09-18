@@ -58,5 +58,6 @@ func _on_GameSetting_setting_loaded(setting: GameSetting) -> void:
 	print("seed: {0}".format([_init_seed]))
 
 
-func _on_GameSetting_setting_saved(save_data: TransferData) -> void:
-	save_data.overwrite_rng_seed = get_rng_seed()
+func _on_GameSetting_setting_saved(input_tag: String) -> void:
+	if input_tag == InputTag.REPLAY_DUNGEON:
+		TransferData.overwrite_rng_seed = get_rng_seed()
