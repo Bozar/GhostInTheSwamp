@@ -2,8 +2,8 @@
 
 * Godot engine: 3.4.4
 * Embed pck: True
-* Include filter: `user/doc/*`, `resource/dungeon_prefab/*`
-* Exclude filter: `bin/*`, `resource/REXPaint/*`
+* Include filter: `user/doc/*, user/palette/*, resource/dungeon_prefab/*`
+* Exclude filter: `bin/*, resource/REXPaint/*`
 
 `bin/*` is not tracked by Git. Therefore it does not exist in the GitHub repository. I use it locally to store binary files.
 

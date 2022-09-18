@@ -5,6 +5,7 @@ class_name Palette
 const PALETTE_EXE_PATH := "data/"
 const PALETTE_RES_PATH := "res://bin/"
 const JSON_EXTENSION := ".json"
+const PATH_TO_FAIL_SAFE := "res://user/palette/%s.json"
 
 const BACKGROUND := "background"
 const INDICATOR := "indicator"
@@ -124,8 +125,7 @@ func get_text_color(is_light_color: bool) -> String:
 
 func _on_GameSetting_setting_loaded() -> void:
 	var palette := _load_palette(TransferData.palette_name)
-	var has_color_value := palette.has(COLOR_VALUE) \
-			and (palette[COLOR_VALUE] is Dictionary)
+	var has_color_value := palette.get(COLOR_VALUE) is Dictionary
 	var color_regex := RegEx.new()
 	color_regex.compile(HTML_COLOR_REGEX)
 
@@ -157,4 +157,14 @@ func _load_palette(palette_name: String) -> Dictionary:
 			json_parser = FileIoHelper.read_as_json(i + palette_name + j)
 			if json_parser.parse_success:
 				return json_parser.output_json
+	return _try_fail_safe_palette(palette_name)
+
+
+func _try_fail_safe_palette(palette_name: String) -> Dictionary:
+	var fail_safe := palette_name.strip_edges().replace(JSON_EXTENSION, "") \
+			.to_lower()
+	var output_json := FileIoHelper.read_as_json(PATH_TO_FAIL_SAFE % fail_safe)
+
+	if output_json.parse_success:
+		return output_json.output_json
 	return {}
