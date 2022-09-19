@@ -52,7 +52,6 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	add_to_group(MainTag.SET_TRANSFER_DATA)
 	visible = false
 
 
@@ -79,15 +78,15 @@ func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
 
 
 func _on_GameSetting_setting_saved(input_tag: String) -> void:
-	TransferData.set_debug_seed(_save_as_int(SEED_INPUT), self)
-	TransferData.set_wizard_mode(_save_as_bool(WIZARD_INPUT), self)
-	TransferData.set_palette_name(_save_as_string(PALETTE_INPUT), self)
-	TransferData.set_show_full_map(_save_as_bool(MAP_INPUT), self)
+	TransferData.set_debug_seed(_save_as_int(SEED_INPUT))
+	TransferData.set_wizard_mode(_save_as_bool(WIZARD_INPUT))
+	TransferData.set_palette_name(_save_as_string(PALETTE_INPUT))
+	TransferData.set_show_full_map(_save_as_bool(MAP_INPUT))
 
 	# Do not change rng_seed if replay the same dungeon. Otherwise, overwrite
 	# rng_seed with debug_seed.
 	if input_tag != InputTag.REPLAY_DUNGEON:
-		TransferData.set_rng_seed(TransferData.debug_seed, self)
+		TransferData.set_rng_seed(TransferData.debug_seed)
 
 
 func _init_node_text() -> void:

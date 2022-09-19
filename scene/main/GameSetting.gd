@@ -16,10 +16,6 @@ const SETTING_RES_PATH := "res://bin/setting.json"
 var _ref_RandomNumber: RandomNumber
 
 
-func _ready() -> void:
-	add_to_group(MainTag.SET_TRANSFER_DATA)
-
-
 func load_setting() -> void:
 	var wizard_mode := false
 	var rng_seed := 0
@@ -40,7 +36,7 @@ func load_setting() -> void:
 			break
 
 	# Load settings from setting.json.
-	TransferData.set_json_parse_error(json_parse_error, self)
+	TransferData.set_json_parse_error(json_parse_error)
 	wizard_mode = _get_bool(setting_data, WIZARD)
 	show_full_map = _get_bool(setting_data, SHOW_FULL_MAP)
 	rng_seed = _get_rng_seed(setting_data)
@@ -50,19 +46,19 @@ func load_setting() -> void:
 	if TransferData.initialized:
 		rng_seed = TransferData.rng_seed
 		rng_seed = _ref_RandomNumber.get_initial_seed(rng_seed)
-		TransferData.set_rng_seed(rng_seed, self)
+		TransferData.set_rng_seed(rng_seed)
 	else:
-		TransferData.set_initialized(true, self)
+		TransferData.set_initialized(true)
 
 		# Load debug seed from setting.json.
-		TransferData.set_debug_seed(rng_seed, self)
+		TransferData.set_debug_seed(rng_seed)
 		# Generate a new one if debug seed is invalid.
 		rng_seed = _ref_RandomNumber.get_initial_seed(rng_seed)
-		TransferData.set_rng_seed(rng_seed, self)
+		TransferData.set_rng_seed(rng_seed)
 
-		TransferData.set_wizard_mode(wizard_mode, self)
-		TransferData.set_palette_name(palette_name, self)
-		TransferData.set_show_full_map(show_full_map, self)
+		TransferData.set_wizard_mode(wizard_mode)
+		TransferData.set_palette_name(palette_name)
+		TransferData.set_show_full_map(show_full_map)
 
 	emit_signal(SignalTag.SETTING_LOADED)
 

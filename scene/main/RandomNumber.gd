@@ -5,10 +5,6 @@ class_name RandomNumber
 var _rng := RandomNumberGenerator.new()
 
 
-func _ready() -> void:
-	add_to_group(MainTag.SET_TRANSFER_DATA)
-
-
 # Get an integer from min_int (inclusive) to max_int (exclusive).
 func get_int(min_int: int, max_int: int) -> int:
 	return _rng.randi_range(min_int, max_int - 1)
