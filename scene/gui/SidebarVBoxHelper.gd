@@ -24,15 +24,13 @@ func set_reference() -> void:
 	_pc_state = ObjectState.get_state(FindObject.pc)
 
 
-func get_state_item(force_update: bool) -> String:
+func get_state_item(force_update := true) -> String:
 	if force_update:
 		_update_state()
 	return _state_item
 
 
-func get_state_power(force_update: bool) -> String:
-	if force_update:
-		_update_state()
+func get_state_power() -> String:
 	return _state_power
 
 

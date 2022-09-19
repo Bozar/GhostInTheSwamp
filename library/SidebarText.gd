@@ -3,6 +3,7 @@ class_name SidebarText
 
 const VERSION := "%s0.4.4"
 # const VERSION := "0.3.1-\nNightly-\n04-16-2021"
+const WIZARD := "+"
 
 const SEPARATOR := "------------\n"
 const GAME_OVER := "%s\n" + SEPARATOR + "You %s.\n[Space]"
@@ -10,7 +11,7 @@ const WIN := "win"
 const LOSE := "lose"
 
 const HELP := "Help: C"
-const SEED := "{0}-{1}-{2}"
+const SEED := "%s-%s-%s"
 
 # MP + SEPARATOR + STATE + SEPARATOR + INVENTORY
 const STATE_PANEL := "{1}{0}{2}{0}{3}"

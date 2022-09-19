@@ -44,7 +44,7 @@ func move(input_tag: String) -> void:
 
 
 func use_power() -> void:
-	_pc_state.using_power = not _pc_state.using_power
+	_pc_state.use_power = not _pc_state.use_power
 
 	# _ref_Schedule.end_turn()
 

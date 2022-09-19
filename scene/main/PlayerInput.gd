@@ -38,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_ref_GameSetting.save_setting(InputTag.REPLAY_DUNGEON)
 		_ref_EndGame.reload()
 	elif _verify_input(event, InputTag.COPY_SEED):
-		OS.set_clipboard(_ref_RandomNumber.rng_seed as String)
+		OS.set_clipboard(TransferData.rng_seed as String)
 	elif _verify_input(event, InputTag.OPEN_HELP):
 		_ref_SwitchScreen.set_screen(ScreenTag.HELP)
 	elif _verify_input(event, InputTag.OPEN_DEBUG):

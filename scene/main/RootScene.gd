@@ -33,7 +33,7 @@ const SIGNAL_BIND := [
 	],
 	[
 		SignalTag.SETTING_LOADED, NodeTag.SETTING,
-		NodeTag.PALETTE, NodeTag.SIDEBAR_GUI, NodeTag.DEBUG_GUI,
+		NodeTag.PALETTE, NodeTag.DEBUG_GUI,
 	],
 	[
 		SignalTag.SETTING_SAVED, NodeTag.SETTING,

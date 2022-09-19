@@ -35,17 +35,20 @@ const NODE_TO_COLOR := {
 }
 
 const TRUE_PATTERN := "^(true|t|yes|y|[1-9]\\d*)$"
+const SEED_SEPARATOR_PATTERN := "[-,.\\s]"
+const EMPTY_STRING_PATTERN := "^(0|false)$"
 const ARRAY_SEPARATOR := ","
 const TRAILING_SPACE := " "
-const SEED_SEPARATOR_PATTERN := "[-,.\\s]"
 
 var _seed_reg := RegEx.new()
 var _true_reg := RegEx.new()
+var _string_reg := RegEx.new()
 
 
 func _init() -> void:
 	_seed_reg.compile(SEED_SEPARATOR_PATTERN)
 	_true_reg.compile(TRUE_PATTERN)
+	_string_reg.compile(EMPTY_STRING_PATTERN)
 
 
 func _ready() -> void:
@@ -113,7 +116,11 @@ func _load_from_array(source: Array, target: String) -> void:
 
 
 func _load_as_string(source, target: String) -> void:
-	get_node(target).text = String(source).to_lower()
+	var new_text := String(source).to_lower()
+
+	if _string_reg.search(new_text) != null:
+		new_text = ""
+	get_node(target).text = new_text
 
 
 func _save_as_array(source: String) -> Array:

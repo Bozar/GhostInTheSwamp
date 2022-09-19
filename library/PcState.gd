@@ -13,20 +13,24 @@ const TAG_TO_STATE := {
 	SubTag.PARROT: false,
 	SubTag.ACCORDION: false,
 }
+const DIRECTION_TO_STATE := {
+	DirectionTag.UP: {},
+	DirectionTag.DOWN: {},
+	DirectionTag.LEFT: {},
+	DirectionTag.RIGHT: {},
+}
 
 var mp := 0 setget set_mp, get_mp
 var max_mp := PcData.MAX_MP
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 var has_ghost := false
 var sail_duration := 0
-var using_power := false
-
-var _direction_to_state := {}
+var use_power := false
 
 
 func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:
-	for i in DirectionTag.VALID_DIRECTIONS:
-		_direction_to_state[i] = {
+	for i in DIRECTION_TO_STATE.keys():
+		DIRECTION_TO_STATE[i] = {
 			NPC_SIGHT: false,
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,
@@ -70,24 +74,24 @@ func add_item(sub_tag: String) -> void:
 
 
 func is_in_npc_sight(direction_tag: int) -> bool:
-	return _direction_to_state[direction_tag][NPC_SIGHT]
+	return DIRECTION_TO_STATE[direction_tag][NPC_SIGHT]
 
 
 func set_npc_sight(direction_tag: int, is_in_sight: bool) -> void:
-	_direction_to_state[direction_tag][NPC_SIGHT] = is_in_sight
+	DIRECTION_TO_STATE[direction_tag][NPC_SIGHT] = is_in_sight
 
 
 func get_power_cost(direction_tag: int) -> int:
-	return _direction_to_state[direction_tag][POWER_COST]
+	return DIRECTION_TO_STATE[direction_tag][POWER_COST]
 
 
 func set_power_cost(direction_tag: int, power_cost: int) -> void:
-	_direction_to_state[direction_tag][POWER_COST] = power_cost
+	DIRECTION_TO_STATE[direction_tag][POWER_COST] = power_cost
 
 
 func get_power_tag(direction_tag: int) -> int:
-	return _direction_to_state[direction_tag][POWER_TAG]
+	return DIRECTION_TO_STATE[direction_tag][POWER_TAG]
 
 
 func set_power_tag(direction_tag: int, power_tag: int) -> void:
-	_direction_to_state[direction_tag][POWER_TAG] = power_tag
+	DIRECTION_TO_STATE[direction_tag][POWER_TAG] = power_tag
