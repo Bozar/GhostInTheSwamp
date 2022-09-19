@@ -20,16 +20,12 @@ const SIGNAL_BIND := [
 		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.SIDEBAR_GUI,
 	],
 	[
-		SignalTag.TURN_ENDED, NodeTag.SCHEDULE,
-		NodeTag.PLAYER_INPUT,
-	],
-	[
 		SignalTag.SPRITE_REMOVED, NodeTag.REMOVE_OBJECT,
 		NodeTag.SCHEDULE,
 	],
 	[
-		SignalTag.GAME_OVER, NodeTag.END_GAME,
-		NodeTag.SCHEDULE, NodeTag.PLAYER_INPUT, NodeTag.SIDEBAR_GUI,
+		SignalTag.GAME_OVER, NodeTag.PROGRESS,
+		NodeTag.PLAYER_INPUT, NodeTag.SIDEBAR_GUI, NodeTag.SCHEDULE,
 	],
 	[
 		SignalTag.SETTING_LOADED, NodeTag.SETTING,
@@ -68,10 +64,6 @@ const NODE_REF := [
 		NodeTag.REF_RANDOM_NUMBER, NodeTag.RANDOM,
 		NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
 		NodeTag.PROGRESS, NodeTag.SETTING,
-	],
-	[
-		NodeTag.REF_END_GAME, NodeTag.END_GAME,
-		NodeTag.ACTOR_ACTION, NodeTag.PLAYER_INPUT, NodeTag.PROGRESS,
 	],
 	[
 		NodeTag.REF_CREATE_OBJECT, NodeTag.CREATE_OBJECT,

@@ -19,20 +19,20 @@ func _on_InitWorld_world_initialized() -> void:
 	$SidebarVBoxHelper.set_reference()
 	_set_node_color()
 
-	$"Upper/State".text = $SidebarVBoxHelper.get_state_item()
+	get_node(STATE).text = $SidebarVBoxHelper.get_state_item()
 
-	$"Lower/Version".text = _get_version()
-	$"Lower/Help".text = SidebarText.HELP
-	$"Lower/Seed".text = _get_seed()
+	get_node(VERSION).text = _get_version()
+	get_node(HELP).text = SidebarText.HELP
+	get_node(SEED).text = _get_seed()
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(SubTag.PC):
-		$"Upper/State".text = $SidebarVBoxHelper.get_state_item()
+		get_node(STATE).text = $SidebarVBoxHelper.get_state_item()
 
 
-func _on_EndGame_game_over(win: bool) -> void:
-	$"Upper/State".text = SidebarText.GAME_OVER % [
+func _on_GameProgress_game_over(win: bool) -> void:
+	get_node(STATE).text = SidebarText.GAME_OVER % [
 		$SidebarVBoxHelper.get_state_item(), _get_game_over(win)
 	]
 
@@ -48,9 +48,9 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 		InputTag.USE_POWER:
 			if ObjectState.get_state(FindObject.pc).use_power:
 				state_text = $SidebarVBoxHelper.get_state_power()
-			$"Upper/State".text = state_text
+			get_node(STATE).text = state_text
 		InputTag.ANY_WIZARD_KEY:
-			$"Upper/State".text= $SidebarVBoxHelper.get_state_item()
+			get_node(STATE).text= $SidebarVBoxHelper.get_state_item()
 
 
 func _set_node_color() -> void:

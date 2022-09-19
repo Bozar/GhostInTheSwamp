@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
@@ -13,7 +13,6 @@
 [ext_resource path="res://scene/main/RandomNumber.gd" type="Script" id=11]
 [ext_resource path="res://scene/main/PlayerInput.gd" type="Script" id=12]
 [ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
-[ext_resource path="res://scene/main/EndGame.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
 [ext_resource path="res://scene/main/GameProgress.gd" type="Script" id=20]
 [ext_resource path="res://scene/main/CreateObject.gd" type="Script" id=21]
@@ -98,9 +97,6 @@ script = ExtResource( 6 )
 
 [node name="StartPcTurn" type="Node2D" parent="GameProgress"]
 script = ExtResource( 10 )
-
-[node name="EndGame" type="Node2D" parent="."]
-script = ExtResource( 17 )
 
 [node name="Palette" type="Node2D" parent="."]
 script = ExtResource( 26 )

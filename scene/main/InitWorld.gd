@@ -3,7 +3,7 @@ class_name InitWorld
 
 
 const CHILD_REFERENCE := {
-	NodeTag.INIT_WORLD_HELPER: [
+	"InitWorldHelper": [
 		NodeTag.REF_RANDOM_NUMBER, NodeTag.REF_CREATE_OBJECT,
 	],
 }

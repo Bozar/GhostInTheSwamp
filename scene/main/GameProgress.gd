@@ -2,20 +2,27 @@ extends Node2D
 class_name GameProgress
 
 
+signal game_over(win)
+
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 var _ref_RemoveObject: RemoveObject
-var _ref_EndGame: EndGame
+
+var _game_over := false
+var _player_win := true
 
 
-# Renew game world in-between two turns.
-# _ref_EndGame.call_deferred("player_win")
+# Renew game world in-between two turns. Refer: Schedule.
 func renew_world(next_actor: Sprite) -> void:
+	# Before PC's turn: Respawn actors and buildings (ghosts), update PC state.
 	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
 		$StartPcTurn.renew_world()
+	# Always check PC and NPC state to decide if game ends.
+	if _game_over:
+		emit_signal(SignalTag.GAME_OVER, _player_win)
 
 
-# Do not create new sprites here, call `renew_world()` instead. Refer: Schedule.
+# Do not create new sprites here, call renew_world() instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
 	_active_the_first_harbor()
 

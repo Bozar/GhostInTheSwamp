@@ -84,11 +84,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/DungeonSize.gd"
 }, {
-"base": "Node2D",
-"class": "EndGame",
-"language": "GDScript",
-"path": "res://scene/main/EndGame.gd"
-}, {
 "base": "Reference",
 "class": "FileIoHelper",
 "language": "GDScript",
@@ -330,7 +325,6 @@ _global_script_class_icons={
 "DirectionTag": "",
 "DungeonPrefab": "",
 "DungeonSize": "",
-"EndGame": "",
 "FileIoHelper": "",
 "FileParser": "",
 "GameProgress": "",
@@ -393,6 +387,7 @@ ObjectState="*res://library/ObjectState.gd"
 DungeonBoard="*res://library/DungeonBoard.gd"
 StateManager="*res://library/StateManager.gd"
 FindObject="*res://library/FindObject.gd"
+EndGame="*res://library/EndGame.gd"
 
 [debug]
 

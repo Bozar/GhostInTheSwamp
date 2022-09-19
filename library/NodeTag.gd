@@ -1,6 +1,7 @@
 class_name NodeTag
 
 
+# All nodes are searched from RootScene's direct child.
 const INIT_WORLD := "InitWorld"
 const PLAYER_INPUT := "PlayerInput"
 const HELP_INPUT := "HelpInput"
@@ -11,7 +12,6 @@ const REMOVE_OBJECT := "RemoveObject"
 const RANDOM := "RandomNumber"
 const OBJECT_STATE := "ObjectState"
 const SWITCH_SCREEN := "SwitchScreen"
-const END_GAME := "EndGame"
 const PROGRESS := "GameProgress"
 const SETTING := "GameSetting"
 const PALETTE := "Palette"
@@ -19,15 +19,10 @@ const SIDEBAR_GUI := "MainGui/SidebarVBox"
 const HELP_GUI := "HelpGui/HelpVScroll"
 const DEBUG_GUI := "DebugGui/DebugVBox"
 const DEBUG_INPUT := "DebugInput"
-const PC_ACTION := "PcAction"
-const SIDEBAR_VBOX_HELPER := "SidebarVBoxHelper"
-const HARBOR_HELPER := "HarborHelper"
-const INIT_WORLD_HELPER := "InitWorldHelper"
 
 const REF_SCHEDULE := "_ref_Schedule"
 const REF_REMOVE_OBJECT := "_ref_RemoveObject"
 const REF_RANDOM_NUMBER := "_ref_RandomNumber"
-const REF_END_GAME := "_ref_EndGame"
 const REF_CREATE_OBJECT := "_ref_CreateObject"
 const REF_SETTING := "_ref_GameSetting"
 const REF_SWITCH_SCREEN := "_ref_SwitchScreen"

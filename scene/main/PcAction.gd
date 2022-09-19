@@ -2,10 +2,10 @@ extends Node2D
 class_name PcAction
 
 
-var _ref_Schedule: Schedule
+var end_turn := false
+
 var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
-var _ref_EndGame: EndGame
 var _ref_CreateObject: CreateObject
 
 var _pc: Sprite
@@ -22,6 +22,7 @@ func set_reference() -> void:
 
 
 func start_turn() -> void:
+	end_turn = false
 	set_source_position()
 
 
@@ -39,13 +40,11 @@ func move(input_tag: String) -> void:
 		interact_with_trap()
 	else:
 		MoveObject.move(_pc, _target_position)
-		_ref_Schedule.end_turn()
+		end_turn = true
 
 
 func use_power() -> void:
 	_pc_state.use_power = not _pc_state.use_power
-
-	# _ref_Schedule.end_turn()
 
 
 func toggle_sight() -> void:
@@ -87,7 +86,7 @@ func is_trap() -> bool:
 
 func attack() -> void:
 	_ref_RemoveObject.remove_actor(_target_position)
-	_ref_Schedule.end_turn()
+	end_turn = true
 
 
 func interact_with_building() -> void:

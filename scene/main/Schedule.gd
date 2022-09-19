@@ -3,40 +3,36 @@ class_name Schedule
 
 
 signal turn_started(current_sprite)
-signal turn_ended(current_sprite)
 
 var _ref_GameProgress: GameProgress
 
 var _actors := [null]
 var _pointer := 0
-var _end_game := false
 var _remove_actors := []
-
-
-func end_turn() -> void:
-	# The boolean variable _end_game could be set during an actor's turn, or
-	# when a turn ends.
-	if _end_game:
-		_clear_schedule()
-		return
-
-	# Do NOT end game when responding to signal `turn_ended`. Use it to clean up
-	# data or reset states.
-	# print("%s ends turn." % _get_current().name)
-	emit_signal(SignalTag.TURN_ENDED, _get_current())
-	_goto_next()
-	_clear_schedule()
-
-	# Respawn enemies, change terrain or kill PC in-between two turns.
-	_ref_GameProgress.renew_world(_get_current())
-	_clear_schedule()
-	if _end_game:
-		return
-	emit_signal(SignalTag.TURN_STARTED, _get_current())
+var _game_over := false
 
 
 func start_first_turn() -> void:
 	_ref_GameProgress.renew_world(_get_current())
+	# Just in case an actor is removed before the very first turn.
+	_clear_schedule()
+	emit_signal(SignalTag.TURN_STARTED, _get_current())
+
+
+func end_turn() -> void:
+	# print("%s ends turn." % _get_current().name)
+	_clear_schedule()
+	_goto_next()
+
+	# Respawn enemies, change terrain or kill PC in-between two turns. Only end
+	# game inside renew_world().
+	_ref_GameProgress.renew_world(_get_current())
+	_clear_schedule()
+	# Do not start next turn if game is over.
+	if _game_over:
+		return
+
+	# print("%s starts turn." % _get_current().name)
 	emit_signal(SignalTag.TURN_STARTED, _get_current())
 
 
@@ -68,8 +64,8 @@ func _on_RemoveObject_sprite_removed(sprite: Sprite) -> void:
 	_remove_actors.push_back(sprite)
 
 
-func _on_EndGame_game_over(_win: bool) -> void:
-	_end_game = true
+func _on_GameProgress_game_over(_win: bool) -> void:
+	_game_over = true
 
 
 func _get_current() -> Sprite:
