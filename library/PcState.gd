@@ -8,18 +8,19 @@ enum {
 	POWER_TAG,
 }
 
+const TAG_TO_STATE := {
+	SubTag.RUM: false,
+	SubTag.PARROT: false,
+	SubTag.ACCORDION: false,
+}
+
 var mp := 0 setget set_mp, get_mp
 var max_mp := PcData.MAX_MP
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 var has_ghost := false
 var sail_duration := 0
-var is_using_power := false
+var using_power := false
 
-var _tag_to_state := {
-	SubTag.RUM: false,
-	SubTag.PARROT: false,
-	SubTag.ACCORDION: false,
-}
 var _direction_to_state := {}
 
 
@@ -37,8 +38,8 @@ func get_mp() -> int:
 
 
 # MP can be negative.
-func set_mp(new_mp: int) -> void:
-	mp = new_mp
+func set_mp(new_data: int) -> void:
+	mp = new_data
 	if mp > max_mp:
 		mp = max_mp
 
@@ -52,17 +53,20 @@ func set_mp_progress(new_progress: int) -> void:
 	mp_progress = new_progress
 	if mp_progress < 0:
 		mp_progress = 0
+	while mp_progress >= PcData.MAX_MP_PROGRESS:
+		mp_progress -= PcData.MAX_MP_PROGRESS
+		set_mp(mp + 1)
 
 
 func has_item(sub_tag: String) -> bool:
-	if not _tag_to_state.has(sub_tag):
+	if not TAG_TO_STATE.has(sub_tag):
 		return false
-	return _tag_to_state[sub_tag]
+	return TAG_TO_STATE[sub_tag]
 
 
 func add_item(sub_tag: String) -> void:
-	if _tag_to_state.has(sub_tag):
-		_tag_to_state[sub_tag] = true
+	if TAG_TO_STATE.has(sub_tag):
+		TAG_TO_STATE[sub_tag] = true
 
 
 func is_in_npc_sight(direction_tag: int) -> bool:

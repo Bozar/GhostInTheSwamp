@@ -6,7 +6,7 @@ var _rng := RandomNumberGenerator.new()
 
 
 func _ready() -> void:
-	add_to_group(MainTag.GAME_SETTING)
+	add_to_group(MainTag.SET_TRANSFER_DATA)
 
 
 # Get an integer from min_int (inclusive) to max_int (exclusive).

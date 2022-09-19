@@ -17,7 +17,7 @@ var _ref_RandomNumber: RandomNumber
 
 
 func _ready() -> void:
-	add_to_group(MainTag.GAME_SETTING)
+	add_to_group(MainTag.SET_TRANSFER_DATA)
 
 
 func load_setting() -> void:

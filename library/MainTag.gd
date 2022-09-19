@@ -10,7 +10,7 @@ const BUILDING := "building"
 const ACTOR := "actor"
 const INDICATOR := "indicator"
 
-const GAME_SETTING := "game_setting"
+const SET_TRANSFER_DATA := "set_transfer_data"
 
 const DUNGEON_OBJECT := [GROUND, TRAP, BUILDING, ACTOR]
 const ABOVE_GROUND_OBJECT := [TRAP, BUILDING, ACTOR]

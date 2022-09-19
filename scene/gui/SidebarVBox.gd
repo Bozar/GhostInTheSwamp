@@ -55,7 +55,7 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 
 	match input_tag:
 		InputTag.USE_POWER:
-			if _pc_state.is_using_power:
+			if _pc_state.using_power:
 				state_text = $SidebarVBoxHelper.get_state_power(false)
 			$"Upper/State".text = state_text
 		InputTag.ANY_WIZARD_KEY:
