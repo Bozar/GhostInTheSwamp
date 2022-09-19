@@ -17,7 +17,6 @@ func renew_world(next_actor: Sprite) -> void:
 
 # Do not create new sprites here, call `renew_world()` instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
-	$StartPcTurn.set_reference()
 	_active_the_first_harbor()
 
 

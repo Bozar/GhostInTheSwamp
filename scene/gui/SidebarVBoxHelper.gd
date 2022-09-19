@@ -40,6 +40,10 @@ func _update_state() -> void:
 	var mp_progress := _pc_state.mp_progress
 	var mp_line := SidebarText.MP % [mp, max_mp, mp_progress]
 
+	var max_ghost := _pc_state.max_ghost
+	var remain_ghost := max_ghost - _pc_state.count_ghost
+	var ghost_count_line := SidebarText.GHOST_COUNT % [remain_ghost, max_ghost]
+
 	var ghost := _get_ghost()
 	var los := _get_line_of_sight()
 	var sink := _get_sink()
@@ -50,10 +54,10 @@ func _update_state() -> void:
 
 	_state_item = SidebarText.STATE_PANEL.format([
 			SidebarText.SEPARATOR,
-			mp_line, state_line, inventory_line])
+			mp_line, ghost_count_line, state_line, inventory_line])
 	_state_power = SidebarText.STATE_PANEL.format([
 			SidebarText.SEPARATOR,
-			mp_line, state_line, power_line])
+			mp_line, ghost_count_line, state_line, power_line])
 
 
 func _get_ghost() -> String:
@@ -71,16 +75,16 @@ func _get_line_of_sight() -> String:
 	los = los.strip_edges()
 
 	if los.length() > 0:
-		return SidebarText.LINE_OF_SIGHT % [los]
+		return SidebarText.LINE_OF_SIGHT % los
 	return los
 
 
 func _get_sink() -> String:
-	var sink: int
+	var max_sail := _pc_state.max_sail_duration
+	var sink := max_sail - _pc_state.sail_duration
 
-	if _pc_state.sail_duration > 0:
-		sink = PcData.MAX_SAIL - _pc_state.sail_duration
-		return SidebarText.SINK % [sink]
+	if sink < max_sail:
+		return SidebarText.SINK % sink
 	return ""
 
 

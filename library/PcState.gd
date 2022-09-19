@@ -7,6 +7,7 @@ enum {
 	POWER_COST,
 	POWER_TAG,
 }
+const MAX_INT := 999
 
 const TAG_TO_STATE := {
 	SubTag.RUM: false,
@@ -23,8 +24,17 @@ const DIRECTION_TO_STATE := {
 var mp := 0 setget set_mp, get_mp
 var max_mp := PcData.MAX_MP
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
+
+# Increase the upper limit when collecting a new item.
+var max_ghost := PcData.MAX_GHOST_PER_ITEM
+# Add 1 after removing a ghost due to any reason.
+var count_ghost := 0 setget set_count_ghost, get_count_ghost
+
 var has_ghost := false
-var sail_duration := 0
+var max_sail_duration := PcData.MAX_SAIL_DURATION
+# Add 1 after moving in the water for 1 turn.
+var sail_duration := 0 setget set_sail_duration, get_sail_duration
+
 var use_power := false
 
 
@@ -43,9 +53,7 @@ func get_mp() -> int:
 
 # MP can be negative.
 func set_mp(new_data: int) -> void:
-	mp = new_data
-	if mp > max_mp:
-		mp = max_mp
+	mp = _fix_overflow(new_data, max_mp)
 
 
 func get_mp_progress() -> int:
@@ -53,13 +61,27 @@ func get_mp_progress() -> int:
 
 
 # MP progress cannot be negative.
-func set_mp_progress(new_progress: int) -> void:
-	mp_progress = new_progress
-	if mp_progress < 0:
-		mp_progress = 0
+func set_mp_progress(new_data: int) -> void:
+	mp_progress = _fix_overflow(new_data, MAX_INT, 0)
 	while mp_progress >= PcData.MAX_MP_PROGRESS:
 		mp_progress -= PcData.MAX_MP_PROGRESS
 		set_mp(mp + 1)
+
+
+func get_count_ghost() -> int:
+	return count_ghost
+
+
+func set_count_ghost(new_data: int) -> void:
+	count_ghost = _fix_overflow(new_data, max_ghost, 0)
+
+
+func get_sail_duration() -> int:
+	return sail_duration
+
+
+func set_sail_duration(new_data: int) -> void:
+	sail_duration = _fix_overflow(new_data, max_sail_duration, 0)
 
 
 func has_item(sub_tag: String) -> bool:
@@ -95,3 +117,7 @@ func get_power_tag(direction_tag: int) -> int:
 
 func set_power_tag(direction_tag: int, power_tag: int) -> void:
 	DIRECTION_TO_STATE[direction_tag][POWER_TAG] = power_tag
+
+
+func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
+	return max(min(new_data, upper), lower) as int

@@ -13,19 +13,21 @@ const LOSE := "lose"
 const HELP := "Help: C"
 const SEED := "%s-%s-%s"
 
-# MP + SEPARATOR + STATE + SEPARATOR + INVENTORY
-const STATE_PANEL := "{1}{0}{2}{0}{3}"
+# MP + GHOST_COUNT + SEPARATOR + STATE + SEPARATOR + INVENTORY
+const STATE_PANEL := "{1}{2}{0}{3}{0}{4}"
 
-# "MP: 3/6|28%"
+# MP: 3/6|28%
 const MP := "MP: %s/%s|%s%%\n"
-# "Ghost\nLOS: → ← ↓ ↑"
+# Ghost: 12/20
+const GHOST_COUNT := "Gh: %d/%d\n"
+# Ghost\n[LOS: → ← ↓ ↑ | Sink: 3]
 const STATE := "%s\n%s\n"
-# "Rum\nParrot\nAccordion"
+# Rum\nParrot\nAccordion
 const INVENTORY := "%s\n%s\n%s"
 
 const GHOST := "Ghost"
 const LINE_OF_SIGHT := "LOS: %s"
-const SINK := "Sink: %s"
+const SINK := "Sink: %d"
 const DIRECTION_TO_CHAR := {
     DirectionTag.LEFT: "←",
     DirectionTag.RIGHT: "→",
