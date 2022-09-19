@@ -40,7 +40,6 @@ const MOVE_INPUT := [
 	MOVE_UP,
 	MOVE_DOWN,
 ]
-
 const WIZARD_INPUT := [
 	ADD_MP,
 	FULLY_RESTORE_MP,
@@ -50,16 +49,28 @@ const WIZARD_INPUT := [
 	ADD_ACCORDION,
 ]
 
-const DIRECTION_TO_COORD := {
-	MOVE_UP: [0, -1],
-	MOVE_DOWN: [0, 1],
-	MOVE_LEFT: [-1, 0],
-	MOVE_RIGHT: [1, 0],
-}
-
 const INPUT_TO_SPRITE := {
 	MOVE_UP: SpriteTypeTag.UP,
 	MOVE_DOWN: SpriteTypeTag.DOWN,
 	MOVE_LEFT: SpriteTypeTag.LEFT,
 	MOVE_RIGHT: SpriteTypeTag.RIGHT,
 }
+
+
+static func get_coord_by_direction(coord: IntCoord, input_tag: String,
+		step := 1) -> IntCoord:
+	var x_offset := 0
+	var y_offset := 0
+
+	match input_tag:
+		MOVE_DOWN:
+			y_offset = 1
+		MOVE_UP:
+			y_offset = -1
+		MOVE_RIGHT:
+			x_offset = 1
+		MOVE_LEFT:
+			x_offset = -1
+		_:
+			pass
+	return IntCoord.new(coord.x + x_offset * step, coord.y + y_offset * step)

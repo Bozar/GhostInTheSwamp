@@ -35,6 +35,11 @@ func end_turn() -> void:
 	emit_signal(SignalTag.TURN_STARTED, _get_current())
 
 
+func start_first_turn() -> void:
+	_ref_GameProgress.renew_world(_get_current())
+	emit_signal(SignalTag.TURN_STARTED, _get_current())
+
+
 func _clear_schedule() -> void:
 	var remove_this: Sprite
 	var current_actor: Sprite
@@ -47,11 +52,6 @@ func _clear_schedule() -> void:
 
 		_actors.erase(remove_this)
 		_pointer = _actors.find(current_actor)
-
-
-func _on_InitWorld_world_initialized() -> void:
-	_ref_GameProgress.renew_world(_get_current())
-	emit_signal(SignalTag.TURN_STARTED, _get_current())
 
 
 func _on_CreateObject_sprite_created(sprite: Sprite) -> void:

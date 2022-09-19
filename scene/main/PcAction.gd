@@ -10,6 +10,7 @@ var _ref_CreateObject: CreateObject
 
 var _pc: Sprite
 var _pc_state: PcState
+var _harbor_sprites: Array
 
 var _source_position: IntCoord
 var _target_position: IntCoord
@@ -19,10 +20,11 @@ var _input_direction: String
 func set_reference() -> void:
 	_pc = FindObject.pc
 	_pc_state = ObjectState.get_state(_pc)
+	_harbor_sprites = FindObject.get_sprites_by_tag(SubTag.HARBOR)
 
 
 func start_turn() -> void:
-	# print("PC starts turn.")
+	_set_mp_progress()
 	set_source_position()
 
 
@@ -104,12 +106,8 @@ func set_source_position() -> void:
 
 
 func set_target_position(direction: String) -> void:
-	var shift: Array = InputTag.DIRECTION_TO_COORD[direction]
-
-	_target_position = IntCoord.new(
-		_source_position.x + shift[0],
-		_source_position.y + shift[1]
-	)
+	_target_position = InputTag.get_coord_by_direction(_source_position,
+			direction)
 	_input_direction = direction
 
 
@@ -121,3 +119,12 @@ func _is_occupied(x: int, y: int) -> bool:
 		if FindObject.has_sprite(i, coord):
 			return true
 	return false
+
+
+func _set_mp_progress() -> void:
+	var count_harbor := 0
+
+	for i in _harbor_sprites:
+		if (ObjectState.get_state(i) as BuildingState).is_active:
+			count_harbor += 1
+	_pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)

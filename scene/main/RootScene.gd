@@ -9,7 +9,7 @@ const SIGNAL_BIND := [
 	[
 		SignalTag.WORLD_INITIALIZED, NodeTag.INIT_WORLD,
 		NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI, NodeTag.PLAYER_INPUT,
-		NodeTag.SCHEDULE, NodeTag.DEBUG_GUI,
+		NodeTag.DEBUG_GUI,
 	],
 	[
 		"world_selected", NodeTag.INIT_WORLD,
@@ -54,7 +54,7 @@ const SIGNAL_BIND := [
 const NODE_REF := [
 	[
 		NodeTag.REF_SCHEDULE, NodeTag.SCHEDULE,
-		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
+		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.INIT_WORLD,
 	],
 	[
 		NodeTag.REF_PROGRESS, NodeTag.PROGRESS,

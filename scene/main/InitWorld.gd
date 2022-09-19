@@ -14,6 +14,7 @@ signal world_initialized()
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 var _ref_GameSetting: GameSetting
+var _ref_Schedule: Schedule
 
 
 func init_world() -> void:
@@ -28,6 +29,7 @@ func init_world() -> void:
 	_init_indicator(pc_coord.x, pc_coord.y)
 
 	emit_signal(SignalTag.WORLD_INITIALIZED)
+	_ref_Schedule.start_first_turn()
 
 
 func _init_pc() -> IntCoord:
