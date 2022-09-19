@@ -2,8 +2,9 @@ extends Node2D
 class_name BasicSpriteData
 
 
-var main_tag: String setget set_main_tag, get_main_tag
-var sub_tag: String setget set_sub_tag, get_sub_tag
+var main_tag := "" setget _set_none, get_main_tag
+var sub_tag := "" setget _set_none, get_sub_tag
+var fov_memory := false setget set_fov_memory, get_fov_memory
 
 
 func _init(main_tag_: String, sub_tag_: String) -> void:
@@ -15,13 +16,17 @@ func get_main_tag() -> String:
 	return main_tag
 
 
-func set_main_tag(__: String) -> void:
-	pass
-
-
 func get_sub_tag() -> String:
 	return sub_tag
 
 
-func set_sub_tag(__: String) -> void:
+func get_fov_memory() -> bool:
+	return fov_memory
+
+
+func set_fov_memory(new_data: bool) -> void:
+	fov_memory = new_data
+
+
+func _set_none(__) -> void:
 	pass

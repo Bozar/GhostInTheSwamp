@@ -75,6 +75,7 @@ func _on_InitWorld_world_initialized() -> void:
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if current_sprite.is_in_group(SubTag.PC):
+		$PcFov.render()
 		$PcAction.start_turn()
 		set_process_unhandled_input(true)
 
@@ -86,7 +87,7 @@ func _on_Schedule_turn_ended(current_sprite: Sprite) -> void:
 
 func _on_EndGame_game_over(win: bool) -> void:
 	_end_game = true
-	$PcAction.game_over(win)
+	$PcFov.render(win)
 	set_process_unhandled_input(true)
 
 

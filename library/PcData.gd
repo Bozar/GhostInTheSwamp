@@ -1,6 +1,8 @@
 class_name PcData
 
 
+const SIGHT_RANGE := 5
+
 const MAX_MP := 3
 const MAX_MP_WITH_RUM := 6
 

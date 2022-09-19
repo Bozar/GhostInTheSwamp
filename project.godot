@@ -199,6 +199,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/PcData.gd"
 }, {
+"base": "Node2D",
+"class": "PcFov",
+"language": "GDScript",
+"path": "res://scene/main/PcFov.gd"
+}, {
 "base": "BasicSpriteData",
 "class": "PcState",
 "language": "GDScript",
@@ -343,6 +348,7 @@ _global_script_class_icons={
 "PathFindingData": "",
 "PcAction": "",
 "PcData": "",
+"PcFov": "",
 "PcState": "",
 "PlayerInput": "",
 "PowerTag": "",
