@@ -9,14 +9,15 @@ var _ref_EndGame: EndGame
 
 
 # Renew game world in-between two turns.
+# _ref_EndGame.call_deferred("player_win")
 func renew_world(next_actor: Sprite) -> void:
-	# _ref_EndGame.call_deferred("player_win")
-	if ObjectState.get_state(next_actor).sub_tag:
-		pass
+	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
+		$StartPcTurn.renew_world()
 
 
 # Do not create new sprites here, call `renew_world()` instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
+	$StartPcTurn.set_reference()
 	_active_the_first_harbor()
 
 

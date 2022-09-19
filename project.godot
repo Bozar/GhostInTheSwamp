@@ -275,6 +275,11 @@ _global_script_classes=[ {
 "path": "res://library/SpriteTypeTag.gd"
 }, {
 "base": "Node2D",
+"class": "StartPcTurn",
+"language": "GDScript",
+"path": "res://scene/main/StartPcTurn.gd"
+}, {
+"base": "Node2D",
 "class": "StateManagerTemplate",
 "language": "GDScript",
 "path": "res://library/StateManagerTemplate.gd"
@@ -363,6 +368,7 @@ _global_script_class_icons={
 "SidebarVBoxHelper": "",
 "SignalTag": "",
 "SpriteTypeTag": "",
+"StartPcTurn": "",
 "StateManagerTemplate": "",
 "SubTag": "",
 "SwitchScreen": "",

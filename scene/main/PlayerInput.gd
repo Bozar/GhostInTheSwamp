@@ -57,6 +57,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if input_tag != "":
 			$PcAction.press_wizard_key(input_tag)
 			emit_signal(SignalTag.SPECIAL_KEY, InputTag.ANY_WIZARD_KEY)
+			return
 
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
