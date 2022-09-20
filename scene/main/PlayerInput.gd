@@ -54,9 +54,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		# A turn ends only when player presses a movement key.
 		if $PcAction.end_turn:
 			_end_turn()
-	elif _verify_input(event, InputTag.USE_POWER):
-		$PcAction.use_power()
-		emit_signal(SignalTag.SPECIAL_KEY, InputTag.USE_POWER)
+	elif _verify_input(event, InputTag.TOGGLE_POWER):
+		$PcAction.toggle_power()
+		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER)
+	elif _verify_input(event, InputTag.CANCEL_POWER):
+		$PcAction.cancel_power()
+		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER)
 	elif _verify_input(event, InputTag.TOGGLE_SIGHT):
 		$PcAction.toggle_sight()
 

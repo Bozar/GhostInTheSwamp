@@ -28,4 +28,5 @@ const PC := "pc"
 const SCOUT := "scout"
 const EXPLORER := "explorer"
 const TECHNICAN := "technican"
-const ACCORDIONIST := "accordionist"
+# Accordionist
+const PERFORMER := "performer"

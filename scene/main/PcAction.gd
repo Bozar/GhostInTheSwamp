@@ -7,6 +7,9 @@ const REF_VARS := [
 	NodeTag.RANDOM_NUMBER,
 	NodeTag.CREATE_OBJECT,
 ]
+const REMOVE_SPRITE_PER_TURN := [
+	SubTag.DINGHY, SubTag.SHIP,
+]
 
 var end_turn := false
 
@@ -16,10 +19,6 @@ var _ref_CreateObject: CreateObject
 
 var _pc: Sprite
 var _pc_state: PcState
-
-var _source_position: IntCoord
-var _target_position: IntCoord
-var _input_direction: String
 
 
 func set_reference() -> void:
@@ -31,28 +30,37 @@ func set_reference() -> void:
 
 func start_turn() -> void:
 	end_turn = false
-	set_source_position()
 
 
 func move(input_tag: String) -> void:
-	set_source_position()
-	set_target_position(input_tag)
-	if not is_inside_dungeon():
+	var source_coord := ConvertCoord.sprite_to_coord(_pc)
+	var target_coord := InputTag.get_coord_by_direction(source_coord, input_tag)
+
+	if not CoordCalculator.is_inside_dungeon(target_coord):
 		return
 
-	if is_npc():
-		attack()
-	elif is_building():
-		interact_with_building()
-	elif is_trap():
-		interact_with_trap()
+	if _pc_state.use_power:
+		pass
 	else:
-		MoveObject.move(_pc, _target_position)
-		end_turn = true
+		if _has_swamp(source_coord):
+			pass
+		# Harbor or land.
+		else:
+			_move_on_land(target_coord)
 
 
-func use_power() -> void:
+func toggle_power() -> void:
+	var new_sprite := SpriteTypeTag.DEFAULT
+
 	_pc_state.use_power = not _pc_state.use_power
+	if _pc_state.use_power:
+		new_sprite = SpriteTypeTag.USE_POWER
+	SwitchSprite.set_sprite(_pc, new_sprite)
+
+
+func cancel_power() -> void:
+	_pc_state.use_power = false
+	SwitchSprite.set_sprite(_pc, SpriteTypeTag.DEFAULT)
 
 
 func toggle_sight() -> void:
@@ -60,6 +68,10 @@ func toggle_sight() -> void:
 
 
 func press_wizard_key(input_tag: String) -> void:
+	if _pc_state.use_power:
+		cancel_power()
+		return
+
 	match input_tag:
 		InputTag.ADD_MP:
 			_pc_state.mp += 1
@@ -75,50 +87,50 @@ func press_wizard_key(input_tag: String) -> void:
 			_pc_state.add_item(SubTag.ACCORDION)
 
 
-func is_inside_dungeon() -> bool:
-	return CoordCalculator.is_inside_dungeon(_target_position)
-
-
-func is_npc() -> bool:
-	return FindObject.has_actor(_target_position)
-
-
-func is_building() -> bool:
-	return FindObject.has_building(_target_position)
-
-
-func is_trap() -> bool:
-	return FindObject.has_trap(_target_position)
-
-
-func attack() -> void:
-	_ref_RemoveObject.remove_actor(_target_position)
+func _end_turn() -> void:
+	# Remove a trap when it is covered by PC or NPC.
+	_ref_RemoveObject.remove_trap(ConvertCoord.sprite_to_coord(_pc))
+	for tag in REMOVE_SPRITE_PER_TURN:
+		for i in FindObject.get_sprites_by_tag(tag):
+			_ref_RemoveObject.remove(i)
 	end_turn = true
 
 
-func interact_with_building() -> void:
-	pass
+func _has_swamp(coord: IntCoord) -> bool:
+	var sprite := FindObject.get_ground(coord)
+
+	if sprite == null:
+		return false
+	return sprite.is_in_group(SubTag.SWAMP)
 
 
-func interact_with_trap() -> void:
-	pass
+func _has_actor(coord: IntCoord) -> bool:
+	return FindObject.has_actor(coord)
 
 
-func set_source_position() -> void:
-	_source_position = FindObject.pc_coord
+func _has_building(coord: IntCoord) -> bool:
+	return FindObject.has_building(coord)
 
 
-func set_target_position(direction: String) -> void:
-	_target_position = InputTag.get_coord_by_direction(_source_position,
-			direction)
-	_input_direction = direction
+func _has_harbor(coord: IntCoord) -> bool:
+	var sprite := FindObject.get_building(coord)
+
+	if sprite == null:
+		return false
+	return sprite.is_in_group(SubTag.HARBOR)
 
 
-func _is_occupied(x: int, y: int) -> bool:
-	var coord := IntCoord.new(x, y)
-	if not CoordCalculator.is_inside_dungeon(coord):
-		return true
-	for i in MainTag.ABOVE_GROUND_OBJECT:
-		if FindObject.has_sprite(i, coord):
-			return true
-	return false
+func _move_on_land(move_to: IntCoord) -> void:
+	var can_move := false
+
+	if _has_swamp(move_to) or _has_actor(move_to):
+		pass
+	elif _has_building(move_to):
+		if _pc_state.has_item(SubTag.ACCORDION) and _has_harbor(move_to):
+			can_move = true
+	else:
+		can_move = true
+
+	if can_move:
+		MoveObject.move(_pc, move_to)
+		_end_turn()
