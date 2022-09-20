@@ -51,10 +51,10 @@ const WIZARD_INPUT := [
 ]
 
 const INPUT_TO_SPRITE := {
-	MOVE_UP: SpriteTypeTag.UP,
-	MOVE_DOWN: SpriteTypeTag.DOWN,
-	MOVE_LEFT: SpriteTypeTag.LEFT,
-	MOVE_RIGHT: SpriteTypeTag.RIGHT,
+	MOVE_UP: SpriteTag.UP,
+	MOVE_DOWN: SpriteTag.DOWN,
+	MOVE_LEFT: SpriteTag.LEFT,
+	MOVE_RIGHT: SpriteTag.RIGHT,
 }
 
 

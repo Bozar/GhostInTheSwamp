@@ -2,23 +2,18 @@ extends Node2D
 class_name SwitchSprite
 
 
-const WARN_NO_SPRITE_TYPE := "Warn: [%s] not found."
+const NO_SPRITE_TAG := "Sprite [%s] does not have node [%s]."
 
 
-static func set_sprite(sprite: Sprite, type_tag: String) -> void:
-	if not sprite.has_node(type_tag):
-		push_warning(WARN_NO_SPRITE_TYPE % [type_tag])
-		return
+static func set_sprite(sprite: Sprite, new_tag: String) -> void:
+	var sprite_state := ObjectState.get_state(sprite)
+	var current_tag := sprite_state.sprite_tag
 
-	for i in sprite.get_children():
-		if i.visible:
-			i.visible = false
-			break
-	sprite.get_node(type_tag).visible = true
+	for i in [current_tag, new_tag]:
+		if not sprite.has_node(i):
+			push_warning(NO_SPRITE_TAG % [sprite.name, i])
+			return
 
-
-static func get_sprite(sprite: Sprite) -> String:
-	for i in sprite.get_children():
-		if i.visible:
-			return i.name
-	return SpriteTypeTag.DEFAULT
+	sprite.get_node(current_tag).visible = false
+	sprite.get_node(new_tag).visible = true
+	sprite_state.sprite_tag = new_tag

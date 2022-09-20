@@ -19,6 +19,7 @@ var _ref_CreateObject: CreateObject
 
 var _pc: Sprite
 var _pc_state: PcState
+var _current_sprite_tag: String
 
 
 func set_reference() -> void:
@@ -30,6 +31,7 @@ func set_reference() -> void:
 
 func start_turn() -> void:
 	end_turn = false
+	_current_sprite_tag = ObjectState.get_state(_pc).sprite_tag
 
 
 func move(input_tag: String) -> void:
@@ -50,17 +52,17 @@ func move(input_tag: String) -> void:
 
 
 func toggle_power() -> void:
-	var new_sprite := SpriteTypeTag.DEFAULT
+	var new_sprite := _current_sprite_tag
 
 	_pc_state.use_power = not _pc_state.use_power
 	if _pc_state.use_power:
-		new_sprite = SpriteTypeTag.USE_POWER
+		new_sprite = SpriteTag.USE_POWER
 	SwitchSprite.set_sprite(_pc, new_sprite)
 
 
 func cancel_power() -> void:
 	_pc_state.use_power = false
-	SwitchSprite.set_sprite(_pc, SpriteTypeTag.DEFAULT)
+	SwitchSprite.set_sprite(_pc, _current_sprite_tag)
 
 
 func toggle_sight() -> void:

@@ -16,6 +16,7 @@ var _player_win := true
 func renew_world(next_actor: Sprite) -> void:
 	# Before PC's turn: Respawn actors and buildings (ghosts), update PC state.
 	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
+		$SpawnActor.renew_world()
 		$StartPcTurn.renew_world()
 	# Always check PC and NPC state to decide if game ends.
 	if _game_over:
@@ -24,6 +25,9 @@ func renew_world(next_actor: Sprite) -> void:
 
 # Do not create new sprites here, call renew_world() instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
+	$SpawnActor.set_reference()
+	$StartPcTurn.set_reference()
+
 	_active_the_first_harbor()
 
 

@@ -3,10 +3,10 @@ class_name HarborHelper
 
 
 func toggle_harbor(sprite: Sprite, is_active: bool) -> void:
-	var new_sprite_type := SpriteTypeTag.DEFAULT
+	var new_sprite_type := SpriteTag.DEFAULT
 	var state: BuildingState = ObjectState.get_state(sprite)
 
 	if is_active:
-		new_sprite_type = SpriteTypeTag.ACTIVE
+		new_sprite_type = SpriteTag.ACTIVE
 	SwitchSprite.set_sprite(sprite, new_sprite_type)
 	state.is_active = is_active
