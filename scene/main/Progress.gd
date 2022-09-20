@@ -1,5 +1,5 @@
 extends Node2D
-class_name GameProgress
+class_name Progress
 
 
 signal game_over(win)

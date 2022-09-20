@@ -31,7 +31,7 @@ func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 		get_node(STATE).text = $SidebarVBoxHelper.get_state_item()
 
 
-func _on_GameProgress_game_over(win: bool) -> void:
+func _on_Progress_game_over(win: bool) -> void:
 	get_node(STATE).text = SidebarText.GAME_OVER % [
 		$SidebarVBoxHelper.get_state_item(), _get_game_over(win)
 	]

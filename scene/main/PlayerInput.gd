@@ -2,14 +2,6 @@ extends InputTemplate
 class_name PlayerInput
 
 
-const CHILD_REFERENCE := {
-	"PcAction":	[
-		NodeTag.REF_REMOVE_OBJECT,
-		NodeTag.REF_RANDOM_NUMBER,
-		NodeTag.REF_CREATE_OBJECT,
-	],
-}
-
 signal special_key_pressed(input_tag)
 
 var _ref_Schedule: Schedule
@@ -17,7 +9,7 @@ var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_SwitchScreen: SwitchScreen
 var _ref_CreateObject: CreateObject
-var _ref_GameSetting: GameSetting
+var _ref_Setting: Setting
 
 var _game_over := false
 
@@ -29,10 +21,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _verify_input(event, InputTag.QUIT):
 		EndGame.quit()
 	elif _verify_input(event, InputTag.FORCE_RELOAD):
-		_ref_GameSetting.save_setting(InputTag.FORCE_RELOAD)
+		_ref_Setting.save_setting(InputTag.FORCE_RELOAD)
 		EndGame.reload()
 	elif _verify_input(event, InputTag.REPLAY_DUNGEON):
-		_ref_GameSetting.save_setting(InputTag.REPLAY_DUNGEON)
+		_ref_Setting.save_setting(InputTag.REPLAY_DUNGEON)
 		EndGame.reload()
 	elif _verify_input(event, InputTag.COPY_SEED):
 		OS.set_clipboard(TransferData.rng_seed as String)
@@ -42,7 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_ref_SwitchScreen.set_screen(ScreenTag.DEBUG)
 	elif _game_over:
 		if _verify_input(event, InputTag.RELOAD):
-			_ref_GameSetting.save_setting(InputTag.RELOAD)
+			_ref_Setting.save_setting(InputTag.RELOAD)
 			EndGame.reload()
 	else:
 		may_have_conflict = false
@@ -75,7 +67,6 @@ func _end_turn() -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
 	$PcAction.set_reference()
 
 
@@ -86,7 +77,7 @@ func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 		set_process_unhandled_input(true)
 
 
-func _on_GameProgress_game_over(win: bool) -> void:
+func _on_Progress_game_over(win: bool) -> void:
 	_game_over = true
 	$PcFov.render(win)
 	set_process_unhandled_input(true)

@@ -1,5 +1,5 @@
 extends Node2D
-class_name GameSetting
+class_name Setting
 
 
 signal setting_loaded()

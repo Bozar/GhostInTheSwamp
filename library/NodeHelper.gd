@@ -2,22 +2,27 @@ extends Node2D
 class_name NodeHelper
 
 
-const WARN_NO_CHILD := "Warn: Parent [%s] has no child node [%s]."
-const WARN_PARENT_NO_REF := "Warn: Parent [%s] has no ref var [%s]."
+const PARENT_NO_REF := "Warn: [%s]'s parent has no ref var [%s]."
+const CHILD_NO_REF := "Warn: [%s] has no ref var [%s]."
+
+const REF_VAR_PREFIX := "_ref_"
 
 
-# <path_to_node: String>: <ref_vars: Array>
-static func set_child_reference(parent_node: Node, refers: Dictionary) -> void:
-	var child_node: Node
-	var parent_name := parent_node.name
+# refers = [node_1, node_2, ...]
+static func set_child_reference(self_node: Node, refers: Array) -> void:
+	var node_name: String
+	var parent_property
 
-	for i in refers.keys():
-		child_node = parent_node.get_node(i)
-		if child_node == null:
-			push_warning(WARN_NO_CHILD % [parent_name, i])
-			continue
-		for ref_var in refers[i]:
-			if parent_node.get(ref_var) == null:
-				push_warning(WARN_PARENT_NO_REF % [parent_name, ref_var])
-				continue
-			child_node[ref_var] = parent_node.get(ref_var)
+	for i in refers:
+		if i.begins_with(REF_VAR_PREFIX):
+			node_name = i
+		else:
+			node_name = REF_VAR_PREFIX + i
+		parent_property = self_node.get_parent().get(node_name)
+
+		if parent_property == null:
+			push_warning(PARENT_NO_REF % [self_node.name, node_name])
+		elif not node_name in self_node:
+			push_warning(CHILD_NO_REF % [self_node.name, node_name])
+		else:
+			self_node[node_name] = parent_property

@@ -2,9 +2,12 @@ extends Node2D
 class_name InitWorldHelper
 
 
-const NO_NEIGHBOR := "[%s, %s] has no neighbor."
-
+const REF_VARS := [
+	NodeTag.RANDOM_NUMBER, NodeTag.CREATE_OBJECT,
+]
 const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
+
+const NO_NEIGHBOR := "[%s, %s] has no neighbor."
 
 const LAND_CHAR := "-"
 const EXPAND_LAND_CHAR := "E"
@@ -19,6 +22,10 @@ const MAX_HARBOR := 4
 
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
+
+
+func set_reference() -> void:
+	NodeHelper.set_child_reference(self, REF_VARS)
 
 
 func init_ground_building() -> void:

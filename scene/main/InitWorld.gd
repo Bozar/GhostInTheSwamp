@@ -2,28 +2,22 @@ extends Node2D
 class_name InitWorld
 
 
-const CHILD_REFERENCE := {
-	"InitWorldHelper": [
-		NodeTag.REF_RANDOM_NUMBER, NodeTag.REF_CREATE_OBJECT,
-	],
-}
-
 signal world_selected(new_world)
 signal world_initialized()
 
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
-var _ref_GameSetting: GameSetting
+var _ref_Setting: Setting
 var _ref_Schedule: Schedule
 
 
 func init_world() -> void:
 	var pc_coord: IntCoord
 
-	_ref_GameSetting.load_setting()
+	_ref_Setting.load_setting()
 	emit_signal("world_selected", "demo")
 
-	NodeHelper.set_child_reference(self, CHILD_REFERENCE)
+	$InitWorldHelper.set_reference()
 	$InitWorldHelper.init_ground_building()
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)

@@ -2,6 +2,12 @@ extends Node2D
 class_name PcAction
 
 
+const REF_VARS := [
+	NodeTag.REMOVE_OBJECT,
+	NodeTag.RANDOM_NUMBER,
+	NodeTag.CREATE_OBJECT,
+]
+
 var end_turn := false
 
 var _ref_RemoveObject: RemoveObject
@@ -17,6 +23,8 @@ var _input_direction: String
 
 
 func set_reference() -> void:
+	NodeHelper.set_child_reference(self, REF_VARS)
+
 	_pc = FindObject.pc
 	_pc_state = ObjectState.get_state(_pc)
 

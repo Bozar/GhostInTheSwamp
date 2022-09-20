@@ -55,7 +55,7 @@ func _ready() -> void:
 	visible = false
 
 
-func _on_GameSetting_setting_loaded() -> void:
+func _on_Setting_setting_loaded() -> void:
 	# Debug input box requires debug_seed, not rng_seed.
 	_load_as_string(TransferData.debug_seed, SEED_INPUT)
 	_load_as_string(TransferData.wizard_mode, WIZARD_INPUT)
@@ -77,7 +77,7 @@ func _on_SwitchScreen_screen_switched(source: int, target: int) -> void:
 		visible = false
 
 
-func _on_GameSetting_setting_saved(input_tag: String) -> void:
+func _on_Setting_setting_saved(input_tag: String) -> void:
 	TransferData.set_debug_seed(_save_as_int(SEED_INPUT))
 	TransferData.set_wizard_mode(_save_as_bool(WIZARD_INPUT))
 	TransferData.set_palette_name(_save_as_string(PALETTE_INPUT))

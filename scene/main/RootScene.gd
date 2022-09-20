@@ -83,7 +83,7 @@ const NODE_REF := {
 			NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
 		],
 	},
-	NodeTag.RANDOM: {
+	NodeTag.RANDOM_NUMBER: {
 		TARGET_NODE: [
 			NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
 			NodeTag.PROGRESS, NodeTag.SETTING,

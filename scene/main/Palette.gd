@@ -123,7 +123,7 @@ static func get_text_color(is_light_color: bool) -> String:
 	return TAG_TO_COLOR[DARK_GUI_TEXT]
 
 
-func _on_GameSetting_setting_loaded() -> void:
+func _on_Setting_setting_loaded() -> void:
 	var palette := _load_palette(TransferData.palette_name)
 	var has_color_value := palette.get(COLOR_VALUE) is Dictionary
 	var color_regex := RegEx.new()
