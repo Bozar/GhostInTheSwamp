@@ -4,12 +4,12 @@ extends StateManagerTemplate
 
 const HASH_COLLIDE := "Hashes collide: [%d, %d], %s, %s."
 
-const HASH_TO_SPRITE := {}
+var _hash_to_sprite := {}
 
 
 func get_by_coord(main_tag: String, coord: IntCoord, layer := 0) -> Sprite:
 	var hash_coord := ConvertCoord.hash_coord(coord, main_tag, layer)
-	return HASH_TO_SPRITE.get(hash_coord, null)
+	return _hash_to_sprite.get(hash_coord, null)
 
 
 func add_state(sprite: Sprite, main_tag: String, _sub_tag: String) -> void:
@@ -19,13 +19,13 @@ func add_state(sprite: Sprite, main_tag: String, _sub_tag: String) -> void:
 
 	var coord := ConvertCoord.sprite_to_coord(sprite)
 	var hash_coord := ConvertCoord.hash_coord(coord, main_tag)
-	var current_sprite: Sprite = HASH_TO_SPRITE.get(hash_coord, null)
+	var current_sprite: Sprite = _hash_to_sprite.get(hash_coord, null)
 
 	if current_sprite != null:
 		push_error(HASH_COLLIDE % [coord.x, coord.y, current_sprite.name,
 				sprite.name])
 		return
-	HASH_TO_SPRITE[hash_coord] = sprite
+	_hash_to_sprite[hash_coord] = sprite
 
 
 # Refer StateManager.
@@ -36,11 +36,11 @@ func remove_state(sprite: Sprite) -> void:
 	var layer := 0
 	var hash_coord := ConvertCoord.hash_coord(coord, main_tag, layer)
 
-	HASH_TO_SPRITE.erase(hash_coord)
+	_hash_to_sprite.erase(hash_coord)
 
 
 func remove_all() -> void:
-	HASH_TO_SPRITE.clear()
+	_hash_to_sprite.clear()
 
 
 func add_sprite(sprite: Sprite) -> void:

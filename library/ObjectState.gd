@@ -12,15 +12,15 @@ const MAIN_TAG_TO_STATE := {
 	MainTag.BUILDING: BuildingState,
 }
 
-const ID_TO_STATE := {}
+var _id_to_state := {}
 
 
-# Any sprite created by CreateObject has a record in ID_TO_STATE.
+# Any sprite created by CreateObject has a record in _id_to_state.
 func add_state(sprite: Sprite, main_tag: String, sub_tag: String) -> void:
 	var id := _get_id(sprite)
 	var new_state: BasicSpriteData
 
-	if ID_TO_STATE.has(id):
+	if _id_to_state.has(id):
 		push_warning(WARN_SET_TWICE % [main_tag, sub_tag])
 		return
 
@@ -30,11 +30,11 @@ func add_state(sprite: Sprite, main_tag: String, sub_tag: String) -> void:
 		new_state = MAIN_TAG_TO_STATE[main_tag].new(main_tag, sub_tag)
 	else:
 		new_state = BasicSpriteData.new(main_tag, sub_tag)
-	ID_TO_STATE[id] = new_state
+	_id_to_state[id] = new_state
 
 
 func get_state(sprite: Sprite) -> BasicSpriteData:
-	var store_state: BasicSpriteData = ID_TO_STATE.get(_get_id(sprite))
+	var store_state: BasicSpriteData = _id_to_state.get(_get_id(sprite))
 
 	if store_state == null:
 		push_error(NO_STATE % sprite.name)
@@ -45,14 +45,14 @@ func remove_state(sprite: Sprite) -> void:
 	var id := _get_id(sprite)
 
 	# An object needs to be freed manually.
-	ID_TO_STATE[id].queue_free()
-	ID_TO_STATE.erase(id)
+	_id_to_state[id].queue_free()
+	_id_to_state.erase(id)
 
 
 func remove_all() -> void:
-	for i in ID_TO_STATE.values():
+	for i in _id_to_state.values():
 		i.queue_free()
-	ID_TO_STATE.clear()
+	_id_to_state.clear()
 
 
 func _get_id(sprite: Sprite) -> int:

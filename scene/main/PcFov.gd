@@ -2,7 +2,7 @@ extends Node2D
 class_name PcFov
 
 
-const RENDER_SPRITES := {
+var _main_tag_to_sprites := {
 	MainTag.GROUND: [],
 	MainTag.TRAP: [],
 	MainTag.BUILDING: [],
@@ -29,8 +29,8 @@ func _render() -> void:
 			coord.x, coord.y, PcData.SIGHT_RANGE,
 			self, "_block_line_of_sight", [])
 
-	for mtag in RENDER_SPRITES:
-		for i in RENDER_SPRITES[mtag]:
+	for mtag in _main_tag_to_sprites:
+		for i in _main_tag_to_sprites[mtag]:
 			# TODO: Consider adding an optional mode using fov with memory.
 			# Increase mp progress? Reduce power cost?
 			_set_sprite_color(i, mtag, ShadowCastFov, "is_in_sight")
@@ -41,8 +41,8 @@ func _render() -> void:
 func _render_without_fog_of_war() -> void:
 	var coord: IntCoord
 
-	for mtag in RENDER_SPRITES:
-		for i in RENDER_SPRITES[mtag]:
+	for mtag in _main_tag_to_sprites:
+		for i in _main_tag_to_sprites[mtag]:
 			coord = ConvertCoord.sprite_to_coord(i)
 			i.visible = _sprite_is_visible(mtag, coord, false)
 			if mtag == MainTag.GROUND:
@@ -129,5 +129,5 @@ func _set_sprite_memory(coord: IntCoord, main_tag: String) -> void:
 
 
 func _set_render_sprites() -> void:
-	for i in RENDER_SPRITES:
-		RENDER_SPRITES[i] = FindObject.get_sprites_by_tag(i)
+	for i in _main_tag_to_sprites:
+		_main_tag_to_sprites[i] = FindObject.get_sprites_by_tag(i)

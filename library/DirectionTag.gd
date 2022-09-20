@@ -13,13 +13,6 @@ const MIN_POSITIVE_DIRECTION := 1
 
 const VALID_DIRECTIONS := [UP, DOWN, LEFT, RIGHT,]
 
-const DIRECTION_TO_SHIFT := {
-	UP: [0, -1],
-	DOWN: [0, 1],
-	LEFT: [-1, 0],
-	RIGHT: [1, 0],
-}
-
 
 static func is_opposite_direction(this_dir: int, that_dir: int) -> bool:
 	return this_dir + that_dir == 0
@@ -47,3 +40,22 @@ static func roate_clockwise(direction: int) -> int:
 
 static func roate_counterclockwise(direction: int) -> int:
 	return get_opposite_direction(roate_clockwise(direction))
+
+
+static func get_coord_by_direction(coord: IntCoord, direction_tag: int,
+		step := 1) -> IntCoord:
+	var x_offset := 0
+	var y_offset := 0
+
+	match direction_tag:
+		DOWN:
+			y_offset = 1
+		UP:
+			y_offset = -1
+		RIGHT:
+			x_offset = 1
+		LEFT:
+			x_offset = -1
+		_:
+			pass
+	return IntCoord.new(coord.x + x_offset * step, coord.y + y_offset * step)

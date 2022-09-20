@@ -113,14 +113,14 @@ static func get_ray_path(source_coord: IntCoord, max_range: int,
 	var x := source_coord.x
 	var y := source_coord.y
 	var is_obstacle := funcref(func_host, is_obstacle_func)
-	var shift: Array = DirectionTag.DIRECTION_TO_SHIFT[ray_direction]
+	var shift := DirectionTag.get_coord_by_direction(source_coord, ray_direction)
 	var ray_path := []
 
 	if has_start_point:
-		ray_path.push_back(IntCoord.new(x, y))
+		ray_path.push_back(source_coord)
 	for _i in range(0, max_range):
-		x += shift[0]
-		y += shift[1]
+		x += shift.x
+		y += shift.y
 		if not is_inside_dungeon(x, y):
 			return ray_path
 		if is_obstacle.call_func(x, y, opt_arg):
