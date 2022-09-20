@@ -21,8 +21,11 @@ func start_first_turn() -> void:
 
 func end_turn() -> void:
 	# print("%s ends turn." % _get_current().name)
-	_clear_schedule()
+
+	# The pointer may be moved implicitly in _clear_schedule(). So we need to
+	# let it point to the next actor in action first.
 	_goto_next()
+	_clear_schedule()
 
 	# Respawn enemies, change terrain or kill PC in-between two turns. Only end
 	# game inside renew_world().

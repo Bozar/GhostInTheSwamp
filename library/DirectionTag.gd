@@ -44,6 +44,11 @@ static func roate_counterclockwise(direction: int) -> int:
 
 static func get_coord_by_direction(coord: IntCoord, direction_tag: int,
 		step := 1) -> IntCoord:
+	var offset := get_offset_by_direction(direction_tag, step)
+	return IntCoord.new(coord.x + offset.x, coord.y + offset.y)
+
+
+static func get_offset_by_direction(direction_tag: int, step := 1) -> IntCoord:
 	var x_offset := 0
 	var y_offset := 0
 
@@ -58,4 +63,4 @@ static func get_coord_by_direction(coord: IntCoord, direction_tag: int,
 			x_offset = -1
 		_:
 			pass
-	return IntCoord.new(coord.x + x_offset * step, coord.y + y_offset * step)
+	return IntCoord.new(x_offset * step, y_offset * step)

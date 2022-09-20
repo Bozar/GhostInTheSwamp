@@ -88,7 +88,7 @@ static func get_ray_path(source_coord: IntCoord, max_range: int,
 	var x := source_coord.x
 	var y := source_coord.y
 	var is_obstacle := funcref(func_host, is_obstacle_func)
-	var shift := DirectionTag.get_coord_by_direction(source_coord, ray_direction)
+	var shift := DirectionTag.get_offset_by_direction(ray_direction)
 	var new_coord: IntCoord
 	var ray_path := []
 
