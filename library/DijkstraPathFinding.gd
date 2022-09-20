@@ -5,18 +5,16 @@ class_name DijkstraPathFinding
 # Call func_host.is_passable_func() to verify if a grid can be entered.
 # is_passable_func(source_array: Array, current_index: int,
 #> opt_arg: Array) -> bool
-static func get_path(dungeon: Dictionary, start_x: int, start_y: int,
+static func get_path(dungeon: Dictionary, start_coord: IntCoord,
 		step_length: int, func_host: Object, is_passable_func: String,
 		opt_arg: Array) -> Array:
-	var neighbor := CoordCalculator.get_neighbor_xy(start_x, start_y,
-			step_length)
+	var neighbor := CoordCalculator.get_neighbor(start_coord, step_length)
 	var min_distance := PathFindingData.OBSTACLE
 	var x: int
 	var y: int
 	var current_index := 0
 
-	ArrayHelper.filter_element(neighbor, func_host, is_passable_func,
-			opt_arg)
+	ArrayHelper.filter_element(neighbor, func_host, is_passable_func, opt_arg)
 
 	for i in neighbor.size():
 		x = neighbor[i].x
@@ -40,22 +38,17 @@ static func get_map(dungeon: Dictionary, end_point: Array) -> Dictionary:
 		return dungeon
 
 	var check: IntCoord = end_point.pop_front()
-	var neighbor := CoordCalculator.get_neighbor_xy(check.x, check.y, 1)
-	var x: int
-	var y: int
+	var neighbor := CoordCalculator.get_neighbor(check, 1)
 
 	for i in neighbor:
-		x = i.x
-		y = i.y
-		if dungeon[x][y] == PathFindingData.UNKNOWN:
-			dungeon[x][y] = _get_distance(dungeon, x, y)
+		if dungeon[i.x][i.y] == PathFindingData.UNKNOWN:
+			dungeon[i.x][i.y] = _get_distance(dungeon, i)
 			end_point.push_back(i)
 	return get_map(dungeon, end_point)
 
 
-static func _get_distance(dungeon: Dictionary, center_x: int, center_y: int) \
-		-> int:
-	var neighbor := CoordCalculator.get_neighbor_xy(center_x, center_y, 1)
+static func _get_distance(dungeon: Dictionary, center_coord: IntCoord) -> int:
+	var neighbor := CoordCalculator.get_neighbor(center_coord, 1)
 	var min_distance: int = PathFindingData.OBSTACLE
 	var x: int
 	var y: int

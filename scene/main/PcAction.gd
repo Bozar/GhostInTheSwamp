@@ -76,8 +76,7 @@ func press_wizard_key(input_tag: String) -> void:
 
 
 func is_inside_dungeon() -> bool:
-	return CoordCalculator.is_inside_dungeon(
-			_target_position.x, _target_position.y)
+	return CoordCalculator.is_inside_dungeon(_target_position)
 
 
 func is_npc() -> bool:
@@ -117,7 +116,7 @@ func set_target_position(direction: String) -> void:
 
 func _is_occupied(x: int, y: int) -> bool:
 	var coord := IntCoord.new(x, y)
-	if not CoordCalculator.is_inside_dungeon(x, y):
+	if not CoordCalculator.is_inside_dungeon(coord):
 		return true
 	for i in MainTag.ABOVE_GROUND_OBJECT:
 		if FindObject.has_sprite(i, coord):

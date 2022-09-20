@@ -41,7 +41,7 @@ const MIN_LEFT_SLOPE := 0.0
 const MAX_RIGHT_SLOPE := 1.0
 const MAX_OCTANT := 8
 
-const _FOV_DATA := {
+const FOV_DATA := {
 	"dungeon_width": 0,
 	"dungeon_height": 0,
 	"dungeon_board": {},
@@ -55,13 +55,13 @@ const _FOV_DATA := {
 static func set_field_of_view(dungeon_width: int, dungeon_height: int,
 		x: int, y: int, max_range: int,
 		func_host: Object, block_ray_func: String, opt_arg: Array) -> void:
-	_FOV_DATA.dungeon_width = dungeon_width
-	_FOV_DATA.dungeon_height = dungeon_height
+	FOV_DATA.dungeon_width = dungeon_width
+	FOV_DATA.dungeon_height = dungeon_height
 	_reset_dungeon()
 
-	_FOV_DATA.dungeon_board[x][y] = true
-	_FOV_DATA.center_x = x
-	_FOV_DATA.center_y = y
+	FOV_DATA.dungeon_board[x][y] = true
+	FOV_DATA.center_x = x
+	FOV_DATA.center_y = y
 
 	for i in range(MAX_OCTANT):
 		_set_octant(i, x, y, x + max_range, MIN_LEFT_SLOPE, MAX_RIGHT_SLOPE,
@@ -71,17 +71,17 @@ static func set_field_of_view(dungeon_width: int, dungeon_height: int,
 
 
 static func is_in_sight(x: int, y: int) -> bool:
-	return _FOV_DATA.dungeon_board[x][y]
+	return FOV_DATA.dungeon_board[x][y]
 
 
 static func _reset_dungeon() -> void:
-	if _FOV_DATA.dungeon_board.size() == 0:
-		for x in range(0, _FOV_DATA.dungeon_width):
-			_FOV_DATA.dungeon_board[x] = []
-			_FOV_DATA.dungeon_board[x].resize(_FOV_DATA.dungeon_height)
-	for x in range(0, _FOV_DATA.dungeon_width):
-		for y in range(0, _FOV_DATA.dungeon_height):
-			_FOV_DATA.dungeon_board[x][y] = false
+	if FOV_DATA.dungeon_board.size() == 0:
+		for x in range(0, FOV_DATA.dungeon_width):
+			FOV_DATA.dungeon_board[x] = []
+			FOV_DATA.dungeon_board[x].resize(FOV_DATA.dungeon_height)
+	for x in range(0, FOV_DATA.dungeon_width):
+		for y in range(0, FOV_DATA.dungeon_height):
+			FOV_DATA.dungeon_board[x][y] = false
 
 
 static func _set_octant(which_octant: int, source_x: int, source_y: int,
@@ -117,7 +117,7 @@ static func _set_octant(which_octant: int, source_x: int, source_y: int,
 			convert_y = _convert_coord(which_octant, x, y, false)
 			if not _is_inside_dungeon(convert_x, convert_y):
 				continue
-			_FOV_DATA.dungeon_board[convert_x][convert_y] = true
+			FOV_DATA.dungeon_board[convert_x][convert_y] = true
 
 			if block_ray.call_func(convert_x, convert_y, opt_arg):
 				# Call _set_octant() recursively only if this is the first block
@@ -166,26 +166,26 @@ static func _convert_coord(octant: int, source_x: int, source_y: int,
 			x = source_x
 			y = source_y
 		1:
-			x = _FOV_DATA.center_x + (source_y - _FOV_DATA.center_y)
-			y = _FOV_DATA.center_y + (source_x - _FOV_DATA.center_x)
+			x = FOV_DATA.center_x + (source_y - FOV_DATA.center_y)
+			y = FOV_DATA.center_y + (source_x - FOV_DATA.center_x)
 		2:
-			x = _FOV_DATA.center_x - (source_y - _FOV_DATA.center_y)
-			y = _FOV_DATA.center_y + (source_x - _FOV_DATA.center_x)
+			x = FOV_DATA.center_x - (source_y - FOV_DATA.center_y)
+			y = FOV_DATA.center_y + (source_x - FOV_DATA.center_x)
 		3:
-			x = _FOV_DATA.center_x - (source_x - _FOV_DATA.center_x)
+			x = FOV_DATA.center_x - (source_x - FOV_DATA.center_x)
 			y = source_y
 		4:
-			x = _FOV_DATA.center_x - (source_x - _FOV_DATA.center_x)
-			y = _FOV_DATA.center_y - (source_y - _FOV_DATA.center_y)
+			x = FOV_DATA.center_x - (source_x - FOV_DATA.center_x)
+			y = FOV_DATA.center_y - (source_y - FOV_DATA.center_y)
 		5:
-			x = _FOV_DATA.center_x - (source_y - _FOV_DATA.center_y)
-			y = _FOV_DATA.center_y - (source_x - _FOV_DATA.center_x)
+			x = FOV_DATA.center_x - (source_y - FOV_DATA.center_y)
+			y = FOV_DATA.center_y - (source_x - FOV_DATA.center_x)
 		6:
-			x = _FOV_DATA.center_x + (source_y - _FOV_DATA.center_y)
-			y = _FOV_DATA.center_y - (source_x - _FOV_DATA.center_x)
+			x = FOV_DATA.center_x + (source_y - FOV_DATA.center_y)
+			y = FOV_DATA.center_y - (source_x - FOV_DATA.center_x)
 		7:
 			x = source_x
-			y = _FOV_DATA.center_y - (source_y - _FOV_DATA.center_y)
+			y = FOV_DATA.center_y - (source_y - FOV_DATA.center_y)
 		_:
 			x = source_x
 			y = source_y
@@ -196,5 +196,5 @@ static func _convert_coord(octant: int, source_x: int, source_y: int,
 
 
 static func _is_inside_dungeon(x: int, y: int) -> bool:
-	return (x > -1) and (x < _FOV_DATA.dungeon_width) \
-			and (y > -1) and (y < _FOV_DATA.dungeon_height)
+	return (x > -1) and (x < FOV_DATA.dungeon_width) \
+			and (y > -1) and (y < FOV_DATA.dungeon_height)
