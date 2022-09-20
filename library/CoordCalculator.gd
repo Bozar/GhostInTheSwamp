@@ -66,14 +66,14 @@ static func get_ray_direction(source_coord: IntCoord, target_coord: IntCoord) \
 		-> int:
 	if source_coord.x == target_coord.x:
 		if source_coord.y < target_coord.y:
-			return DirectionTag.UP
-		elif source_coord.y > target_coord.y:
 			return DirectionTag.DOWN
+		elif source_coord.y > target_coord.y:
+			return DirectionTag.UP
 	elif source_coord.y == target_coord.y:
-		if source_coord.x > target_coord.x:
-			return DirectionTag.LEFT
-		elif source_coord.x < target_coord.x:
+		if source_coord.x < target_coord.x:
 			return DirectionTag.RIGHT
+		elif source_coord.x > target_coord.x:
+			return DirectionTag.LEFT
 	push_warning(RAY_DIRECTION % [source_coord.x, source_coord.y,
 			target_coord.x, target_coord.y])
 	return DirectionTag.INVALID_DIRECTION

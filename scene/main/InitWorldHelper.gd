@@ -98,16 +98,16 @@ func _create_swamp() -> void:
 
 
 func _create_expand_land(expand_coords: Array) -> void:
-	var target_coord: IntCoord
+	var land_coord: IntCoord
 	var ray_direction: int
 	var max_length: int
 	var new_coords: Array
 
 	for i in expand_coords:
-		target_coord = _get_target_coord(i)
-		if target_coord == null:
+		land_coord = _get_land_coord(i)
+		if land_coord == null:
 			continue
-		ray_direction = CoordCalculator.get_ray_direction(i, target_coord)
+		ray_direction = CoordCalculator.get_ray_direction(land_coord, i)
 		max_length = _ref_RandomNumber.get_int(0, MAX_EXPAND)
 		new_coords = CoordCalculator.get_ray_path(i, max_length,
 				ray_direction, true, false, self, "_is_ray_obstacle")
@@ -115,12 +115,12 @@ func _create_expand_land(expand_coords: Array) -> void:
 			_ref_CreateObject.create_ground(SubTag.LAND, nc)
 
 
-func _get_target_coord(coord: IntCoord) -> IntCoord:
+func _get_land_coord(coord: IntCoord) -> IntCoord:
 	var neighbor := CoordCalculator.get_neighbor(coord, 1)
 
 	for i in neighbor:
 		if FindObject.has_ground(i):
-			return CoordCalculator.get_mirror_image(coord, i)
+			return i
 	push_warning(NO_NEIGHBOR % [coord.x, coord.y])
 	return null
 
