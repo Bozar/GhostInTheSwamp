@@ -97,35 +97,19 @@ func _end_turn() -> void:
 
 
 func _has_swamp(coord: IntCoord) -> bool:
-	var sprite := FindObject.get_ground(coord)
-
-	if sprite == null:
-		return false
-	return sprite.is_in_group(SubTag.SWAMP)
-
-
-func _has_actor(coord: IntCoord) -> bool:
-	return FindObject.has_actor(coord)
-
-
-func _has_building(coord: IntCoord) -> bool:
-	return FindObject.has_building(coord)
+	return FindObject.has_ground_by_sub_tag(coord, SubTag.SWAMP)
 
 
 func _has_harbor(coord: IntCoord) -> bool:
-	var sprite := FindObject.get_building(coord)
-
-	if sprite == null:
-		return false
-	return sprite.is_in_group(SubTag.HARBOR)
+	return FindObject.has_building_by_sub_tag(coord, SubTag.HARBOR)
 
 
 func _move_on_land(move_to: IntCoord) -> void:
 	var can_move := false
 
-	if _has_swamp(move_to) or _has_actor(move_to):
+	if _has_swamp(move_to) or FindObject.has_actor(move_to):
 		pass
-	elif _has_building(move_to):
+	elif FindObject.has_building(move_to):
 		if _pc_state.has_item(SubTag.ACCORDION) and _has_harbor(move_to):
 			can_move = true
 	else:

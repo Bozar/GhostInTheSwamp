@@ -127,5 +127,53 @@ func has_actor(coord: IntCoord) -> bool:
 	return has_sprite(MainTag.ACTOR, coord)
 
 
+func get_ground_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+	var sprite := get_ground(coord)
+
+	if (sprite != null) and sprite.is_in_group(sub_tag):
+		return sprite
+	return null
+
+
+func get_trap_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+	var sprite := get_trap(coord)
+
+	if (sprite != null) and sprite.is_in_group(sub_tag):
+		return sprite
+	return null
+
+
+func get_building_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+	var sprite := get_building(coord)
+
+	if (sprite != null) and sprite.is_in_group(sub_tag):
+		return sprite
+	return null
+
+
+func get_actor_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+	var sprite := get_actor(coord)
+
+	if (sprite != null) and sprite.is_in_group(sub_tag):
+		return sprite
+	return null
+
+
+func has_ground_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_ground_by_sub_tag(coord, sub_tag) != null
+
+
+func has_trap_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_trap_by_sub_tag(coord, sub_tag) != null
+
+
+func has_building_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_building_by_sub_tag(coord, sub_tag) != null
+
+
+func has_actor_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_actor_by_sub_tag(coord, sub_tag) != null
+
+
 func _filter_get_sprites_by_tag(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()
