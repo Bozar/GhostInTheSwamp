@@ -23,6 +23,7 @@ const ADD_GHOST := "add_ghost"
 const ADD_RUM := "add_rum"
 const ADD_PARROT := "add_parrot"
 const ADD_ACCORDION := "add_accordion"
+const DEV_KEY := "dev_key"
 
 const OPEN_HELP := "open_help"
 const OPEN_DEBUG := "open_debug"
@@ -42,12 +43,13 @@ const MOVE_INPUT := [
 	MOVE_DOWN,
 ]
 const WIZARD_INPUT := [
-	ADD_MP,
-	FULLY_RESTORE_MP,
-	ADD_GHOST,
 	ADD_RUM,
 	ADD_PARROT,
 	ADD_ACCORDION,
+	ADD_MP,
+	FULLY_RESTORE_MP,
+	ADD_GHOST,
+	DEV_KEY,
 ]
 
 const INPUT_TO_SPRITE := {

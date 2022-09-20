@@ -87,6 +87,8 @@ func press_wizard_key(input_tag: String) -> void:
 			_pc_state.add_item(SubTag.PARROT)
 		InputTag.ADD_ACCORDION:
 			_pc_state.add_item(SubTag.ACCORDION)
+		InputTag.DEV_KEY:
+			_press_dev_key()
 
 
 func _end_turn() -> void:
@@ -120,3 +122,8 @@ func _move_on_land(move_to: IntCoord) -> void:
 	if can_move:
 		MoveObject.move(_pc, move_to)
 		_end_turn()
+
+
+# This key is reserved for testing.
+func _press_dev_key() -> void:
+	pass
