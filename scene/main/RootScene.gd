@@ -1,88 +1,117 @@
 extends RootSceneTemplate
 
 
-const SIGNAL_BIND := [
-	[
-		SignalTag.SPRITE_CREATED, NodeTag.CREATE_OBJECT,
-		NodeTag.SCHEDULE,
-	],
-	[
-		SignalTag.WORLD_INITIALIZED, NodeTag.INIT_WORLD,
-		NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI, NodeTag.PLAYER_INPUT,
-		NodeTag.DEBUG_GUI,
-	],
-	[
-		"world_selected", NodeTag.INIT_WORLD,
-		NodeTag.HELP_GUI, NodeTag.HELP_INPUT,
-	],
-	[
-		SignalTag.TURN_STARTED, NodeTag.SCHEDULE,
-		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.SIDEBAR_GUI,
-	],
-	[
-		SignalTag.SPRITE_REMOVED, NodeTag.REMOVE_OBJECT,
-		NodeTag.SCHEDULE,
-	],
-	[
-		SignalTag.GAME_OVER, NodeTag.PROGRESS,
-		NodeTag.PLAYER_INPUT, NodeTag.SIDEBAR_GUI, NodeTag.SCHEDULE,
-	],
-	[
-		SignalTag.SETTING_LOADED, NodeTag.SETTING,
-		NodeTag.PALETTE, NodeTag.DEBUG_GUI,
-	],
-	[
-		SignalTag.SETTING_SAVED, NodeTag.SETTING,
-		NodeTag.DEBUG_GUI,
-	],
-	[
-		SignalTag.SCREEN_SWITCHED, NodeTag.SWITCH_SCREEN,
-		NodeTag.PLAYER_INPUT, NodeTag.CREATE_OBJECT, NodeTag.SIDEBAR_GUI,
-		NodeTag.HELP_INPUT, NodeTag.HELP_GUI, NodeTag.DEBUG_GUI,
-		NodeTag.DEBUG_INPUT,
-	],
-	[
-		SignalTag.SPECIAL_KEY, NodeTag.PLAYER_INPUT,
-		NodeTag.SIDEBAR_GUI,
-	],
-]
+const SIGNAL_BIND := {
+	SignalTag.SPRITE_CREATED: {
+		SOURCE_NODE: NodeTag.CREATE_OBJECT,
+		TARGET_NODE: [
+			NodeTag.SCHEDULE,
+		],
+	},
+	SignalTag.WORLD_INITIALIZED: {
+		SOURCE_NODE: NodeTag.INIT_WORLD,
+		TARGET_NODE: [
+			NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI, NodeTag.PLAYER_INPUT,
+			NodeTag.DEBUG_GUI,
+		],
+	},
+	"world_selected": {
+		SOURCE_NODE: NodeTag.INIT_WORLD,
+		TARGET_NODE: [
+			NodeTag.HELP_GUI, NodeTag.HELP_INPUT,
+		],
+	},
+	SignalTag.TURN_STARTED: {
+		SOURCE_NODE: NodeTag.SCHEDULE,
+		TARGET_NODE: [
+			NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.SIDEBAR_GUI,
+		],
+	},
+	SignalTag.SPRITE_REMOVED: {
+		SOURCE_NODE: NodeTag.REMOVE_OBJECT,
+		TARGET_NODE: [
+			NodeTag.SCHEDULE,
+		],
+	},
+	SignalTag.GAME_OVER: {
+		SOURCE_NODE: NodeTag.PROGRESS,
+		TARGET_NODE: [
+			NodeTag.PLAYER_INPUT, NodeTag.SIDEBAR_GUI, NodeTag.SCHEDULE,
+		],
+	},
+	SignalTag.SETTING_LOADED: {
+		SOURCE_NODE: NodeTag.SETTING,
+		TARGET_NODE: [
+			NodeTag.PALETTE, NodeTag.DEBUG_GUI,
+		],
+	},
+	SignalTag.SETTING_SAVED: {
+		SOURCE_NODE: NodeTag.SETTING,
+		TARGET_NODE: [
+			NodeTag.DEBUG_GUI,
+		],
+	},
+	SignalTag.SCREEN_SWITCHED: {
+		SOURCE_NODE: NodeTag.SWITCH_SCREEN,
+		TARGET_NODE: [
+			NodeTag.PLAYER_INPUT, NodeTag.CREATE_OBJECT, NodeTag.SIDEBAR_GUI,
+			NodeTag.HELP_INPUT, NodeTag.HELP_GUI, NodeTag.DEBUG_GUI,
+			NodeTag.DEBUG_INPUT,
+		],
+	},
+	SignalTag.SPECIAL_KEY: {
+		SOURCE_NODE: NodeTag.PLAYER_INPUT,
+		TARGET_NODE: [
+			NodeTag.SIDEBAR_GUI,
+		],
+	},
+}
 
-const NODE_REF := [
-	[
-		NodeTag.REF_SCHEDULE, NodeTag.SCHEDULE,
-		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.INIT_WORLD,
-	],
-	[
-		NodeTag.REF_PROGRESS, NodeTag.PROGRESS,
-		NodeTag.SCHEDULE,
-	],
-	[
-		NodeTag.REF_REMOVE_OBJECT, NodeTag.REMOVE_OBJECT,
-		NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
-	],
-	[
-		NodeTag.REF_RANDOM_NUMBER, NodeTag.RANDOM,
-		NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
-		NodeTag.PROGRESS, NodeTag.SETTING,
-	],
-	[
-		NodeTag.REF_CREATE_OBJECT, NodeTag.CREATE_OBJECT,
-		NodeTag.INIT_WORLD, NodeTag.PROGRESS, NodeTag.ACTOR_ACTION,
-		NodeTag.PLAYER_INPUT,
-	],
-	[
-		NodeTag.REF_SETTING, NodeTag.SETTING,
-		NodeTag.PLAYER_INPUT, NodeTag.INIT_WORLD,
-	],
-	[
-		NodeTag.REF_SWITCH_SCREEN, NodeTag.SWITCH_SCREEN,
-		NodeTag.PLAYER_INPUT, NodeTag.HELP_INPUT, NodeTag.DEBUG_INPUT,
-	],
-	[
-		NodeTag.REF_HELP_GUI, NodeTag.HELP_GUI,
-		NodeTag.HELP_INPUT,
-	],
-]
+const NODE_REF := {
+	NodeTag.SCHEDULE: {
+		TARGET_NODE: [
+			NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.INIT_WORLD,
+		],
+	},
+	NodeTag.PROGRESS: {
+		TARGET_NODE: [
+			NodeTag.SCHEDULE,
+		],
+	},
+	NodeTag.REMOVE_OBJECT: {
+		TARGET_NODE: [
+			NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
+		],
+	},
+	NodeTag.RANDOM: {
+		TARGET_NODE: [
+			NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
+			NodeTag.PROGRESS, NodeTag.SETTING,
+		],
+	},
+	NodeTag.CREATE_OBJECT: {
+		TARGET_NODE: [
+			NodeTag.INIT_WORLD, NodeTag.PROGRESS, NodeTag.ACTOR_ACTION,
+			NodeTag.PLAYER_INPUT,
+		],
+	},
+	NodeTag.SETTING: {
+		TARGET_NODE: [
+			NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT,
+		],
+	},
+	NodeTag.SWITCH_SCREEN: {
+		TARGET_NODE: [
+			NodeTag.PLAYER_INPUT, NodeTag.HELP_INPUT, NodeTag.DEBUG_INPUT,
+		],
+	},
+	NodeTag.HELP_GUI: {
+		REF_VAR: NodeTag.REF_HELP_GUI,
+		TARGET_NODE: [
+			NodeTag.HELP_INPUT,
+		],
+	},
+}
 
 
 func _init().(SIGNAL_BIND, NODE_REF) -> void:
