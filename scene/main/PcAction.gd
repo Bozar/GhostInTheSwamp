@@ -7,9 +7,6 @@ const REF_VARS := [
 	NodeTag.RANDOM_NUMBER,
 	NodeTag.CREATE_OBJECT,
 ]
-const REMOVE_SPRITE_PER_TURN := [
-	SubTag.DINGHY, SubTag.SHIP,
-]
 
 var end_turn := false
 
@@ -92,10 +89,16 @@ func press_wizard_key(input_tag: String) -> void:
 
 
 func _end_turn() -> void:
+	var coord := ConvertCoord.sprite_to_coord(_pc)
+
 	# Remove a trap when it is covered by PC or NPC.
-	_ref_RemoveObject.remove_trap(ConvertCoord.sprite_to_coord(_pc))
-	for tag in REMOVE_SPRITE_PER_TURN:
-		for i in FindObject.get_sprites_with_tag(tag):
+	_ref_RemoveObject.remove_trap(coord)
+	# Always remove dinghys.
+	for i in FindObject.get_sprites_with_tag(SubTag.DINGHY):
+		_ref_RemoveObject.remove(i)
+	# Remove the ship if PC is not in a harbor.
+	if not FindObjectHelper.has_harbor(coord):
+		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
 			_ref_RemoveObject.remove(i)
 	end_turn = true
 

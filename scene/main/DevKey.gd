@@ -3,7 +3,7 @@ class_name DevKey
 
 
 func test() -> void:
-	_add_dinghy(ConvertCoord.sprite_to_coord(FindObject.pc))
+	_teleport(1)
 	pass
 
 

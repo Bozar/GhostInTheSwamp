@@ -26,8 +26,8 @@ var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 
 # Increase the upper limit when collecting a new item.
-var max_ghost := PcData.MAX_GHOST_PER_ITEM
-# Add 1 after removing a ghost due to any reason.
+var max_ghost := PcData.MAX_GHOST_PER_ITEM setget _set_none, get_max_ghost
+# Add 1 after creating a ghost.
 var count_ghost := 0 setget set_count_ghost, get_count_ghost
 
 var has_ghost := false
@@ -75,6 +75,17 @@ func get_sail_duration() -> int:
 	return sail_duration
 
 
+func get_max_ghost() -> int:
+	return max_ghost
+
+
+func _set_max_ghost() -> void:
+	max_ghost = 0
+	for i in _tag_to_state.values():
+		if i:
+			max_ghost += PcData.MAX_GHOST_PER_ITEM
+
+
 func set_sail_duration(new_data: int) -> void:
 	sail_duration = _fix_overflow(new_data, max_sail_duration, 0)
 
@@ -85,8 +96,12 @@ func has_item(sub_tag: String) -> bool:
 
 func add_item(sub_tag: String) -> void:
 	# Add an item to inventory.
-	if _tag_to_state.has(sub_tag):
+	if _tag_to_state.has(sub_tag) and (not _tag_to_state[sub_tag]):
 		_tag_to_state[sub_tag] = true
+	else:
+		return
+	# Increase max_ghost.
+	_set_max_ghost()
 	# Rum increases max MP.
 	if sub_tag == SubTag.RUM:
 		max_mp = PcData.MAX_MP_WITH_RUM

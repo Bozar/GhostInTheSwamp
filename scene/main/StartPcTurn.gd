@@ -4,11 +4,15 @@ class_name StartPcTurn
 
 const REF_VARS := [
 	NodeTag.CREATE_OBJECT,
+	NodeTag.RANDOM_NUMBER,
 ]
 
 const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
 
 var _ref_CreateObject: CreateObject
+var _ref_RandomNumber: RandomNumber
+
+var _ghost_countdown := PcData.MAX_GHOST_COUNTDOWN
 
 
 func set_reference() -> void:
@@ -31,7 +35,7 @@ func renew_world() -> void:
 	# Land
 	else:
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.LAND)
-		_add_dinghy()
+		_add_dinghy(pc_coord, pc_state)
 		_set_actor_fov()
 		_set_power_on_land()
 
@@ -62,8 +66,13 @@ func _add_ship(coord: IntCoord) -> void:
 	var ship_coord: IntCoord
 	var has_error := false
 
+	# PC is not in a harbor.
 	if not FindObjectHelper.has_harbor(coord):
 		return
+	# PC enters a harbor from the ship in the last turn.
+	elif FindObject.get_sprites_with_tag(SubTag.SHIP).size() > 0:
+		return
+	# PC enters a harbor from land in the last turn.
 	for i in CoordCalculator.get_neighbor(coord, 1):
 		if not FindObjectHelper.has_swamp(i):
 			non_swamp_coord = i
@@ -81,9 +90,13 @@ func _add_ship(coord: IntCoord) -> void:
 	_ref_CreateObject.create_building(SubTag.SHIP, ship_coord)
 
 
-# Reduce countdown timer until a ghost appears.
-func _add_dinghy() -> void:
-	pass
+func _add_dinghy(coord: IntCoord, state: PcState) -> void:
+	_set_ghost_countdown(coord, state)
+	# print(_ghost_countdown)
+	if _ghost_countdown < 1:
+		_ghost_countdown = PcData.MAX_GHOST_COUNTDOWN
+		state.count_ghost += 1
+		_create_dinghy(coord)
 
 
 func _set_actor_fov() -> void:
@@ -122,3 +135,47 @@ func _set_power_on_harbor() -> void:
 
 func _set_power_on_land() -> void:
 	pass
+
+
+func _set_ghost_countdown(coord: IntCoord, state: PcState) -> void:
+	var has_swamp := false
+	var has_harbor := false
+
+	if state.has_ghost:
+		return
+	elif state.count_ghost == state.max_ghost:
+		return
+	elif not FindObjectHelper.has_land(coord):
+		return
+	else:
+		for i in CoordCalculator.get_neighbor(coord, 1):
+			if FindObjectHelper.has_swamp(i):
+				has_swamp = true
+				break
+	# There should be at least one swamp grid for the ghost dinghy to appear.
+	if not has_swamp:
+		return
+
+	_ghost_countdown -= 1
+	if state.mp <= PcData.LOW_MP:
+		_ghost_countdown -= PcData.CONUT_BONUS_FROM_LOW_MP
+	elif state.mp <= PcData.HIGH_MP:
+		_ghost_countdown -= PcData.CONUT_BONUS_FROM_HIGH_MP
+	for i in CoordCalculator.get_neighbor(coord, PcData.MIN_RANGE_TO_HARBOR):
+		if FindObjectHelper.has_harbor(i):
+			has_harbor = true
+			break
+	if not has_harbor:
+		_ghost_countdown -= PcData.COUNT_BONUS_FROM_HARBOR
+
+
+func _create_dinghy(coord: IntCoord) -> void:
+	var ground_coords := []
+
+	for i in CoordCalculator.get_neighbor(coord, 1):
+		if FindObjectHelper.has_swamp(i):
+			ground_coords.push_back(i)
+	if ground_coords.size() < 1:
+		return
+	ArrayHelper.shuffle(ground_coords, _ref_RandomNumber)
+	_ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])

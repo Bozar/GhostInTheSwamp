@@ -3,6 +3,9 @@ class_name PcData
 
 const SIGHT_RANGE := 5
 
+const HIGH_MP := 4
+const LOW_MP := 2
+
 const MAX_MP := 3
 const MAX_MP_WITH_RUM := 6
 const MAX_MP_PROGRESS := 100
@@ -15,4 +18,10 @@ const HARBOR_TO_MP_PROGRESS := {
 }
 
 const MAX_GHOST_PER_ITEM := 20
+const MAX_GHOST_COUNTDOWN := 20
+const MIN_RANGE_TO_HARBOR := 5
+const COUNT_BONUS_FROM_HARBOR := 2
+const CONUT_BONUS_FROM_HIGH_MP := 1
+const CONUT_BONUS_FROM_LOW_MP := 2
+
 const MAX_SAIL_DURATION := 5
