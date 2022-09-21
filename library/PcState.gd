@@ -22,7 +22,7 @@ var _direction_to_state := {
 }
 
 var mp := 0 setget set_mp, get_mp
-var max_mp := PcData.MAX_MP
+var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 
 # Increase the upper limit when collecting a new item.
@@ -84,8 +84,12 @@ func has_item(sub_tag: String) -> bool:
 
 
 func add_item(sub_tag: String) -> void:
+	# Add an item to inventory.
 	if _tag_to_state.has(sub_tag):
 		_tag_to_state[sub_tag] = true
+	# Rum increases max MP.
+	if sub_tag == SubTag.RUM:
+		max_mp = PcData.MAX_MP_WITH_RUM
 
 
 func is_in_npc_sight(direction_tag: int) -> bool:
@@ -112,6 +116,10 @@ func set_power_tag(direction_tag: int, power_tag: int) -> void:
 	_direction_to_state[direction_tag][POWER_TAG] = power_tag
 
 
+func get_max_mp() -> int:
+	return max_mp
+
+
 func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
 	return max(min(new_data, upper), lower) as int
 
@@ -123,3 +131,7 @@ func _init_direction_to_state() -> void:
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,
 		}
+
+
+func _set_none(__) -> void:
+	pass

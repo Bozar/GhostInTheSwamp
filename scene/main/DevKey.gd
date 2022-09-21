@@ -3,12 +3,14 @@ class_name DevKey
 
 
 func test() -> void:
-	var coord: IntCoord
-	var teleport := 0	# near land
-	# var teleport := 1	# anywhere
-	# var teleport := 2	# final harbor
+	pass
 
-	match teleport:
+
+# 0: near land, 1: anywhere, 2: final harbor
+func _teleport(destination: int) -> void:
+	var coord: IntCoord
+
+	match destination:
 		0:
 			for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
 				if FindObject.has_ground_with_sub_tag(i, SubTag.SWAMP):
@@ -22,4 +24,3 @@ func test() -> void:
 
 	MoveObject.move(FindObject.pc, coord)
 	get_parent()._end_turn()
-	pass

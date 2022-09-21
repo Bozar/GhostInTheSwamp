@@ -41,13 +41,14 @@ const SUB_TAG_TO_ITEM := {
     SubTag.ACCORDION : "Accordion",
 }
 
+# +: PC moves. -: PC does not move.
 const POWER_TAG_TO_NAME := {
-    PowerTag.EMBARK: "Embark",
-	PowerTag.LAND: "Land",
-	PowerTag.LIGHT: "Light",
-	PowerTag.PICK: "Pick",
-	PowerTag.SPOOK: "Spook",
-	PowerTag.SWAP: "Swap",
+    PowerTag.EMBARK: "+Embark",
+	PowerTag.LAND: "+Land",
+	PowerTag.LIGHT: "-Light",
+	PowerTag.PICK: "-Pick",
+	PowerTag.SPOOK: "+Spook",
+	PowerTag.SWAP: "+Swap",
 }
 const POWER_TEMPLATE := "%s|%s: %s\n"
-const LAST_POWER := "_|0: Exit"
+const LAST_POWER := "_|0: -Exit"
