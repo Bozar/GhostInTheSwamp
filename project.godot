@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/gui/DebugVBox.gd"
 }, {
+"base": "Node2D",
+"class": "DevKey",
+"language": "GDScript",
+"path": "res://scene/main/DevKey.gd"
+}, {
 "base": "Reference",
 "class": "DijkstraPathFinding",
 "language": "GDScript",
@@ -97,7 +102,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "HarborHelper",
 "language": "GDScript",
-"path": "res://scene/main/HarborHelper.gd"
+"path": "res://library/HarborHelper.gd"
 }, {
 "base": "InputTemplate",
 "class": "HelpInput",
@@ -326,6 +331,7 @@ _global_script_class_icons={
 "CrossShapedFov": "",
 "DebugInput": "",
 "DebugVBox": "",
+"DevKey": "",
 "DijkstraPathFinding": "",
 "DirectionTag": "",
 "DungeonPrefab": "",

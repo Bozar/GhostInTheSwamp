@@ -46,10 +46,6 @@ func _set_mp_progress(pc_state: PcState) -> void:
 	pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
 
 
-func _add_actor() -> void:
-	pass
-
-
 func _add_ship() -> void:
 	pass
 

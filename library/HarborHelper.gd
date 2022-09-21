@@ -2,7 +2,7 @@ extends Node2D
 class_name HarborHelper
 
 
-func toggle_harbor(sprite: Sprite, is_active: bool) -> void:
+static func toggle_harbor(sprite: Sprite, is_active: bool) -> void:
 	var new_sprite_type := SpriteTag.DEFAULT
 	var state: BuildingState = ObjectState.get_state(sprite)
 

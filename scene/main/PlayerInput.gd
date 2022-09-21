@@ -51,9 +51,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	input_tag = _get_move_direction(event)
 	if input_tag != "":
 		$PcAction.move(input_tag)
-		# A turn ends only when player presses a movement key.
-		if $PcAction.end_turn:
-			_end_turn()
 	elif _verify_input(event, InputTag.TOGGLE_POWER):
 		$PcAction.toggle_power()
 		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER)
@@ -62,6 +59,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER)
 	elif _verify_input(event, InputTag.TOGGLE_SIGHT):
 		$PcAction.toggle_sight()
+	# A turn may end when pressing a movement key or InputTag.DEV_KEY.
+	if $PcAction.end_turn:
+		_end_turn()
 
 
 func _end_turn() -> void:

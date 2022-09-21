@@ -39,5 +39,5 @@ func _active_the_first_harbor() -> void:
 	for i in CoordCalculator.get_neighbor(coord, 1):
 		harbor = FindObject.get_building(i)
 		if harbor != null:
-			$HarborHelper.toggle_harbor(harbor, true)
+			HarborHelper.toggle_harbor(harbor, true)
 			return
