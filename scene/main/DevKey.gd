@@ -3,6 +3,7 @@ class_name DevKey
 
 
 func test() -> void:
+	_add_dinghy(ConvertCoord.sprite_to_coord(FindObject.pc))
 	pass
 
 
@@ -24,3 +25,15 @@ func _teleport(destination: int) -> void:
 
 	MoveObject.move(FindObject.pc, coord)
 	get_parent()._end_turn()
+
+
+func _add_dinghy(coord: IntCoord) -> void:
+	var ground_coords := []
+
+	for i in CoordCalculator.get_neighbor(coord, 1):
+		if FindObjectHelper.has_swamp(i):
+			ground_coords.push_back(i)
+	if ground_coords.size() < 1:
+		return
+	ArrayHelper.shuffle(ground_coords, get_parent()._ref_RandomNumber)
+	get_parent()._ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])

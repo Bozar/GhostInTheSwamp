@@ -16,6 +16,8 @@ const TAG_TO_SCENE := {
 	SubTag.SHRUB: preload("res://sprite/Shrub.tscn"),
 	SubTag.ISLAND: preload("res://sprite/Island.tscn"),
 	SubTag.HARBOR: preload("res://sprite/Harbor.tscn"),
+	SubTag.SHIP: preload("res://sprite/Ship.tscn"),
+	SubTag.DINGHY: preload("res://sprite/Dinghy.tscn"),
 	# Actor.
 	SubTag.PC: preload("res://sprite/PC.tscn"),
 }

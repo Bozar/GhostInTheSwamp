@@ -100,6 +100,7 @@ func _end_turn() -> void:
 	end_turn = true
 
 
+# TODO: PC cannot move towards an actor who can see him.
 func _move_on_land(move_to: IntCoord) -> void:
 	if FindObjectHelper.has_unoccupied_land(move_to):
 		pass

@@ -6,6 +6,8 @@ const REF_VARS := [
 	NodeTag.CREATE_OBJECT,
 ]
 
+const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
+
 var _ref_CreateObject: CreateObject
 
 
@@ -24,7 +26,7 @@ func renew_world() -> void:
 		_set_power_in_swamp()
 	elif FindObjectHelper.has_harbor(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.HARBOR)
-		_add_ship()
+		_add_ship(pc_coord)
 		_set_power_on_harbor()
 	# Land
 	else:
@@ -55,8 +57,28 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
 
 
-func _add_ship() -> void:
-	pass
+func _add_ship(coord: IntCoord) -> void:
+	var non_swamp_coord: IntCoord
+	var ship_coord: IntCoord
+	var has_error := false
+
+	if not FindObjectHelper.has_harbor(coord):
+		return
+	for i in CoordCalculator.get_neighbor(coord, 1):
+		if not FindObjectHelper.has_swamp(i):
+			non_swamp_coord = i
+			break
+
+	# There should be one and only one non-swamp grid near a harbor.
+	if non_swamp_coord == null:
+		has_error = true
+	else:
+		ship_coord = CoordCalculator.get_mirror_image(non_swamp_coord, coord)
+		has_error = (ship_coord == null)
+	if has_error:
+		push_warning(NO_SHIP_FOR_HARBOR % [coord.x, coord.y])
+		return
+	_ref_CreateObject.create_building(SubTag.SHIP, ship_coord)
 
 
 # Reduce countdown timer until a ghost appears.
