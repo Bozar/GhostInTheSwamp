@@ -130,4 +130,4 @@ func _set_sprite_memory(coord: IntCoord, main_tag: String) -> void:
 
 func _set_render_sprites() -> void:
 	for i in _main_tag_to_sprites:
-		_main_tag_to_sprites[i] = FindObject.get_sprites_by_tag(i)
+		_main_tag_to_sprites[i] = FindObject.get_sprites_with_tag(i)

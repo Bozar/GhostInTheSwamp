@@ -15,7 +15,7 @@ func get_pc() -> Sprite:
 	var find_pc: Array
 
 	if pc == null:
-		find_pc = get_sprites_by_tag(SubTag.PC)
+		find_pc = get_sprites_with_tag(SubTag.PC)
 		if find_pc.size() > 1:
 			push_warning(MULTIPLE_PC)
 		elif find_pc.size() == 0:
@@ -51,7 +51,7 @@ func set_pc_coord(__: IntCoord) -> void:
 # video for more information.
 #
 # https://youtu.be/agqdag6GqpU
-func get_sprites_by_tag(tag: String) -> Array:
+func get_sprites_with_tag(tag: String) -> Array:
 	var sprites := get_tree().get_nodes_in_group(tag)
 	# var verify: Sprite
 	# var counter: int = 0
@@ -65,7 +65,7 @@ func get_sprites_by_tag(tag: String) -> Array:
 	# 	sprites[counter] = verify
 	# 	counter += 1
 	# sprites.resize(counter)
-	ArrayHelper.filter_element(sprites, self, "_filter_get_sprites_by_tag")
+	ArrayHelper.filter_element(sprites, self, "_is_not_queue_free")
 	return sprites
 	# return get_tree().get_nodes_in_group(tag)
 
@@ -75,7 +75,7 @@ func get_sprite(tag: String, coord: IntCoord, try_dungeon_board := true,
 	if try_dungeon_board and (tag in MainTag.DUNGEON_OBJECT):
 		return DungeonBoard.get_by_coord(tag, coord)
 
-	var sprites := get_sprites_by_tag(tag)
+	var sprites := get_sprites_with_tag(tag)
 	var source_size := out_stacked.size()
 	var this_coord: IntCoord
 
@@ -127,7 +127,7 @@ func has_actor(coord: IntCoord) -> bool:
 	return has_sprite(MainTag.ACTOR, coord)
 
 
-func get_ground_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+func get_ground_with_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	var sprite := get_ground(coord)
 
 	if (sprite != null) and sprite.is_in_group(sub_tag):
@@ -135,7 +135,7 @@ func get_ground_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	return null
 
 
-func get_trap_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+func get_trap_with_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	var sprite := get_trap(coord)
 
 	if (sprite != null) and sprite.is_in_group(sub_tag):
@@ -143,7 +143,7 @@ func get_trap_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	return null
 
 
-func get_building_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+func get_building_with_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	var sprite := get_building(coord)
 
 	if (sprite != null) and sprite.is_in_group(sub_tag):
@@ -151,7 +151,7 @@ func get_building_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	return null
 
 
-func get_actor_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
+func get_actor_with_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	var sprite := get_actor(coord)
 
 	if (sprite != null) and sprite.is_in_group(sub_tag):
@@ -159,21 +159,21 @@ func get_actor_by_sub_tag(coord: IntCoord, sub_tag: String) -> Sprite:
 	return null
 
 
-func has_ground_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
-	return get_ground_by_sub_tag(coord, sub_tag) != null
+func has_ground_with_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_ground_with_sub_tag(coord, sub_tag) != null
 
 
-func has_trap_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
-	return get_trap_by_sub_tag(coord, sub_tag) != null
+func has_trap_with_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_trap_with_sub_tag(coord, sub_tag) != null
 
 
-func has_building_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
-	return get_building_by_sub_tag(coord, sub_tag) != null
+func has_building_with_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_building_with_sub_tag(coord, sub_tag) != null
 
 
-func has_actor_by_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
-	return get_actor_by_sub_tag(coord, sub_tag) != null
+func has_actor_with_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
+	return get_actor_with_sub_tag(coord, sub_tag) != null
 
 
-func _filter_get_sprites_by_tag(source: Array, index: int, _opt: Array) -> bool:
+func _is_not_queue_free(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()

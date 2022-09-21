@@ -12,7 +12,7 @@ static func move(sprite: Sprite, to_coord: IntCoord) -> void:
 static func _try_move_arrow(sprite: Sprite) -> void:
 	if ObjectState.get_state(sprite).sub_tag != SubTag.PC:
 		return
-	for i in FindObject.get_sprites_by_tag(MainTag.INDICATOR):
+	for i in FindObject.get_sprites_with_tag(MainTag.INDICATOR):
 		match ObjectState.get_state(i).sub_tag:
 			SubTag.ARROW_RIGHT:
 				i.position.y = sprite.position.y

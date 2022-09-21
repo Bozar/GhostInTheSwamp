@@ -44,8 +44,8 @@ func move(input_tag: String) -> void:
 	if _pc_state.use_power:
 		pass
 	else:
-		if _has_swamp(source_coord):
-			pass
+		if FindObjectHelper.has_swamp(source_coord):
+			_move_in_swamp(target_coord)
 		# Harbor or land.
 		else:
 			_move_on_land(target_coord)
@@ -95,30 +95,50 @@ func _end_turn() -> void:
 	# Remove a trap when it is covered by PC or NPC.
 	_ref_RemoveObject.remove_trap(ConvertCoord.sprite_to_coord(_pc))
 	for tag in REMOVE_SPRITE_PER_TURN:
-		for i in FindObject.get_sprites_by_tag(tag):
+		for i in FindObject.get_sprites_with_tag(tag):
 			_ref_RemoveObject.remove(i)
 	end_turn = true
 
 
-func _has_swamp(coord: IntCoord) -> bool:
-	return FindObject.has_ground_by_sub_tag(coord, SubTag.SWAMP)
-
-
-func _has_harbor(coord: IntCoord) -> bool:
-	return FindObject.has_building_by_sub_tag(coord, SubTag.HARBOR)
-
-
 func _move_on_land(move_to: IntCoord) -> void:
-	var can_move := false
-
-	if _has_swamp(move_to) or FindObject.has_actor(move_to):
+	if FindObjectHelper.has_unoccupied_land(move_to):
 		pass
-	elif FindObject.has_building(move_to):
-		if _pc_state.has_item(SubTag.ACCORDION) and _has_harbor(move_to):
-			can_move = true
+	elif _pc_state.has_item(SubTag.ACCORDION) and FindObjectHelper.has_harbor( \
+			move_to):
+		pass
 	else:
-		can_move = true
+		return
 
-	if can_move:
-		MoveObject.move(_pc, move_to)
-		_end_turn()
+	MoveObject.move(_pc, move_to)
+	_end_turn()
+
+
+func _move_in_swamp(move_to: IntCoord) -> void:
+	var has_nearby_land := false
+
+	if not FindObjectHelper.has_swamp(move_to):
+		return
+
+	# Sail in a pirate ship.
+	if _pc_state.has_item(SubTag.ACCORDION):
+		if _pc_state.mp > 0:
+			_pc_state.sail_duration = 0
+		else:
+			_pc_state.sail_duration += 1
+	# Sail in a dinghy.
+	else:
+		for i in CoordCalculator.get_neighbor(move_to, 1):
+			if FindObjectHelper.has_land_or_harbor(i):
+				has_nearby_land = true
+				break
+		if has_nearby_land:
+			_pc_state.sail_duration += 1
+		else:
+			return
+
+	if _pc_state.has_item(SubTag.RUM):
+		if _pc_state.mp > 0:
+			_pc_state.mp -= 1
+
+	MoveObject.move(_pc, move_to)
+	_end_turn()

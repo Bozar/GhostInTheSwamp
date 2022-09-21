@@ -27,7 +27,7 @@ func init_world() -> void:
 
 
 func _init_pc() -> IntCoord:
-	var grounds := FindObject.get_sprites_by_tag(SubTag.LAND)
+	var grounds := FindObject.get_sprites_with_tag(SubTag.LAND)
 	var ground_coord: IntCoord
 
 	ArrayHelper.shuffle(grounds, _ref_RandomNumber)

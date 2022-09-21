@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/BuildingState.gd"
 }, {
+"base": "Node2D",
+"class": "Checkmate",
+"language": "GDScript",
+"path": "res://scene/main/Checkmate.gd"
+}, {
 "base": "Reference",
 "class": "ConvertCoord",
 "language": "GDScript",
@@ -98,6 +103,11 @@ _global_script_classes=[ {
 "class": "FileParser",
 "language": "GDScript",
 "path": "res://library/FileParser.gd"
+}, {
+"base": "Node2D",
+"class": "FindObjectHelper",
+"language": "GDScript",
+"path": "res://library/FindObjectHelper.gd"
 }, {
 "base": "Node2D",
 "class": "HarborHelper",
@@ -325,6 +335,7 @@ _global_script_class_icons={
 "AutoStart": "",
 "BasicSpriteData": "",
 "BuildingState": "",
+"Checkmate": "",
 "ConvertCoord": "",
 "CoordCalculator": "",
 "CreateObject": "",
@@ -338,6 +349,7 @@ _global_script_class_icons={
 "DungeonSize": "",
 "FileIoHelper": "",
 "FileParser": "",
+"FindObjectHelper": "",
 "HarborHelper": "",
 "HelpInput": "",
 "HelpVScroll": "",

@@ -19,10 +19,10 @@ func renew_world() -> void:
 	var pc_state := ObjectState.get_state(pc)
 
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
-	if FindObject.has_ground_by_sub_tag(pc_coord, SubTag.SWAMP):
+	if FindObjectHelper.has_swamp(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.SWAMP)
 		_set_power_in_swamp()
-	elif FindObject.has_building_by_sub_tag(pc_coord, SubTag.HARBOR):
+	elif FindObjectHelper.has_harbor(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.HARBOR)
 		_add_ship()
 		_set_power_on_harbor()
@@ -34,15 +34,24 @@ func renew_world() -> void:
 		_set_power_on_land()
 
 	# PC with lower MP has a higher chance to summon a ghost. So add MP at last.
-	_set_mp_progress(pc_state)
+	_set_mp_progress(pc_coord, pc_state)
 
 
-func _set_mp_progress(pc_state: PcState) -> void:
+func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	var count_harbor := 0
 
-	for i in FindObject.get_sprites_by_tag(SubTag.HARBOR):
+	# Count active harbors.
+	for i in FindObjectHelper.get_harbor():
 		if (ObjectState.get_state(i) as BuildingState).is_active:
 			count_harbor += 1
+	# If PC sails in a pirate ship and is far away from land and harbor, reduce
+	# the number of active harbors by 1. Otherwise leave it unchanged.
+	count_harbor -= 1
+	for i in CoordCalculator.get_neighbor(pc_coord, 1, true):
+		if FindObjectHelper.has_land_or_harbor(i):
+			count_harbor += 1
+			break
+	# Increase MP progress based on the number of active harbors.
 	pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
 
 
@@ -66,7 +75,7 @@ func _set_pc_sprite(pc: Sprite, coord: IntCoord, state: PcState,
 
 	match sub_tag:
 		SubTag.HARBOR:
-			building = FindObject.get_building_by_sub_tag(coord, SubTag.HARBOR)
+			building = FindObjectHelper.get_harbor_with_coord(coord)
 			if (ObjectState.get_state(building) as BuildingState).is_active:
 				new_sprite = SpriteTag.ACTIVE_HARBOR
 			else:

@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scene/main/PcAction.gd" type="Script" id=3]
 [ext_resource path="res://scene/main/RootScene.gd" type="Script" id=4]
 [ext_resource path="res://scene/main/Schedule.gd" type="Script" id=5]
+[ext_resource path="res://scene/main/Checkmate.gd" type="Script" id=6]
 [ext_resource path="res://scene/main/PcFov.gd" type="Script" id=7]
 [ext_resource path="res://scene/main/InitWorldHelper.gd" type="Script" id=8]
 [ext_resource path="res://scene/main/RemoveObject.gd" type="Script" id=9]
@@ -101,6 +102,9 @@ script = ExtResource( 10 )
 
 [node name="SpawnActor" type="Node2D" parent="Progress"]
 script = ExtResource( 15 )
+
+[node name="Checkmate" type="Node2D" parent="Progress"]
+script = ExtResource( 6 )
 
 [node name="Palette" type="Node2D" parent="."]
 script = ExtResource( 26 )

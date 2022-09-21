@@ -16,6 +16,7 @@ const SWAMP := "swamp"
 
 const SHRUB := "shrub"
 const HARBOR := "harbor"
+const FINAL_HARBOR := "final_harbor"
 const ISLAND := "island"
 const DINGHY := "dinghy"
 const SHIP := "ship"
