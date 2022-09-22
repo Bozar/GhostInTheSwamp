@@ -20,14 +20,14 @@ const STATE_PANEL := "{1}{2}{0}{3}{0}{4}"
 const MP := "MP: %s/%s|%s%%\n"
 # Ghost: 12/20
 const GHOST_COUNT := "Gh: %d/%d\n"
-# Ghost\n[LOS: → ← ↓ ↑ | Sink: 3]
+# Ghost\n[LOS: → ← ↓ ↑ | Sink: 3-5]
 const STATE := "%s\n%s\n"
 # Rum\nParrot\nAccordion
 const INVENTORY := "%s\n%s\n%s"
 
 const GHOST := "Ghost"
 const LINE_OF_SIGHT := "LOS: %s"
-const SINK := "Sink: %d"
+const SINK := "Sink: %d-%d"
 const DIRECTION_TO_CHAR := {
     DirectionTag.LEFT: "←",
     DirectionTag.RIGHT: "→",
@@ -41,14 +41,14 @@ const SUB_TAG_TO_ITEM := {
     SubTag.ACCORDION : "Accordion",
 }
 
-# +: PC moves. -: PC does not move.
+# Spook: Use MP only. +Spook: Use MP and a ghost.
 const POWER_TAG_TO_NAME := {
-    PowerTag.EMBARK: "+Embark",
-	PowerTag.LAND: "+Land",
-	PowerTag.LIGHT: "-Light",
-	PowerTag.PICK: "-Pick",
-	PowerTag.SPOOK: "+Spook",
-	PowerTag.SWAP: "+Swap",
+    PowerTag.EMBARK: "Embark",
+	PowerTag.LAND: "Land",
+	PowerTag.LIGHT: "Light",
+	PowerTag.PICK: "Pick",
+	PowerTag.SPOOK: "%sSpook",
+	PowerTag.SWAP: "Swap",
 }
 const POWER_TEMPLATE := "%s|%s: %s\n"
-const LAST_POWER := "_|0: -Exit"
+const LAST_POWER := "_|0: Exit"

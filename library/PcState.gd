@@ -9,12 +9,12 @@ enum {
 }
 const MAX_INT := 999
 
-var _tag_to_state := {
+var _sub_tag_to_item := {
 	SubTag.RUM: false,
 	SubTag.PARROT: false,
 	SubTag.ACCORDION: false,
 }
-var _direction_to_state := {
+var _direction_to_sight_power := {
 	DirectionTag.UP: {},
 	DirectionTag.DOWN: {},
 	DirectionTag.LEFT: {},
@@ -31,15 +31,16 @@ var max_ghost := PcData.MAX_GHOST_PER_ITEM setget _set_none, get_max_ghost
 var count_ghost := 0 setget set_count_ghost, get_count_ghost
 
 var has_ghost := false
-var max_sail_duration := PcData.MAX_SAIL_DURATION
-# Add 1 after moving in the water for 1 turn.
+var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \
+		get_max_sail_duration
+# Add 1 after moving in the swamp.
 var sail_duration := 0 setget set_sail_duration, get_sail_duration
 
 var use_power := false
 
 
 func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:
-	_init_direction_to_state()
+	reset_direction_to_sight_power()
 
 
 func get_mp() -> int:
@@ -81,7 +82,7 @@ func get_max_ghost() -> int:
 
 func _set_max_ghost() -> void:
 	max_ghost = 0
-	for i in _tag_to_state.values():
+	for i in _sub_tag_to_item.values():
 		if i:
 			max_ghost += PcData.MAX_GHOST_PER_ITEM
 
@@ -90,14 +91,18 @@ func set_sail_duration(new_data: int) -> void:
 	sail_duration = _fix_overflow(new_data, max_sail_duration, 0)
 
 
+func get_max_sail_duration() -> int:
+	return max_sail_duration
+
+
 func has_item(sub_tag: String) -> bool:
-	return _tag_to_state.get(sub_tag, false)
+	return _sub_tag_to_item.get(sub_tag, false)
 
 
 func add_item(sub_tag: String) -> void:
 	# Add an item to inventory.
-	if _tag_to_state.has(sub_tag) and (not _tag_to_state[sub_tag]):
-		_tag_to_state[sub_tag] = true
+	if _sub_tag_to_item.has(sub_tag) and (not _sub_tag_to_item[sub_tag]):
+		_sub_tag_to_item[sub_tag] = true
 	else:
 		return
 	# Increase max_ghost.
@@ -108,27 +113,27 @@ func add_item(sub_tag: String) -> void:
 
 
 func is_in_npc_sight(direction_tag: int) -> bool:
-	return _direction_to_state[direction_tag][NPC_SIGHT]
+	return _direction_to_sight_power[direction_tag][NPC_SIGHT]
 
 
 func set_npc_sight(direction_tag: int, is_in_sight: bool) -> void:
-	_direction_to_state[direction_tag][NPC_SIGHT] = is_in_sight
+	_direction_to_sight_power[direction_tag][NPC_SIGHT] = is_in_sight
 
 
 func get_power_cost(direction_tag: int) -> int:
-	return _direction_to_state[direction_tag][POWER_COST]
+	return _direction_to_sight_power[direction_tag][POWER_COST]
 
 
 func set_power_cost(direction_tag: int, power_cost: int) -> void:
-	_direction_to_state[direction_tag][POWER_COST] = power_cost
+	_direction_to_sight_power[direction_tag][POWER_COST] = power_cost
 
 
 func get_power_tag(direction_tag: int) -> int:
-	return _direction_to_state[direction_tag][POWER_TAG]
+	return _direction_to_sight_power[direction_tag][POWER_TAG]
 
 
 func set_power_tag(direction_tag: int, power_tag: int) -> void:
-	_direction_to_state[direction_tag][POWER_TAG] = power_tag
+	_direction_to_sight_power[direction_tag][POWER_TAG] = power_tag
 
 
 func get_max_mp() -> int:
@@ -139,9 +144,9 @@ func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
 	return max(min(new_data, upper), lower) as int
 
 
-func _init_direction_to_state() -> void:
-	for i in _direction_to_state.keys():
-		_direction_to_state[i] = {
+func reset_direction_to_sight_power() -> void:
+	for i in _direction_to_sight_power.keys():
+		_direction_to_sight_power[i] = {
 			NPC_SIGHT: false,
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,

@@ -100,6 +100,8 @@ func _end_turn() -> void:
 	if not FindObjectHelper.has_harbor(coord):
 		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
 			_ref_RemoveObject.remove(i)
+	# Clear power data.
+	_pc_state.reset_direction_to_sight_power()
 	end_turn = true
 
 
@@ -118,31 +120,27 @@ func _move_on_land(move_to: IntCoord) -> void:
 
 
 func _move_in_swamp(move_to: IntCoord) -> void:
+	var has_accordion := _pc_state.has_item(SubTag.ACCORDION)
 	var has_nearby_land := false
 
+	# PC can only sail into a swamp grid.
 	if not FindObjectHelper.has_swamp(move_to):
 		return
-
-	# Sail in a pirate ship.
-	if _pc_state.has_item(SubTag.ACCORDION):
-		if _pc_state.mp > 0:
-			_pc_state.sail_duration = 0
-		else:
-			_pc_state.sail_duration += 1
-	# Sail in a dinghy.
+	# Pirate ship: PC can enter any swamp grid.
+	elif has_accordion:
+		pass
+	# Dinghy: PC can only enter a swamp that has a land or harbor neighbor.
 	else:
 		for i in CoordCalculator.get_neighbor(move_to, 1):
 			if FindObjectHelper.has_land_or_harbor(i):
 				has_nearby_land = true
 				break
-		if has_nearby_land:
-			_pc_state.sail_duration += 1
-		else:
+		if not has_nearby_land:
 			return
 
-	if _pc_state.has_item(SubTag.RUM):
-		if _pc_state.mp > 0:
-			_pc_state.mp -= 1
-
+	if _pc_state.sail_duration < _pc_state.max_sail_duration:
+		_pc_state.sail_duration += 1
+	elif has_accordion and _pc_state.mp > 0:
+		_pc_state.mp -= 1
 	MoveObject.move(_pc, move_to)
 	_end_turn()

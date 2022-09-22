@@ -15,7 +15,14 @@ func renew_world(out_checkmate_pattern: Dictionary) -> void:
 
 
 func _sink_in_swamp(state: PcState) -> bool:
-	return state.sail_duration >= state.max_sail_duration
+	# Ghost dinghy or pirate ship is still intact.
+	if state.sail_duration < state.max_sail_duration:
+		return false
+	# Use MP to support the pirate ship.
+	if state.has_item(SubTag.ACCORDION):
+		return state.mp < 1
+	# The ghost ship cannot use MP.
+	return true
 
 
 func _is_spotted(state: PcState) -> bool:

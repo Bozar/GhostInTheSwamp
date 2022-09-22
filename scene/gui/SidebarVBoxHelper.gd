@@ -82,9 +82,12 @@ func _get_line_of_sight() -> String:
 func _get_sink() -> String:
 	var max_sail := _pc_state.max_sail_duration
 	var sink := max_sail - _pc_state.sail_duration
+	var mp := _pc_state.mp
 
+	if not _pc_state.has_item(SubTag.ACCORDION):
+		mp = 0
 	if sink < max_sail:
-		return SidebarText.SINK % sink
+		return SidebarText.SINK % [sink, mp]
 	return ""
 
 
