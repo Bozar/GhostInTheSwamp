@@ -6,7 +6,7 @@ signal sprite_created(new_sprite)
 
 
 func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
-		x_offset := 0, y_offset := 0) -> Sprite:
+		more_tags := [], x_offset := 0, y_offset := 0) -> Sprite:
 	var new_sprite: Sprite
 	var sprite_color: String
 	var z_index: int
@@ -24,30 +24,32 @@ func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 
 	add_child(new_sprite)
 	StateManager.add_state(new_sprite, main_tag, sub_tag)
+	for i in more_tags:
+		new_sprite.add_to_group(i)
 	emit_signal(SignalTag.SPRITE_CREATED, new_sprite)
 
 	return new_sprite
 
 
-func create(main_tag: String, sub_tag: String, coord: IntCoord, x_offset := 0,
-		y_offset := 0) -> void:
-	create_and_fetch(main_tag, sub_tag, coord, x_offset, y_offset)
+func create(main_tag: String, sub_tag: String, coord: IntCoord, more_tags := [],
+		x_offset := 0, y_offset := 0) -> void:
+	create_and_fetch(main_tag, sub_tag, coord, more_tags, x_offset, y_offset)
 
 
-func create_ground(sub_tag: String, coord: IntCoord) -> void:
-	create(MainTag.GROUND, sub_tag, coord)
+func create_ground(sub_tag: String, coord: IntCoord, more_tags := []) -> void:
+	create(MainTag.GROUND, sub_tag, coord, more_tags)
 
 
-func create_trap(sub_tag: String, coord: IntCoord) -> void:
-	create(MainTag.TRAP, sub_tag, coord)
+func create_trap(sub_tag: String, coord: IntCoord, more_tags := []) -> void:
+	create(MainTag.TRAP, sub_tag, coord, more_tags)
 
 
-func create_building(sub_tag: String, coord: IntCoord) -> void:
-	create(MainTag.BUILDING, sub_tag, coord)
+func create_building(sub_tag: String, coord: IntCoord, more_tags := []) -> void:
+	create(MainTag.BUILDING, sub_tag, coord, more_tags)
 
 
-func create_actor(sub_tag: String, coord: IntCoord) -> void:
-	create(MainTag.ACTOR, sub_tag, coord)
+func create_actor(sub_tag: String, coord: IntCoord, more_tags := []) -> void:
+	create(MainTag.ACTOR, sub_tag, coord, more_tags)
 
 
 func _on_SwitchScreen_screen_switched(_source: int, target: int) -> void:

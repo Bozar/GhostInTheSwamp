@@ -72,7 +72,8 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 				LAND_CHAR:
 					_ref_CreateObject.create_ground(SubTag.LAND, coord)
 				HARBOR_CHAR:
-					_ref_CreateObject.create_building(SubTag.HARBOR, coord)
+					_ref_CreateObject.create_building(SubTag.HARBOR, coord,
+							[SubTag.FINAL_HARBOR])
 				SHRUB_CHAR:
 					_ref_CreateObject.create_building(SubTag.SHRUB, coord)
 				ISLAND_CHAR:

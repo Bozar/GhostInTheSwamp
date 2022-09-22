@@ -59,4 +59,5 @@ func _init_indicator(x: int, y: int) -> void:
 		coord = IntCoord.new(arrow_data[0], arrow_data[1])
 		x_offset = arrow_data[2]
 		y_offset = arrow_data[3]
-		_ref_CreateObject.create(MainTag.INDICATOR, i, coord, x_offset, y_offset)
+		_ref_CreateObject.create(MainTag.INDICATOR, i, coord, [], x_offset,
+				y_offset)

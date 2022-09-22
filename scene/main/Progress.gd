@@ -39,13 +39,5 @@ func _on_InitWorld_world_initialized() -> void:
 
 
 func _active_the_first_harbor() -> void:
-	var island: Sprite = FindObject.get_sprites_with_tag(SubTag.ISLAND)[0]
-	var coord := ConvertCoord.sprite_to_coord(island)
-	var harbor: Sprite
-
-	for i in CoordCalculator.get_neighbor(coord, 1):
-		harbor = FindObject.get_building(i)
-		if harbor != null:
-			HarborHelper.toggle_harbor(harbor, true)
-			harbor.add_to_group(SubTag.FINAL_HARBOR)
-			break
+	var harbor: Sprite = FindObject.get_sprites_with_tag(SubTag.FINAL_HARBOR)[0]
+	HarborHelper.toggle_harbor(harbor, true)
