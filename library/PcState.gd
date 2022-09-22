@@ -112,6 +112,30 @@ func add_item(sub_tag: String) -> void:
 		max_mp = PcData.MAX_MP_WITH_RUM
 
 
+func has_rum() -> bool:
+	return has_item(SubTag.RUM)
+
+
+func has_parrot() -> bool:
+	return has_item(SubTag.PARROT)
+
+
+func has_accordion() -> bool:
+	return has_item(SubTag.ACCORDION)
+
+
+func add_rum() -> void:
+	add_item(SubTag.RUM)
+
+
+func add_parrot() -> void:
+	add_item(SubTag.PARROT)
+
+
+func add_accordion() -> void:
+	add_item(SubTag.ACCORDION)
+
+
 func is_in_npc_sight(direction_tag: int) -> bool:
 	return _direction_to_sight_power[direction_tag][NPC_SIGHT]
 
@@ -151,6 +175,10 @@ func reset_direction_to_sight_power() -> void:
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,
 		}
+
+
+func reset_sail_duration() -> void:
+	sail_duration = 0
 
 
 func _set_none(__) -> void:

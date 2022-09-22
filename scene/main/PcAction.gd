@@ -34,16 +34,27 @@ func start_turn() -> void:
 func move(input_tag: String) -> void:
 	var source_coord := ConvertCoord.sprite_to_coord(_pc)
 	var target_coord := InputTag.get_coord_by_direction(source_coord, input_tag)
+	var direction_tag := InputTag.get_direction_tag(input_tag)
 
 	if not CoordCalculator.is_inside_dungeon(target_coord):
 		return
 
-	if _pc_state.use_power:
-		pass
-	else:
-		if FindObjectHelper.has_swamp(source_coord):
+	# Swamp.
+	if FindObjectHelper.has_swamp(source_coord):
+		if _pc_state.use_power:
+			_use_power_in_swamp(source_coord, target_coord, direction_tag)
+		else:
 			_move_in_swamp(target_coord)
-		# Harbor or land.
+	# Harbor.
+	elif FindObjectHelper.has_harbor(source_coord):
+		if _pc_state.use_power:
+			pass
+		else:
+			_move_on_land(target_coord)
+	# Land.
+	else:
+		if _pc_state.use_power:
+			pass
 		else:
 			_move_on_land(target_coord)
 
@@ -79,29 +90,18 @@ func press_wizard_key(input_tag: String) -> void:
 		InputTag.ADD_GHOST:
 			_pc_state.has_ghost = true
 		InputTag.ADD_RUM:
-			_pc_state.add_item(SubTag.RUM)
+			_pc_state.add_rum()
 		InputTag.ADD_PARROT:
-			_pc_state.add_item(SubTag.PARROT)
+			_pc_state.add_parrot()
 		InputTag.ADD_ACCORDION:
-			_pc_state.add_item(SubTag.ACCORDION)
+			_pc_state.add_accordion()
 		InputTag.DEV_KEY:
 			$DevKey.test()
 
 
 func _end_turn() -> void:
-	var coord := ConvertCoord.sprite_to_coord(_pc)
-
 	# Remove a trap when it is covered by PC or NPC.
-	_ref_RemoveObject.remove_trap(coord)
-	# Always remove dinghys.
-	for i in FindObject.get_sprites_with_tag(SubTag.DINGHY):
-		_ref_RemoveObject.remove(i)
-	# Remove the ship if PC is not in a harbor.
-	if not FindObjectHelper.has_harbor(coord):
-		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
-			_ref_RemoveObject.remove(i)
-	# Clear power data.
-	_pc_state.reset_direction_to_sight_power()
+	_ref_RemoveObject.remove_trap(ConvertCoord.sprite_to_coord(_pc))
 	end_turn = true
 
 
@@ -109,8 +109,7 @@ func _end_turn() -> void:
 func _move_on_land(move_to: IntCoord) -> void:
 	if FindObjectHelper.has_unoccupied_land(move_to):
 		pass
-	elif _pc_state.has_item(SubTag.ACCORDION) and FindObjectHelper.has_harbor( \
-			move_to):
+	elif _pc_state.has_accordion() and FindObjectHelper.has_harbor(move_to):
 		pass
 	else:
 		return
@@ -120,7 +119,7 @@ func _move_on_land(move_to: IntCoord) -> void:
 
 
 func _move_in_swamp(move_to: IntCoord) -> void:
-	var has_accordion := _pc_state.has_item(SubTag.ACCORDION)
+	var has_accordion := _pc_state.has_accordion()
 	var has_nearby_land := false
 
 	# PC can only sail into a swamp grid.
@@ -143,4 +142,19 @@ func _move_in_swamp(move_to: IntCoord) -> void:
 	elif has_accordion and _pc_state.mp > 0:
 		_pc_state.mp -= 1
 	MoveObject.move(_pc, move_to)
+	_end_turn()
+
+
+func _use_power_in_swamp(source_coord: IntCoord, target_coord: IntCoord,
+		direction_tag: int) -> void:
+	var power_cost: int
+
+	if _pc_state.get_power_tag(direction_tag) != PowerTag.LAND:
+		return
+
+	if _pc_state.has_accordion():
+		_ref_CreateObject.create_building(SubTag.SHIP, source_coord)
+	power_cost = _pc_state.get_power_cost(direction_tag)
+	_pc_state.mp -= power_cost
+	MoveObject.move(_pc, target_coord)
 	_end_turn()

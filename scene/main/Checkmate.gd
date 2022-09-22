@@ -19,7 +19,7 @@ func _sink_in_swamp(state: PcState) -> bool:
 	if state.sail_duration < state.max_sail_duration:
 		return false
 	# Use MP to support the pirate ship.
-	if state.has_item(SubTag.ACCORDION):
+	if state.has_accordion():
 		return state.mp < 1
 	# The ghost ship cannot use MP.
 	return true
@@ -37,7 +37,7 @@ func _is_spotted(state: PcState) -> bool:
 
 
 func _reach_final_harbor(state: PcState, coord: IntCoord) -> bool:
-	return state.has_item(SubTag.RUM) \
-			and state.has_item(SubTag.PARROT) \
-			and state.has_item(SubTag.ACCORDION) \
-			and FindObject.has_building_with_sub_tag(coord, SubTag.FINAL_HARBOR)
+	return state.has_rum() \
+			and state.has_parrot() \
+			and state.has_accordion() \
+			and FindObjectHelper.has_final_harbor(coord)

@@ -3,7 +3,7 @@ class_name DevKey
 
 
 func test() -> void:
-	_teleport(1)
+	_teleport(0)
 	pass
 
 

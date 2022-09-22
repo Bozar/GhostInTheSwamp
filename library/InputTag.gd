@@ -58,22 +58,23 @@ const INPUT_TO_SPRITE := {
 	MOVE_LEFT: SpriteTag.LEFT,
 	MOVE_RIGHT: SpriteTag.RIGHT,
 }
+const INPUT_TO_DIRECTION := {
+	MOVE_UP: DirectionTag.UP,
+	MOVE_DOWN: DirectionTag.DOWN,
+	MOVE_LEFT: DirectionTag.LEFT,
+	MOVE_RIGHT: DirectionTag.RIGHT,
+}
+
+
+static func get_sprite_tag(input_tag: String) -> String:
+	return INPUT_TO_SPRITE.get(input_tag, SpriteTag.DEFAULT)
+
+
+static func get_direction_tag(input_tag: String) -> int:
+	return INPUT_TO_DIRECTION.get(input_tag, DirectionTag.NO_DIRECTION)
 
 
 static func get_coord_by_direction(coord: IntCoord, input_tag: String,
 		step := 1) -> IntCoord:
-	var x_offset := 0
-	var y_offset := 0
-
-	match input_tag:
-		MOVE_DOWN:
-			y_offset = 1
-		MOVE_UP:
-			y_offset = -1
-		MOVE_RIGHT:
-			x_offset = 1
-		MOVE_LEFT:
-			x_offset = -1
-		_:
-			pass
-	return IntCoord.new(coord.x + x_offset * step, coord.y + y_offset * step)
+	return DirectionTag.get_coord_by_direction(coord,
+			get_direction_tag(input_tag), step)

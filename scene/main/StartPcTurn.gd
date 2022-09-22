@@ -5,12 +5,14 @@ class_name StartPcTurn
 const REF_VARS := [
 	NodeTag.CREATE_OBJECT,
 	NodeTag.RANDOM_NUMBER,
+	NodeTag.REMOVE_OBJECT,
 ]
 
 const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
 
 var _ref_CreateObject: CreateObject
 var _ref_RandomNumber: RandomNumber
+var _ref_RemoveObject: RemoveObject
 
 var _ghost_countdown := PcData.MAX_GHOST_COUNTDOWN
 
@@ -24,10 +26,12 @@ func renew_world() -> void:
 	var pc_coord := ConvertCoord.sprite_to_coord(pc)
 	var pc_state := ObjectState.get_state(pc)
 
+	_reset_pc_state(pc_coord, pc_state)
+
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
 	if FindObjectHelper.has_swamp(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.SWAMP)
-		_set_power_in_swamp()
+		_set_power_in_swamp(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.HARBOR)
 		_add_ship(pc_coord)
@@ -116,7 +120,7 @@ func _set_pc_sprite(pc: Sprite, coord: IntCoord, state: PcState,
 			else:
 				new_sprite = SpriteTag.DEFAULT_HARBOR
 		SubTag.SWAMP:
-			if state.has_item(SubTag.ACCORDION):
+			if state.has_accordion():
 				new_sprite = SpriteTag.SHIP
 			else:
 				new_sprite = SpriteTag.DINGHY
@@ -125,8 +129,22 @@ func _set_pc_sprite(pc: Sprite, coord: IntCoord, state: PcState,
 	SwitchSprite.set_sprite(pc, new_sprite)
 
 
-func _set_power_in_swamp() -> void:
-	pass
+func _set_power_in_swamp(coord: IntCoord, state: PcState) -> void:
+	var target: IntCoord
+	var power_cost: int
+
+	for i in DirectionTag.VALID_DIRECTIONS:
+		target = DirectionTag.get_coord_by_direction(coord, i)
+		if state.has_accordion() and FindObjectHelper.has_harbor(target):
+			state.set_power_tag(i, PowerTag.LAND)
+			state.set_power_cost(i, PcData.COST_LAND_HARBOR)
+		elif FindObjectHelper.has_land(target):
+			if state.mp > PcData.LOW_MP:
+				power_cost = PcData.COST_LAND_GROUND
+			else:
+				power_cost = PcData.COST_LAND_HARBOR
+			state.set_power_tag(i, PowerTag.LAND)
+			state.set_power_cost(i, power_cost)
 
 
 func _set_power_on_harbor() -> void:
@@ -179,3 +197,19 @@ func _create_dinghy(coord: IntCoord) -> void:
 		return
 	ArrayHelper.shuffle(ground_coords, _ref_RandomNumber)
 	_ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])
+
+
+func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
+	# Always remove dinghys.
+	for i in FindObject.get_sprites_with_tag(SubTag.DINGHY):
+		_ref_RemoveObject.remove(i)
+	# Remove the ship if PC is not in a harbor.
+	if not FindObjectHelper.has_harbor(coord):
+		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
+			_ref_RemoveObject.remove(i)
+	# Reset sail duration if PC is on land or harbor.
+	if not FindObjectHelper.has_swamp(coord):
+		state.reset_sail_duration()
+	# Clear sight and power data.
+	state.reset_direction_to_sight_power()
+	state.use_power = false
