@@ -122,7 +122,7 @@ func _get_power() -> String:
 	var full_text := ""
 	var power_tag: int
 	var power_direction: String
-	var power_cost: int
+	var power_cost: String
 	var power_name: String
 
 	for i in ORDERED_DIRECTION:
@@ -130,7 +130,10 @@ func _get_power() -> String:
 		if power_tag == PowerTag.NO_POWER:
 			continue
 		power_direction = SidebarText.DIRECTION_TO_CHAR[i]
-		power_cost = _pc_state.get_power_cost(i)
+		if PowerTag.IS_GHOST_POWER.get(power_tag, false):
+			power_cost = SidebarText.GHOST_POWER
+		else:
+			power_cost = _pc_state.get_power_cost(i) as String
 		power_name = SidebarText.POWER_TAG_TO_NAME[power_tag]
 		full_text += SidebarText.POWER_TEMPLATE % [power_direction,
 				power_cost, power_name]

@@ -9,6 +9,7 @@ func test() -> void:
 
 # 0: near land, 1: anywhere, 2: final harbor
 func _teleport(destination: int) -> void:
+	var p := get_parent()
 	var coord: IntCoord
 
 	match destination:
@@ -18,16 +19,17 @@ func _teleport(destination: int) -> void:
 					coord = i
 					break
 		1:
-			coord = get_parent()._ref_RandomNumber.get_dungeon_coord()
+			coord = p._ref_RandomNumber.get_dungeon_coord()
 		2:
-			coord = ConvertCoord.sprite_to_coord(
-					FindObject.get_sprites_with_tag(SubTag.FINAL_HARBOR)[0])
+			coord = ConvertCoord.sprite_to_coord(FindObject.get_sprites_with_tag(
+					SubTag.FINAL_HARBOR)[0])
 
 	MoveObject.move(FindObject.pc, coord)
-	get_parent()._end_turn()
+	p._end_turn()
 
 
 func _add_dinghy(coord: IntCoord) -> void:
+	var p := get_parent()
 	var ground_coords := []
 
 	for i in CoordCalculator.get_neighbor(coord, 1):
@@ -35,12 +37,12 @@ func _add_dinghy(coord: IntCoord) -> void:
 			ground_coords.push_back(i)
 	if ground_coords.size() < 1:
 		return
-	ArrayHelper.shuffle(ground_coords, get_parent()._ref_RandomNumber)
-	get_parent()._ref_CreateObject.create_building(SubTag.DINGHY,
-			ground_coords[0])
+	ArrayHelper.shuffle(ground_coords, p._ref_RandomNumber)
+	p._ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])
 
 
 func _add_item(sub_tag: String) -> void:
-	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
-	get_parent()._ref_CreateObject.create_trap(sub_tag,
-			IntCoord.new(pc_coord.x - 1, pc_coord.y))
+	var p := get_parent()
+	var coord := ConvertCoord.sprite_to_coord(FindObject.pc)
+
+	p._ref_CreateObject.create_trap(sub_tag, IntCoord.new(coord.x - 1, coord.y))

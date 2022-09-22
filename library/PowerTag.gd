@@ -10,3 +10,8 @@ enum {
 	SPOOK,
 	SWAP,
 }
+
+const IS_GHOST_POWER := {
+	LIGHT: true,
+	SWAP: true,
+}

@@ -54,5 +54,6 @@ const POWER_TAG_TO_NAME := {
 	PowerTag.SPOOK: "Spook",
 	PowerTag.SWAP: "Swap",
 }
+const GHOST_POWER := "G"
 const POWER_TEMPLATE := "%s|%s: %s\n"
 const LAST_POWER := "_|0: Exit"
