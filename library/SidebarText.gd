@@ -26,6 +26,11 @@ const STATE := "%s\n%s\n"
 const INVENTORY := "%s\n%s\n%s"
 
 const GHOST := "Ghost"
+const DINGHY := "Dinghy"
+const SHIP := "Ship"
+const GHOST_SHIP := "Ghost|Ship"
+# Arrow Dinghy | Ship | Ghost\|Ship
+const EMBARK := "%s %s"
 const LINE_OF_SIGHT := "LOS: %s"
 const SINK := "Sink: %d-%d"
 const DIRECTION_TO_CHAR := {
@@ -41,13 +46,12 @@ const SUB_TAG_TO_ITEM := {
     SubTag.ACCORDION : "Accordion",
 }
 
-# Spook: Use MP only. +Spook: Use MP and a ghost.
 const POWER_TAG_TO_NAME := {
     PowerTag.EMBARK: "Embark",
 	PowerTag.LAND: "Land",
 	PowerTag.LIGHT: "Light",
 	PowerTag.PICK: "Pick",
-	PowerTag.SPOOK: "%sSpook",
+	PowerTag.SPOOK: "Spook",
 	PowerTag.SWAP: "Swap",
 }
 const POWER_TEMPLATE := "%s|%s: %s\n"

@@ -61,6 +61,19 @@ func _update_state() -> void:
 
 
 func _get_ghost() -> String:
+	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
+	var neighbor: IntCoord
+	var dir_char: String
+
+	for i in DirectionTag.VALID_DIRECTIONS:
+		neighbor = DirectionTag.get_coord_by_direction(pc_coord, i)
+		dir_char = SidebarText.DIRECTION_TO_CHAR[i]
+		if FindObjectHelper.has_dinghy(neighbor):
+			return SidebarText.EMBARK % [dir_char, SidebarText.DINGHY]
+		elif FindObjectHelper.has_ship(neighbor):
+			if _pc_state.has_ghost:
+				return SidebarText.EMBARK % [dir_char, SidebarText.GHOST_SHIP]
+			return SidebarText.EMBARK % [dir_char, SidebarText.SHIP]
 	if _pc_state.has_ghost:
 		return SidebarText.GHOST
 	return ""

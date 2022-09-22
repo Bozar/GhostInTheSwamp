@@ -30,6 +30,10 @@ static func has_ship(coord: IntCoord) -> bool:
 	return FindObject.has_building_with_sub_tag(coord, SubTag.SHIP)
 
 
+static func has_dinghy(coord: IntCoord) -> bool:
+	return FindObject.has_building_with_sub_tag(coord, SubTag.DINGHY)
+
+
 static func get_harbor() -> Array:
 	return FindObject.get_sprites_with_tag(SubTag.HARBOR)
 
