@@ -12,6 +12,9 @@ const TAG_TO_SCENE := {
 	SubTag.LAND: preload("res://sprite/Land.tscn"),
 	SubTag.SWAMP: preload("res://sprite/Swamp.tscn"),
 	# Trap.
+	SubTag.RUM: preload("res://sprite/Rum.tscn"),
+	SubTag.PARROT: preload("res://sprite/Parrot.tscn"),
+	SubTag.ACCORDION: preload("res://sprite/Accordion.tscn"),
 	# Building.
 	SubTag.SHRUB: preload("res://sprite/Shrub.tscn"),
 	SubTag.ISLAND: preload("res://sprite/Island.tscn"),

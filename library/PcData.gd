@@ -30,3 +30,4 @@ const COST_LAND_HARBOR := 0
 const COST_LAND_GROUND := 1
 const COST_EMBARK := 0
 const COST_LIGHT := 0
+const COST_PICK := 0

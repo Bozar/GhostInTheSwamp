@@ -36,14 +36,15 @@ func renew_world() -> void:
 	elif FindObjectHelper.has_harbor(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.HARBOR)
 		_add_ship(pc_coord)
-		# PowerTag.EMBARK, PowerTag.LIGHT.
+		# PowerTag.[EMBARK|LIGHT].
 		_set_power_on_harbor(pc_coord, pc_state)
 	# Land
 	else:
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.LAND)
 		_add_dinghy(pc_coord, pc_state)
 		_set_actor_fov()
-		_set_power_on_land()
+		# PowerTag.[EMBARK|LIGHT|Pick|Spook|Swap].
+		_set_power_on_land(pc_coord, pc_state)
 
 	# PC with lower MP has a higher chance to summon a ghost. So add MP at last.
 	_set_mp_progress(pc_coord, pc_state)
@@ -166,8 +167,11 @@ func _set_power_on_harbor(coord: IntCoord, state: PcState) -> void:
 			state.set_power_cost(i, PcData.COST_LIGHT)
 
 
-func _set_power_on_land() -> void:
-	pass
+func _set_power_on_land(coord: IntCoord, state: PcState) -> void:
+	for i in DirectionTag.VALID_DIRECTIONS:
+		if _block_by_neighbor(coord, state, i):
+			continue
+		# TODO: Cast a ray.
 
 
 func _set_ghost_countdown(coord: IntCoord, state: PcState) -> void:
@@ -228,3 +232,27 @@ func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
 	# Clear sight and power data.
 	state.reset_direction_to_sight_power()
 	state.use_power = false
+
+
+func _block_by_neighbor(coord: IntCoord, state: PcState, direction: int) -> bool:
+	var target := DirectionTag.get_coord_by_direction(coord, direction)
+	var harbor_is_not_active: bool
+
+	if FindObject.has_actor(target):
+		# TODO: Spook an actor.
+		return true
+	elif FindObject.has_building(target):
+		if FindObjectHelper.has_dinghy(target):
+			state.set_power_tag(direction, PowerTag.EMBARK)
+			state.set_power_cost(direction, PcData.COST_EMBARK)
+		elif FindObjectHelper.has_harbor(target):
+			harbor_is_not_active = not HarborHelper.is_active(target)
+			if state.has_ghost and harbor_is_not_active:
+				state.set_power_tag(direction, PowerTag.LIGHT)
+				state.set_power_cost(direction, PcData.COST_LIGHT)
+		return true
+	elif FindObject.has_trap(target):
+		state.set_power_tag(direction, PowerTag.PICK)
+		state.set_power_cost(direction, PcData.COST_PICK)
+		return true
+	return false

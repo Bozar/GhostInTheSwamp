@@ -58,7 +58,7 @@ func move(input_tag: String) -> void:
 	else:
 		if _pc_state.use_power:
 			_pc_state.mp -= power_cost
-			pass
+			_use_power_on_land(target_coord, direction_tag)
 		else:
 			_move_on_land(target_coord)
 
@@ -170,6 +170,28 @@ func _use_power_in_harbor(source_coord: IntCoord, target_coord: IntCoord,
 		PowerTag.LIGHT:
 			_pc_state.has_ghost = false
 			HarborHelper.toggle_harbor_with_coord(source_coord, true)
+		_:
+			return
+	_end_turn()
+
+
+func _use_power_on_land(target_coord: IntCoord, direction_tag: int) -> void:
+	var target_sprite: Sprite
+	var sub_tag: String
+
+	match _pc_state.get_power_tag(direction_tag):
+		PowerTag.EMBARK:
+			if FindObjectHelper.has_dinghy(target_coord):
+				_pc_state.has_ghost = true
+			MoveObject.move(_pc, target_coord)
+		PowerTag.LIGHT:
+			_pc_state.has_ghost = false
+			HarborHelper.toggle_harbor_with_coord(target_coord, true)
+		PowerTag.PICK:
+			target_sprite = FindObject.get_trap(target_coord)
+			sub_tag = ObjectState.get_state(target_sprite).sub_tag
+			_pc_state.add_item(sub_tag)
+			_ref_RemoveObject.remove(target_sprite)
 		_:
 			return
 	_end_turn()

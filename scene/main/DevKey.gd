@@ -3,7 +3,7 @@ class_name DevKey
 
 
 func test() -> void:
-	_teleport(0)
+	_add_item(SubTag.RUM)
 	pass
 
 
@@ -36,4 +36,11 @@ func _add_dinghy(coord: IntCoord) -> void:
 	if ground_coords.size() < 1:
 		return
 	ArrayHelper.shuffle(ground_coords, get_parent()._ref_RandomNumber)
-	get_parent()._ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])
+	get_parent()._ref_CreateObject.create_building(SubTag.DINGHY,
+			ground_coords[0])
+
+
+func _add_item(sub_tag: String) -> void:
+	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
+	get_parent()._ref_CreateObject.create_trap(sub_tag,
+			IntCoord.new(pc_coord.x - 1, pc_coord.y))
