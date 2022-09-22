@@ -31,11 +31,13 @@ func renew_world() -> void:
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
 	if FindObjectHelper.has_swamp(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.SWAMP)
+		# PowerTag.LAND.
 		_set_power_in_swamp(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.HARBOR)
 		_add_ship(pc_coord)
-		_set_power_on_harbor()
+		# PowerTag.EMBARK, PowerTag.LIGHT.
+		_set_power_on_harbor(pc_coord, pc_state)
 	# Land
 	else:
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.LAND)
@@ -147,8 +149,21 @@ func _set_power_in_swamp(coord: IntCoord, state: PcState) -> void:
 			state.set_power_cost(i, power_cost)
 
 
-func _set_power_on_harbor() -> void:
-	pass
+func _set_power_on_harbor(coord: IntCoord, state: PcState) -> void:
+	var harbor_is_not_active := not HarborHelper.is_active(coord)
+	var target: IntCoord
+
+	for i in DirectionTag.VALID_DIRECTIONS:
+		target = DirectionTag.get_coord_by_direction(coord, i)
+		# Embark a pirate ship.
+		if FindObjectHelper.has_ship(target):
+			state.set_power_tag(i, PowerTag.EMBARK)
+			state.set_power_cost(i, PcData.COST_EMBARK)
+		# Light a harbor.
+		elif state.has_ghost and harbor_is_not_active and FindObjectHelper. \
+				has_land(target):
+			state.set_power_tag(i, PowerTag.LIGHT)
+			state.set_power_cost(i, PcData.COST_LIGHT)
 
 
 func _set_power_on_land() -> void:

@@ -28,3 +28,5 @@ const MAX_SAIL_DURATION := 5
 
 const COST_LAND_HARBOR := 0
 const COST_LAND_GROUND := 1
+const COST_EMBARK := 0
+const COST_LIGHT := 0

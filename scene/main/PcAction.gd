@@ -35,6 +35,7 @@ func move(input_tag: String) -> void:
 	var source_coord := ConvertCoord.sprite_to_coord(_pc)
 	var target_coord := InputTag.get_coord_by_direction(source_coord, input_tag)
 	var direction_tag := InputTag.get_direction_tag(input_tag)
+	var power_cost := _pc_state.get_power_cost(direction_tag)
 
 	if not CoordCalculator.is_inside_dungeon(target_coord):
 		return
@@ -42,18 +43,21 @@ func move(input_tag: String) -> void:
 	# Swamp.
 	if FindObjectHelper.has_swamp(source_coord):
 		if _pc_state.use_power:
+			_pc_state.mp -= power_cost
 			_use_power_in_swamp(source_coord, target_coord, direction_tag)
 		else:
 			_move_in_swamp(target_coord)
 	# Harbor.
 	elif FindObjectHelper.has_harbor(source_coord):
 		if _pc_state.use_power:
-			pass
+			_pc_state.mp -= power_cost
+			_use_power_in_harbor(source_coord, target_coord, direction_tag)
 		else:
 			_move_on_land(target_coord)
 	# Land.
 	else:
 		if _pc_state.use_power:
+			_pc_state.mp -= power_cost
 			pass
 		else:
 			_move_on_land(target_coord)
@@ -147,14 +151,25 @@ func _move_in_swamp(move_to: IntCoord) -> void:
 
 func _use_power_in_swamp(source_coord: IntCoord, target_coord: IntCoord,
 		direction_tag: int) -> void:
-	var power_cost: int
-
 	if _pc_state.get_power_tag(direction_tag) != PowerTag.LAND:
 		return
-
+	# Leave a pirate ship at PC's current position.
 	if _pc_state.has_accordion():
 		_ref_CreateObject.create_building(SubTag.SHIP, source_coord)
-	power_cost = _pc_state.get_power_cost(direction_tag)
-	_pc_state.mp -= power_cost
 	MoveObject.move(_pc, target_coord)
+	_end_turn()
+
+
+func _use_power_in_harbor(source_coord: IntCoord, target_coord: IntCoord,
+		direction_tag: int) -> void:
+	match _pc_state.get_power_tag(direction_tag):
+		PowerTag.EMBARK:
+			# Remove the pirate ship in StartPcTurn._reset_pc_state(). Player
+			# cannot lose at this moment.
+			MoveObject.move(_pc, target_coord)
+		PowerTag.LIGHT:
+			_pc_state.has_ghost = false
+			HarborHelper.toggle_harbor_with_coord(source_coord, true)
+		_:
+			return
 	_end_turn()
