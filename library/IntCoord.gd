@@ -1,8 +1,10 @@
 class_name IntCoord
 
 
-var x: int setget set_x, get_x
-var y: int setget set_y, get_y
+const SET_INT_COORD := "Set IntCoord: %s"
+
+var x: int setget _set_none, get_x
+var y: int setget _set_none, get_y
 
 
 func _init(new_x: int, new_y: int) -> void:
@@ -14,13 +16,9 @@ func get_x() -> int:
 	return x
 
 
-func set_x(new_x) -> void:
-	x = new_x
-
-
 func get_y() -> int:
 	return y
 
 
-func set_y(new_y) -> void:
-	y = new_y
+func _set_none(__) -> void:
+	push_warning(SET_INT_COORD % String(get_stack()))

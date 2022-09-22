@@ -55,7 +55,7 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 
 	# Count active harbors.
 	for i in FindObjectHelper.get_harbor():
-		if (ObjectState.get_state(i) as BuildingState).is_active:
+		if (ObjectState.get_state(i) as HarborState).is_active:
 			count_harbor += 1
 	# If PC sails in a pirate ship and is far away from land and harbor, reduce
 	# the number of active harbors by 1. Otherwise leave it unchanged.
@@ -118,7 +118,7 @@ func _set_pc_sprite(pc: Sprite, coord: IntCoord, state: PcState,
 	match sub_tag:
 		SubTag.HARBOR:
 			building = FindObjectHelper.get_harbor_with_coord(coord)
-			if (ObjectState.get_state(building) as BuildingState).is_active:
+			if (ObjectState.get_state(building) as HarborState).is_active:
 				new_sprite = SpriteTag.ACTIVE_HARBOR
 			else:
 				new_sprite = SpriteTag.DEFAULT_HARBOR

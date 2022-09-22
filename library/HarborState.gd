@@ -1,5 +1,5 @@
 extends BasicSpriteData
-class_name BuildingState
+class_name HarborState
 
 
 func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:

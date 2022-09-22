@@ -4,7 +4,7 @@ class_name HarborHelper
 
 static func toggle_harbor(sprite: Sprite, is_active: bool) -> void:
 	var new_sprite_type := SpriteTag.DEFAULT
-	var state: BuildingState = ObjectState.get_state(sprite)
+	var state: HarborState = ObjectState.get_state(sprite)
 
 	if is_active:
 		new_sprite_type = SpriteTag.ACTIVE
@@ -19,4 +19,4 @@ static func toggle_harbor_with_coord(coord: IntCoord, is_active: bool) -> void:
 
 static func is_active(coord: IntCoord) -> bool:
 	var harbor_sprite := FindObjectHelper.get_harbor_with_coord(coord)
-	return (ObjectState.get_state(harbor_sprite) as BuildingState).is_active
+	return (ObjectState.get_state(harbor_sprite) as HarborState).is_active

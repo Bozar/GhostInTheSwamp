@@ -7,9 +7,9 @@ const NO_STATE := "%s has no data in ObjectState."
 
 const SUB_TAG_TO_STATE := {
 	SubTag.PC: PcState,
+	SubTag.HARBOR: HarborState,
 }
 const MAIN_TAG_TO_STATE := {
-	MainTag.BUILDING: BuildingState,
 }
 
 var _id_to_state := {}

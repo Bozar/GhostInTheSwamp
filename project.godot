@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/BasicSpriteData.gd"
 }, {
-"base": "BasicSpriteData",
-"class": "BuildingState",
-"language": "GDScript",
-"path": "res://library/BuildingState.gd"
-}, {
 "base": "Node2D",
 "class": "Checkmate",
 "language": "GDScript",
@@ -113,6 +108,11 @@ _global_script_classes=[ {
 "class": "HarborHelper",
 "language": "GDScript",
 "path": "res://library/HarborHelper.gd"
+}, {
+"base": "BasicSpriteData",
+"class": "HarborState",
+"language": "GDScript",
+"path": "res://library/HarborState.gd"
 }, {
 "base": "InputTemplate",
 "class": "HelpInput",
@@ -334,7 +334,6 @@ _global_script_class_icons={
 "ArrayHelper": "",
 "AutoStart": "",
 "BasicSpriteData": "",
-"BuildingState": "",
 "Checkmate": "",
 "ConvertCoord": "",
 "CoordCalculator": "",
@@ -351,6 +350,7 @@ _global_script_class_icons={
 "FileParser": "",
 "FindObjectHelper": "",
 "HarborHelper": "",
+"HarborState": "",
 "HelpInput": "",
 "HelpVScroll": "",
 "InitWorld": "",
