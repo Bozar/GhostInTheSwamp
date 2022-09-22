@@ -10,6 +10,7 @@ const SUB_TAG_TO_STATE := {
 	SubTag.HARBOR: HarborState,
 }
 const MAIN_TAG_TO_STATE := {
+	MainTag.ACTOR: ActorState,
 }
 
 var _id_to_state := {}

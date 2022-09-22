@@ -8,7 +8,8 @@ const REF_VARS := [
 	NodeTag.CREATE_OBJECT,
 ]
 
-var end_turn := false
+var end_turn := false setget _set_none, get_end_turn
+var use_power := false setget _set_none, get_use_power
 
 var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
@@ -17,6 +18,14 @@ var _ref_CreateObject: CreateObject
 var _pc: Sprite
 var _pc_state: PcState
 var _current_sprite_tag: String
+
+
+func get_end_turn() -> bool:
+	return end_turn
+
+
+func get_use_power() -> bool:
+	return (_pc_state != null) and _pc_state.use_power
 
 
 func set_reference() -> void:
@@ -63,7 +72,7 @@ func move(input_tag: String) -> void:
 			_move_on_land(target_coord)
 
 
-func toggle_power() -> void:
+func toggle_power_mode() -> void:
 	var new_sprite := _current_sprite_tag
 
 	_pc_state.use_power = not _pc_state.use_power
@@ -72,18 +81,31 @@ func toggle_power() -> void:
 	SwitchSprite.set_sprite(_pc, new_sprite)
 
 
-func cancel_power() -> void:
+func exit_power_mode() -> void:
 	_pc_state.use_power = false
 	SwitchSprite.set_sprite(_pc, _current_sprite_tag)
 
 
-func toggle_sight() -> void:
-	pass
+func toggle_sight_mode() -> void:
+	var state: ActorState
+
+	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
+		if i.is_in_group(SubTag.PC):
+			continue
+		state = ObjectState.get_state(i)
+		ActorHelper.toggle_actor(i, not state.show_arrow)
+
+
+func exit_sight_mode() -> void:
+	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
+		if i.is_in_group(SubTag.PC):
+			continue
+		ActorHelper.toggle_actor(i, false)
 
 
 func press_wizard_key(input_tag: String) -> void:
 	if _pc_state.use_power:
-		cancel_power()
+		exit_power_mode()
 		return
 
 	match input_tag:
@@ -195,3 +217,7 @@ func _use_power_on_land(target_coord: IntCoord, direction_tag: int) -> void:
 		_:
 			return
 	_end_turn()
+
+
+func _set_none(__) -> void:
+	pass

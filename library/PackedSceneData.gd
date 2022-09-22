@@ -23,6 +23,10 @@ const TAG_TO_SCENE := {
 	SubTag.DINGHY: preload("res://sprite/Dinghy.tscn"),
 	# Actor.
 	SubTag.PC: preload("res://sprite/PC.tscn"),
+	SubTag.TOURIST: preload("res://sprite/Tourist.tscn"),
+	SubTag.SCOUT: preload("res://sprite/Scout.tscn"),
+	SubTag.ENGINEER: preload("res://sprite/Engineer.tscn"),
+	SubTag.PERFORMER: preload("res://sprite/Performer.tscn"),
 }
 
 

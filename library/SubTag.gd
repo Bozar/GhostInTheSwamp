@@ -26,8 +26,8 @@ const PARROT := "parrot"
 const ACCORDION := "accordion"
 
 const PC := "pc"
+const TOURIST := "tourist"
 const SCOUT := "scout"
-const EXPLORER := "explorer"
-const TECHNICAN := "technican"
+const ENGINEER := "engineer"
 # Accordionist
 const PERFORMER := "performer"

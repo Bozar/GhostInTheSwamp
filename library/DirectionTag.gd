@@ -13,6 +13,13 @@ const MIN_POSITIVE_DIRECTION := 1
 
 const VALID_DIRECTIONS := [UP, DOWN, LEFT, RIGHT,]
 
+const DIRECTION_TO_SPRITE := {
+	UP: SpriteTag.UP,
+	RIGHT: SpriteTag.RIGHT,
+	DOWN: SpriteTag.DOWN,
+	LEFT: SpriteTag.LEFT,
+}
+
 
 static func is_opposite_direction(this_dir: int, that_dir: int) -> bool:
 	return this_dir + that_dir == 0
@@ -64,3 +71,7 @@ static func get_offset_by_direction(direction_tag: int, step := 1) -> IntCoord:
 		_:
 			pass
 	return IntCoord.new(x_offset * step, y_offset * step)
+
+
+static func get_sprite_by_direction(direction_tag: int) -> String:
+	return DIRECTION_TO_SPRITE.get(direction_tag, SpriteTag.NO_DIRECTION)

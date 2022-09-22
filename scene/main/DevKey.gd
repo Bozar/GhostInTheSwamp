@@ -3,7 +3,7 @@ class_name DevKey
 
 
 func test() -> void:
-	_add_item(SubTag.RUM)
+	_add_actor(SubTag.PERFORMER)
 	pass
 
 
@@ -46,3 +46,12 @@ func _add_item(sub_tag: String) -> void:
 	var coord := ConvertCoord.sprite_to_coord(FindObject.pc)
 
 	p._ref_CreateObject.create_trap(sub_tag, IntCoord.new(coord.x - 1, coord.y))
+
+
+func _add_actor(sub_tag: String) -> void:
+	var p := get_parent()
+	var coord := ConvertCoord.sprite_to_coord(FindObject.pc)
+	var actor: Sprite = p._ref_CreateObject.create_and_fetch(MainTag.ACTOR,
+			sub_tag, IntCoord.new(coord.x - 1, coord.y))
+
+	ObjectState.get_state(actor).face_direction = DirectionTag.LEFT

@@ -45,7 +45,7 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 	var state_text: String = $SidebarVBoxHelper.get_state_item(false)
 
 	match input_tag:
-		InputTag.TOGGLE_POWER:
+		InputTag.TOGGLE_POWER_MODE:
 			if ObjectState.get_state(FindObject.pc).use_power:
 				state_text = $SidebarVBoxHelper.get_state_power()
 			get_node(STATE).text = state_text

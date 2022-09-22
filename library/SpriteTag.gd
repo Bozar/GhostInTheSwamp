@@ -11,6 +11,7 @@ const ACTIVE_HARBOR := "active_harbor"
 const DINGHY := "dinghy"
 const SHIP := "ship"
 
+const NO_DIRECTION := "no_direction"
 const UP := "up"
 const DOWN := "down"
 const LEFT := "left"
