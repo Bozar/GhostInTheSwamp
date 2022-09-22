@@ -26,14 +26,14 @@ func _sink_in_swamp(state: PcState) -> bool:
 
 
 func _is_spotted(state: PcState) -> bool:
-	var low_mp := state.mp < 1
+	var no_mp := state.mp < 1
 	var has_actor := false
 
 	for i in DirectionTag.VALID_DIRECTIONS:
 		if state.is_in_npc_sight(i):
 			has_actor = true
 			break
-	return low_mp and has_actor
+	return no_mp and has_actor
 
 
 func _reach_final_harbor(state: PcState, coord: IntCoord) -> bool:

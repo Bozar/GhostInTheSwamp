@@ -3,7 +3,11 @@ class_name DevKey
 
 
 func test() -> void:
+	var p := get_parent()
 	_add_actor(SubTag.PERFORMER)
+	p._pc_state.set_npc_sight(DirectionTag.RIGHT, true)
+	p._end_turn()
+	# _add_actor(SubTag.PERFORMER)
 	pass
 
 

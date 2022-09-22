@@ -62,14 +62,14 @@ func move(input_tag: String) -> void:
 			_pc_state.mp -= power_cost
 			_use_power_in_harbor(source_coord, target_coord, direction_tag)
 		else:
-			_move_on_land(target_coord)
+			_move_on_land(source_coord, target_coord)
 	# Land.
 	else:
 		if _pc_state.use_power:
 			_pc_state.mp -= power_cost
 			_use_power_on_land(target_coord, direction_tag)
 		else:
-			_move_on_land(target_coord)
+			_move_on_land(source_coord, target_coord)
 
 
 func toggle_power_mode() -> void:
@@ -131,10 +131,13 @@ func _end_turn() -> void:
 	end_turn = true
 
 
-# TODO: PC cannot move towards an actor who can see him.
-func _move_on_land(move_to: IntCoord) -> void:
+func _move_on_land(move_from: IntCoord, move_to: IntCoord) -> void:
+	var direction: int
+
 	if FindObjectHelper.has_unoccupied_land(move_to):
-		pass
+		direction = CoordCalculator.get_ray_direction(move_from, move_to)
+		if _pc_state.is_in_npc_sight(direction):
+			return
 	elif _pc_state.has_accordion() and FindObjectHelper.has_harbor(move_to):
 		pass
 	else:

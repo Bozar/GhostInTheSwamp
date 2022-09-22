@@ -24,8 +24,8 @@ func renew_world(next_actor: Sprite) -> void:
 	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
 		$SpawnActor.renew_world()
 		$StartPcTurn.renew_world()
-		$Checkmate.renew_world(_checkmate_pattern)
 	# Always check PC and NPC state to decide if game ends.
+	$Checkmate.renew_world(_checkmate_pattern)
 	if _checkmate_pattern[GAME_OVER]:
 		emit_signal(SignalTag.GAME_OVER, _checkmate_pattern[PLAYER_WIN])
 

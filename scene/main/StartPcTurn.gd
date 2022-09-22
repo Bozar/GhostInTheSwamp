@@ -25,6 +25,7 @@ func renew_world() -> void:
 	var pc := FindObject.pc
 	var pc_coord := ConvertCoord.sprite_to_coord(pc)
 	var pc_state := ObjectState.get_state(pc)
+	var actors_in_line := []
 
 	_reset_pc_state(pc_coord, pc_state)
 
@@ -42,9 +43,9 @@ func renew_world() -> void:
 	else:
 		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.LAND)
 		_add_dinghy(pc_coord, pc_state)
-		_set_actor_fov()
 		# PowerTag.[EMBARK|LIGHT|Pick|Spook|Swap].
-		_set_power_on_land(pc_coord, pc_state)
+		_set_power_on_land(pc_coord, pc_state, actors_in_line)
+		_set_actor_fov(pc_coord, pc_state, actors_in_line)
 
 	# PC with lower MP has a higher chance to summon a ghost. So add MP at last.
 	_set_mp_progress(pc_coord, pc_state)
@@ -106,8 +107,23 @@ func _add_dinghy(coord: IntCoord, state: PcState) -> void:
 		_create_dinghy(coord)
 
 
-func _set_actor_fov() -> void:
-	pass
+func _set_actor_fov(pc_coord: IntCoord, pc_state: PcState,
+		actors_in_line: Array) -> void:
+	var coord: IntCoord
+	var pc_to_actor: int
+	var actor_to_pc: int
+	var state: ActorState
+
+	for i in actors_in_line:
+		coord = ConvertCoord.sprite_to_coord(i)
+		if CoordCalculator.is_out_of_range(pc_coord, coord, PcData.SIGHT_RANGE):
+			continue
+		pc_to_actor = CoordCalculator.get_ray_direction(pc_coord, coord)
+		state = ObjectState.get_state(i)
+		actor_to_pc = state.face_direction
+		if DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):
+			pc_state.set_npc_sight(pc_to_actor, true)
+			state.detect_pc = true
 
 
 func _set_pc_sprite(pc: Sprite, coord: IntCoord, state: PcState,
@@ -167,9 +183,10 @@ func _set_power_on_harbor(coord: IntCoord, state: PcState) -> void:
 			state.set_power_cost(i, PcData.COST_LIGHT)
 
 
-func _set_power_on_land(coord: IntCoord, state: PcState) -> void:
+func _set_power_on_land(coord: IntCoord, state: PcState,
+		out_actors_in_line: Array) -> void:
 	for i in DirectionTag.VALID_DIRECTIONS:
-		if _block_by_neighbor(coord, state, i):
+		if _block_by_neighbor(coord, state, i, out_actors_in_line):
 			continue
 		# TODO: Cast a ray.
 
@@ -234,12 +251,14 @@ func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
 	state.use_power = false
 
 
-func _block_by_neighbor(coord: IntCoord, state: PcState, direction: int) -> bool:
+func _block_by_neighbor(coord: IntCoord, state: PcState, direction: int,
+		out_actors_in_line: Array) -> bool:
 	var target := DirectionTag.get_coord_by_direction(coord, direction)
 	var harbor_is_not_active: bool
 
 	if FindObject.has_actor(target):
 		# TODO: Spook an actor.
+		out_actors_in_line.push_back(FindObject.get_actor(target))
 		return true
 	elif FindObject.has_building(target):
 		if FindObjectHelper.has_dinghy(target):

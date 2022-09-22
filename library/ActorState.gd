@@ -9,6 +9,7 @@ func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:
 var face_direction := DirectionTag.NO_DIRECTION setget set_face_direction, \
 		get_face_direction
 var show_arrow := false
+var detect_pc := false
 
 
 func get_face_direction() -> int:
