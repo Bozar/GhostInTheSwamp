@@ -52,15 +52,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if input_tag != "":
 		$PcAction.move(input_tag)
 	elif _verify_input(event, InputTag.TOGGLE_POWER_MODE):
-		$PcAction.toggle_power_mode()
+		PcSpriteHelper.toggle_power_mode()
 		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER_MODE)
 	elif $PcAction.use_power and  _verify_input(event, InputTag.EXIT_POWER_MODE):
-		$PcAction.exit_power_mode()
+		PcSpriteHelper.exit_power_mode()
 		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER_MODE)
 	elif _verify_input(event, InputTag.TOGGLE_SIGHT_MODE):
-		$PcAction.toggle_sight_mode()
+		ActorHelper.toggle_sight_mode()
 	elif _verify_input(event, InputTag.EXIT_SIGHT_MODE):
-		$PcAction.exit_sight_mode()
+		ActorHelper.exit_sight_mode()
 	# A turn may end when pressing a movement key or InputTag.DEV_KEY.
 	if $PcAction.end_turn:
 		_end_turn()

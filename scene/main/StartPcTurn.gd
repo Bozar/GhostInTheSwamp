@@ -8,13 +8,9 @@ const REF_VARS := [
 	NodeTag.REMOVE_OBJECT,
 ]
 
-const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
-
 var _ref_CreateObject: CreateObject
 var _ref_RandomNumber: RandomNumber
 var _ref_RemoveObject: RemoveObject
-
-var _ghost_countdown := PcData.MAX_GHOST_COUNTDOWN
 
 
 func set_reference() -> void:
@@ -28,21 +24,19 @@ func renew_world() -> void:
 	var actors_in_line := []
 
 	_reset_pc_state(pc_coord, pc_state)
+	PcSpriteHelper.set_default_sprite()
 
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
 	if FindObjectHelper.has_swamp(pc_coord):
-		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.SWAMP)
 		# PowerTag.LAND.
 		_set_power_in_swamp(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
-		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.HARBOR)
-		_add_ship(pc_coord)
+		PcSailHelper.add_ship(_ref_CreateObject)
 		# PowerTag.[EMBARK|LIGHT].
 		_set_power_on_harbor(pc_coord, pc_state)
 	# Land
 	else:
-		_set_pc_sprite(pc, pc_coord, pc_state, SubTag.LAND)
-		_add_dinghy(pc_coord, pc_state)
+		PcSailHelper.add_dinghy(_ref_RandomNumber, _ref_CreateObject)
 		# PowerTag.[EMBARK|LIGHT|Pick|Spook|Swap].
 		_set_power_on_land(pc_coord, pc_state, actors_in_line)
 		_set_actor_fov(pc_coord, pc_state, actors_in_line)
@@ -69,44 +63,6 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
 
 
-func _add_ship(coord: IntCoord) -> void:
-	var non_swamp_coord: IntCoord
-	var ship_coord: IntCoord
-	var has_error := false
-
-	# PC is not in a harbor.
-	if not FindObjectHelper.has_harbor(coord):
-		return
-	# PC enters a harbor from the ship in the last turn.
-	elif FindObject.get_sprites_with_tag(SubTag.SHIP).size() > 0:
-		return
-	# PC enters a harbor from land in the last turn.
-	for i in CoordCalculator.get_neighbor(coord, 1):
-		if not FindObjectHelper.has_swamp(i):
-			non_swamp_coord = i
-			break
-
-	# There should be one and only one non-swamp grid near a harbor.
-	if non_swamp_coord == null:
-		has_error = true
-	else:
-		ship_coord = CoordCalculator.get_mirror_image(non_swamp_coord, coord)
-		has_error = (ship_coord == null)
-	if has_error:
-		push_warning(NO_SHIP_FOR_HARBOR % [coord.x, coord.y])
-		return
-	_ref_CreateObject.create_building(SubTag.SHIP, ship_coord)
-
-
-func _add_dinghy(coord: IntCoord, state: PcState) -> void:
-	_set_ghost_countdown(coord, state)
-	# print(_ghost_countdown)
-	if _ghost_countdown < 1:
-		_ghost_countdown = PcData.MAX_GHOST_COUNTDOWN
-		state.count_ghost += 1
-		_create_dinghy(coord)
-
-
 func _set_actor_fov(pc_coord: IntCoord, pc_state: PcState,
 		actors_in_line: Array) -> void:
 	var coord: IntCoord
@@ -126,28 +82,6 @@ func _set_actor_fov(pc_coord: IntCoord, pc_state: PcState,
 			state.detect_pc = true
 
 
-func _set_pc_sprite(pc: Sprite, coord: IntCoord, state: PcState,
-		sub_tag: String) -> void:
-	var new_sprite := SpriteTag.DEFAULT
-	var building: Sprite
-
-	match sub_tag:
-		SubTag.HARBOR:
-			building = FindObjectHelper.get_harbor_with_coord(coord)
-			if (ObjectState.get_state(building) as HarborState).is_active:
-				new_sprite = SpriteTag.ACTIVE_HARBOR
-			else:
-				new_sprite = SpriteTag.DEFAULT_HARBOR
-		SubTag.SWAMP:
-			if state.has_accordion():
-				new_sprite = SpriteTag.SHIP
-			else:
-				new_sprite = SpriteTag.DINGHY
-		_:
-			pass
-	SwitchSprite.set_sprite(pc, new_sprite)
-
-
 func _set_power_in_swamp(coord: IntCoord, state: PcState) -> void:
 	var target: IntCoord
 	var power_cost: int
@@ -157,7 +91,7 @@ func _set_power_in_swamp(coord: IntCoord, state: PcState) -> void:
 		if state.has_accordion() and FindObjectHelper.has_harbor(target):
 			state.set_power_tag(i, PowerTag.LAND)
 			state.set_power_cost(i, PcData.COST_LAND_HARBOR)
-		elif FindObjectHelper.has_land(target):
+		elif FindObjectHelper.has_unoccupied_land(target):
 			if state.mp > PcData.LOW_MP:
 				power_cost = PcData.COST_LAND_GROUND
 			else:
@@ -189,50 +123,6 @@ func _set_power_on_land(coord: IntCoord, state: PcState,
 		if _block_by_neighbor(coord, state, i, out_actors_in_line):
 			continue
 		# TODO: Cast a ray.
-
-
-func _set_ghost_countdown(coord: IntCoord, state: PcState) -> void:
-	var has_swamp := false
-	var has_harbor := false
-
-	if state.has_ghost:
-		return
-	elif state.count_ghost == state.max_ghost:
-		return
-	elif not FindObjectHelper.has_land(coord):
-		return
-	else:
-		for i in CoordCalculator.get_neighbor(coord, 1):
-			if FindObjectHelper.has_swamp(i):
-				has_swamp = true
-				break
-	# There should be at least one swamp grid for the ghost dinghy to appear.
-	if not has_swamp:
-		return
-
-	_ghost_countdown -= 1
-	if state.mp <= PcData.LOW_MP:
-		_ghost_countdown -= PcData.CONUT_BONUS_FROM_LOW_MP
-	elif state.mp <= PcData.HIGH_MP:
-		_ghost_countdown -= PcData.CONUT_BONUS_FROM_HIGH_MP
-	for i in CoordCalculator.get_neighbor(coord, PcData.MIN_RANGE_TO_HARBOR):
-		if FindObjectHelper.has_harbor(i):
-			has_harbor = true
-			break
-	if not has_harbor:
-		_ghost_countdown -= PcData.COUNT_BONUS_FROM_HARBOR
-
-
-func _create_dinghy(coord: IntCoord) -> void:
-	var ground_coords := []
-
-	for i in CoordCalculator.get_neighbor(coord, 1):
-		if FindObjectHelper.has_swamp(i):
-			ground_coords.push_back(i)
-	if ground_coords.size() < 1:
-		return
-	ArrayHelper.shuffle(ground_coords, _ref_RandomNumber)
-	_ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])
 
 
 func _reset_pc_state(coord: IntCoord, state: PcState) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://scene/main/InitWorld.gd" type="Script" id=1]
 [ext_resource path="res://scene/gui/MainGui.tscn" type="PackedScene" id=2]
@@ -16,7 +16,6 @@
 [ext_resource path="res://scene/main/Setting.gd" type="Script" id=14]
 [ext_resource path="res://scene/main/SpawnActor.gd" type="Script" id=15]
 [ext_resource path="res://scene/main/ActorAction.gd" type="Script" id=16]
-[ext_resource path="res://scene/main/DevKey.gd" type="Script" id=17]
 [ext_resource path="res://scene/main/AutoStart.gd" type="Script" id=18]
 [ext_resource path="res://scene/main/CreateObject.gd" type="Script" id=21]
 [ext_resource path="res://scene/main/SwitchScreen.gd" type="Script" id=23]
@@ -60,9 +59,6 @@ script = ExtResource( 12 )
 
 [node name="PcAction" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 3 )
-
-[node name="DevKey" type="Node2D" parent="PlayerInput/PcAction"]
-script = ExtResource( 17 )
 
 [node name="PcFov" type="Node2D" parent="PlayerInput"]
 script = ExtResource( 7 )

@@ -32,6 +32,8 @@ var max_ghost := PcData.MAX_GHOST_PER_ITEM setget _set_none, get_max_ghost
 var count_ghost := 0 setget set_count_ghost, get_count_ghost
 
 var has_ghost := false
+# Spawn a ghost when the timer is below 1. Then reset it to its maximum.
+var spawn_ghost_timer := PcData.MAX_GHOST_COUNTDOWN
 var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \
 		get_max_sail_duration
 # Add 1 after moving in the swamp.

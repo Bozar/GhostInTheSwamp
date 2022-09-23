@@ -23,7 +23,13 @@ func renew_world(next_actor: Sprite) -> void:
 	# Before PC's turn: Respawn actors and buildings (ghosts), update PC state.
 	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
 		$SpawnActor.renew_world()
+		# Cast rays to detect surroundings.
+		# DirectionTag: {PowerTag, target_sprite}
+		# Pass to renew_world() as parameters.
 		$StartPcTurn.renew_world()
+	else:
+		# Cast rays to detect surroundings.
+		pass
 	# Always check PC and NPC state to decide if game ends.
 	$Checkmate.renew_world(_checkmate_pattern)
 	if _checkmate_pattern[GAME_OVER]:

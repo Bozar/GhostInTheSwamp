@@ -72,40 +72,9 @@ func move(input_tag: String) -> void:
 			_move_on_land(source_coord, target_coord)
 
 
-func toggle_power_mode() -> void:
-	var new_sprite := _current_sprite_tag
-
-	_pc_state.use_power = not _pc_state.use_power
-	if _pc_state.use_power:
-		new_sprite = SpriteTag.USE_POWER
-	SwitchSprite.set_sprite(_pc, new_sprite)
-
-
-func exit_power_mode() -> void:
-	_pc_state.use_power = false
-	SwitchSprite.set_sprite(_pc, _current_sprite_tag)
-
-
-func toggle_sight_mode() -> void:
-	var state: ActorState
-
-	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
-		if i.is_in_group(SubTag.PC):
-			continue
-		state = ObjectState.get_state(i)
-		ActorHelper.toggle_actor(i, not state.show_arrow)
-
-
-func exit_sight_mode() -> void:
-	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
-		if i.is_in_group(SubTag.PC):
-			continue
-		ActorHelper.toggle_actor(i, false)
-
-
 func press_wizard_key(input_tag: String) -> void:
 	if _pc_state.use_power:
-		exit_power_mode()
+		PcSpriteHelper.exit_power_mode()
 		return
 
 	match input_tag:
@@ -122,7 +91,7 @@ func press_wizard_key(input_tag: String) -> void:
 		InputTag.ADD_ACCORDION:
 			_pc_state.add_accordion()
 		InputTag.DEV_KEY:
-			$DevKey.test()
+			DevKey.test(self)
 
 
 func _end_turn() -> void:
