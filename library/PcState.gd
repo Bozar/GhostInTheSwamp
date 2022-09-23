@@ -6,6 +6,7 @@ enum {
 	NPC_SIGHT,
 	POWER_COST,
 	POWER_TAG,
+	TARGET_SPRITE,
 }
 const MAX_INT := 999
 
@@ -160,6 +161,14 @@ func set_power_tag(direction_tag: int, power_tag: int) -> void:
 	_direction_to_sight_power[direction_tag][POWER_TAG] = power_tag
 
 
+func get_target_sprite(direction_tag: int) -> Sprite:
+	return _direction_to_sight_power[direction_tag][TARGET_SPRITE]
+
+
+func set_target_sprite(direction_tag: int, sprite: Sprite) -> void:
+	_direction_to_sight_power[direction_tag][TARGET_SPRITE] = sprite
+
+
 func get_max_mp() -> int:
 	return max_mp
 
@@ -174,6 +183,7 @@ func reset_direction_to_sight_power() -> void:
 			NPC_SIGHT: false,
 			POWER_COST: 0,
 			POWER_TAG: PowerTag.NO_POWER,
+			TARGET_SPRITE: null,
 		}
 
 

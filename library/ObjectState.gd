@@ -45,14 +45,17 @@ func get_state(sprite: Sprite) -> BasicSpriteData:
 func remove_state(sprite: Sprite) -> void:
 	var id := _get_id(sprite)
 
-	# An object needs to be freed manually.
-	_id_to_state[id].queue_free()
+	# _id_to_state := {<id: int>: <data: BasicSpriteData>, ...}
+	# BasicSpriteData is a reference, which will be freed automatically. If we
+	# set its type to Node2D, we need to free it manually.
+
+	# _id_to_state[id].queue_free()
 	_id_to_state.erase(id)
 
 
 func remove_all() -> void:
-	for i in _id_to_state.values():
-		i.queue_free()
+	# for i in _id_to_state.values():
+	# 	i.queue_free()
 	_id_to_state.clear()
 
 

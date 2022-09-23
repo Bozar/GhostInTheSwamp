@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/ActorAction.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "ActorHelper",
 "language": "GDScript",
 "path": "res://library/ActorHelper.gd"
@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/AutoStart.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "BasicSpriteData",
 "language": "GDScript",
 "path": "res://library/BasicSpriteData.gd"
@@ -109,12 +109,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/FileParser.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "FindObjectHelper",
 "language": "GDScript",
 "path": "res://library/FindObjectHelper.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "HarborHelper",
 "language": "GDScript",
 "path": "res://library/HarborHelper.gd"
@@ -169,12 +169,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/MainTag.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "MoveObject",
 "language": "GDScript",
 "path": "res://library/MoveObject.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "NodeHelper",
 "language": "GDScript",
 "path": "res://library/NodeHelper.gd"
@@ -319,7 +319,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scene/main/SwitchScreen.gd"
 }, {
-"base": "Node2D",
+"base": "Reference",
 "class": "SwitchSprite",
 "language": "GDScript",
 "path": "res://library/SwitchSprite.gd"
