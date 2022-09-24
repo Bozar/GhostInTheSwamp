@@ -25,14 +25,14 @@ func renew_world(next_actor: Sprite) -> void:
 			cast_results = PcCastRay.renew_world()
 			ActorHelper.set_sight_around_pc(cast_results)
 			LandPowerHelper.set_power(cast_results)
-	elif pc_is_on_land:
-		# PC cannot lose when in harbor. When in swamp, dinghy or ship sinks in
-		# PC's own turn. Only on land, PC may lose in an NPC's turn due to being
-		# spotted. Therefore we need to reset PC state manually to guarantee
-		# that even if PC loses, he is shown as refreshed.
+	else:
+		# Always reset PC state manually to guarantee that even if game ends
+		# (win or lose) after PC's turn, he is shown as refreshed.
 		$PcStartTurn.reset_state()
-		cast_results = PcCastRay.renew_world()
-		ActorHelper.set_sight_around_pc(cast_results)
+		# When on land, PC may lose before an NPC's turn due to being spotted.
+		if pc_is_on_land:
+			cast_results = PcCastRay.renew_world()
+			ActorHelper.set_sight_around_pc(cast_results)
 	# print(cast_results)
 
 	# Check PC and NPC state to decide if game ends.
