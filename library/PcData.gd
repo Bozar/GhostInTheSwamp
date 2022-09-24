@@ -2,6 +2,12 @@ class_name PcData
 
 
 const SIGHT_RANGE := 5
+const ACTOR_SIGHT_RANGE := {
+    SubTag.TOURIST: 1,
+    SubTag.SCOUT: 4,
+    SubTag.ENGINEER: 1,
+    SubTag.PERFORMER: 4,
+}
 
 const HIGH_MP := 4
 const LOW_MP := 2
@@ -40,3 +46,13 @@ const COST_SUB_TAG_TO_SPOOK := {
 const COST_SPOOK_WITH_TWO_ITEMS := 1
 const COST_SPOOK_FROM_BEHIND := 2
 const COST_SPOOK_FROM_SIDE := 1
+
+const ACTOR_TO_TRAP := {
+    SubTag.SCOUT: SubTag.RUM,
+    SubTag.ENGINEER: SubTag.PARROT,
+    SubTag.PERFORMER: SubTag.ACCORDION,
+}
+const LOW_DROP_RATE := 20
+const MAX_DROP_RATE := 40
+const FAST_INCREASE_RATE := 10
+const INCREASE_RATE := 5

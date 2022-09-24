@@ -2,8 +2,15 @@ class_name DevKey
 
 
 static func test(n: Node2D) -> void:
+	var sub_tags := [
+		SubTag.TOURIST,
+		SubTag.SCOUT,
+		SubTag.ENGINEER,
+		SubTag.PERFORMER
+	]
+	ArrayHelper.rand_picker(sub_tags, 1, n._ref_RandomNumber)
+	_add_actor(sub_tags[0], n)
 	# _add_item(2, n)
-	_add_actor(SubTag.PERFORMER, n)
 	# MoveObject.move(FindObject.pc, IntCoord.new(FindObject.pc_coord.x,
 	# 		FindObject.pc_coord.y - 1))
 	# _add_dinghy(FindObject.pc_coord, n)

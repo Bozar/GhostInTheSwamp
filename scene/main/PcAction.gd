@@ -15,6 +15,12 @@ var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 
+var _item_drop_rate := {
+	SubTag.RUM: 0,
+	SubTag.PARROT: 0,
+	SubTag.ACCORDION: 0,
+}
+
 var _pc: Sprite
 var _pc_state: PcState
 var _current_sprite_tag: String
@@ -177,7 +183,7 @@ func _use_power_in_harbor(source_coord: IntCoord, target_coord: IntCoord,
 func _use_power_on_land(direction_tag: int) -> void:
 	var target_sprite := _pc_state.get_target_sprite(direction_tag)
 	var target_coord := ObjectState.get_state(target_sprite).coord
-	var sub_tag: String
+	var sub_tag := ObjectState.get_state(target_sprite).sub_tag
 
 	match _pc_state.get_power_tag(direction_tag):
 		PowerTag.EMBARK:
@@ -191,13 +197,12 @@ func _use_power_on_land(direction_tag: int) -> void:
 			_pc_state.has_ghost = false
 			MoveObject.move(_pc, target_coord)
 		PowerTag.PICK:
-			sub_tag = ObjectState.get_state(target_sprite).sub_tag
 			_pc_state.add_item(sub_tag)
 			_ref_RemoveObject.remove(target_sprite)
 		PowerTag.SPOOK:
 			_ref_RemoveObject.remove(target_sprite)
 			MoveObject.move(_pc, target_coord)
-			# TODO: Drop an item.
+			_drop_item(sub_tag, direction_tag)
 		PowerTag.SWAP:
 			_pc_state.has_ghost = false
 			MoveObject.swap(_pc, target_sprite)
@@ -208,3 +213,15 @@ func _use_power_on_land(direction_tag: int) -> void:
 
 func _set_none(__) -> void:
 	pass
+
+
+func _drop_item(actor_sub_tag: String, power_direction: int) -> void:
+	var trap_sub_tag := ActorHelper.drop_item(actor_sub_tag, _item_drop_rate,
+			_ref_RandomNumber)
+	var drop_coord: IntCoord
+
+	if trap_sub_tag == SubTag.INVALID:
+		return
+	drop_coord = DirectionTag.get_coord_by_direction(FindObject.pc_coord,
+			DirectionTag.get_opposite_direction(power_direction))
+	_ref_CreateObject.create_trap(trap_sub_tag, drop_coord)

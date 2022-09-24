@@ -33,8 +33,9 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 	var has_actor: bool
 	var first_tag: String
 	var actor: Sprite
-	var actor_coord: IntCoord
 	var actor_state: ActorState
+	var actor_coord: IntCoord
+	var actor_sight: int
 	var pc_to_actor: int
 	var actor_to_pc: int
 
@@ -53,8 +54,8 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 
 		actor_state = ObjectState.get_state(actor)
 		actor_coord = actor_state.coord
-		if CoordCalculator.is_out_of_range(pc_coord, actor_coord,
-				PcData.SIGHT_RANGE - 1):
+		actor_sight = PcData.ACTOR_SIGHT_RANGE[actor_state.sub_tag]
+		if CoordCalculator.is_out_of_range(pc_coord, actor_coord, actor_sight):
 			continue
 
 		pc_to_actor = CoordCalculator.get_ray_direction(pc_coord, actor_coord)
@@ -62,3 +63,29 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 		if DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):
 			FindObject.pc_state.set_npc_sight(pc_to_actor, true)
 			actor_state.detect_pc = true
+
+
+static func drop_item(actor_sub_tag: String, drop_rate: Dictionary,
+		ref_random: RandomNumber) -> String:
+	var trap_sub_tag: String = PcData.ACTOR_TO_TRAP.get(actor_sub_tag,
+			SubTag.INVALID)
+	var drop_this := false
+
+	if trap_sub_tag == SubTag.INVALID:
+		return SubTag.INVALID
+	elif FindObject.pc_state.has_item(trap_sub_tag):
+		return SubTag.INVALID
+	elif FindObject.get_sprites_with_tag(trap_sub_tag).size() > 0:
+		return SubTag.INVALID
+
+	drop_this = ref_random.get_percent_chance(drop_rate[trap_sub_tag])
+	if drop_rate[trap_sub_tag] < PcData.LOW_DROP_RATE:
+		drop_rate[trap_sub_tag] += PcData.FAST_INCREASE_RATE
+	elif drop_rate[trap_sub_tag] < PcData.MAX_DROP_RATE:
+		drop_rate[trap_sub_tag] += PcData.INCREASE_RATE
+	else:
+		drop_rate[trap_sub_tag] = PcData.MAX_DROP_RATE
+
+	if drop_this:
+		return trap_sub_tag
+	return SubTag.INVALID

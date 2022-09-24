@@ -4,7 +4,7 @@ class_name PcSailHelper
 const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
 
 
-static func add_ship(_ref_CreateObject: CreateObject) -> void:
+static func add_ship(ref_create: CreateObject) -> void:
 	var pc_coord := FindObject.pc_coord
 	var land_coord: IntCoord
 	var ship_coord: IntCoord
@@ -32,21 +32,21 @@ static func add_ship(_ref_CreateObject: CreateObject) -> void:
 	if has_error:
 		push_warning(NO_SHIP_FOR_HARBOR % [pc_coord.x, pc_coord.y])
 		return
-	_ref_CreateObject.create_building(SubTag.SHIP, ship_coord)
+	ref_create.create_building(SubTag.SHIP, ship_coord)
 
 
-static func add_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
-		CreateObject) -> void:
+static func add_dinghy(ref_random: RandomNumber, ref_create: CreateObject) \
+		-> void:
 	var state := FindObject.pc_state
 
-	_set_spawn_ghost_timer(_ref_RandomNumber)
+	_set_spawn_ghost_timer(ref_random)
 	if state.spawn_ghost_timer >= PcData.MAX_GHOST_TIMER:
 		state.spawn_ghost_timer = 0
 		state.count_ghost += 1
-		_create_dinghy(_ref_RandomNumber, _ref_CreateObject)
+		_create_dinghy(ref_random, ref_create)
 
 
-static func _set_spawn_ghost_timer(_ref_RandomNumber: RandomNumber) -> void:
+static func _set_spawn_ghost_timer(ref_random: RandomNumber) -> void:
 	var coord := FindObject.pc_coord
 	var state := FindObject.pc_state
 	var has_swamp := false
@@ -83,7 +83,7 @@ static func _set_spawn_ghost_timer(_ref_RandomNumber: RandomNumber) -> void:
 	if not has_harbor:
 		add_timer += PcData.TIMER_BONUS_FROM_HARBOR
 	# Random offset.
-	add_timer += _ref_RandomNumber.get_int(PcData.TIMER_NEGATIVE_OFFSET,
+	add_timer += ref_random.get_int(PcData.TIMER_NEGATIVE_OFFSET,
 			PcData.TIMER_POSITIVE_OFFSET)
 	# Minimum value.
 	add_timer = max(add_timer, PcData.TIMER_MIN_ADD_PER_TURN) as int
@@ -91,8 +91,8 @@ static func _set_spawn_ghost_timer(_ref_RandomNumber: RandomNumber) -> void:
 	state.spawn_ghost_timer += add_timer
 
 
-static func _create_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
-		CreateObject) -> void:
+static func _create_dinghy(ref_random: RandomNumber, ref_create: CreateObject) \
+		-> void:
 	var ground_coords := []
 
 	for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
@@ -100,5 +100,5 @@ static func _create_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
 			ground_coords.push_back(i)
 	if ground_coords.size() < 1:
 		return
-	ArrayHelper.shuffle(ground_coords, _ref_RandomNumber)
-	_ref_CreateObject.create_building(SubTag.DINGHY, ground_coords[0])
+	ArrayHelper.shuffle(ground_coords, ref_random)
+	ref_create.create_building(SubTag.DINGHY, ground_coords[0])
