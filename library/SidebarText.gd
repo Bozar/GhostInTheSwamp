@@ -18,8 +18,8 @@ const STATE_PANEL := "{1}{2}{0}{3}{0}{4}"
 
 # MP: 3/6|28%
 const MP := "MP: %s/%s|%s%%\n"
-# Ghost: 12/20
-const GHOST_COUNT := "Gh: %d/%d\n"
+# Ghost: 12|53%
+const GHOST_COUNT := "Gh: %d|%d%%\n"
 # Ghost\n[LOS: → ← ↓ ↑ | Sink: 3-5]
 const STATE := "%s\n%s\n"
 # Rum\nParrot\nAccordion

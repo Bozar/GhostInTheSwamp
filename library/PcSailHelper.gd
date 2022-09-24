@@ -39,19 +39,19 @@ static func add_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
 		CreateObject) -> void:
 	var state := FindObject.pc_state
 
-	_set_spawn_ghost_timer()
-	# print(state.spawn_ghost_timer)
-	if state.spawn_ghost_timer < 1:
-		state.spawn_ghost_timer = PcData.MAX_GHOST_COUNTDOWN
+	_set_spawn_ghost_timer(_ref_RandomNumber)
+	if state.spawn_ghost_timer >= PcData.MAX_GHOST_TIMER:
+		state.spawn_ghost_timer = 0
 		state.count_ghost += 1
 		_create_dinghy(_ref_RandomNumber, _ref_CreateObject)
 
 
-static func _set_spawn_ghost_timer() -> void:
+static func _set_spawn_ghost_timer(_ref_RandomNumber: RandomNumber) -> void:
 	var coord := FindObject.pc_coord
 	var state := FindObject.pc_state
 	var has_swamp := false
 	var has_harbor := false
+	var add_timer := 0
 
 	if state.has_ghost:
 		return
@@ -68,17 +68,27 @@ static func _set_spawn_ghost_timer() -> void:
 	if not has_swamp:
 		return
 
-	state.spawn_ghost_timer -= 1
+	# Base value.
+	add_timer += PcData.TIMER_ADD_PER_TURN
+	# MP bonus.
 	if state.mp <= PcData.LOW_MP:
-		state.spawn_ghost_timer -= PcData.CONUT_BONUS_FROM_LOW_MP
+		add_timer += PcData.TIMER_BONUS_FROM_LOW_MP
 	elif state.mp <= PcData.HIGH_MP:
-		state.spawn_ghost_timer -= PcData.CONUT_BONUS_FROM_HIGH_MP
+		add_timer += PcData.TIMER_BONUS_FROM_HIGH_MP
+	# Harbor bonus.
 	for i in CoordCalculator.get_neighbor(coord, PcData.MIN_RANGE_TO_HARBOR):
 		if FindObjectHelper.has_harbor(i):
 			has_harbor = true
 			break
 	if not has_harbor:
-		state.spawn_ghost_timer -= PcData.COUNT_BONUS_FROM_HARBOR
+		add_timer += PcData.TIMER_BONUS_FROM_HARBOR
+	# Random offset.
+	add_timer += _ref_RandomNumber.get_int(PcData.TIMER_NEGATIVE_OFFSET,
+			PcData.TIMER_POSITIVE_OFFSET)
+	# Minimum value.
+	add_timer = max(add_timer, PcData.TIMER_MIN_ADD_PER_TURN) as int
+
+	state.spawn_ghost_timer += add_timer
 
 
 static func _create_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \

@@ -40,9 +40,9 @@ func _update_state() -> void:
 	var mp_progress := _pc_state.mp_progress
 	var mp_line := SidebarText.MP % [mp, max_mp, mp_progress]
 
-	var max_ghost := _pc_state.max_ghost
-	var remain_ghost := max_ghost - _pc_state.count_ghost
-	var ghost_count_line := SidebarText.GHOST_COUNT % [remain_ghost, max_ghost]
+	var remain_ghost := _pc_state.max_ghost - _pc_state.count_ghost
+	var ghost_timer := _pc_state.spawn_ghost_timer
+	var ghost_count_line := SidebarText.GHOST_COUNT % [remain_ghost, ghost_timer]
 
 	var ghost := _get_ghost()
 	var los := _get_line_of_sight()

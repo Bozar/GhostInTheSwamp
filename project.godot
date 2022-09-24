@@ -244,6 +244,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://library/PcSpriteHelper.gd"
 }, {
+"base": "Node2D",
+"class": "PcStartTurn",
+"language": "GDScript",
+"path": "res://scene/main/PcStartTurn.gd"
+}, {
 "base": "BasicSpriteData",
 "class": "PcState",
 "language": "GDScript",
@@ -330,11 +335,6 @@ _global_script_classes=[ {
 "path": "res://library/SpriteTag.gd"
 }, {
 "base": "Node2D",
-"class": "StartPcTurn",
-"language": "GDScript",
-"path": "res://scene/main/StartPcTurn.gd"
-}, {
-"base": "Node2D",
 "class": "StateManagerTemplate",
 "language": "GDScript",
 "path": "res://library/StateManagerTemplate.gd"
@@ -417,6 +417,7 @@ _global_script_class_icons={
 "PcFov": "",
 "PcSailHelper": "",
 "PcSpriteHelper": "",
+"PcStartTurn": "",
 "PcState": "",
 "PlayerInput": "",
 "PowerTag": "",
@@ -434,7 +435,6 @@ _global_script_class_icons={
 "SignalTag": "",
 "SpawnActor": "",
 "SpriteTag": "",
-"StartPcTurn": "",
 "StateManagerTemplate": "",
 "SubTag": "",
 "SwitchScreen": "",

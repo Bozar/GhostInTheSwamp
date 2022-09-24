@@ -16,6 +16,8 @@ static func renew_world(next_is_pc: bool) -> Dictionary:
 	elif _reach_final_harbor(pc_state, FindObject.pc_coord):
 		game_over = true
 		player_win = true
+	# PC could be blocked in an NPC's turn, but when his turn starts, he has
+	# retored MP to act. So check this only when the next actor is PC.
 	elif next_is_pc and _is_trapped_on_land():
 		game_over = true
 	return {

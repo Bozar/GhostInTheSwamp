@@ -4,8 +4,11 @@ class_name DevKey
 static func test(n: Node2D) -> void:
 	# _add_item(2, n)
 	_add_actor(SubTag.PERFORMER, n)
-	# n._end_turn()
+	MoveObject.move(FindObject.pc, IntCoord.new(FindObject.pc_coord.x,
+			FindObject.pc_coord.y - 1))
+	# _add_dinghy(FindObject.pc_coord, n)
 	# _teleport(2, n)
+	n._end_turn()
 	pass
 
 

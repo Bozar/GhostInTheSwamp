@@ -1,5 +1,5 @@
 extends Node2D
-class_name StartPcTurn
+class_name PcStartTurn
 
 
 const REF_VARS := [
@@ -21,8 +21,8 @@ func renew_world() -> void:
 	var pc_coord := FindObject.pc_coord
 	var pc_state := FindObject.pc_state
 
-	_reset_pc_state(pc_coord, pc_state)
-	PcSpriteHelper.set_default_sprite()
+	_remove_sprites(pc_coord)
+	reset_state()
 
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
 	if FindObjectHelper.has_swamp(pc_coord):
@@ -40,6 +40,19 @@ func renew_world() -> void:
 
 	# PC with lower MP has a higher chance to summon a ghost. So add MP at last.
 	_set_mp_progress(pc_coord, pc_state)
+
+
+func reset_state() -> void:
+	var state := FindObject.pc_state
+
+	# All states are reset whether or not the next actor is PC.
+	PcSpriteHelper.set_default_sprite()
+	# Reset sail duration if PC is on land or harbor.
+	if not FindObjectHelper.has_swamp(FindObject.pc_coord):
+		state.sail_duration = 0
+	# Clear sight and power data.
+	state.reset_direction_to_sight_power()
+	state.use_power = false
 
 
 func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
@@ -88,7 +101,7 @@ func _set_harbor_power(coord: IntCoord, state: PcState) -> void:
 			state.set_power_tag(i, PowerTag.LIGHT)
 
 
-func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
+func _remove_sprites(coord: IntCoord) -> void:
 	# Always remove dinghys.
 	for i in FindObject.get_sprites_with_tag(SubTag.DINGHY):
 		_ref_RemoveObject.remove(i)
@@ -96,9 +109,3 @@ func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
 	if not FindObjectHelper.has_harbor(coord):
 		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
 			_ref_RemoveObject.remove(i)
-	# Reset sail duration if PC is on land or harbor.
-	if not FindObjectHelper.has_swamp(coord):
-		state.reset_sail_duration()
-	# Clear sight and power data.
-	state.reset_direction_to_sight_power()
-	state.use_power = false

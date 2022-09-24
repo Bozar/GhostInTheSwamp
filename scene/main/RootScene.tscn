@@ -8,7 +8,7 @@
 [ext_resource path="res://scene/main/PcFov.gd" type="Script" id=7]
 [ext_resource path="res://scene/main/InitWorldHelper.gd" type="Script" id=8]
 [ext_resource path="res://scene/main/RemoveObject.gd" type="Script" id=9]
-[ext_resource path="res://scene/main/StartPcTurn.gd" type="Script" id=10]
+[ext_resource path="res://scene/main/PcStartTurn.gd" type="Script" id=10]
 [ext_resource path="res://scene/main/RandomNumber.gd" type="Script" id=11]
 [ext_resource path="res://scene/main/PlayerInput.gd" type="Script" id=12]
 [ext_resource path="res://scene/main/Progress.gd" type="Script" id=13]
@@ -92,7 +92,7 @@ script = ExtResource( 23 )
 [node name="Progress" type="Node2D" parent="."]
 script = ExtResource( 13 )
 
-[node name="StartPcTurn" type="Node2D" parent="Progress"]
+[node name="PcStartTurn" type="Node2D" parent="Progress"]
 script = ExtResource( 10 )
 
 [node name="SpawnActor" type="Node2D" parent="Progress"]

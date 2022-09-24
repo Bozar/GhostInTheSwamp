@@ -19,16 +19,18 @@ func renew_world(next_actor: Sprite) -> void:
 	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
 		next_actor_is_pc = true
 		$SpawnActor.renew_world()
-		# $StartPcTurn.renew_world() resets sail duration and NPC sights.
-		$StartPcTurn.renew_world()
+		# $PcStartTurn.renew_world() calls $PcStartTurn.reset_state() implicitly.
+		$PcStartTurn.renew_world()
 		if pc_is_on_land:
 			cast_results = PcCastRay.renew_world()
 			ActorHelper.set_sight_around_pc(cast_results)
 			LandPowerHelper.set_power(cast_results)
 	elif pc_is_on_land:
-		# If PC is on land, always reset sail duration and NPC sights.
-		FindObject.pc_state.set_sail_duration(0)
-		FindObject.pc_state.reset_npc_sight()
+		# PC cannot lose when in harbor. When in swamp, dinghy or ship sinks in
+		# PC's own turn. Only on land, PC may lose in an NPC's turn due to being
+		# spotted. Therefore we need to reset PC state manually to guarantee
+		# that even if PC loses, he is shown as refreshed.
+		$PcStartTurn.reset_state()
 		cast_results = PcCastRay.renew_world()
 		ActorHelper.set_sight_around_pc(cast_results)
 	# print(cast_results)
@@ -42,7 +44,7 @@ func renew_world(next_actor: Sprite) -> void:
 # Do not create new sprites here, call renew_world() instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
 	$SpawnActor.set_reference()
-	$StartPcTurn.set_reference()
+	$PcStartTurn.set_reference()
 
 	_active_the_first_harbor()
 

@@ -39,7 +39,7 @@ var count_ghost := 0 setget set_count_ghost, get_count_ghost
 
 var has_ghost := false
 # Spawn a ghost when the timer is below 1. Then reset it to its maximum.
-var spawn_ghost_timer := PcData.MAX_GHOST_COUNTDOWN
+var spawn_ghost_timer := 0
 var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \
 		get_max_sail_duration
 # Add 1 after moving in the swamp.
@@ -51,7 +51,7 @@ var count_item := 0 setget _set_none, get_count_item
 
 func _init(_main_tag: String, _sub_tag: String, _sprite: Sprite).(_main_tag,
 		_sub_tag, _sprite) -> void:
-	reset_direction_to_sight_power()
+	_init_direction_to_sight_power()
 
 
 func get_mp() -> int:
@@ -185,11 +185,19 @@ func get_max_mp() -> int:
 	return max_mp
 
 
+func reset_direction_to_sight_power() -> void:
+	for i in _direction_to_sight_power.keys():
+		_direction_to_sight_power[i][NPC_SIGHT] = false
+		_direction_to_sight_power[i][POWER_COST] = 0
+		_direction_to_sight_power[i][POWER_TAG] = PowerTag.NO_POWER
+		_direction_to_sight_power[i][TARGET_SPRITE] = null
+
+
 func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
 	return max(min(new_data, upper), lower) as int
 
 
-func reset_direction_to_sight_power() -> void:
+func _init_direction_to_sight_power() -> void:
 	for i in _direction_to_sight_power.keys():
 		_direction_to_sight_power[i] = {
 			NPC_SIGHT: false,
@@ -197,15 +205,6 @@ func reset_direction_to_sight_power() -> void:
 			POWER_TAG: PowerTag.NO_POWER,
 			TARGET_SPRITE: null,
 		}
-
-
-func reset_npc_sight() -> void:
-	for i in _direction_to_sight_power.keys():
-		set_npc_sight(i, false)
-
-
-func reset_sail_duration() -> void:
-	sail_duration = 0
 
 
 func _set_none(__) -> void:
