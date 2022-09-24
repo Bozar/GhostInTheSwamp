@@ -26,3 +26,39 @@ static func exit_sight_mode() -> void:
 		if i.is_in_group(SubTag.PC):
 			continue
 		toggle_actor(i, false)
+
+
+static func set_sight_around_pc(cast_results: Dictionary) -> void:
+	var pc_coord := FindObject.pc_coord
+	var has_actor: bool
+	var first_tag: String
+	var actor: Sprite
+	var actor_coord: IntCoord
+	var actor_state: ActorState
+	var pc_to_actor: int
+	var actor_to_pc: int
+
+	for i in cast_results.keys():
+		has_actor = false
+		first_tag = cast_results[i][PcCastRay.FIRST_TAG]
+		actor = cast_results[i][PcCastRay.LAST_SPRITE]
+		match first_tag:
+			MainTag.ACTOR:
+				has_actor = true
+			SubTag.LAND:
+				if (actor != null) and actor.is_in_group(MainTag.ACTOR):
+					has_actor = true
+		if not has_actor:
+			continue
+
+		actor_state = ObjectState.get_state(actor)
+		actor_coord = actor_state.coord
+		if CoordCalculator.is_out_of_range(pc_coord, actor_coord,
+				PcData.SIGHT_RANGE - 1):
+			continue
+
+		pc_to_actor = CoordCalculator.get_ray_direction(pc_coord, actor_coord)
+		actor_to_pc = actor_state.face_direction
+		if DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):
+			FindObject.pc_state.set_npc_sight(pc_to_actor, true)
+			actor_state.detect_pc = true

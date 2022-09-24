@@ -5,8 +5,8 @@ class_name CreateObject
 signal sprite_created(new_sprite)
 
 
-func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
-		more_tags := [], x_offset := 0, y_offset := 0) -> Sprite:
+func create(main_tag: String, sub_tag: String, coord: IntCoord, more_tags := [],
+		x_offset := 0, y_offset := 0) -> Sprite:
 	var new_sprite: Sprite
 	var sprite_color: String
 	var z_index: int
@@ -29,11 +29,6 @@ func create_and_fetch(main_tag: String, sub_tag: String, coord: IntCoord,
 	emit_signal(SignalTag.SPRITE_CREATED, new_sprite)
 
 	return new_sprite
-
-
-func create(main_tag: String, sub_tag: String, coord: IntCoord, more_tags := [],
-		x_offset := 0, y_offset := 0) -> void:
-	create_and_fetch(main_tag, sub_tag, coord, more_tags, x_offset, y_offset)
 
 
 func create_ground(sub_tag: String, coord: IntCoord, more_tags := []) -> void:

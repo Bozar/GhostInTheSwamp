@@ -165,6 +165,11 @@ _global_script_classes=[ {
 "path": "res://library/IntCoord.gd"
 }, {
 "base": "Reference",
+"class": "LandPowerHelper",
+"language": "GDScript",
+"path": "res://library/LandPowerHelper.gd"
+}, {
+"base": "Reference",
 "class": "MainTag",
 "language": "GDScript",
 "path": "res://library/MainTag.gd"
@@ -203,6 +208,11 @@ _global_script_classes=[ {
 "class": "PcAction",
 "language": "GDScript",
 "path": "res://scene/main/PcAction.gd"
+}, {
+"base": "Node2D",
+"class": "PcCastRay",
+"language": "GDScript",
+"path": "res://scene/main/PcCastRay.gd"
 }, {
 "base": "Reference",
 "class": "PcData",
@@ -381,6 +391,7 @@ _global_script_class_icons={
 "InputTag": "",
 "InputTemplate": "",
 "IntCoord": "",
+"LandPowerHelper": "",
 "MainTag": "",
 "MoveObject": "",
 "NodeHelper": "",
@@ -389,6 +400,7 @@ _global_script_class_icons={
 "Palette": "",
 "PathFindingData": "",
 "PcAction": "",
+"PcCastRay": "",
 "PcData": "",
 "PcFov": "",
 "PcSailHelper": "",

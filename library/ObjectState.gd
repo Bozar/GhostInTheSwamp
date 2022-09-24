@@ -26,11 +26,11 @@ func add_state(sprite: Sprite, main_tag: String, sub_tag: String) -> void:
 		return
 
 	if SUB_TAG_TO_STATE.has(sub_tag):
-		new_state = SUB_TAG_TO_STATE[sub_tag].new(main_tag, sub_tag)
+		new_state = SUB_TAG_TO_STATE[sub_tag].new(main_tag, sub_tag, sprite)
 	elif MAIN_TAG_TO_STATE.has(main_tag):
-		new_state = MAIN_TAG_TO_STATE[main_tag].new(main_tag, sub_tag)
+		new_state = MAIN_TAG_TO_STATE[main_tag].new(main_tag, sub_tag, sprite)
 	else:
-		new_state = BasicSpriteData.new(main_tag, sub_tag)
+		new_state = BasicSpriteData.new(main_tag, sub_tag, sprite)
 	_id_to_state[id] = new_state
 
 

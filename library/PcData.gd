@@ -26,8 +26,13 @@ const CONUT_BONUS_FROM_LOW_MP := 2
 
 const MAX_SAIL_DURATION := 5
 
-const COST_LAND_HARBOR := 0
 const COST_LAND_GROUND := 1
-const COST_EMBARK := 0
-const COST_LIGHT := 0
-const COST_PICK := 0
+const COST_SUB_TAG_TO_SPOOK := {
+    SubTag.TOURIST: 1,
+    SubTag.SCOUT: 2,
+    SubTag.ENGINEER: 4,
+    SubTag.PERFORMER: 4,
+}
+const COST_SPOOK_WITH_TWO_ITEMS := 1
+const COST_SPOOK_FROM_BEHIND := 2
+const COST_SPOOK_FROM_SIDE := 1

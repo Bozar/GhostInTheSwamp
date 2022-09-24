@@ -2,25 +2,23 @@ class_name PcSpriteHelper
 
 
 static func toggle_power_mode() -> void:
-	var pc := FindObject.pc
-	var state := ObjectState.get_state(pc)
+	var state := FindObject.pc_state
 
 	state.use_power = not state.use_power
 	if state.use_power:
-		SwitchSprite.set_sprite(pc, SpriteTag.USE_POWER)
+		SwitchSprite.set_sprite(FindObject.pc, SpriteTag.USE_POWER)
 	else:
 		set_default_sprite()
 
 
 static func exit_power_mode() -> void:
-	ObjectState.get_state(FindObject.pc).use_power = false
+	FindObject.pc_state.use_power = false
 	set_default_sprite()
 
 
 static func set_default_sprite() -> void:
 	var pc := FindObject.pc
-	var coord := ConvertCoord.sprite_to_coord(pc)
-	var state := ObjectState.get_state(pc)
+	var coord := FindObject.pc_coord
 	var building: Sprite
 	var new_sprite := SpriteTag.DEFAULT
 
@@ -31,7 +29,7 @@ static func set_default_sprite() -> void:
 		else:
 			new_sprite = SpriteTag.DEFAULT_HARBOR
 	elif FindObjectHelper.has_swamp(coord):
-		if state.has_accordion():
+		if FindObject.pc_state.has_accordion():
 			new_sprite = SpriteTag.SHIP
 		else:
 			new_sprite = SpriteTag.DINGHY

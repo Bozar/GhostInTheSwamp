@@ -15,6 +15,12 @@ var _sub_tag_to_item := {
 	SubTag.PARROT: false,
 	SubTag.ACCORDION: false,
 }
+# DirectionTag.UP: {
+# 	NPC_SIGHT: false,
+# 	POWER_COST: 0,
+# 	POWER_TAG: PowerTag.NO_POWER,
+# 	TARGET_SPRITE: null,
+# }
 var _direction_to_sight_power := {
 	DirectionTag.UP: {},
 	DirectionTag.DOWN: {},
@@ -40,9 +46,11 @@ var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \
 var sail_duration := 0 setget set_sail_duration, get_sail_duration
 
 var use_power := false
+var count_item := 0 setget _set_none, get_count_item
 
 
-func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:
+func _init(_main_tag: String, _sub_tag: String, _sprite: Sprite).(_main_tag,
+		_sub_tag, _sprite) -> void:
 	reset_direction_to_sight_power()
 
 
@@ -84,10 +92,7 @@ func get_max_ghost() -> int:
 
 
 func _set_max_ghost() -> void:
-	max_ghost = 0
-	for i in _sub_tag_to_item.values():
-		if i:
-			max_ghost += PcData.MAX_GHOST_PER_ITEM
+	max_ghost = count_item * PcData.MAX_GHOST_PER_ITEM
 
 
 func set_sail_duration(new_data: int) -> void:
@@ -98,6 +103,10 @@ func get_max_sail_duration() -> int:
 	return max_sail_duration
 
 
+func get_count_item() -> int:
+	return count_item
+
+
 func has_item(sub_tag: String) -> bool:
 	return _sub_tag_to_item.get(sub_tag, false)
 
@@ -106,6 +115,7 @@ func add_item(sub_tag: String) -> void:
 	# Add an item to inventory.
 	if _sub_tag_to_item.has(sub_tag) and (not _sub_tag_to_item[sub_tag]):
 		_sub_tag_to_item[sub_tag] = true
+		count_item += 1
 	else:
 		return
 	# Increase max_ghost.
@@ -187,6 +197,11 @@ func reset_direction_to_sight_power() -> void:
 			POWER_TAG: PowerTag.NO_POWER,
 			TARGET_SPRITE: null,
 		}
+
+
+func reset_npc_sight() -> void:
+	for i in _direction_to_sight_power.keys():
+		set_npc_sight(i, false)
 
 
 func reset_sail_duration() -> void:

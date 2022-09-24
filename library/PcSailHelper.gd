@@ -5,7 +5,7 @@ const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
 
 
 static func add_ship(_ref_CreateObject: CreateObject) -> void:
-	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
+	var pc_coord := FindObject.pc_coord
 	var land_coord: IntCoord
 	var ship_coord: IntCoord
 	var has_error := false
@@ -37,7 +37,7 @@ static func add_ship(_ref_CreateObject: CreateObject) -> void:
 
 static func add_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
 		CreateObject) -> void:
-	var state := ObjectState.get_state(FindObject.pc)
+	var state := FindObject.pc_state
 
 	_set_spawn_ghost_timer()
 	# print(state.spawn_ghost_timer)
@@ -48,8 +48,8 @@ static func add_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
 
 
 static func _set_spawn_ghost_timer() -> void:
-	var coord := ConvertCoord.sprite_to_coord(FindObject.pc)
-	var state := ObjectState.get_state(FindObject.pc)
+	var coord := FindObject.pc_coord
+	var state := FindObject.pc_state
 	var has_swamp := false
 	var has_harbor := false
 
@@ -83,10 +83,9 @@ static func _set_spawn_ghost_timer() -> void:
 
 static func _create_dinghy(_ref_RandomNumber: RandomNumber, _ref_CreateObject: \
 		CreateObject) -> void:
-	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
 	var ground_coords := []
 
-	for i in CoordCalculator.get_neighbor(pc_coord, 1):
+	for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
 		if FindObjectHelper.has_swamp(i):
 			ground_coords.push_back(i)
 	if ground_coords.size() < 1:

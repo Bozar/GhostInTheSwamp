@@ -2,7 +2,8 @@ extends BasicSpriteData
 class_name ActorState
 
 
-func _init(_main_tag: String, _sub_tag: String).(_main_tag, _sub_tag) -> void:
+func _init(_main_tag: String, _sub_tag: String,  _sprite: Sprite).(_main_tag,
+		_sub_tag, _sprite) -> void:
 	pass
 
 

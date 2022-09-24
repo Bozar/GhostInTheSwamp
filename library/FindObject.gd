@@ -5,8 +5,9 @@ extends Node2D
 const MULTIPLE_PC := "Find more than one PC object."
 const NO_PC := "Cannot find a PC object."
 
-var pc: Sprite setget set_pc, get_pc
-var pc_coord: IntCoord setget set_pc_coord, get_pc_coord
+var pc: Sprite setget _set_none, get_pc
+var pc_coord: IntCoord setget _set_none, get_pc_coord
+var pc_state: PcState setget _set_none, get_pc_state
 
 
 # There should be only one sprite in the group `SubTag.PC`.
@@ -28,12 +29,8 @@ func get_pc_coord() -> IntCoord:
 	return ConvertCoord.sprite_to_coord(get_pc())
 
 
-func set_pc(__: Sprite) -> void:
-	pass
-
-
-func set_pc_coord(__: IntCoord) -> void:
-	pass
+func get_pc_state() -> PcState:
+	return ObjectState.get_state(get_pc()) as PcState
 
 
 # When we call `foobar.queue_free()`, the node foobar will be deleted at the end
@@ -177,3 +174,7 @@ func has_actor_with_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
 
 func _is_not_queue_free(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()
+
+
+func _set_none(__) -> void:
+	pass

@@ -20,17 +20,24 @@ var _checkmate_pattern := {
 
 # Renew game world in-between two turns. Refer: Schedule.
 func renew_world(next_actor: Sprite) -> void:
-	# Before PC's turn: Respawn actors and buildings (ghosts), update PC state.
+	var cast_results: Dictionary
+
 	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
 		$SpawnActor.renew_world()
-		# Cast rays to detect surroundings.
-		# DirectionTag: {PowerTag, target_sprite}
-		# Pass to renew_world() as parameters.
 		$StartPcTurn.renew_world()
 	else:
-		# Cast rays to detect surroundings.
-		pass
-	# Always check PC and NPC state to decide if game ends.
+		# $StartPcTurn.renew_world() also resets NPC sights.
+		FindObject.pc_state.reset_npc_sight()
+
+	# Always cast rays to detect surroundings and set actor sight around PC.
+	cast_results = $PcCastRay.renew_world()
+	# print(cast_results)
+	ActorHelper.set_sight_around_pc(cast_results)
+	# Land powers depend on NPC sights.
+	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
+		LandPowerHelper.set_power(cast_results)
+
+	# Check PC and NPC state to decide if game ends.
 	$Checkmate.renew_world(_checkmate_pattern)
 	if _checkmate_pattern[GAME_OVER]:
 		emit_signal(SignalTag.GAME_OVER, _checkmate_pattern[PLAYER_WIN])

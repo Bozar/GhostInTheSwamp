@@ -21,7 +21,7 @@ var _state_power: String
 
 
 func set_reference() -> void:
-	_pc_state = ObjectState.get_state(FindObject.pc)
+	_pc_state = FindObject.pc_state
 
 
 func get_state_item(force_update := true) -> String:
@@ -61,12 +61,11 @@ func _update_state() -> void:
 
 
 func _get_ghost() -> String:
-	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
 	var neighbor: IntCoord
 	var dir_char: String
 
 	for i in DirectionTag.VALID_DIRECTIONS:
-		neighbor = DirectionTag.get_coord_by_direction(pc_coord, i)
+		neighbor = DirectionTag.get_coord_by_direction(FindObject.pc_coord, i)
 		dir_char = SidebarText.DIRECTION_TO_CHAR[i]
 		if FindObjectHelper.has_dinghy(neighbor):
 			return SidebarText.EMBARK % [dir_char, SidebarText.DINGHY]

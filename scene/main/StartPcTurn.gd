@@ -18,10 +18,8 @@ func set_reference() -> void:
 
 
 func renew_world() -> void:
-	var pc := FindObject.pc
-	var pc_coord := ConvertCoord.sprite_to_coord(pc)
-	var pc_state := ObjectState.get_state(pc)
-	var actors_in_line := []
+	var pc_coord := FindObject.pc_coord
+	var pc_state := FindObject.pc_state
 
 	_reset_pc_state(pc_coord, pc_state)
 	PcSpriteHelper.set_default_sprite()
@@ -29,17 +27,16 @@ func renew_world() -> void:
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
 	if FindObjectHelper.has_swamp(pc_coord):
 		# PowerTag.LAND.
-		_set_power_in_swamp(pc_coord, pc_state)
+		_set_swamp_power(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
 		PcSailHelper.add_ship(_ref_CreateObject)
 		# PowerTag.[EMBARK|LIGHT].
-		_set_power_on_harbor(pc_coord, pc_state)
+		_set_harbor_power(pc_coord, pc_state)
 	# Land
 	else:
 		PcSailHelper.add_dinghy(_ref_RandomNumber, _ref_CreateObject)
-		# PowerTag.[EMBARK|LIGHT|Pick|Spook|Swap].
-		_set_power_on_land(pc_coord, pc_state, actors_in_line)
-		_set_actor_fov(pc_coord, pc_state, actors_in_line)
+		# Land powers are complicated and tightly coupled with NPC sight.
+		# Therefore they will be set in Progress later.
 
 	# PC with lower MP has a higher chance to summon a ghost. So add MP at last.
 	_set_mp_progress(pc_coord, pc_state)
@@ -49,7 +46,7 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	var count_harbor := 0
 
 	# Count active harbors.
-	for i in FindObjectHelper.get_harbor():
+	for i in FindObjectHelper.get_harbors():
 		if (ObjectState.get_state(i) as HarborState).is_active:
 			count_harbor += 1
 	# If PC sails in a pirate ship and is far away from land and harbor, reduce
@@ -63,44 +60,20 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
 
 
-func _set_actor_fov(pc_coord: IntCoord, pc_state: PcState,
-		actors_in_line: Array) -> void:
-	var coord: IntCoord
-	var pc_to_actor: int
-	var actor_to_pc: int
-	var state: ActorState
-
-	for i in actors_in_line:
-		coord = ConvertCoord.sprite_to_coord(i)
-		if CoordCalculator.is_out_of_range(pc_coord, coord, PcData.SIGHT_RANGE):
-			continue
-		pc_to_actor = CoordCalculator.get_ray_direction(pc_coord, coord)
-		state = ObjectState.get_state(i)
-		actor_to_pc = state.face_direction
-		if DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):
-			pc_state.set_npc_sight(pc_to_actor, true)
-			state.detect_pc = true
-
-
-func _set_power_in_swamp(coord: IntCoord, state: PcState) -> void:
+func _set_swamp_power(coord: IntCoord, state: PcState) -> void:
 	var target: IntCoord
-	var power_cost: int
 
 	for i in DirectionTag.VALID_DIRECTIONS:
 		target = DirectionTag.get_coord_by_direction(coord, i)
 		if state.has_accordion() and FindObjectHelper.has_harbor(target):
 			state.set_power_tag(i, PowerTag.LAND)
-			state.set_power_cost(i, PcData.COST_LAND_HARBOR)
 		elif FindObjectHelper.has_unoccupied_land(target):
-			if state.mp > PcData.LOW_MP:
-				power_cost = PcData.COST_LAND_GROUND
-			else:
-				power_cost = PcData.COST_LAND_HARBOR
 			state.set_power_tag(i, PowerTag.LAND)
-			state.set_power_cost(i, power_cost)
+			if state.mp > PcData.LOW_MP:
+				state.set_power_cost(i, PcData.COST_LAND_GROUND)
 
 
-func _set_power_on_harbor(coord: IntCoord, state: PcState) -> void:
+func _set_harbor_power(coord: IntCoord, state: PcState) -> void:
 	var harbor_is_not_active := not HarborHelper.is_active(coord)
 	var target: IntCoord
 
@@ -109,20 +82,10 @@ func _set_power_on_harbor(coord: IntCoord, state: PcState) -> void:
 		# Embark a pirate ship.
 		if FindObjectHelper.has_ship(target):
 			state.set_power_tag(i, PowerTag.EMBARK)
-			state.set_power_cost(i, PcData.COST_EMBARK)
-		# Light a harbor.
+		# Light a harbor. Note that the final harbor is always active.
 		elif state.has_ghost and harbor_is_not_active and FindObjectHelper. \
 				has_land(target):
 			state.set_power_tag(i, PowerTag.LIGHT)
-			state.set_power_cost(i, PcData.COST_LIGHT)
-
-
-func _set_power_on_land(coord: IntCoord, state: PcState,
-		out_actors_in_line: Array) -> void:
-	for i in DirectionTag.VALID_DIRECTIONS:
-		if _block_by_neighbor(coord, state, i, out_actors_in_line):
-			continue
-		# TODO: Cast a ray.
 
 
 func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
@@ -139,29 +102,3 @@ func _reset_pc_state(coord: IntCoord, state: PcState) -> void:
 	# Clear sight and power data.
 	state.reset_direction_to_sight_power()
 	state.use_power = false
-
-
-func _block_by_neighbor(coord: IntCoord, state: PcState, direction: int,
-		out_actors_in_line: Array) -> bool:
-	var target := DirectionTag.get_coord_by_direction(coord, direction)
-	var harbor_is_not_active: bool
-
-	if FindObject.has_actor(target):
-		# TODO: Spook an actor.
-		out_actors_in_line.push_back(FindObject.get_actor(target))
-		return true
-	elif FindObject.has_building(target):
-		if FindObjectHelper.has_dinghy(target):
-			state.set_power_tag(direction, PowerTag.EMBARK)
-			state.set_power_cost(direction, PcData.COST_EMBARK)
-		elif FindObjectHelper.has_harbor(target):
-			harbor_is_not_active = not HarborHelper.is_active(target)
-			if state.has_ghost and harbor_is_not_active:
-				state.set_power_tag(direction, PowerTag.LIGHT)
-				state.set_power_cost(direction, PcData.COST_LIGHT)
-		return true
-	elif FindObject.has_trap(target):
-		state.set_power_tag(direction, PowerTag.PICK)
-		state.set_power_cost(direction, PcData.COST_PICK)
-		return true
-	return false

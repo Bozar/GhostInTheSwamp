@@ -3,15 +3,17 @@ class_name Checkmate
 
 
 func renew_world(out_checkmate_pattern: Dictionary) -> void:
-	var pc_state := ObjectState.get_state(FindObject.pc) as PcState
-	var pc_coord := ConvertCoord.sprite_to_coord(FindObject.pc)
+	var pc_state := FindObject.pc_state
+	var game_over := false
+	var player_win := false
 
 	if _sink_in_swamp(pc_state) or _is_spotted(pc_state):
-		out_checkmate_pattern[Progress.GAME_OVER] = true
-		out_checkmate_pattern[Progress.PLAYER_WIN] = false
-	elif _reach_final_harbor(pc_state, pc_coord):
-		out_checkmate_pattern[Progress.GAME_OVER] = true
-		out_checkmate_pattern[Progress.PLAYER_WIN] = true
+		game_over = true
+	elif _reach_final_harbor(pc_state, FindObject.pc_coord):
+		game_over = true
+		player_win = true
+	out_checkmate_pattern[Progress.GAME_OVER] = game_over
+	out_checkmate_pattern[Progress.PLAYER_WIN] = player_win
 
 
 func _sink_in_swamp(state: PcState) -> bool:

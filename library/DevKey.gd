@@ -4,7 +4,7 @@ class_name DevKey
 static func test(n: Node2D) -> void:
 	# var p := get_parent()
 	_add_item(2, n)
-	# _add_actor(SubTag.PERFORMER, n)
+	_add_actor(SubTag.PERFORMER, n)
 	# p._pc_state.set_npc_sight(DirectionTag.RIGHT, true)
 	# p._end_turn()
 	# _add_actor(SubTag.PERFORMER)
@@ -62,7 +62,7 @@ static func _add_item(item: int, n: Node2D) -> void:
 
 static func _add_actor(sub_tag: String, n: Node2D) -> void:
 	var coord := ConvertCoord.sprite_to_coord(FindObject.pc)
-	var actor: Sprite = n._ref_CreateObject.create_and_fetch(MainTag.ACTOR,
-			sub_tag, IntCoord.new(coord.x - 1, coord.y))
+	var actor: Sprite = n._ref_CreateObject.create(MainTag.ACTOR,
+			sub_tag, IntCoord.new(coord.x - 2, coord.y))
 
 	ObjectState.get_state(actor).face_direction = DirectionTag.LEFT

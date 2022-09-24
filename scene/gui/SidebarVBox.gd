@@ -46,7 +46,7 @@ func _on_PlayerInput_special_key_pressed(input_tag: String) -> void:
 
 	match input_tag:
 		InputTag.TOGGLE_POWER_MODE:
-			if ObjectState.get_state(FindObject.pc).use_power:
+			if FindObject.pc_state.use_power:
 				state_text = $SidebarVBoxHelper.get_state_power()
 			get_node(STATE).text = state_text
 		InputTag.ANY_WIZARD_KEY:

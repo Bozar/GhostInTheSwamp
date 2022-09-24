@@ -53,6 +53,7 @@ const POWER_TAG_TO_NAME := {
 	PowerTag.PICK: "Pick",
 	PowerTag.SPOOK: "Spook",
 	PowerTag.SWAP: "Swap",
+	PowerTag.TELEPORT: "Tele",
 }
 const GHOST_POWER := "G"
 const POWER_TEMPLATE := "%s|%s: %s\n"

@@ -32,16 +32,16 @@ func set_reference() -> void:
 	NodeHelper.set_child_reference(self, REF_VARS)
 
 	_pc = FindObject.pc
-	_pc_state = ObjectState.get_state(_pc)
+	_pc_state = FindObject.pc_state
 
 
 func start_turn() -> void:
 	end_turn = false
-	_current_sprite_tag = ObjectState.get_state(_pc).sprite_tag
+	_current_sprite_tag = _pc_state.sprite_tag
 
 
 func move(input_tag: String) -> void:
-	var source_coord := ConvertCoord.sprite_to_coord(_pc)
+	var source_coord := FindObject.pc_coord
 	var target_coord := InputTag.get_coord_by_direction(source_coord, input_tag)
 	var direction_tag := InputTag.get_direction_tag(input_tag)
 	var power_cost := _pc_state.get_power_cost(direction_tag)
@@ -96,7 +96,7 @@ func press_wizard_key(input_tag: String) -> void:
 
 func _end_turn() -> void:
 	# Remove a trap when it is covered by PC or NPC.
-	_ref_RemoveObject.remove_trap(ConvertCoord.sprite_to_coord(_pc))
+	_ref_RemoveObject.remove_trap(FindObject.pc_coord)
 	end_turn = true
 
 
