@@ -44,6 +44,7 @@ var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \
 		get_max_sail_duration
 # Add 1 after moving in the swamp.
 var sail_duration := 0 setget set_sail_duration, get_sail_duration
+var use_pirate_ship := false
 
 var use_power := false
 var count_item := 0 setget _set_none, get_count_item

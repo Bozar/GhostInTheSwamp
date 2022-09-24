@@ -96,7 +96,7 @@ func _get_sink() -> String:
 	var sink := max_sail - _pc_state.sail_duration
 	var mp := _pc_state.mp
 
-	if (mp < 0) or (not _pc_state.has_accordion()):
+	if (mp < 0) or (not _pc_state.use_pirate_ship):
 		mp = 0
 	if sink < max_sail:
 		return SidebarText.SINK % [sink, mp]

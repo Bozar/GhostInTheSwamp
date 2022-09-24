@@ -30,10 +30,9 @@ static func _sink_in_swamp(state: PcState) -> bool:
 	# Ghost dinghy or pirate ship is still intact.
 	if state.sail_duration < state.max_sail_duration:
 		return false
-	# Use MP to support the pirate ship.
-	if state.has_accordion():
+	# Use MP to support the pirate ship. The ghost ship cannot use MP.
+	elif state.use_pirate_ship:
 		return state.mp < 1
-	# The ghost ship cannot use MP.
 	return true
 
 

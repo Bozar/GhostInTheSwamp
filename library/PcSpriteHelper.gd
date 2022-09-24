@@ -29,7 +29,7 @@ static func set_default_sprite() -> void:
 		else:
 			new_sprite = SpriteTag.DEFAULT_HARBOR
 	elif FindObjectHelper.has_swamp(coord):
-		if FindObject.pc_state.has_accordion():
+		if FindObject.pc_state.use_pirate_ship:
 			new_sprite = SpriteTag.SHIP
 		else:
 			new_sprite = SpriteTag.DINGHY

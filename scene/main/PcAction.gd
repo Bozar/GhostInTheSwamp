@@ -128,17 +128,13 @@ func _move_on_land(move_from: IntCoord, move_to: IntCoord) -> void:
 
 
 func _move_in_swamp(move_to: IntCoord) -> void:
-	var has_accordion := _pc_state.has_accordion()
 	var has_nearby_land := false
 
 	# PC can only sail into a swamp grid.
 	if not FindObjectHelper.has_swamp(move_to):
 		return
-	# Pirate ship: PC can enter any swamp grid.
-	elif has_accordion:
-		pass
 	# Dinghy: PC can only enter a swamp that has a land or harbor neighbor.
-	else:
+	elif not _pc_state.use_pirate_ship:
 		for i in CoordCalculator.get_neighbor(move_to, 1):
 			if FindObjectHelper.has_land_or_harbor(i):
 				has_nearby_land = true
@@ -148,7 +144,7 @@ func _move_in_swamp(move_to: IntCoord) -> void:
 
 	if _pc_state.sail_duration < _pc_state.max_sail_duration:
 		_pc_state.sail_duration += 1
-	elif has_accordion and _pc_state.mp > 0:
+	elif _pc_state.use_pirate_ship and (_pc_state.mp > 0):
 		_pc_state.mp -= 1
 	MoveObject.move(_pc, move_to)
 	_end_turn()
@@ -158,8 +154,9 @@ func _use_power_in_swamp(source_coord: IntCoord, target_coord: IntCoord,
 		direction_tag: int) -> void:
 	if _pc_state.get_power_tag(direction_tag) != PowerTag.LAND:
 		return
-	# Leave a pirate ship at PC's current position.
-	if _pc_state.has_accordion():
+	# Leave a pirate ship at PC's current position. It will be removed in
+	# PcStartTurn._remove_sprites().
+	if _pc_state.use_pirate_ship:
 		_ref_CreateObject.create_building(SubTag.SHIP, source_coord)
 	MoveObject.move(_pc, target_coord)
 	_end_turn()
@@ -169,8 +166,9 @@ func _use_power_in_harbor(source_coord: IntCoord, target_coord: IntCoord,
 		direction_tag: int) -> void:
 	match _pc_state.get_power_tag(direction_tag):
 		PowerTag.EMBARK:
-			# Remove the pirate ship in StartPcTurn._reset_pc_state(). Player
+			# Remove the pirate ship in PcStartTurn._reset_pc_state(). Player
 			# cannot lose at this moment.
+			_pc_state.use_pirate_ship = true
 			MoveObject.move(_pc, target_coord)
 		PowerTag.LIGHT:
 			_pc_state.has_ghost = false
@@ -189,6 +187,7 @@ func _use_power_on_land(direction_tag: int) -> void:
 		PowerTag.EMBARK:
 			if target_sprite.is_in_group(SubTag.DINGHY):
 				_pc_state.has_ghost = true
+				_pc_state.use_pirate_ship = false
 			MoveObject.move(_pc, target_coord)
 		PowerTag.LIGHT:
 			_pc_state.has_ghost = false
