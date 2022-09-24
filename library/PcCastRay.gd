@@ -1,17 +1,13 @@
-extends Node2D
 class_name PcCastRay
 
 
 const DUPLICATED_TAG := "Duplicated tag: %s"
 const UNHANDLED_TAG := "Unhandled tag: %s"
 
-enum {
-	FIRST_TAG, LAST_SPRITE,
-}
 
 # When PC stands on land, cast rays in four directions.
 # Return: {DirectionTag: {FIRST_TAG, LAST_SPRITE}, ...}.
-func renew_world() -> Dictionary:
+static func renew_world() -> Dictionary:
 	var cast_result := {}
 	var pc_coord := FindObject.pc_coord
 	var first_coord: IntCoord
@@ -26,26 +22,27 @@ func renew_world() -> Dictionary:
 		first_coord = DirectionTag.get_coord_by_direction(pc_coord, i)
 		# Keep casting the ray. Discard get_ray_path() output. Set cast_result
 		# implicitly in _cast_from_[land|swamp]().
-		match cast_result[i][FIRST_TAG]:
+		match cast_result[i][CastRayTag.FIRST_TAG]:
 			SubTag.LAND:
 				CoordCalculator.get_ray_path(first_coord, DungeonSize.MAX_X,
-						i, false, true, self, "_cast_from_land",
+						i, false, true, PcCastRayHelper, "cast_from_land",
 						[i, cast_result])
 			SubTag.SWAMP:
 				CoordCalculator.get_ray_path(first_coord, DungeonSize.MAX_X,
-					i, false, true, self, "_cast_from_swamp",
+					i, false, true, PcCastRayHelper, "cast_from_swamp",
 					[i, cast_result])
 			_:
-				push_warning(UNHANDLED_TAG % cast_result[i][FIRST_TAG])
+				push_warning(UNHANDLED_TAG % cast_result[i][CastRayTag.FIRST_TAG])
 
 	# Remove null values: rays that hit no sprite.
 	for i in cast_result.keys():
-		if cast_result[i][LAST_SPRITE] == null:
+		if cast_result[i][CastRayTag.LAST_SPRITE] == null:
 			cast_result.erase(i)
 	return cast_result
 
 
-func _block_by_neighbor(direction: int, out_cast_result: Dictionary) -> bool:
+static func _block_by_neighbor(direction: int, out_cast_result: Dictionary) \
+		-> bool:
 	var last_coord := DirectionTag.get_coord_by_direction(FindObject.pc_coord,
 			direction)
 	var last_sprite: Sprite
@@ -63,8 +60,8 @@ func _block_by_neighbor(direction: int, out_cast_result: Dictionary) -> bool:
 		tag = _verify_tag(MainTag.ACTOR, save_tags)
 		last_sprite = FindObject.get_actor(last_coord)
 		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: last_sprite,
+			CastRayTag.FIRST_TAG: tag,
+			CastRayTag.LAST_SPRITE: last_sprite,
 		}
 		return true
 	# OUTPUT, BLOCK: SubTag.SWAMP + SubTag.DINGHY.
@@ -72,8 +69,8 @@ func _block_by_neighbor(direction: int, out_cast_result: Dictionary) -> bool:
 		tag = _verify_tag(SubTag.DINGHY, save_tags)
 		last_sprite = FindObject.get_building(last_coord)
 		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: last_sprite,
+			CastRayTag.FIRST_TAG: tag,
+			CastRayTag.LAST_SPRITE: last_sprite,
 		}
 		return true
 	# OUTPUT, BLOCK: SubTag.HARBOR.
@@ -81,8 +78,8 @@ func _block_by_neighbor(direction: int, out_cast_result: Dictionary) -> bool:
 		tag = _verify_tag(SubTag.HARBOR, save_tags)
 		last_sprite = FindObject.get_building(last_coord)
 		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: last_sprite,
+			CastRayTag.FIRST_TAG: tag,
+			CastRayTag.LAST_SPRITE: last_sprite,
 		}
 		return true
 	# OUTPUT, BLOCK: SubTag.LAND + MainTag.TRAP.
@@ -90,78 +87,31 @@ func _block_by_neighbor(direction: int, out_cast_result: Dictionary) -> bool:
 		tag = _verify_tag(MainTag.TRAP, save_tags)
 		last_sprite = FindObject.get_trap(last_coord)
 		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: last_sprite,
+			CastRayTag.FIRST_TAG: tag,
+			CastRayTag.LAST_SPRITE: last_sprite,
 		}
 		return true
 	# OUTPUT, CONTINUE: SubTag.LAND.
 	elif FindObjectHelper.has_land(last_coord):
 		tag = _verify_tag(SubTag.LAND, save_tags)
 		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: null,
+			CastRayTag.FIRST_TAG: tag,
+			CastRayTag.LAST_SPRITE: null,
 		}
 		return false
 	# OUTPUT, CONTINUE: SubTag.SWAMP.
 	else:
 		tag = _verify_tag(SubTag.SWAMP, save_tags)
 		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: null,
+			CastRayTag.FIRST_TAG: tag,
+			CastRayTag.LAST_SPRITE: null,
 		}
 		return false
 
 
-func _verify_tag(tag: String, out_save_tags: Array) -> String:
+static func _verify_tag(tag: String, out_save_tags: Array) -> String:
 	if tag in out_save_tags:
 		push_warning(DUPLICATED_TAG % tag)
 	else:
 		out_save_tags.push_back(tag)
 	return tag
-
-
-func _cast_from_land(x: int, y: int, opt_arg: Array) -> bool:
-	var direction: int = opt_arg[0]
-	var out_cast_result: Dictionary = opt_arg[1]
-	var coord := IntCoord.new(x, y)
-	var last_sprite: Sprite
-
-	# NO OUTPUT, BLOCK: SubTag.SWAMP.
-	if FindObjectHelper.has_swamp(coord):
-		return true
-	# NO OUTPUT, BLOCK: MainTag.BUILDING.
-	elif FindObject.has_building(coord):
-		return true
-	# OUTPUT, BLOCK: MainTag.ACTOR.
-	# Since an actor cannot appear in swamp or building, the order does not
-	# matter here.
-	elif FindObject.has_actor(coord):
-		last_sprite = FindObject.get_actor(coord)
-		out_cast_result[direction][LAST_SPRITE] = last_sprite
-		return true
-	return false
-
-
-func _cast_from_swamp(x: int, y: int, opt_arg: Array) -> bool:
-	var direction: int = opt_arg[0]
-	var out_cast_result: Dictionary = opt_arg[1]
-	var coord := IntCoord.new(x, y)
-	var last_sprite: Sprite
-
-	# OUTPUT, BLOCK: SubTag.HARBOR.
-	# get_ray_path() can handle a pair of coords that is out of dungeon.
-	if FindObjectHelper.has_harbor(coord):
-		last_sprite = FindObjectHelper.get_harbor_with_coord(coord)
-		out_cast_result[direction][LAST_SPRITE] = last_sprite
-		return true
-	# OUTPUT, BLOCK: MainTag.ACTOR.
-	# An actor cannot enter a harbor, but must be on a land. So check actor
-	# before land.
-	elif FindObject.has_actor(coord):
-		last_sprite = FindObject.get_actor(coord)
-		out_cast_result[direction][LAST_SPRITE] = last_sprite
-		return true
-	# NO OUTPUT, BLOCK: SubTag.LAND or SubTag.SHRUB.
-	elif FindObjectHelper.has_land(coord) or FindObjectHelper.has_shrub(coord):
-		return true
-	return false

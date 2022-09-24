@@ -40,8 +40,8 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 
 	for i in cast_results.keys():
 		has_actor = false
-		first_tag = cast_results[i][PcCastRay.FIRST_TAG]
-		actor = cast_results[i][PcCastRay.LAST_SPRITE]
+		first_tag = cast_results[i][CastRayTag.FIRST_TAG]
+		actor = cast_results[i][CastRayTag.LAST_SPRITE]
 		match first_tag:
 			MainTag.ACTOR:
 				has_actor = true

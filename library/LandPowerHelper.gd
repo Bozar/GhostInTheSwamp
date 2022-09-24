@@ -6,8 +6,8 @@ static func set_power(cast_results: Dictionary) -> void:
 	var last_sprite: Sprite
 
 	for i in cast_results.keys():
-		first_tag = cast_results[i][PcCastRay.FIRST_TAG]
-		last_sprite = cast_results[i][PcCastRay.LAST_SPRITE]
+		first_tag = cast_results[i][CastRayTag.FIRST_TAG]
+		last_sprite = cast_results[i][CastRayTag.LAST_SPRITE]
 		match ObjectState.get_state(last_sprite).main_tag:
 			MainTag.ACTOR:
 				_set_actor_power(i, first_tag, last_sprite)
