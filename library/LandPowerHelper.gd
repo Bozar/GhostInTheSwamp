@@ -80,7 +80,8 @@ static func _set_building_power(direction: int, first_tag: String,
 		SubTag.SWAMP:
 			if pc_state.has_ghost and pc_state.has_parrot():
 				if sprite_state.is_active:
-					pc_state.set_power_tag(direction, PowerTag.TELEPORT)
+					if pc_state.has_accordion():
+						pc_state.set_power_tag(direction, PowerTag.TELEPORT)
 				else:
 					pc_state.set_power_tag(direction, PowerTag.LIGHT)
 				pc_state.set_target_sprite(direction, last_sprite)

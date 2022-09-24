@@ -42,9 +42,11 @@ func start_turn() -> void:
 
 func move(input_tag: String) -> void:
 	var source_coord := FindObject.pc_coord
+	# 1 grid away from PC.
 	var target_coord := InputTag.get_coord_by_direction(source_coord, input_tag)
-	var direction_tag := InputTag.get_direction_tag(input_tag)
-	var power_cost := _pc_state.get_power_cost(direction_tag)
+	var direction := InputTag.get_direction_tag(input_tag)
+	var power_cost := _pc_state.get_power_cost(direction)
+	var has_power := _pc_state.get_power_tag(direction) != PowerTag.NO_POWER
 
 	if not CoordCalculator.is_inside_dungeon(target_coord):
 		return
@@ -52,22 +54,25 @@ func move(input_tag: String) -> void:
 	# Swamp.
 	if FindObjectHelper.has_swamp(source_coord):
 		if _pc_state.use_power:
-			_pc_state.mp -= power_cost
-			_use_power_in_swamp(source_coord, target_coord, direction_tag)
+			if has_power:
+				_pc_state.mp -= power_cost
+				_use_power_in_swamp(source_coord, target_coord, direction)
 		else:
 			_move_in_swamp(target_coord)
 	# Harbor.
 	elif FindObjectHelper.has_harbor(source_coord):
 		if _pc_state.use_power:
-			_pc_state.mp -= power_cost
-			_use_power_in_harbor(source_coord, target_coord, direction_tag)
+			if has_power:
+				_pc_state.mp -= power_cost
+				_use_power_in_harbor(source_coord, target_coord, direction)
 		else:
 			_move_on_land(source_coord, target_coord)
 	# Land.
 	else:
 		if _pc_state.use_power:
-			_pc_state.mp -= power_cost
-			_use_power_on_land(target_coord, direction_tag)
+			if has_power:
+				_pc_state.mp -= power_cost
+				_use_power_on_land(direction)
 		else:
 			_move_on_land(source_coord, target_coord)
 
@@ -169,23 +174,33 @@ func _use_power_in_harbor(source_coord: IntCoord, target_coord: IntCoord,
 	_end_turn()
 
 
-func _use_power_on_land(target_coord: IntCoord, direction_tag: int) -> void:
-	var target_sprite: Sprite
+func _use_power_on_land(direction_tag: int) -> void:
+	var target_sprite := _pc_state.get_target_sprite(direction_tag)
+	var target_coord := ObjectState.get_state(target_sprite).coord
 	var sub_tag: String
 
 	match _pc_state.get_power_tag(direction_tag):
 		PowerTag.EMBARK:
-			if FindObjectHelper.has_dinghy(target_coord):
+			if target_sprite.is_in_group(SubTag.DINGHY):
 				_pc_state.has_ghost = true
 			MoveObject.move(_pc, target_coord)
 		PowerTag.LIGHT:
 			_pc_state.has_ghost = false
 			HarborHelper.toggle_harbor_with_coord(target_coord, true)
+		PowerTag.TELEPORT:
+			_pc_state.has_ghost = false
+			MoveObject.move(_pc, target_coord)
 		PowerTag.PICK:
-			target_sprite = FindObject.get_trap(target_coord)
 			sub_tag = ObjectState.get_state(target_sprite).sub_tag
 			_pc_state.add_item(sub_tag)
 			_ref_RemoveObject.remove(target_sprite)
+		PowerTag.SPOOK:
+			_ref_RemoveObject.remove(target_sprite)
+			MoveObject.move(_pc, target_coord)
+			# TODO: Drop an item.
+		PowerTag.SWAP:
+			_pc_state.has_ghost = false
+			MoveObject.swap(_pc, target_sprite)
 		_:
 			return
 	_end_turn()

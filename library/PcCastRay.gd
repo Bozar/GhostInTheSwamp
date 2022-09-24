@@ -77,10 +77,11 @@ static func _block_by_neighbor(direction: int, out_cast_result: Dictionary) \
 	elif FindObjectHelper.has_harbor(last_coord):
 		tag = _verify_tag(SubTag.HARBOR, save_tags)
 		last_sprite = FindObject.get_building(last_coord)
-		out_cast_result[direction] = {
-			CastRayTag.FIRST_TAG: tag,
-			CastRayTag.LAST_SPRITE: last_sprite,
-		}
+		if not (ObjectState.get_state(last_sprite) as HarborState).is_active:
+			out_cast_result[direction] = {
+				CastRayTag.FIRST_TAG: tag,
+				CastRayTag.LAST_SPRITE: last_sprite,
+			}
 		return true
 	# OUTPUT, BLOCK: SubTag.LAND + MainTag.TRAP.
 	elif FindObject.has_trap(last_coord):

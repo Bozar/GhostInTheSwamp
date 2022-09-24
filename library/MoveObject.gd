@@ -8,6 +8,16 @@ static func move(sprite: Sprite, to_coord: IntCoord) -> void:
 	_try_move_arrow(sprite)
 
 
+static func swap(this_sprite: Sprite, that_sprite: Sprite) -> void:
+	var this_coord := ConvertCoord.sprite_to_coord(this_sprite)
+	var that_coord := ConvertCoord.sprite_to_coord(that_sprite)
+	var tmp_coord := IntCoord.new(DungeonSize.MAX_X, DungeonSize.MAX_Y)
+
+	move(this_sprite, tmp_coord)
+	move(that_sprite, this_coord)
+	move(this_sprite, that_coord)
+
+
 static func _try_move_arrow(sprite: Sprite) -> void:
 	if ObjectState.get_state(sprite).sub_tag != SubTag.PC:
 		return

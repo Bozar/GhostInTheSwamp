@@ -91,10 +91,6 @@ func get_max_ghost() -> int:
 	return max_ghost
 
 
-func _set_max_ghost() -> void:
-	max_ghost = count_item * PcData.MAX_GHOST_PER_ITEM
-
-
 func set_sail_duration(new_data: int) -> void:
 	sail_duration = _fix_overflow(new_data, max_sail_duration, 0)
 
@@ -195,6 +191,10 @@ func reset_direction_to_sight_power() -> void:
 
 func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
 	return max(min(new_data, upper), lower) as int
+
+
+func _set_max_ghost() -> void:
+	max_ghost = count_item * PcData.MAX_GHOST_PER_ITEM
 
 
 func _init_direction_to_sight_power() -> void:
