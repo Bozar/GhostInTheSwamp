@@ -47,6 +47,7 @@ var sail_duration := 0 setget set_sail_duration, get_sail_duration
 var use_pirate_ship := false
 
 var use_power := false
+var show_sight := false
 var count_item := 0 setget _set_none, get_count_item
 
 
@@ -209,4 +210,4 @@ func _init_direction_to_sight_power() -> void:
 
 
 func _set_none(__) -> void:
-	pass
+	return

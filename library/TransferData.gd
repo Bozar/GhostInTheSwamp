@@ -72,4 +72,4 @@ func set_json_parse_error(new_data: bool) -> void:
 
 
 func _set_none(__) -> void:
-	pass
+	return

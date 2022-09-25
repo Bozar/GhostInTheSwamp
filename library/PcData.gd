@@ -2,12 +2,6 @@ class_name PcData
 
 
 const SIGHT_RANGE := 5
-const ACTOR_SIGHT_RANGE := {
-    SubTag.TOURIST: 1,
-    SubTag.SCOUT: 4,
-    SubTag.ENGINEER: 1,
-    SubTag.PERFORMER: 4,
-}
 
 const HIGH_MP := 4
 const LOW_MP := 2

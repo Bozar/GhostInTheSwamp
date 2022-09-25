@@ -177,4 +177,4 @@ func _is_not_queue_free(source: Array, index: int, _opt: Array) -> bool:
 
 
 func _set_none(__) -> void:
-	pass
+	return

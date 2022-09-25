@@ -18,7 +18,7 @@ class PackedPrefab:
 
 
 	func set_max_x(__) -> void:
-		pass
+		return
 
 
 	func get_max_y() -> int:
@@ -26,7 +26,7 @@ class PackedPrefab:
 
 
 	func set_max_y(__) -> void:
-		pass
+		return
 
 
 	func get_dungeon_prefab() -> Dictionary:
@@ -34,7 +34,7 @@ class PackedPrefab:
 
 
 	func set_dungeon_prefab(__) -> void:
-		pass
+		return
 
 
 class MatrixSize:
@@ -52,7 +52,7 @@ class MatrixSize:
 
 
 	func set_max_row(__) -> void:
-		pass
+		return
 
 
 	func get_max_column() -> int:
@@ -60,7 +60,7 @@ class MatrixSize:
 
 
 	func set_max_column(__) -> void:
-		pass
+		return
 
 
 const RESOURCE_PATH := "res://resource/dungeon_prefab/"

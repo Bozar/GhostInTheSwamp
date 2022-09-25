@@ -16,7 +16,7 @@ static func test(n: Node2D) -> void:
 	# _add_dinghy(FindObject.pc_coord, n)
 	# _teleport(2, n)
 	# n._end_turn()
-	pass
+	return
 
 
 # 0: near land, 1: anywhere, 2: final harbor

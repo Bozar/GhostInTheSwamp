@@ -45,4 +45,4 @@ func get_coord() -> IntCoord:
 
 
 func _set_none(__) -> void:
-	pass
+	return

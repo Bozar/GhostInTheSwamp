@@ -54,13 +54,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif _verify_input(event, InputTag.TOGGLE_POWER_MODE):
 		PcSpriteHelper.toggle_power_mode()
 		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER_MODE)
-	elif $PcAction.use_power and  _verify_input(event, InputTag.EXIT_POWER_MODE):
+	elif $PcAction.use_power and _verify_input(event, InputTag.EXIT_POWER_MODE):
 		PcSpriteHelper.exit_power_mode()
 		emit_signal(SignalTag.SPECIAL_KEY, InputTag.TOGGLE_POWER_MODE)
 	elif _verify_input(event, InputTag.TOGGLE_SIGHT_MODE):
 		ActorHelper.toggle_sight_mode()
 	elif _verify_input(event, InputTag.EXIT_SIGHT_MODE):
-		ActorHelper.exit_sight_mode()
+		ActorHelper.toggle_sight_mode(true)
 	# A turn may end when pressing a movement key or InputTag.DEV_KEY.
 	if $PcAction.end_turn:
 		_end_turn()

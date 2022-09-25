@@ -115,4 +115,4 @@ const NODE_REF := {
 
 
 func _init().(SIGNAL_BIND, NODE_REF) -> void:
-	pass
+	return

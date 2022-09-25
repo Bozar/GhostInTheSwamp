@@ -1,31 +1,29 @@
 class_name ActorHelper
 
 
-static func toggle_actor(sprite: Sprite, show_arrow: bool) -> void:
+# Change a sprite to an arrow that shows sight direction or back to normal.
+static func toggle_actor(sprite: Sprite, show_sight: bool) -> void:
 	var state := ObjectState.get_state(sprite) as ActorState
 	var new_tag := SpriteTag.DEFAULT
 
-	if show_arrow:
+	if show_sight:
 		new_tag = DirectionTag.get_sprite_by_direction(state.face_direction)
 	SwitchSprite.set_sprite(sprite, new_tag)
-	state.show_arrow = show_arrow
+	state.show_sight = show_sight
 
 
-static func toggle_sight_mode() -> void:
-	var state: ActorState
+# Change all actor sprites and set PC state.
+static func toggle_sight_mode(exit_sight_mode := false) -> void:
+	var state := FindObject.pc_state
 
+	if exit_sight_mode:
+		state.show_sight = false
+	else:
+		state.show_sight = not state.show_sight
 	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
 		if i.is_in_group(SubTag.PC):
 			continue
-		state = ObjectState.get_state(i)
-		toggle_actor(i, not state.show_arrow)
-
-
-static func exit_sight_mode() -> void:
-	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
-		if i.is_in_group(SubTag.PC):
-			continue
-		toggle_actor(i, false)
+		toggle_actor(i, state.show_sight)
 
 
 static func set_sight_around_pc(cast_results: Dictionary) -> void:
@@ -54,7 +52,7 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 
 		actor_state = ObjectState.get_state(actor)
 		actor_coord = actor_state.coord
-		actor_sight = PcData.ACTOR_SIGHT_RANGE[actor_state.sub_tag]
+		actor_sight = ActorData.SIGHT_RANGE[actor_state.sub_tag]
 		if CoordCalculator.is_out_of_range(pc_coord, actor_coord, actor_sight):
 			continue
 

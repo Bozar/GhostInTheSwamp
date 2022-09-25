@@ -14,4 +14,4 @@ func set_reference() -> void:
 
 
 func renew_world() -> void:
-	pass
+	return
