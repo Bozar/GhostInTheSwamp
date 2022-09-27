@@ -22,7 +22,7 @@ func renew_world(next_actor: Sprite) -> void:
 		# $PcStartTurn.renew_world() calls $PcStartTurn.reset_state() implicitly.
 		$PcStartTurn.renew_world()
 		if pc_is_on_land:
-			cast_results = PcCastRay.renew_world()
+			cast_results = PcCastRay.renew_world(PcCastRay)
 			ActorHelper.set_sight_around_pc(cast_results)
 			LandPowerHelper.set_power(cast_results)
 	else:
@@ -31,7 +31,7 @@ func renew_world(next_actor: Sprite) -> void:
 		$PcStartTurn.reset_state()
 		# When on land, PC may lose before an NPC's turn due to being spotted.
 		if pc_is_on_land:
-			cast_results = PcCastRay.renew_world()
+			cast_results = PcCastRay.renew_world(PcCastRay)
 			ActorHelper.set_sight_around_pc(cast_results)
 	# print(cast_results)
 

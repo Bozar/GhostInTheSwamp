@@ -39,8 +39,8 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 
 	for i in cast_results.keys():
 		has_actor = false
-		first_tag = cast_results[i][CastRayTag.FIRST_TAG]
-		actor = cast_results[i][CastRayTag.LAST_SPRITE]
+		first_tag = cast_results[i][PcCastRay.FIRST_TAG]
+		actor = cast_results[i][PcCastRay.LAST_SPRITE]
 		match first_tag:
 			MainTag.ACTOR:
 				has_actor = true
@@ -58,8 +58,13 @@ static func set_sight_around_pc(cast_results: Dictionary) -> void:
 
 		pc_to_actor = CoordCalculator.get_ray_direction(pc_coord, actor_coord)
 		actor_to_pc = actor_state.face_direction
+		# In ActorAction, use PC's current position as destination and set
+		# detect_pc to false.
 		if DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):
 			FindObject.pc_state.set_npc_sight(pc_to_actor, true)
+			actor_state.detect_pc = true
+		# A performer can sense PC without sight contact.
+		elif actor.is_in_group(SubTag.PERFORMER):
 			actor_state.detect_pc = true
 
 

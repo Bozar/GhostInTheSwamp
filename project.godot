@@ -45,11 +45,6 @@ _global_script_classes=[ {
 "path": "res://library/BasicSpriteData.gd"
 }, {
 "base": "Reference",
-"class": "CastRayTag",
-"language": "GDScript",
-"path": "res://library/CastRayTag.gd"
-}, {
-"base": "Reference",
 "class": "Checkmate",
 "language": "GDScript",
 "path": "res://library/Checkmate.gd"
@@ -225,11 +220,6 @@ _global_script_classes=[ {
 "path": "res://library/PcCastRay.gd"
 }, {
 "base": "Reference",
-"class": "PcCastRayHelper",
-"language": "GDScript",
-"path": "res://library/PcCastRayHelper.gd"
-}, {
-"base": "Reference",
 "class": "PcData",
 "language": "GDScript",
 "path": "res://library/PcData.gd"
@@ -382,7 +372,6 @@ _global_script_class_icons={
 "ArrayHelper": "",
 "AutoStart": "",
 "BasicSpriteData": "",
-"CastRayTag": "",
 "Checkmate": "",
 "ConvertCoord": "",
 "CoordCalculator": "",
@@ -418,7 +407,6 @@ _global_script_class_icons={
 "PathFindingData": "",
 "PcAction": "",
 "PcCastRay": "",
-"PcCastRayHelper": "",
 "PcData": "",
 "PcFov": "",
 "PcSailHelper": "",
