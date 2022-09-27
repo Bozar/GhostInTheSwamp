@@ -7,3 +7,5 @@ const SIGHT_RANGE := {
     SubTag.ENGINEER: 1,
     SubTag.PERFORMER: 4,
 }
+
+const MIN_WALK_DISTANCE := 5

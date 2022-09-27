@@ -11,6 +11,9 @@ var face_direction := DirectionTag.NO_DIRECTION setget set_face_direction, \
 		get_face_direction
 var show_sight := false
 var detect_pc := false
+var last_seen_pc_coord: IntCoord
+var remove_self := false
+var walk_path: Array
 
 
 func get_face_direction() -> int:

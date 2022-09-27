@@ -70,9 +70,10 @@ static func _add_item(item: int, n: Node2D) -> void:
 
 static func _add_actor(sub_tag: String, n: Node2D) -> void:
 	var coord := FindObject.pc_coord
-	# var actor: Sprite = n._ref_CreateObject.create(MainTag.ACTOR,
-	# 		sub_tag, IntCoord.new(coord.x - 1, coord.y))
+	var actor: Sprite = n._ref_CreateObject.create(MainTag.ACTOR,
+			sub_tag, IntCoord.new(coord.x - 1, coord.y))
 
 	# ObjectState.get_state(actor).face_direction = DirectionTag.LEFT
-	n._ref_CreateObject.create(MainTag.ACTOR,
-			sub_tag, IntCoord.new(coord.x - 1, coord.y))
+	# n._ref_CreateObject.create(MainTag.ACTOR,
+	# 		sub_tag, IntCoord.new(coord.x - 1, coord.y))
+	ActorHelper.toggle_actor(actor, FindObject.pc_state.show_sight)

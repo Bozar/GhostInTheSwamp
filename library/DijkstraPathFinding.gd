@@ -7,7 +7,7 @@ class_name DijkstraPathFinding
 #> opt_arg: Array) -> bool
 static func get_path(dungeon: Dictionary, start_coord: IntCoord,
 		step_length: int, func_host: Object, is_passable_func: String,
-		opt_arg: Array) -> Array:
+		opt_arg := []) -> Array:
 	var neighbor := CoordCalculator.get_neighbor(start_coord, step_length)
 	var min_distance := PathFindingData.OBSTACLE
 	var x: int
