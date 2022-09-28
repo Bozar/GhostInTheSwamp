@@ -1,4 +1,4 @@
-class_name PcSailHelper
+class_name PcSail
 
 
 const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."

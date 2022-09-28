@@ -8,8 +8,10 @@ static func test(n: Node2D) -> void:
 		SubTag.ENGINEER,
 		SubTag.PERFORMER
 	]
-	ArrayHelper.rand_picker(sub_tags, 1, n._ref_RandomNumber)
-	_add_actor(sub_tags[0], n)
+	ArrayHelper.shuffle(sub_tags, n._ref_RandomNumber)
+	_add_actor(sub_tags[0], -1, 0, n)
+	ArrayHelper.shuffle(sub_tags, n._ref_RandomNumber)
+	_add_actor(sub_tags[0], 2, 0, n)
 	# _add_item(2, n)
 	# MoveObject.move(FindObject.pc, IntCoord.new(FindObject.pc_coord.x,
 	# 		FindObject.pc_coord.y - 1))
@@ -68,12 +70,12 @@ static func _add_item(item: int, n: Node2D) -> void:
 	n._ref_CreateObject.create_trap(sub_tag, IntCoord.new(coord.x - 1, coord.y))
 
 
-static func _add_actor(sub_tag: String, n: Node2D) -> void:
+static func _add_actor(sub_tag: String, x_offset: int, y_offset: int, n: Node2D) \
+		-> void:
 	var coord := FindObject.pc_coord
-	var actor: Sprite = n._ref_CreateObject.create(MainTag.ACTOR,
-			sub_tag, IntCoord.new(coord.x - 1, coord.y))
+	# var actor: Sprite = n._ref_CreateObject.create(MainTag.ACTOR,
+	# 		sub_tag, IntCoord.new(coord.x - 1, coord.y))
 
 	# ObjectState.get_state(actor).face_direction = DirectionTag.LEFT
-	# n._ref_CreateObject.create(MainTag.ACTOR,
-	# 		sub_tag, IntCoord.new(coord.x - 1, coord.y))
-	ActorHelper.toggle_actor(actor, FindObject.pc_state.show_sight)
+	n._ref_CreateObject.create(MainTag.ACTOR,
+			sub_tag, IntCoord.new(coord.x + x_offset, coord.y + y_offset))

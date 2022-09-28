@@ -9,3 +9,10 @@ const SIGHT_RANGE := {
 }
 
 const MIN_WALK_DISTANCE := 5
+
+const COLLISION_SCORE := {
+    SubTag.TOURIST: 0,
+    SubTag.SCOUT: 1,
+    SubTag.PERFORMER: 2,
+    SubTag.ENGINEER: 3,
+}

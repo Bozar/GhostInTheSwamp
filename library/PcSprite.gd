@@ -1,4 +1,4 @@
-class_name PcSpriteHelper
+class_name PcSprite
 
 
 static func toggle_power_mode() -> void:

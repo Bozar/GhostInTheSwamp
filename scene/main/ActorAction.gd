@@ -14,9 +14,17 @@ var _land_coords := []
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
+	var state: ActorState
+
 	if current_sprite.is_in_group(SubTag.PC):
 		return
 	_actor_ai(current_sprite)
+
+	state = ObjectState.get_state(current_sprite)
+	if state.remove_self:
+		_ref_RemoveObject.remove(current_sprite)
+	else:
+		ActorSight.toggle_actor(current_sprite, FindObject.pc_state.show_sight)
 	_ref_Schedule.end_turn()
 
 
@@ -24,6 +32,7 @@ func _actor_ai(current_sprite: Sprite) -> void:
 	var state: ActorState = ObjectState.get_state(current_sprite)
 	var source_coord := state.coord
 	var target_coord: IntCoord
+	var target_sprite: Sprite
 
 	# Update walk path based on whether PC is in sight.
 	if state.detect_pc:
@@ -54,13 +63,16 @@ func _actor_ai(current_sprite: Sprite) -> void:
 			return
 		else:
 			# Handle collision.
+			target_sprite = FindObject.get_actor(target_coord)
+			ActorCollision.set_remove_self(current_sprite, target_sprite)
 			if state.remove_self:
 				return
+			else:
+				_ref_RemoveObject.remove(target_sprite)
 
 	state.face_direction = CoordCalculator.get_ray_direction(source_coord,
 			target_coord)
 	MoveObject.move(current_sprite, target_coord)
-	ActorHelper.toggle_actor(current_sprite, state.show_sight)
 
 
 func _on_InitWorld_world_initialized() -> void:
@@ -73,35 +85,35 @@ func _on_InitWorld_world_initialized() -> void:
 
 
 func _set_path_to_pc(state: ActorState) -> void:
-	state.walk_path = ActorHelper.get_walk_path(state.last_seen_pc_coord,
-			state.coord, _dungeon, _ref_RandomNumber, ActorHelper)
+	state.walk_path = ActorWalkPath.get_path(state.last_seen_pc_coord,
+			state.coord, _dungeon, _ref_RandomNumber, ActorWalkPath)
 
 
 func _set_path_to_harbor(actor_state: ActorState) -> void:
 	var harbor_state: HarborState
 	var inactive_harbor_coords := []
 	var active_harbor_coords := []
-	var destination: IntCoord
+	var land_coord: IntCoord
 
 	for i in _harbor_sprites:
 		harbor_state = ObjectState.get_state(i)
 		if harbor_state.is_active:
 			active_harbor_coords.push_back(harbor_state.coord)
-		elif CoordCalculator.is_out_of_range(actor_state.coord,
-				harbor_state.coord, ActorData.MIN_WALK_DISTANCE):
+		else:
+		# elif CoordCalculator.is_out_of_range(actor_state.coord,
+		# 		harbor_state.coord, ActorData.MIN_WALK_DISTANCE):
 			inactive_harbor_coords.push_back(harbor_state.coord)
-
 	for coords in [active_harbor_coords, inactive_harbor_coords]:
 		if coords.size() > 0:
 			ArrayHelper.shuffle(coords, _ref_RandomNumber)
 			for i in CoordCalculator.get_neighbor(coords[0], 1):
 				if FindObjectHelper.has_land(i):
-					destination = i
+					land_coord = i
 					break
 			break
 
-	actor_state.walk_path = ActorHelper.get_walk_path(destination,
-			actor_state.coord, _dungeon, _ref_RandomNumber, ActorHelper)
+	actor_state.walk_path = ActorWalkPath.get_path(land_coord, actor_state.coord,
+			_dungeon, _ref_RandomNumber, ActorWalkPath)
 
 
 func _set_path_to_land(actor_state: ActorState) -> void:
@@ -109,6 +121,6 @@ func _set_path_to_land(actor_state: ActorState) -> void:
 	for i in _land_coords:
 		if CoordCalculator.is_out_of_range(i, actor_state.coord,
 				ActorData.MIN_WALK_DISTANCE):
-			actor_state.walk_path = ActorHelper.get_walk_path(i,
-					actor_state.coord, _dungeon, _ref_RandomNumber, ActorHelper)
+			actor_state.walk_path = ActorWalkPath.get_path(i, actor_state.coord,
+					_dungeon, _ref_RandomNumber, ActorWalkPath)
 			return

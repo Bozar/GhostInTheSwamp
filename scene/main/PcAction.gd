@@ -15,7 +15,7 @@ var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 
-var _item_drop_rate := {
+var _drop_rate := {
 	SubTag.RUM: 0,
 	SubTag.PARROT: 0,
 	SubTag.ACCORDION: 0,
@@ -84,7 +84,7 @@ func press_wizard_key(input_tag: String) -> void:
 	var pc_state := FindObject.pc_state
 
 	if pc_state.use_power:
-		PcSpriteHelper.exit_power_mode()
+		PcSprite.exit_power_mode()
 		return
 
 	match input_tag:
@@ -222,7 +222,7 @@ func _set_none(__) -> void:
 
 
 func _drop_item(actor_sub_tag: String, power_direction: int) -> void:
-	var trap_sub_tag := ActorHelper.drop_item(actor_sub_tag, _item_drop_rate,
+	var trap_sub_tag := ActorDropItem.get_sub_tag(actor_sub_tag, _drop_rate,
 			_ref_RandomNumber)
 	var drop_coord: IntCoord
 

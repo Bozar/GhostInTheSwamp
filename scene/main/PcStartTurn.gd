@@ -29,12 +29,12 @@ func renew_world() -> void:
 		# PowerTag.LAND.
 		_set_swamp_power(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
-		PcSailHelper.add_ship(_ref_CreateObject)
+		PcSail.add_ship(_ref_CreateObject)
 		# PowerTag.[EMBARK|LIGHT].
 		_set_harbor_power(pc_coord, pc_state)
 	# Land
 	else:
-		PcSailHelper.add_dinghy(_ref_RandomNumber, _ref_CreateObject)
+		PcSail.add_dinghy(_ref_RandomNumber, _ref_CreateObject)
 		# Land powers are complicated and tightly coupled with NPC sight.
 		# Therefore they will be set in Progress later.
 
@@ -46,7 +46,7 @@ func reset_state() -> void:
 	var state := FindObject.pc_state
 
 	# All states are reset whether or not the next actor is PC.
-	PcSpriteHelper.set_default_sprite()
+	PcSprite.set_default_sprite()
 	# Reset sail duration if PC is on land or harbor.
 	if not FindObjectHelper.has_swamp(FindObject.pc_coord):
 		state.sail_duration = 0

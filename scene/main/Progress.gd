@@ -23,7 +23,7 @@ func renew_world(next_actor: Sprite) -> void:
 		$PcStartTurn.renew_world()
 		if pc_is_on_land:
 			cast_results = PcCastRay.renew_world(PcCastRay)
-			ActorHelper.set_sight_around_pc(cast_results)
+			ActorSight.set_sight_around_pc(cast_results)
 			LandPowerHelper.set_power(cast_results)
 	else:
 		# Always reset PC state manually to guarantee that even if game ends
@@ -32,7 +32,7 @@ func renew_world(next_actor: Sprite) -> void:
 		# When on land, PC may lose before an NPC's turn due to being spotted.
 		if pc_is_on_land:
 			cast_results = PcCastRay.renew_world(PcCastRay)
-			ActorHelper.set_sight_around_pc(cast_results)
+			ActorSight.set_sight_around_pc(cast_results)
 	# print(cast_results)
 
 	# Check PC and NPC state to decide if game ends.
