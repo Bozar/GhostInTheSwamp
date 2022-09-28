@@ -208,7 +208,7 @@ func _use_power_on_land(direction_tag: int) -> void:
 		PowerTag.SPOOK:
 			_ref_RemoveObject.remove(target_sprite)
 			MoveObject.move(pc, target_coord)
-			_drop_item(sub_tag, direction_tag)
+			_drop_item(sub_tag)
 		PowerTag.SWAP:
 			pc_state.has_ghost = false
 			MoveObject.swap(pc, target_sprite)
@@ -221,13 +221,20 @@ func _set_none(__) -> void:
 	return
 
 
-func _drop_item(actor_sub_tag: String, power_direction: int) -> void:
+# func _drop_item(actor_sub_tag: String, power_direction: int) -> void:
+func _drop_item(actor_sub_tag: String) -> void:
 	var trap_sub_tag := ActorDropItem.get_sub_tag(actor_sub_tag, _drop_rate,
 			_ref_RandomNumber)
-	var drop_coord: IntCoord
+	# var drop_coord: IntCoord
 
 	if trap_sub_tag == SubTag.INVALID:
 		return
-	drop_coord = DirectionTag.get_coord_by_direction(FindObject.pc_coord,
-			DirectionTag.get_opposite_direction(power_direction))
-	_ref_CreateObject.create_trap(trap_sub_tag, drop_coord)
+	FindObject.pc_state.add_item(trap_sub_tag)
+
+	# Auto pick up an item. Increase Spook cost by 1 when more than
+	# PcData.MAX_GHOST_PER_ITEM ghosts have appeared. Do not remove code about
+	# detecting and picking up items just in case I need them later.
+	# --------------------------------------------------------------------------
+	# drop_coord = DirectionTag.get_coord_by_direction(FindObject.pc_coord,
+	# 		DirectionTag.get_opposite_direction(power_direction))
+	# _ref_CreateObject.create_trap(trap_sub_tag, drop_coord)

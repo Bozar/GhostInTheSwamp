@@ -28,7 +28,7 @@ var _direction_to_sight_power := {
 	DirectionTag.RIGHT: {},
 }
 
-var mp := 0 setget set_mp, get_mp
+var mp := 1 setget set_mp, get_mp
 var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 
@@ -37,7 +37,7 @@ var max_ghost := PcData.MAX_GHOST_PER_ITEM setget _set_none, get_max_ghost
 # Add 1 after creating a ghost.
 var count_ghost := 0 setget set_count_ghost, get_count_ghost
 
-var has_ghost := false
+var has_ghost := true
 # Spawn a ghost when the timer is below 1. Then reset it to its maximum.
 var spawn_ghost_timer := 0
 var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \

@@ -21,7 +21,8 @@ static func _get_spook_cost(pc_state: PcState, actor: Sprite) -> int:
 	var actor_state := ObjectState.get_state(actor) as ActorState
 	var cost: int = PcData.COST_SUB_TAG_TO_SPOOK[actor_state.sub_tag]
 
-	if pc_state.count_item > 1:
+	# if pc_state.count_item > 1:
+	if pc_state.count_ghost > PcData.MAX_GHOST_PER_ITEM:
 		cost += PcData.COST_SPOOK_WITH_TWO_ITEMS
 
 	var pc_coord := pc_state.coord
