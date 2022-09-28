@@ -41,7 +41,7 @@ static func _compare_detect_pc(source: Sprite, target: Sprite, out_actor: Array)
 
 	for i in [source, target]:
 		state = ObjectState.get_state(i)
-		if state.detect_pc:
+		if not state.detect_pc:
 			out_actor.push_back(i)
 	if out_actor.size() == 1:
 		return true

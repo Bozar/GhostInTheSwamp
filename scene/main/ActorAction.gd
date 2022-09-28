@@ -33,6 +33,7 @@ func _actor_ai(current_sprite: Sprite) -> void:
 	var source_coord := state.coord
 	var target_coord: IntCoord
 	var target_sprite: Sprite
+	var mp_progress: int
 
 	# Update walk path based on whether PC is in sight.
 	if state.detect_pc:
@@ -58,11 +59,18 @@ func _actor_ai(current_sprite: Sprite) -> void:
 	# Decide whether the next grid in the walk path is reachable.
 	target_coord = state.walk_path.pop_back()
 	if FindObject.has_actor(target_coord):
+		# Wait beside PC.
 		if CoordCalculator.is_same_coord(target_coord, FindObject.pc_coord):
 			state.walk_path.push_back(target_coord)
 			return
+		# Handle actor collision.
 		else:
-			# Handle collision.
+			# Reduce MP progress.
+			mp_progress = _ref_RandomNumber.get_int(
+					ActorData.MIN_MP_PROGRESS_REDUCTION,
+					ActorData.MAX_MP_PROGRESS_REDUCTION)
+			FindObject.pc_state.mp_progress -= mp_progress
+			# Remove an actor.
 			target_sprite = FindObject.get_actor(target_coord)
 			ActorCollision.set_remove_self(current_sprite, target_sprite)
 			if state.remove_self:
