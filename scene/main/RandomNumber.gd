@@ -2,6 +2,8 @@ extends Node2D
 class_name RandomNumber
 
 
+const INT_WEIGHT := "Weight must be an integer."
+
 var _rng := RandomNumberGenerator.new()
 
 
@@ -12,6 +14,31 @@ func get_int(min_int: int, max_int: int) -> int:
 
 func get_percent_chance(chance: int) -> bool:
 	return chance > get_int(0, 100)
+
+
+func get_weighted_chance(output_to_weight: Dictionary, default_output):
+	var max_weight := 0
+	var current_weight := 0
+	var this_weight: int
+	var output_weight: int
+
+	for i in output_to_weight.values():
+		if typeof(i) != TYPE_INT:
+			push_error(INT_WEIGHT)
+			return default_output
+		elif i < 1:
+			continue
+		max_weight += i
+
+	this_weight = get_int(0, max_weight + 1)
+	for i in output_to_weight.keys():
+		output_weight = output_to_weight[i]
+		if output_weight < 1:
+			continue
+		current_weight += output_weight
+		if this_weight <= current_weight:
+			return i
+	return default_output
 
 
 func get_x_coord() -> int:

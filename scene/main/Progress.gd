@@ -41,12 +41,15 @@ func renew_world(next_actor: Sprite) -> void:
 		emit_signal(SignalTag.GAME_OVER, checkmate[Checkmate.PLAYER_WIN])
 
 
-# Do not create new sprites here, call renew_world() instead. Refer: Schedule.
 func _on_InitWorld_world_initialized() -> void:
 	$SpawnActor.set_reference()
 	$PcStartTurn.set_reference()
 
 	_active_the_first_harbor()
+
+
+func _on_RemoveObject_sprite_removed(sprite: Sprite) -> void:
+	$SpawnActor.remove_actor(sprite)
 
 
 func _active_the_first_harbor() -> void:

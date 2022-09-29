@@ -53,8 +53,9 @@ static func _compare_walk_path(source: Sprite, target: Sprite, out_actor: Array)
 		-> bool:
 	var source_state: ActorState = ObjectState.get_state(source)
 	var target_state: ActorState = ObjectState.get_state(target)
-	var source_path := source_state.walk_path
-	var target_path := target_state.walk_path
+	# Do not compare arrays. This may result in `socket error: 10054`.
+	var source_path := source_state.walk_path.size()
+	var target_path := target_state.walk_path.size()
 
 	if source_path > target_path:
 		out_actor.push_back(source)

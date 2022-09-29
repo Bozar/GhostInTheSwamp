@@ -33,6 +33,10 @@ func get_pc_state() -> PcState:
 	return ObjectState.get_state(get_pc()) as PcState
 
 
+func get_npc_count() -> int:
+	return FindObject.get_sprites_with_tag(MainTag.ACTOR).size() - 1
+
+
 # When we call `foobar.queue_free()`, the node foobar will be deleted at the end
 # of the current frame if there are no references to it.
 #

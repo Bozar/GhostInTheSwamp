@@ -30,7 +30,7 @@ const SIGNAL_BIND := {
 	SignalTag.SPRITE_REMOVED: {
 		SOURCE_NODE: NodeTag.REMOVE_OBJECT,
 		TARGET_NODE: [
-			NodeTag.SCHEDULE,
+			NodeTag.SCHEDULE, NodeTag.PROGRESS,
 		],
 	},
 	SignalTag.GAME_OVER: {
