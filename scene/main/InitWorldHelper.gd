@@ -19,7 +19,9 @@ const EXPAND_SHRUB_CHAR := "+"
 const ISLAND_CHAR := "R"
 
 const MAX_EXPAND := 3
-const MAX_HARBOR := 4
+# 5 harbors in all. 1 final harbor, 2 harbors leading to the final one, 2 free
+# harbors.
+const FREE_HARBORS := 2
 
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
@@ -142,7 +144,7 @@ func _create_expand_shrub(expand_coords: Array) -> void:
 
 
 func _create_expand_harbor(expand_coords: Array) -> void:
-	if expand_coords.size() > MAX_HARBOR:
-		ArrayHelper.rand_picker(expand_coords, MAX_HARBOR, _ref_RandomNumber)
+	if expand_coords.size() > FREE_HARBORS:
+		ArrayHelper.rand_picker(expand_coords, FREE_HARBORS, _ref_RandomNumber)
 	for i in expand_coords:
 		_ref_CreateObject.create_building(SubTag.HARBOR, i)

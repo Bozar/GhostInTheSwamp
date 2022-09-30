@@ -60,7 +60,7 @@ func move(input_tag: String) -> void:
 			if has_power:
 				pc_state.mp -= power_cost
 				_use_power_in_swamp(source_coord, target_coord, direction)
-		else:
+		elif pc_state.get_direction_to_movement(direction):
 			_move_in_swamp(target_coord)
 	# Harbor.
 	elif FindObjectHelper.has_harbor(source_coord):
@@ -68,16 +68,16 @@ func move(input_tag: String) -> void:
 			if has_power:
 				pc_state.mp -= power_cost
 				_use_power_in_harbor(source_coord, target_coord, direction)
-		else:
-			_move_on_land(source_coord, target_coord)
+		elif pc_state.get_direction_to_movement(direction):
+			_move_on_land(target_coord)
 	# Land.
 	else:
 		if pc_state.use_power:
 			if has_power:
 				pc_state.mp -= power_cost
 				_use_power_on_land(direction)
-		else:
-			_move_on_land(source_coord, target_coord)
+		elif pc_state.get_direction_to_movement(direction):
+			_move_on_land(target_coord)
 
 
 func press_wizard_key(input_tag: String) -> void:
@@ -110,38 +110,13 @@ func _end_turn() -> void:
 	end_turn = true
 
 
-func _move_on_land(move_from: IntCoord, move_to: IntCoord) -> void:
-	var direction: int
-	var pc_state := FindObject.pc_state
-
-	if FindObjectHelper.has_unoccupied_land(move_to):
-		direction = CoordCalculator.get_ray_direction(move_from, move_to)
-		if pc_state.is_in_npc_sight(direction):
-			return
-	elif pc_state.has_accordion() and FindObjectHelper.has_harbor(move_to):
-		pass
-	else:
-		return
-
+func _move_on_land(move_to: IntCoord) -> void:
 	MoveObject.move(FindObject.pc, move_to)
 	_end_turn()
 
 
 func _move_in_swamp(move_to: IntCoord) -> void:
-	var has_nearby_land := false
 	var pc_state := FindObject.pc_state
-
-	# PC can only sail into a swamp grid.
-	if not FindObjectHelper.has_swamp(move_to):
-		return
-	# Dinghy: PC can only enter a swamp that has a land or harbor neighbor.
-	elif not pc_state.use_pirate_ship:
-		for i in CoordCalculator.get_neighbor(move_to, 1):
-			if FindObjectHelper.has_land_or_harbor(i):
-				has_nearby_land = true
-				break
-		if not has_nearby_land:
-			return
 
 	if pc_state.sail_duration < pc_state.max_sail_duration:
 		pc_state.sail_duration += 1

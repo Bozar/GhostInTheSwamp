@@ -27,6 +27,12 @@ var _direction_to_sight_power := {
 	DirectionTag.LEFT: {},
 	DirectionTag.RIGHT: {},
 }
+var _direction_to_movement := {
+	DirectionTag.UP: false,
+	DirectionTag.DOWN: false,
+	DirectionTag.LEFT: false,
+	DirectionTag.RIGHT: false,
+}
 
 var mp := 1 setget set_mp, get_mp
 var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
@@ -177,6 +183,14 @@ func get_target_sprite(direction_tag: int) -> Sprite:
 
 func set_target_sprite(direction_tag: int, sprite: Sprite) -> void:
 	_direction_to_sight_power[direction_tag][TARGET_SPRITE] = sprite
+
+
+func get_direction_to_movement(direction_tag: int) -> bool:
+	return _direction_to_movement.get(direction_tag, false)
+
+
+func set_direction_to_movement(direction_tag: int, can_move: bool) -> void:
+	_direction_to_movement[direction_tag] = can_move
 
 
 func get_max_mp() -> int:

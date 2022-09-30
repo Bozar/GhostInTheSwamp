@@ -18,7 +18,7 @@ static func renew_world(next_is_pc: bool) -> Dictionary:
 		player_win = true
 	# PC could be blocked in an NPC's turn, but when his turn starts, he has
 	# retored MP to act. So check this only when the next actor is PC.
-	elif next_is_pc and (_is_trapped_on_land() or _is_trapped_in_harbor()):
+	elif next_is_pc and _is_trapped():
 		game_over = true
 	return {
 		GAME_OVER: game_over,
@@ -37,14 +37,10 @@ static func _sink_in_swamp(state: PcState) -> bool:
 
 
 static func _is_spotted(state: PcState) -> bool:
-	var no_mp := state.mp < 1
-	var has_actor := false
-
 	for i in DirectionTag.VALID_DIRECTIONS:
 		if state.is_in_npc_sight(i):
-			has_actor = true
-			break
-	return no_mp and has_actor
+			return state.mp < 1
+	return false
 
 
 static func _reach_final_harbor(state: PcState, coord: IntCoord) -> bool:
@@ -54,24 +50,10 @@ static func _reach_final_harbor(state: PcState, coord: IntCoord) -> bool:
 			and FindObjectHelper.has_final_harbor(coord)
 
 
-static func _is_trapped_on_land() -> bool:
-	if not FindObjectHelper.has_land(FindObject.pc_coord):
-		return false
+static func _is_trapped() -> bool:
 	for i in DirectionTag.VALID_DIRECTIONS:
 		if FindObject.pc_state.get_power_tag(i) != PowerTag.NO_POWER:
 			return false
-	for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
-		if FindObjectHelper.has_unoccupied_land(i):
-			return false
-	return true
-
-
-static func _is_trapped_in_harbor() -> bool:
-	if not FindObjectHelper.has_final_harbor(FindObject.pc_coord):
-		return false
-	for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
-		if FindObjectHelper.has_ship(i):
-			return false
-		elif FindObjectHelper.has_unoccupied_land(i):
+		elif FindObject.pc_state.get_direction_to_movement(i):
 			return false
 	return true

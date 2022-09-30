@@ -25,9 +25,9 @@ static func has_unoccupied_land(coord: IntCoord) -> bool:
 	return (not FindObject.has_actor(coord)) and has_land(coord)
 
 
-static func has_nearby_land(coord: IntCoord) -> bool:
+static func has_nearby_land_or_harbor(coord: IntCoord) -> bool:
 	for i in CoordCalculator.get_neighbor(coord, 1):
-		if has_land(i):
+		if has_land_or_harbor(i):
 			return true
 	return false
 
