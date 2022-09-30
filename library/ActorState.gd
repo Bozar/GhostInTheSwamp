@@ -24,3 +24,7 @@ func set_face_direction(direction_tag: int) -> void:
 	if not direction_tag in DirectionTag.VALID_DIRECTIONS:
 		face_direction = DirectionTag.NO_DIRECTION
 	face_direction = direction_tag
+
+
+func reset_walk_path() -> void:
+	walk_path.clear()

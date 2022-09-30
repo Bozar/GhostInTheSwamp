@@ -12,21 +12,29 @@ const MAX_MP_PROGRESS := 100
 const HARBOR_TO_MP_PROGRESS := {
     1: 5,
     2: 25,
-    3: 55,
-    4: 95,
-    5: 145,
+    3: 45,
+    4: 75,
+    5: 105,
+}
+const LOW_SAIL_REDUCTION := 10
+const HIGH_SAIL_REDUCTION := 20
+const MIN_COLLIDE_REDUCTION := 1
+const MAX_COLLIDE_REDUCTION := 6
+
+const ITEM_TO_MAX_GHOST := {
+    0: 10,
+    1: 15,
+    2: 20,
+    3: 20,
 }
 
-const MAX_GHOST_PER_ITEM := 20
 const MAX_GHOST_TIMER := 100
 const TIMER_ADD_PER_TURN := 5
-const TIMER_MIN_ADD_PER_TURN := 1
 const MIN_RANGE_TO_HARBOR := 5
 const TIMER_BONUS_FROM_HARBOR := 10
 const TIMER_BONUS_FROM_HIGH_MP := 5
 const TIMER_BONUS_FROM_LOW_MP := 10
-const TIMER_POSITIVE_OFFSET := 0
-const TIMER_NEGATIVE_OFFSET := -10
+const TIMER_OFFSET := 6
 
 const MAX_SAIL_DURATION := 5
 
@@ -37,7 +45,7 @@ const COST_SUB_TAG_TO_SPOOK := {
     SubTag.ENGINEER: 4,
     SubTag.PERFORMER: 4,
 }
-const COST_SPOOK_WITH_TWO_ITEMS := 1
+const COST_SPOOK_WITH_ITEM := 1
 const COST_SPOOK_FROM_BEHIND := 2
 const COST_SPOOK_FROM_SIDE := 1
 
@@ -46,7 +54,6 @@ const ACTOR_TO_TRAP := {
     SubTag.ENGINEER: SubTag.PARROT,
     SubTag.PERFORMER: SubTag.ACCORDION,
 }
-const LOW_DROP_RATE := 20
-const MAX_DROP_RATE := 40
-const FAST_INCREASE_RATE := 10
-const INCREASE_RATE := 5
+const LOW_DROP_SCORE := 20
+const HIGH_DROP_SCORE := 41
+const MAX_DROP_SCORE := 120

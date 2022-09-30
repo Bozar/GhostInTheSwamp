@@ -67,8 +67,7 @@ func _actor_ai(current_sprite: Sprite) -> void:
 		else:
 			# Reduce MP progress.
 			mp_progress = _ref_RandomNumber.get_int(
-					ActorData.MIN_MP_PROGRESS_REDUCTION,
-					ActorData.MAX_MP_PROGRESS_REDUCTION)
+					PcData.MIN_COLLIDE_REDUCTION, PcData.MAX_COLLIDE_REDUCTION)
 			FindObject.pc_state.mp_progress -= mp_progress
 			# Remove an actor.
 			target_sprite = FindObject.get_actor(target_coord)

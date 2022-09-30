@@ -12,6 +12,7 @@ const NO_NEIGHBOR := "[%s, %s] has no neighbor."
 const LAND_CHAR := "-"
 const EXPAND_LAND_CHAR := "E"
 const HARBOR_CHAR := "h"
+const FINAL_HARBOR_CHAR := "r"
 const EXPAND_HARBOR_CHAR := "H"
 const SHRUB_CHAR := "#"
 const EXPAND_SHRUB_CHAR := "+"
@@ -72,6 +73,8 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 				LAND_CHAR:
 					_ref_CreateObject.create_ground(SubTag.LAND, coord)
 				HARBOR_CHAR:
+					_ref_CreateObject.create_building(SubTag.HARBOR, coord)
+				FINAL_HARBOR_CHAR:
 					_ref_CreateObject.create_building(SubTag.HARBOR, coord,
 							[SubTag.FINAL_HARBOR])
 				SHRUB_CHAR:

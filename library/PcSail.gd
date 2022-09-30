@@ -23,8 +23,10 @@ static func add_ship(ref_create: CreateObject) -> void:
 			break
 
 	# There should be one and only one non-swamp grid near a normal harbor. The
-	# final harbor can only be entered by a pirate ship.
-	if land_coord == null:
+	# final harbor can be entered by a pirate ship or teleportation.
+	if FindObjectHelper.has_final_harbor(pc_coord):
+		return
+	elif land_coord == null:
 		has_error = true
 	else:
 		ship_coord = CoordCalculator.get_mirror_image(land_coord, pc_coord)
@@ -83,10 +85,7 @@ static func _set_spawn_ghost_timer(ref_random: RandomNumber) -> void:
 	if not has_harbor:
 		add_timer += PcData.TIMER_BONUS_FROM_HARBOR
 	# Random offset.
-	add_timer += ref_random.get_int(PcData.TIMER_NEGATIVE_OFFSET,
-			PcData.TIMER_POSITIVE_OFFSET)
-	# Minimum value.
-	add_timer = max(add_timer, PcData.TIMER_MIN_ADD_PER_TURN) as int
+	add_timer += ref_random.get_int(0, PcData.TIMER_OFFSET)
 
 	state.spawn_ghost_timer += add_timer
 

@@ -56,7 +56,7 @@ func _create_tourist() -> void:
 
 
 func _create_actor(out_create_result: Array) -> void:
-	WorldGenerator.create_by_coord(_land_coords, ActorData.MAX_ACTOR,
+	WorldGenerator.create_by_coord(_land_coords, 1,
 		_ref_RandomNumber, self, "_is_valid_coord", [],
 		"_create_actor_here", out_create_result, 0)
 

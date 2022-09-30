@@ -33,14 +33,14 @@ var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
 
 # Increase the upper limit when collecting a new item.
-var max_ghost := PcData.MAX_GHOST_PER_ITEM setget _set_none, get_max_ghost
+var max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0] setget _set_none, get_max_ghost
 # Add 1 after creating a ghost.
 var count_ghost := 0 setget set_count_ghost, get_count_ghost
 
 var has_ghost := true
 # Spawn a ghost when the timer is below 1. Then reset it to its maximum.
 var spawn_ghost_timer := 0
-var max_sail_duration := PcData.MAX_SAIL_DURATION  setget _set_none, \
+var max_sail_duration := PcData.MAX_SAIL_DURATION setget _set_none, \
 		get_max_sail_duration
 # Add 1 after moving in the swamp.
 var sail_duration := 0 setget set_sail_duration, get_sail_duration
@@ -196,7 +196,7 @@ func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
 
 
 func _set_max_ghost() -> void:
-	max_ghost = count_item * PcData.MAX_GHOST_PER_ITEM
+	max_ghost = PcData.ITEM_TO_MAX_GHOST[count_item]
 
 
 func _init_direction_to_sight_power() -> void:

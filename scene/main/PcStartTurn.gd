@@ -57,20 +57,25 @@ func reset_state() -> void:
 
 func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	var count_harbor := 0
+	var add_progress: int
 
 	# Count active harbors.
 	for i in FindObjectHelper.get_harbors():
 		if (ObjectState.get_state(i) as HarborState).is_active:
 			count_harbor += 1
-	# If PC sails in a pirate ship and is far away from land and harbor, reduce
-	# the number of active harbors by 1. Otherwise leave it unchanged.
-	count_harbor -= 1
-	for i in CoordCalculator.get_neighbor(pc_coord, 1, true):
-		if FindObjectHelper.has_land_or_harbor(i):
-			count_harbor += 1
-			break
 	# Increase MP progress based on the number of active harbors.
-	pc_state.mp_progress += PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
+	add_progress = PcData.HARBOR_TO_MP_PROGRESS.get(count_harbor, 0)
+
+	# MP restores slower if PC is away from land.
+	if FindObjectHelper.has_land(pc_coord):
+		pass
+	elif FindObjectHelper.has_nearby_land(pc_coord):
+		add_progress -= PcData.LOW_SAIL_REDUCTION
+	else:
+		add_progress -= PcData.HIGH_SAIL_REDUCTION
+
+	add_progress = max(0, add_progress) as int
+	pc_state.mp_progress += add_progress
 
 
 func _set_swamp_power(coord: IntCoord, state: PcState) -> void:

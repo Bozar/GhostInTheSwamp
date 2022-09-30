@@ -15,7 +15,7 @@ var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 
-var _drop_rate := {
+var _drop_score := {
 	SubTag.RUM: 0,
 	SubTag.PARROT: 0,
 	SubTag.ACCORDION: 0,
@@ -187,12 +187,13 @@ func _use_power_on_land(direction_tag: int) -> void:
 	var pc := FindObject.pc
 	var pc_state := FindObject.pc_state
 	var target_sprite := pc_state.get_target_sprite(direction_tag)
-	var target_coord := ObjectState.get_state(target_sprite).coord
-	var sub_tag := ObjectState.get_state(target_sprite).sub_tag
+	var target_state := ObjectState.get_state(target_sprite)
+	var target_coord := target_state.coord
+	var sub_tag := target_state.sub_tag
 
 	match pc_state.get_power_tag(direction_tag):
 		PowerTag.EMBARK:
-			if target_sprite.is_in_group(SubTag.DINGHY):
+			if sub_tag == SubTag.DINGHY:
 				pc_state.has_ghost = true
 				pc_state.use_pirate_ship = false
 			MoveObject.move(pc, target_coord)
@@ -212,6 +213,7 @@ func _use_power_on_land(direction_tag: int) -> void:
 		PowerTag.SWAP:
 			pc_state.has_ghost = false
 			MoveObject.swap(pc, target_sprite)
+			(target_state as ActorState).reset_walk_path()
 		_:
 			return
 	_end_turn()
@@ -223,7 +225,7 @@ func _set_none(__) -> void:
 
 # func _drop_item(actor_sub_tag: String, power_direction: int) -> void:
 func _drop_item(actor_sub_tag: String) -> void:
-	var trap_sub_tag := ActorDropItem.get_sub_tag(actor_sub_tag, _drop_rate,
+	var trap_sub_tag := ActorDropItem.get_sub_tag(actor_sub_tag, _drop_score,
 			_ref_RandomNumber)
 	# var drop_coord: IntCoord
 
@@ -232,7 +234,7 @@ func _drop_item(actor_sub_tag: String) -> void:
 	FindObject.pc_state.add_item(trap_sub_tag)
 
 	# Auto pick up an item. Increase Spook cost by 1 when more than
-	# PcData.MAX_GHOST_PER_ITEM ghosts have appeared. Do not remove code about
+	# PcData.ITEM_TO_MAX_GHOST ghosts have appeared. Do not remove code about
 	# detecting and picking up items just in case I need them later.
 	# --------------------------------------------------------------------------
 	# drop_coord = DirectionTag.get_coord_by_direction(FindObject.pc_coord,
