@@ -77,5 +77,5 @@ static func get_direction_tag(input_tag: String) -> int:
 
 static func get_coord_by_direction(coord: IntCoord, input_tag: String,
 		step := 1) -> IntCoord:
-	return DirectionTag.get_coord_by_direction(coord,
-			get_direction_tag(input_tag), step)
+	var direction := get_direction_tag(input_tag)
+	return CoordCalculator.get_coord_by_direction(coord, direction, step)

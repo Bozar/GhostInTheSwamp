@@ -50,3 +50,13 @@ static func get_harbors() -> Array:
 
 static func get_harbor_with_coord(coord: IntCoord) -> Sprite:
 	return FindObject.get_building_with_sub_tag(coord, SubTag.HARBOR)
+
+
+static func get_common_land_coords() -> Array:
+	var coords := []
+
+	for i in FindObject.get_sprites_with_tag(SubTag.LAND):
+		if i.is_in_group(SubTag.FAR_LAND):
+			continue
+		coords.push_back(ConvertCoord.sprite_to_coord(i))
+	return coords

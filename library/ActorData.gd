@@ -9,11 +9,13 @@ const SIGHT_RANGE := {
 }
 
 const MIN_WALK_DISTANCE := 5
+const MIN_DISTANCE_TO_PC := 5
+const MIN_DISTANCE_TO_ACTOR := 3
 
-const MAX_ACTOR := 6
+const MAX_ACTOR := 5
 const MAX_SCOUT := 2
 const MAX_ENGINEER := 2
-const MAX_PERFORMER := 2
+const MAX_PERFORMER := 1
 
 const COLLISION_SCORE := {
     SubTag.TOURIST: 0,

@@ -24,6 +24,7 @@ func renew_world(next_actor: Sprite) -> void:
 		if pc_is_on_land:
 			cast_results = PcCastRay.renew_world(PcCastRay)
 			ActorSight.set_sight_around_pc(cast_results)
+			$PcStartTurn.set_movement_on_land()
 			LandPowerHelper.set_power(cast_results)
 	else:
 		# Always reset PC state manually to guarantee that even if game ends

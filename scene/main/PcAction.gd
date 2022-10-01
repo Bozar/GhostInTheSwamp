@@ -15,12 +15,6 @@ var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 
-var _drop_score := {
-	SubTag.RUM: 0,
-	SubTag.PARROT: 0,
-	SubTag.ACCORDION: 0,
-}
-
 var _current_sprite_tag: String
 
 
@@ -151,8 +145,7 @@ func _use_power_in_harbor(source_coord: IntCoord, target_coord: IntCoord,
 			pc_state.use_pirate_ship = true
 			MoveObject.move(FindObject.pc, target_coord)
 		PowerTag.LIGHT:
-			pc_state.has_ghost = false
-			HarborHelper.toggle_harbor_with_coord(source_coord, true)
+			_light_harbor(pc_state, source_coord)
 		_:
 			return
 	_end_turn()
@@ -173,8 +166,7 @@ func _use_power_on_land(direction_tag: int) -> void:
 				pc_state.use_pirate_ship = false
 			MoveObject.move(pc, target_coord)
 		PowerTag.LIGHT:
-			pc_state.has_ghost = false
-			HarborHelper.toggle_harbor_with_coord(target_coord, true)
+			_light_harbor(pc_state, target_coord)
 		PowerTag.TELEPORT:
 			pc_state.has_ghost = false
 			MoveObject.move(pc, target_coord)
@@ -200,7 +192,7 @@ func _set_none(__) -> void:
 
 # func _drop_item(actor_sub_tag: String, power_direction: int) -> void:
 func _drop_item(actor_sub_tag: String) -> void:
-	var trap_sub_tag := ActorDropItem.get_sub_tag(actor_sub_tag, _drop_score,
+	var trap_sub_tag := ActorDropItem.get_sub_tag(actor_sub_tag,
 			_ref_RandomNumber)
 	# var drop_coord: IntCoord
 
@@ -212,6 +204,12 @@ func _drop_item(actor_sub_tag: String) -> void:
 	# PcData.ITEM_TO_MAX_GHOST ghosts have appeared. Do not remove code about
 	# detecting and picking up items just in case I need them later.
 	# --------------------------------------------------------------------------
-	# drop_coord = DirectionTag.get_coord_by_direction(FindObject.pc_coord,
+	# drop_coord = CoordCalculator.get_coord_by_direction(FindObject.pc_coord,
 	# 		DirectionTag.get_opposite_direction(power_direction))
 	# _ref_CreateObject.create_trap(trap_sub_tag, drop_coord)
+
+
+func _light_harbor(pc_state: PcState, harbor_coord: IntCoord) -> void:
+	pc_state.has_ghost = false
+	pc_state.mp += 1
+	HarborHelper.toggle_harbor_with_coord(harbor_coord, true)

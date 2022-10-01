@@ -12,6 +12,7 @@ const ARROW_UP := "arrow_up"
 const ARROW_DOWN := "arrow_down"
 
 const LAND := "land"
+const FAR_LAND := "far_land"
 const SWAMP := "swamp"
 
 const SHRUB := "shrub"

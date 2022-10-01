@@ -49,29 +49,5 @@ static func roate_counterclockwise(direction: int) -> int:
 	return get_opposite_direction(roate_clockwise(direction))
 
 
-static func get_coord_by_direction(coord: IntCoord, direction_tag: int,
-		step := 1) -> IntCoord:
-	var offset := get_offset_by_direction(direction_tag, step)
-	return IntCoord.new(coord.x + offset.x, coord.y + offset.y)
-
-
-static func get_offset_by_direction(direction_tag: int, step := 1) -> IntCoord:
-	var x_offset := 0
-	var y_offset := 0
-
-	match direction_tag:
-		DOWN:
-			y_offset = 1
-		UP:
-			y_offset = -1
-		RIGHT:
-			x_offset = 1
-		LEFT:
-			x_offset = -1
-		_:
-			pass
-	return IntCoord.new(x_offset * step, y_offset * step)
-
-
 static func get_sprite_by_direction(direction_tag: int) -> String:
 	return DIRECTION_TO_SPRITE.get(direction_tag, SpriteTag.NO_DIRECTION)

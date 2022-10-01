@@ -65,7 +65,7 @@ func _get_ghost() -> String:
 	var dir_char: String
 
 	for i in DirectionTag.VALID_DIRECTIONS:
-		neighbor = DirectionTag.get_coord_by_direction(FindObject.pc_coord, i)
+		neighbor = CoordCalculator.get_coord_by_direction(FindObject.pc_coord, i)
 		dir_char = SidebarText.DIRECTION_TO_CHAR[i]
 		if FindObjectHelper.has_dinghy(neighbor):
 			return SidebarText.EMBARK % [dir_char, SidebarText.DINGHY]

@@ -27,14 +27,13 @@ func init_world() -> void:
 
 
 func _init_pc() -> IntCoord:
-	var grounds := FindObject.get_sprites_with_tag(SubTag.LAND)
-	var ground_coord: IntCoord
+	var ground_coords := FindObjectHelper.get_common_land_coords()
+	var this_coord: IntCoord
 
-	ArrayHelper.shuffle(grounds, _ref_RandomNumber)
-	ground_coord = ConvertCoord.sprite_to_coord(grounds[0])
-	_ref_CreateObject.create_actor(SubTag.PC, ground_coord)
-
-	return ground_coord
+	ArrayHelper.shuffle(ground_coords, _ref_RandomNumber)
+	this_coord = ground_coords[0]
+	_ref_CreateObject.create_actor(SubTag.PC, this_coord)
+	return this_coord
 
 
 func _init_indicator(x: int, y: int) -> void:

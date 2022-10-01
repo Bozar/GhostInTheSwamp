@@ -9,6 +9,7 @@ const LOW_MP := 2
 const MAX_MP := 3
 const MAX_MP_WITH_RUM := 6
 const MAX_MP_PROGRESS := 100
+const MAX_VALID_HARBOR := 5
 const HARBOR_TO_MP_PROGRESS := {
     1: 5,
     2: 25,
@@ -16,26 +17,24 @@ const HARBOR_TO_MP_PROGRESS := {
     4: 75,
     5: 105,
 }
-const LOW_SAIL_REDUCTION := 10
-const HIGH_SAIL_REDUCTION := 20
 const MIN_COLLIDE_REDUCTION := 1
 const MAX_COLLIDE_REDUCTION := 6
 
 const ITEM_TO_MAX_GHOST := {
     0: 10,
     1: 15,
-    2: 20,
-    3: 20,
+    2: 15,
+    3: 15,
 }
 
 const MAX_GHOST_TIMER := 100
 const TIMER_ADD_PER_TURN := 5
-const MIN_RANGE_TO_HARBOR := 5
 const TIMER_BONUS_FROM_HARBOR := 10
 const TIMER_BONUS_FROM_HIGH_MP := 5
 const TIMER_BONUS_FROM_LOW_MP := 10
 const TIMER_OFFSET := 6
 
+const MIN_RANGE_TO_HARBOR := 5
 const MAX_SAIL_DURATION := 5
 
 const COST_LAND_GROUND := 1
@@ -56,4 +55,4 @@ const ACTOR_TO_TRAP := {
 }
 const LOW_DROP_SCORE := 20
 const HIGH_DROP_SCORE := 41
-const MAX_DROP_SCORE := 120
+const MAX_DROP_SCORE := 80

@@ -27,7 +27,7 @@ static func renew_world(func_host: Object, land_func := "_cast_from_land",
 		# A ray is blocked in the first grid.
 		if _block_by_neighbor(i, cast_result):
 			continue
-		first_coord = DirectionTag.get_coord_by_direction(pc_coord, i)
+		first_coord = CoordCalculator.get_coord_by_direction(pc_coord, i)
 		# Keep casting the ray. Discard get_ray_path() output. Set cast_result
 		# implicitly in _cast_from_[land|swamp]().
 		match cast_result[i][FIRST_TAG]:
@@ -51,7 +51,7 @@ static func renew_world(func_host: Object, land_func := "_cast_from_land",
 
 static func _block_by_neighbor(direction: int, out_cast_result: Dictionary) \
 		-> bool:
-	var last_coord := DirectionTag.get_coord_by_direction(FindObject.pc_coord,
+	var last_coord := CoordCalculator.get_coord_by_direction(FindObject.pc_coord,
 			direction)
 	var last_sprite: Sprite
 	var tag: String

@@ -15,6 +15,11 @@ var _sub_tag_to_item := {
 	SubTag.PARROT: false,
 	SubTag.ACCORDION: false,
 }
+var _drop_score := {
+	SubTag.RUM: 0,
+	SubTag.PARROT: 0,
+	SubTag.ACCORDION: 0,
+}
 # DirectionTag.UP: {
 # 	NPC_SIGHT: false,
 # 	POWER_COST: 0,
@@ -34,9 +39,10 @@ var _direction_to_movement := {
 	DirectionTag.RIGHT: false,
 }
 
-var mp := 1 setget set_mp, get_mp
+var mp := PcData.MAX_MP setget set_mp, get_mp
 var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
+var actor_collision := 0
 
 # Increase the upper limit when collecting a new item.
 var max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0] setget _set_none, get_max_ghost
@@ -191,6 +197,20 @@ func get_direction_to_movement(direction_tag: int) -> bool:
 
 func set_direction_to_movement(direction_tag: int, can_move: bool) -> void:
 	_direction_to_movement[direction_tag] = can_move
+
+
+func get_drop_score(sub_tag: String) -> int:
+	return _drop_score[sub_tag]
+
+
+func add_drop_score(sub_tag: String, new_data: int) -> void:
+	_drop_score[sub_tag] += new_data
+	if _drop_score[sub_tag] < 0:
+		_drop_score[sub_tag] = 0
+
+
+func get_item_tags() -> Array:
+	return _drop_score.keys()
 
 
 func get_max_mp() -> int:

@@ -10,18 +10,15 @@ const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
 const NO_NEIGHBOR := "[%s, %s] has no neighbor."
 
 const LAND_CHAR := "-"
+const FAR_LAND_CHAR := "F"
 const EXPAND_LAND_CHAR := "E"
-const HARBOR_CHAR := "h"
+const HARBOR_CHAR := "H"
 const FINAL_HARBOR_CHAR := "r"
-const EXPAND_HARBOR_CHAR := "H"
 const SHRUB_CHAR := "#"
 const EXPAND_SHRUB_CHAR := "+"
 const ISLAND_CHAR := "R"
 
 const MAX_EXPAND := 3
-# 5 harbors in all. 1 final harbor, 2 harbors leading to the final one, 2 free
-# harbors.
-const FREE_HARBORS := 2
 
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
@@ -36,14 +33,12 @@ func init_ground_building() -> void:
 	var expand_coords := {
 		EXPAND_LAND_CHAR: [],
 		EXPAND_SHRUB_CHAR: [],
-		EXPAND_HARBOR_CHAR: [],
 	}
 
 	# Land, harbor, shrub, island.
 	_create_ground_building(packed_prefab, expand_coords)
 	_create_expand_land(expand_coords[EXPAND_LAND_CHAR])
 	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
-	_create_expand_harbor(expand_coords[EXPAND_HARBOR_CHAR])
 	_create_swamp()
 
 
@@ -74,6 +69,9 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 			match packed_prefab.prefab[x][y]:
 				LAND_CHAR:
 					_ref_CreateObject.create_ground(SubTag.LAND, coord)
+				FAR_LAND_CHAR:
+					_ref_CreateObject.create_ground(SubTag.LAND, coord,
+							[SubTag.FAR_LAND])
 				HARBOR_CHAR:
 					_ref_CreateObject.create_building(SubTag.HARBOR, coord)
 				FINAL_HARBOR_CHAR:
@@ -87,8 +85,6 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 					out_expand_coords[EXPAND_LAND_CHAR].push_back(coord)
 				EXPAND_SHRUB_CHAR:
 					out_expand_coords[EXPAND_SHRUB_CHAR].push_back(coord)
-				EXPAND_HARBOR_CHAR:
-					out_expand_coords[EXPAND_HARBOR_CHAR].push_back(coord)
 				_:
 					pass
 
@@ -141,10 +137,3 @@ func _create_expand_shrub(expand_coords: Array) -> void:
 	ArrayHelper.rand_picker(expand_coords, half_size, _ref_RandomNumber)
 	for i in expand_coords:
 		_ref_CreateObject.create_building(SubTag.SHRUB, i)
-
-
-func _create_expand_harbor(expand_coords: Array) -> void:
-	if expand_coords.size() > FREE_HARBORS:
-		ArrayHelper.rand_picker(expand_coords, FREE_HARBORS, _ref_RandomNumber)
-	for i in expand_coords:
-		_ref_CreateObject.create_building(SubTag.HARBOR, i)

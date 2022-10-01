@@ -10,7 +10,7 @@ const REF_VARS := [
 var _ref_CreateObject: CreateObject
 var _ref_RandomNumber: RandomNumber
 
-var _land_coords := []
+var _land_coords: Array
 var _count_actor := {
 	SubTag.SCOUT: ActorData.MAX_SCOUT,
 	SubTag.ENGINEER: ActorData.MAX_ENGINEER,
@@ -51,25 +51,28 @@ func remove_actor(remove_sprite: Sprite) -> void:
 
 func _create_tourist() -> void:
 	WorldGenerator.create_by_coord(_land_coords, ActorData.MAX_ACTOR,
-		_ref_RandomNumber, self, "_is_valid_coord", [],
-		"_create_tourist_here", [], ActorData.MAX_ACTOR - 1)
+			_ref_RandomNumber, self, "_is_valid_coord", [],
+			"_create_tourist_here", [], ActorData.MAX_ACTOR - 1)
 
 
 func _create_actor(out_create_result: Array) -> void:
 	WorldGenerator.create_by_coord(_land_coords, 1,
-		_ref_RandomNumber, self, "_is_valid_coord", [],
-		"_create_actor_here", out_create_result, 0)
+			_ref_RandomNumber, self, "_is_valid_coord", [],
+			"_create_actor_here", out_create_result, 0)
 
 
 func _set_land_coords() -> void:
-	for i in FindObject.get_sprites_with_tag(SubTag.LAND):
-		_land_coords.push_back(ConvertCoord.sprite_to_coord(i))
+	_land_coords = FindObjectHelper.get_common_land_coords()
 
 
 func _is_valid_coord(coord: IntCoord, _retry: int, _opt: Array) -> bool:
+	var pc_coord := FindObject.pc_coord
+
+	if CoordCalculator.is_in_range(coord, pc_coord, ActorData.MIN_DISTANCE_TO_PC):
+		return false
 	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
 		if CoordCalculator.is_in_range(coord, ConvertCoord.sprite_to_coord(i),
-				ActorData.MIN_WALK_DISTANCE):
+				ActorData.MIN_DISTANCE_TO_ACTOR):
 			return false
 	return true
 

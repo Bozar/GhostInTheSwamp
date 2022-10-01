@@ -73,6 +73,7 @@ func _end_turn() -> void:
 
 func _on_InitWorld_world_initialized() -> void:
 	$PcAction.set_reference()
+	$PcFov.set_reference()
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:

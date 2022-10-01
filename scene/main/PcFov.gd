@@ -8,6 +8,7 @@ var _main_tag_to_sprites := {
 	MainTag.BUILDING: [],
 	MainTag.ACTOR: [],
 }
+var _harbor_sprites: Array
 
 
 func render(player_win := true) -> void:
@@ -16,26 +17,29 @@ func render(player_win := true) -> void:
 		Palette.set_dark_color(FindObject.pc, MainTag.ACTOR)
 
 
+func set_reference() -> void:
+	_harbor_sprites = FindObject.get_sprites_with_tag(SubTag.HARBOR)
+
+
 func _render() -> void:
-	var coord: IntCoord
+	var coord := FindObject.pc_coord
 
 	_set_render_sprites()
-	if TransferData.show_full_map:
-		_render_without_fog_of_war()
-		return
-
-	coord = FindObject.pc_coord
 	ShadowCastFov.set_field_of_view(DungeonSize.MAX_X, DungeonSize.MAX_Y,
 			coord.x, coord.y, PcData.SIGHT_RANGE,
 			self, "_block_line_of_sight", [])
 
-	for mtag in _main_tag_to_sprites:
-		for i in _main_tag_to_sprites[mtag]:
-			# TODO: Consider adding an optional mode using fov with memory.
-			# Increase mp progress? Reduce power cost?
-			_set_sprite_color(i, mtag, ShadowCastFov, "is_in_sight")
-			# _set_sprite_color_with_memory(i, mtag, true, ShadowCastFov,
-			# 		"is_in_sight")
+	if TransferData.show_full_map:
+		_render_without_fog_of_war()
+	else:
+		for mtag in _main_tag_to_sprites:
+			for i in _main_tag_to_sprites[mtag]:
+				# TODO: Consider adding an optional mode using fov with memory.
+				# Increase mp progress? Reduce power cost?
+				_set_sprite_color(i, mtag, ShadowCastFov, "is_in_sight")
+				# _set_sprite_color_with_memory(i, mtag, true, ShadowCastFov,
+				# 		"is_in_sight")
+	_post_process_fov()
 
 
 func _render_without_fog_of_war() -> void:
@@ -131,3 +135,12 @@ func _set_sprite_memory(coord: IntCoord, main_tag: String) -> void:
 func _set_render_sprites() -> void:
 	for i in _main_tag_to_sprites:
 		_main_tag_to_sprites[i] = FindObject.get_sprites_with_tag(i)
+
+
+func _post_process_fov() -> void:
+	var state: HarborState
+
+	for i in _harbor_sprites:
+		state = ObjectState.get_state(i)
+		if state.is_active:
+			Palette.set_default_color(i, MainTag.BUILDING)

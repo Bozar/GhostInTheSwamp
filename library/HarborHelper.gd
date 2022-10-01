@@ -18,4 +18,9 @@ static func toggle_harbor_with_coord(coord: IntCoord, is_active: bool) -> void:
 
 static func is_active(coord: IntCoord) -> bool:
 	var harbor_sprite := FindObjectHelper.get_harbor_with_coord(coord)
-	return (ObjectState.get_state(harbor_sprite) as HarborState).is_active
+	var harbor_state: HarborState
+
+	if harbor_sprite != null:
+		harbor_state = ObjectState.get_state(harbor_sprite)
+		return harbor_state.is_active
+	return false

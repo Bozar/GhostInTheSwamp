@@ -88,7 +88,7 @@ static func get_ray_path(source_coord: IntCoord, max_range: int,
 	var x := source_coord.x
 	var y := source_coord.y
 	var is_obstacle := funcref(func_host, is_obstacle_func)
-	var shift := DirectionTag.get_offset_by_direction(ray_direction)
+	var shift := get_offset_by_direction(ray_direction)
 	var new_coord: IntCoord
 	var ray_path := []
 
@@ -118,3 +118,27 @@ static func is_in_square(coord: IntCoord, center: IntCoord, half_size: int) \
 
 static func is_same_coord(this_coord: IntCoord, that_coord: IntCoord) -> bool:
 	return (this_coord.x == that_coord.x) and (this_coord.y == that_coord.y)
+
+
+static func get_coord_by_direction(coord: IntCoord, direction_tag: int,
+		step := 1) -> IntCoord:
+	var offset := get_offset_by_direction(direction_tag, step)
+	return IntCoord.new(coord.x + offset.x, coord.y + offset.y)
+
+
+static func get_offset_by_direction(direction_tag: int, step := 1) -> IntCoord:
+	var x_offset := 0
+	var y_offset := 0
+
+	match direction_tag:
+		DirectionTag.DOWN:
+			y_offset = 1
+		DirectionTag.UP:
+			y_offset = -1
+		DirectionTag.RIGHT:
+			x_offset = 1
+		DirectionTag.LEFT:
+			x_offset = -1
+		_:
+			pass
+	return IntCoord.new(x_offset * step, y_offset * step)
