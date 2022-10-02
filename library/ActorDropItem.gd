@@ -19,6 +19,5 @@ static func get_sub_tag(actor_sub_tag: String, ref_random: RandomNumber) \
 	state.add_drop_score(trap_sub_tag, add_score)
 	if state.get_drop_score(trap_sub_tag) < PcData.MAX_DROP_SCORE:
 		return SubTag.INVALID
-	for i in state.get_item_tags():
-		state.add_drop_score(i, -PcData.LOW_DROP_SCORE)
+	state.add_all_drop_scores(-PcData.LOW_DROP_SCORE)
 	return trap_sub_tag

@@ -3,6 +3,7 @@ class_name ArrayHelper
 
 const ELEMENT_WARNING := "rand_picker(): Pick too many elements."
 const RAND_WARNING := "rand_picker(): Rand is not of type RandomNumber."
+const SIZE_WARNING := "Source array has no element."
 
 
 static func rand_picker(source: Array, num_of_element: int, rand) -> void:
@@ -20,7 +21,23 @@ static func rand_picker(source: Array, num_of_element: int, rand) -> void:
 
 
 static func shuffle(source: Array, rand) -> void:
+	if not (rand is RandomNumber):
+		push_warning(RAND_WARNING)
+		return
 	rand_picker(source, source.size(), rand)
+
+
+static func get_rand_element(source: Array, rand):
+	var rand_index: int
+
+	if not (rand is RandomNumber):
+		push_warning(RAND_WARNING)
+		return null
+	elif source.size() == 0:
+		push_warning(SIZE_WARNING)
+		return null
+	rand_index = rand.get_int(0, source.size())
+	return source[rand_index]
 
 
 # filter_in_func(source: Array, current_index: int, opt_arg: Array) -> bool

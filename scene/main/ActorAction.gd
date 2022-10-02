@@ -130,8 +130,7 @@ func _set_path_to_harbor(actor_state: ActorState) -> void:
 			inactive_harbor_neighbors.push_back(_harbor_neighbors[hash_coord])
 	for coords in [active_harbor_neighbors, inactive_harbor_neighbors]:
 		if coords.size() > 0:
-			ArrayHelper.shuffle(coords, _ref_RandomNumber)
-			land_coord = coords[0]
+			land_coord = ArrayHelper.get_rand_element(coords, _ref_RandomNumber)
 			break
 
 	actor_state.walk_path = ActorWalkPath.get_path(land_coord, actor_state.coord,
@@ -140,10 +139,9 @@ func _set_path_to_harbor(actor_state: ActorState) -> void:
 
 func _set_path_to_land(actor_state: ActorState) -> void:
 	var actor_coord := actor_state.coord
-	var next_coord := actor_coord
+	var new_coord := actor_coord
 
-	while CoordCalculator.is_same_coord(next_coord, actor_coord):
-		ArrayHelper.shuffle(_land_coords, _ref_RandomNumber)
-		next_coord = _land_coords[0]
-	actor_state.walk_path = ActorWalkPath.get_path(next_coord, actor_state.coord,
+	while CoordCalculator.is_same_coord(new_coord, actor_coord):
+		new_coord = ArrayHelper.get_rand_element(_land_coords, _ref_RandomNumber)
+	actor_state.walk_path = ActorWalkPath.get_path(new_coord, actor_state.coord,
 			_dungeon, _ref_RandomNumber, ActorWalkPath)

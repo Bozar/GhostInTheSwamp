@@ -209,8 +209,9 @@ func add_drop_score(sub_tag: String, new_data: int) -> void:
 		_drop_score[sub_tag] = 0
 
 
-func get_item_tags() -> Array:
-	return _drop_score.keys()
+func add_all_drop_scores(new_data: int) -> void:
+	for i in _drop_score.keys():
+		add_drop_score(i, new_data)
 
 
 func get_max_mp() -> int:

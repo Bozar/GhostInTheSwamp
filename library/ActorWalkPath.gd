@@ -25,9 +25,7 @@ static func get_path(end_point: IntCoord, actor_coord: IntCoord,
 	while not CoordCalculator.is_same_coord(start_point, end_point):
 		next_coords = DijkstraPathFinding.get_path(dungeon, start_point, 1,
 				func_host, passable_func)
-		if next_coords.size() > 1:
-			ArrayHelper.shuffle(next_coords, ref_random)
-		start_point = next_coords.pop_back()
+		start_point = ArrayHelper.get_rand_element(next_coords, ref_random)
 		# End_point will be pused into walk_path in the last loop.
 		walk_path.push_back(start_point)
 	walk_path.invert()

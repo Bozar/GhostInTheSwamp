@@ -93,11 +93,12 @@ static func _set_spawn_ghost_timer(ref_random: RandomNumber) -> void:
 static func _create_dinghy(ref_random: RandomNumber, ref_create: CreateObject) \
 		-> void:
 	var ground_coords := []
+	var new_coord: IntCoord
 
 	for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
 		if FindObjectHelper.has_swamp(i):
 			ground_coords.push_back(i)
 	if ground_coords.size() < 1:
 		return
-	ArrayHelper.shuffle(ground_coords, ref_random)
-	ref_create.create_building(SubTag.DINGHY, ground_coords[0])
+	new_coord = ArrayHelper.get_rand_element(ground_coords, ref_random)
+	ref_create.create_building(SubTag.DINGHY, new_coord)

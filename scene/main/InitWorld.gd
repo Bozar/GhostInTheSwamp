@@ -28,10 +28,9 @@ func init_world() -> void:
 
 func _init_pc() -> IntCoord:
 	var ground_coords := FindObjectHelper.get_common_land_coords()
-	var this_coord: IntCoord
+	var this_coord: IntCoord = ArrayHelper.get_rand_element(ground_coords,
+			_ref_RandomNumber)
 
-	ArrayHelper.shuffle(ground_coords, _ref_RandomNumber)
-	this_coord = ground_coords[0]
 	_ref_CreateObject.create_actor(SubTag.PC, this_coord)
 	return this_coord
 
