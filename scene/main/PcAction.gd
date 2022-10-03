@@ -168,7 +168,6 @@ func _use_power_on_land(direction_tag: int) -> void:
 		PowerTag.LIGHT:
 			_light_harbor(pc_state, target_coord)
 		PowerTag.TELEPORT:
-			pc_state.has_ghost = false
 			MoveObject.move(pc, target_coord)
 		PowerTag.PICK:
 			pc_state.add_item(sub_tag)

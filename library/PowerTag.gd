@@ -15,5 +15,4 @@ enum {
 const IS_GHOST_POWER := {
 	LIGHT: true,
 	SWAP: true,
-	TELEPORT: true,
 }

@@ -22,8 +22,8 @@ static func _get_spook_cost(pc_state: PcState, actor: Sprite) -> int:
 	var cost: int = PcData.COST_SUB_TAG_TO_SPOOK[actor_state.sub_tag]
 
 	# if pc_state.count_item > 1:
-	if pc_state.count_ghost > PcData.ITEM_TO_MAX_GHOST[0]:
-		cost += PcData.COST_SPOOK_WITH_ITEM
+	if pc_state.count_ghost > PcData.COST_GHOST_THRESHOLD:
+		cost += PcData.COST_SPOOK_EXTRA
 
 	var pc_coord := pc_state.coord
 	var actor_coord := actor_state.coord
@@ -79,10 +79,14 @@ static func _set_building_power(direction: int, first_tag: String,
 			pc_state.set_target_sprite(direction, last_sprite)
 		# Light or teleport to a harbor.
 		SubTag.SWAMP:
-			if pc_state.has_ghost and pc_state.has_parrot():
+			if pc_state.has_parrot():
 				if sprite_state.is_active:
-					if pc_state.has_accordion():
-						pc_state.set_power_tag(direction, PowerTag.TELEPORT)
+					pc_state.set_power_tag(direction, PowerTag.TELEPORT)
+					pc_state.set_target_sprite(direction, last_sprite)
 				else:
-					pc_state.set_power_tag(direction, PowerTag.LIGHT)
-				pc_state.set_target_sprite(direction, last_sprite)
+					if pc_state.has_ghost:
+						pc_state.set_power_tag(direction, PowerTag.LIGHT)
+						pc_state.set_target_sprite(direction, last_sprite)
+					elif pc_state.has_accordion():
+						pc_state.set_power_tag(direction, PowerTag.TELEPORT)
+						pc_state.set_target_sprite(direction, last_sprite)
