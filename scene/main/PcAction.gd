@@ -177,7 +177,6 @@ func _use_power_on_land(direction_tag: int) -> void:
 			MoveObject.move(pc, target_coord)
 			_drop_item(sub_tag)
 		PowerTag.SWAP:
-			pc_state.has_ghost = false
 			MoveObject.swap(pc, target_sprite)
 			(target_state as ActorState).reset_walk_path()
 		_:

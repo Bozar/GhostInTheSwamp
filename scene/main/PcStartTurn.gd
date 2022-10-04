@@ -30,8 +30,7 @@ func renew_world() -> void:
 		# PowerTag.LAND.
 		_set_swamp_power(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
-		if pc_state.has_accordion():
-			PcSail.add_ship(_ref_CreateObject)
+		PcSail.add_ship(_ref_CreateObject)
 		set_movement_on_land()
 		# PowerTag.[EMBARK|LIGHT].
 		_set_harbor_power(pc_coord, pc_state)

@@ -14,5 +14,11 @@ enum {
 
 const IS_GHOST_POWER := {
 	LIGHT: true,
-	SWAP: true,
+
+	EMBARK: false,
+	LAND: false,
+	PICK: false,
+	SPOOK: false,
+	SWAP: false,
+	TELEPORT: false,
 }
