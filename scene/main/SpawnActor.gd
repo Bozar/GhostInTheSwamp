@@ -12,10 +12,12 @@ var _ref_RandomNumber: RandomNumber
 
 var _land_coords: Array
 var _count_actor := {
-	SubTag.SCOUT: ActorData.MAX_SCOUT,
-	SubTag.ENGINEER: ActorData.MAX_ENGINEER,
-	SubTag.PERFORMER: ActorData.MAX_PERFORMER,
+	SubTag.SCOUT: ActorData.INITIAL_SCOUT,
+	SubTag.ENGINEER: ActorData.INITIAL_ENGINEER,
+	SubTag.PERFORMER: ActorData.INITIAL_PERFORMER,
 }
+var _max_actor := ActorData.INITIAL_MAX_ACTOR
+var _count_item := 0
 
 
 func set_reference() -> void:
@@ -29,7 +31,8 @@ func renew_world() -> void:
 	var create_result: Array
 	var sub_tag: String
 
-	if FindObject.get_npc_count() < ActorData.MAX_ACTOR:
+	if FindObject.get_npc_count() < _max_actor:
+		_set_count_actor()
 		sub_tag = _ref_RandomNumber.get_weighted_chance(_count_actor,
 				SubTag.INVALID)
 		create_result = [sub_tag, false]
@@ -49,10 +52,19 @@ func remove_actor(remove_sprite: Sprite) -> void:
 	_count_actor[state.sub_tag] += 1
 
 
+func _set_count_actor() -> void:
+	while _count_item < FindObject.pc_state.count_item:
+		_count_item += 1
+		match _count_item:
+			1:
+				_max_actor += ActorData.ADD_ACTOR
+				_count_actor[SubTag.PERFORMER] += ActorData.ADD_ACTOR
+
+
 func _create_tourist() -> void:
-	WorldGenerator.create_by_coord(_land_coords, ActorData.MAX_ACTOR,
+	WorldGenerator.create_by_coord(_land_coords, _max_actor,
 			_ref_RandomNumber, self, "_is_valid_coord", [],
-			"_create_tourist_here", [], ActorData.MAX_ACTOR - 1)
+			"_create_tourist_here", [], _max_actor - 1)
 
 
 func _create_actor(out_create_result: Array) -> void:
