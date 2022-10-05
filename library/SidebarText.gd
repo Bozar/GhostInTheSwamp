@@ -45,6 +45,8 @@ const SUB_TAG_TO_ITEM := {
     SubTag.PARROT : "Parrot",
     SubTag.ACCORDION : "Accordion",
 }
+const NO_HIT := "-"
+const ONE_HIT := "+"
 
 const POWER_TAG_TO_NAME := {
     PowerTag.EMBARK: "Embark",

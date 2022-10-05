@@ -57,3 +57,4 @@ const ACTOR_TO_TRAP := {
 const LOW_DROP_SCORE := 20
 const HIGH_DROP_SCORE := 41
 const MAX_DROP_SCORE := 80
+const MAX_HIT := 4

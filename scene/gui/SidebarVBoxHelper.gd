@@ -113,8 +113,21 @@ func _get_inventory() -> String:
 		if _pc_state.has_item(sub_tag):
 			items[i] = SidebarText.SUB_TAG_TO_ITEM[sub_tag]
 		else:
-			items[i] = ""
+			items[i] = _get_drop_bar(sub_tag)
 	return SidebarText.INVENTORY % items
+
+
+func _get_drop_bar(sub_tag: String) -> String:
+	var bar := ""
+	var state := FindObject.pc_state
+	var hit := state.get_drop_score(sub_tag) / PcData.LOW_DROP_SCORE
+
+	for i in range(0, PcData.MAX_HIT):
+		if i < hit:
+			bar += SidebarText.ONE_HIT
+		else:
+			bar += SidebarText.NO_HIT
+	return bar
 
 
 func _get_power() -> String:
