@@ -12,28 +12,26 @@ var _ref_RemoveObject: RemoveObject
 # Renew game world in-between two turns. Refer: Schedule.
 func renew_world(next_actor: Sprite) -> void:
 	var pc_is_on_land := FindObjectHelper.has_land(FindObject.pc_coord)
-	var next_actor_is_pc := false
+	var next_actor_is_pc := next_actor.is_in_group(SubTag.PC)
 	var cast_results: Dictionary
 	var checkmate: Dictionary
 
-	if ObjectState.get_state(next_actor).sub_tag == SubTag.PC:
-		next_actor_is_pc = true
+	# Always renew world to guarantee that even if game ends (win or lose) after
+	# PC's turn, he is shown as refreshed.
+	$PcStartTurn.renew_world()
+	# Before PC's turn, respawn actors and set actions in swamp or harbor.
+	if next_actor_is_pc:
 		$SpawnActor.renew_world()
-		# $PcStartTurn.renew_world() calls $PcStartTurn.reset_state() implicitly.
-		$PcStartTurn.renew_world()
-		if pc_is_on_land:
-			cast_results = PcCastRay.renew_world(PcCastRay)
-			ActorSight.set_sight_around_pc(cast_results)
-			$PcStartTurn.set_movement_on_land()
+		$PcStartTurn.set_pc_state()
+	# When on land, PC may lose before an NPC's turn due to being spotted.
+	if pc_is_on_land:
+		# Always set PC state when on land.
+		cast_results = PcCastRay.renew_world(PcCastRay)
+		ActorSight.set_sight_around_pc(cast_results)
+		# Set actions on land before PC's turn.
+		if next_actor_is_pc:
+			$PcStartTurn.set_movement_outside_swamp()
 			LandPowerHelper.set_power(cast_results)
-	else:
-		# Always reset PC state manually to guarantee that even if game ends
-		# (win or lose) after PC's turn, he is shown as refreshed.
-		$PcStartTurn.reset_state()
-		# When on land, PC may lose before an NPC's turn due to being spotted.
-		if pc_is_on_land:
-			cast_results = PcCastRay.renew_world(PcCastRay)
-			ActorSight.set_sight_around_pc(cast_results)
 	# print(cast_results)
 
 	# Check PC and NPC state to decide if game ends.

@@ -63,19 +63,13 @@ static func _block_by_neighbor(direction: int, out_cast_result: Dictionary) \
 	# NO OUTPUT: SubTag.SHRUB.
 	elif FindObjectHelper.has_shrub(last_coord):
 		return true
+	# NO OUTPUT: SubTag.SWAMP + SubTag.DINGHY.
+	elif FindObjectHelper.has_dinghy(last_coord):
+		return true
 	# OUTPUT, BLOCK: SubTag.LAND + MainTag.ACTOR.
 	elif FindObject.has_actor(last_coord):
 		tag = _verify_tag(MainTag.ACTOR, save_tags)
 		last_sprite = FindObject.get_actor(last_coord)
-		out_cast_result[direction] = {
-			FIRST_TAG: tag,
-			LAST_SPRITE: last_sprite,
-		}
-		return true
-	# OUTPUT, BLOCK: SubTag.SWAMP + SubTag.DINGHY.
-	elif FindObjectHelper.has_dinghy(last_coord):
-		tag = _verify_tag(SubTag.DINGHY, save_tags)
-		last_sprite = FindObject.get_building(last_coord)
 		out_cast_result[direction] = {
 			FIRST_TAG: tag,
 			LAST_SPRITE: last_sprite,

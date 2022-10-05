@@ -18,11 +18,13 @@ func set_reference() -> void:
 
 
 func renew_world() -> void:
+	_remove_sprites()
+	_reset_state()
+
+
+func set_pc_state() -> void:
 	var pc_coord := FindObject.pc_coord
 	var pc_state := FindObject.pc_state
-
-	_remove_sprites(pc_coord)
-	reset_state()
 
 	# Set PC sprite, add building, set actor fov (PC state), set PC power.
 	if FindObjectHelper.has_swamp(pc_coord):
@@ -31,8 +33,8 @@ func renew_world() -> void:
 		_set_swamp_power(pc_coord, pc_state)
 	elif FindObjectHelper.has_harbor(pc_coord):
 		PcSail.add_ship(_ref_CreateObject)
-		set_movement_on_land()
-		# PowerTag.[EMBARK|LIGHT].
+		set_movement_outside_swamp()
+		# PowerTag.LIGHT.
 		_set_harbor_power(pc_coord, pc_state)
 	# Land
 	else:
@@ -44,7 +46,13 @@ func renew_world() -> void:
 	_set_mp_progress(pc_coord, pc_state)
 
 
-func reset_state() -> void:
+func set_movement_outside_swamp() -> void:
+	for i in DirectionTag.VALID_DIRECTIONS:
+		FindObject.pc_state.set_direction_to_movement(i,
+				_try_move_outside_swamp(i))
+
+
+func _reset_state() -> void:
 	var state := FindObject.pc_state
 
 	# All states are reset whether or not the next actor is PC.
@@ -52,14 +60,22 @@ func reset_state() -> void:
 	# Reset sail duration if PC is on land or harbor.
 	if not FindObjectHelper.has_swamp(FindObject.pc_coord):
 		state.sail_duration = 0
+		state.use_pirate_ship = false
 	# Clear sight and power data.
 	state.reset_direction_to_sight_power()
 	state.use_power = false
 
 
-func set_movement_on_land() -> void:
-	for i in DirectionTag.VALID_DIRECTIONS:
-		FindObject.pc_state.set_direction_to_movement(i, _try_move_on_land(i))
+func _remove_sprites() -> void:
+	var coord := FindObject.pc_coord
+
+	# Always remove dinghys.
+	for i in FindObject.get_sprites_with_tag(SubTag.DINGHY):
+		_ref_RemoveObject.remove(i)
+	# Remove pirate ships if PC is not in a harbor.
+	if not FindObjectHelper.has_harbor(coord):
+		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
+			_ref_RemoveObject.remove(i)
 
 
 func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
@@ -105,37 +121,22 @@ func _set_swamp_power(coord: IntCoord, state: PcState) -> void:
 
 	for i in DirectionTag.VALID_DIRECTIONS:
 		target = CoordCalculator.get_coord_by_direction(coord, i)
-		if state.has_accordion() and FindObjectHelper.has_harbor(target):
-			state.set_power_tag(i, PowerTag.LAND)
-		elif FindObjectHelper.has_unoccupied_land(target):
+		if FindObjectHelper.has_unoccupied_land(target):
 			state.set_power_tag(i, PowerTag.LAND)
 			if state.mp > PcData.LOW_MP:
 				state.set_power_cost(i, PcData.COST_LAND_GROUND)
 
 
 func _set_harbor_power(coord: IntCoord, state: PcState) -> void:
-	var harbor_is_not_active := not HarborHelper.is_active(coord)
 	var target: IntCoord
 
+	if (not state.has_ghost) or HarborHelper.is_active(coord):
+		return
 	for i in DirectionTag.VALID_DIRECTIONS:
 		target = CoordCalculator.get_coord_by_direction(coord, i)
-		# Embark a pirate ship.
-		if FindObjectHelper.has_ship(target):
-			state.set_power_tag(i, PowerTag.EMBARK)
-		# Light a harbor. Note that the final harbor is always active.
-		elif state.has_ghost and harbor_is_not_active and FindObjectHelper. \
-				has_land(target):
+		if FindObjectHelper.has_land(target):
 			state.set_power_tag(i, PowerTag.LIGHT)
-
-
-func _remove_sprites(coord: IntCoord) -> void:
-	# Always remove dinghys.
-	for i in FindObject.get_sprites_with_tag(SubTag.DINGHY):
-		_ref_RemoveObject.remove(i)
-	# Remove the ship if PC is not in a harbor.
-	if not FindObjectHelper.has_harbor(coord):
-		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
-			_ref_RemoveObject.remove(i)
+			break
 
 
 func _set_movement_in_swamp() -> void:
@@ -143,19 +144,28 @@ func _set_movement_in_swamp() -> void:
 		FindObject.pc_state.set_direction_to_movement(i, _try_move_in_swamp(i))
 
 
-func _try_move_on_land(direction_tag: int) -> bool:
+func _try_move_outside_swamp(direction_tag: int) -> bool:
 	var move_from := FindObject.pc_coord
 	var move_to := CoordCalculator.get_coord_by_direction(move_from,
 			direction_tag)
 	var pc_state := FindObject.pc_state
 
+	# Harbor or land.
 	if not CoordCalculator.is_inside_dungeon(move_to):
 		return false
+	# Harbor or land.
 	elif FindObjectHelper.has_unoccupied_land(move_to):
 		if pc_state.is_in_npc_sight(direction_tag):
 			return false
 		return true
-	elif pc_state.has_accordion() and FindObjectHelper.has_harbor(move_to):
+	# Land.
+	elif _can_enter_harbor(pc_state, move_to):
+		return true
+	# Harbor.
+	elif FindObjectHelper.has_ship(move_to):
+		return true
+	# Land.
+	elif FindObjectHelper.has_dinghy(move_to):
 		return true
 	return false
 
@@ -166,8 +176,11 @@ func _try_move_in_swamp(direction_tag: int) -> bool:
 			direction_tag)
 	var pc_state := FindObject.pc_state
 
+	# PC can enter a harbor from swamp.
+	if _can_enter_harbor(pc_state, move_to):
+		return true
 	# PC can only sail into a swamp grid.
-	if not FindObjectHelper.has_swamp(move_to):
+	elif not FindObjectHelper.has_swamp(move_to):
 		return false
 	# Pirate ship.
 	elif pc_state.use_pirate_ship:
@@ -177,3 +190,7 @@ func _try_move_in_swamp(direction_tag: int) -> bool:
 		if FindObjectHelper.has_land_or_harbor(i):
 			return true
 	return false
+
+
+func _can_enter_harbor(pc_state: PcState, move_to: IntCoord) -> bool:
+	return pc_state.has_accordion() and FindObjectHelper.has_harbor(move_to)
