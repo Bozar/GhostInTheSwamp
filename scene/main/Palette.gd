@@ -140,7 +140,7 @@ func _on_Setting_setting_loaded() -> void:
 
 		if color_regex.search(TAG_TO_COLOR[i]) == null:
 			# print("Invalid color: " + i)
-			TAG_TO_COLOR[i] =  DEFAULTTAG_TO_COLOR[i]
+			TAG_TO_COLOR[i] = DEFAULTTAG_TO_COLOR[i]
 
 	VisualServer.set_default_clear_color(TAG_TO_COLOR[BACKGROUND])
 

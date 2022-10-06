@@ -93,7 +93,7 @@ static func get_prefab(path_to_prefab: String, edit := []) -> PackedPrefab:
 		# need to call output_line[y][x], which is inconvenient. Swap [x, y] and
 		# [y, x] to make life easier.
 		#
-		#   column
+		# column
 		# ----------> x
 		# |
 		# | row

@@ -84,6 +84,8 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	var harbor_reduction: int
 	var sail_reduction: int
 	var collide_reduction := 0
+	var min_collide: int = PcData.HARBOR_TO_MP_PROGRESS[1]
+	var max_collide: int = PcData.HARBOR_TO_MP_PROGRESS[2] + 1
 
 	# Count active harbors.
 	for i in FindObjectHelper.get_harbors():
@@ -107,8 +109,7 @@ func _set_mp_progress(pc_coord: IntCoord, pc_state: PcState) -> void:
 	# MP restores slower due to actors collision.
 	while pc_state.actor_collision > 0:
 		pc_state.actor_collision -= 1
-		collide_reduction += _ref_RandomNumber.get_int(
-				PcData.MIN_COLLIDE_REDUCTION, PcData.MAX_COLLIDE_REDUCTION)
+		collide_reduction += _ref_RandomNumber.get_int(min_collide, max_collide)
 
 	add_progress -= collide_reduction
 	add_progress -= max(harbor_reduction, sail_reduction) as int

@@ -34,22 +34,22 @@ const EMBARK := "%s %s"
 const LINE_OF_SIGHT := "LOS: %s"
 const SINK := "Sink: %d-%d"
 const DIRECTION_TO_CHAR := {
-    DirectionTag.LEFT: "←",
-    DirectionTag.RIGHT: "→",
-    DirectionTag.UP: "↑",
-    DirectionTag.DOWN: "↓",
+	DirectionTag.LEFT: "←",
+	DirectionTag.RIGHT: "→",
+	DirectionTag.UP: "↑",
+	DirectionTag.DOWN: "↓",
 }
 
 const SUB_TAG_TO_ITEM := {
-    SubTag.RUM: "Rum",
-    SubTag.PARROT : "Parrot",
-    SubTag.ACCORDION : "Accordion",
+	SubTag.RUM: "Rum",
+	SubTag.PARROT : "Parrot",
+	SubTag.ACCORDION : "Accordion",
 }
 const NO_HIT := "-"
 const ONE_HIT := "+"
 
 const POWER_TAG_TO_NAME := {
-    PowerTag.EMBARK: "Embark",
+	PowerTag.EMBARK: "Embark",
 	PowerTag.LAND: "Land",
 	PowerTag.LIGHT: "Light",
 	PowerTag.PICK: "Pick",
