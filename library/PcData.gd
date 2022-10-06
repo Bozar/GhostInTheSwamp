@@ -20,6 +20,7 @@ const HARBOR_TO_MP_PROGRESS := {
 const MIN_COLLIDE_REDUCTION := 1
 const MAX_COLLIDE_REDUCTION := 6
 
+const MAX_ITEM := 3
 const ITEM_TO_MAX_GHOST := {
     0: 10,
     1: 15,

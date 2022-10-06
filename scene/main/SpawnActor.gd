@@ -59,6 +59,10 @@ func _set_count_actor() -> void:
 			1:
 				_max_actor += ActorData.ADD_ACTOR
 				_count_actor[SubTag.PERFORMER] += ActorData.ADD_ACTOR
+			# 3:
+			# 	for i in _count_actor.keys():
+			# 		_max_actor += ActorData.ADD_ACTOR
+			# 		_count_actor[i] += ActorData.ADD_ACTOR
 
 
 func _create_tourist() -> void:
