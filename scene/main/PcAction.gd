@@ -63,7 +63,7 @@ func move(input_tag: String) -> void:
 				pc_state.mp -= power_cost
 				_use_power_in_harbor(source_coord)
 		elif pc_state.get_direction_to_movement(direction):
-			_move_on_land(pc_state, target_coord)
+			_move_outside_swamp(pc_state, target_coord)
 	# Land.
 	else:
 		if pc_state.use_power:
@@ -71,7 +71,7 @@ func move(input_tag: String) -> void:
 				pc_state.mp -= power_cost
 				_use_power_on_land(direction)
 		elif pc_state.get_direction_to_movement(direction):
-			_move_on_land(pc_state, target_coord)
+			_move_outside_swamp(pc_state, target_coord)
 
 
 func press_wizard_key(input_tag: String) -> void:
@@ -104,7 +104,7 @@ func _end_turn() -> void:
 	end_turn = true
 
 
-func _move_on_land(pc_state: PcState, move_to: IntCoord) -> void:
+func _move_outside_swamp(pc_state: PcState, move_to: IntCoord) -> void:
 	if FindObjectHelper.has_ship(move_to):
 		pc_state.use_pirate_ship = true
 	elif FindObjectHelper.has_dinghy(move_to):
@@ -117,7 +117,7 @@ func _move_in_swamp(source_coord: IntCoord, target_coord: IntCoord) -> void:
 	var pc_state := FindObject.pc_state
 
 	# Create a pirate ship at PC's current position. It will be removed in
-	# PcStartTurn._remove_sprites().
+	# StartPcTurn._remove_sprites().
 	if FindObjectHelper.has_harbor(target_coord):
 		_ref_CreateObject.create_building(SubTag.SHIP, source_coord)
 	elif pc_state.sail_duration < pc_state.max_sail_duration:

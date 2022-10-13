@@ -66,7 +66,7 @@ func _actor_ai(current_sprite: Sprite) -> void:
 			return
 		# Handle actor collision.
 		else:
-			# Recored collisions. Reduce MP progress in PcStartTurn.
+			# Recored collisions. Reduce MP progress in StartPcTurn.
 			FindObject.pc_state.actor_collision += 1
 			# Remove an actor.
 			target_sprite = FindObject.get_actor(target_coord)

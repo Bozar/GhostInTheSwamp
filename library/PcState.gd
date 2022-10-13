@@ -42,7 +42,7 @@ var _direction_to_movement := {
 var mp := PcData.MAX_MP setget set_mp, get_mp
 var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
 var mp_progress := 0 setget set_mp_progress, get_mp_progress
-var actor_collision := 0
+var actor_collision := 0 setget set_actor_collision, get_actor_collision
 
 # Increase the upper limit when collecting a new item.
 var max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0] setget _set_none, get_max_ghost
@@ -95,6 +95,14 @@ func get_count_ghost() -> int:
 
 func set_count_ghost(new_data: int) -> void:
 	count_ghost = _fix_overflow(new_data, max_ghost, 0)
+
+
+func get_actor_collision() -> int:
+	return actor_collision
+
+
+func set_actor_collision(new_data: int) -> void:
+	actor_collision = _fix_overflow(new_data, PcData.MAX_ACTOR_COLLISION, 0)
 
 
 func get_sail_duration() -> int:

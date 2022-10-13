@@ -1,4 +1,4 @@
-class_name PcCastRay
+class_name CastRay
 
 
 enum {
@@ -12,7 +12,7 @@ const UNHANDLED_TAG := "Unhandled tag: %s"
 
 # When PC stands on land, cast rays in four directions.
 # Return: {DirectionTag: {FIRST_TAG, LAST_SPRITE}, ...}.
-# By default, use PcCastRay as func_host.
+# By default, use CastRay as func_host.
 # [land|swamp]_func(x: int, y: int, opt_arg: Array) -> bool
 static func renew_world(func_host: Object, land_func := "_cast_from_land",
 		swamp_func := "_cast_from_swamp") -> Dictionary:

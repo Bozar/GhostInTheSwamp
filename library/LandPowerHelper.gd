@@ -6,8 +6,8 @@ static func set_power(cast_results: Dictionary) -> void:
 	var last_sprite: Sprite
 
 	for i in cast_results.keys():
-		first_tag = cast_results[i][PcCastRay.FIRST_TAG]
-		last_sprite = cast_results[i][PcCastRay.LAST_SPRITE]
+		first_tag = cast_results[i][CastRay.FIRST_TAG]
+		last_sprite = cast_results[i][CastRay.LAST_SPRITE]
 		match ObjectState.get_state(last_sprite).main_tag:
 			MainTag.ACTOR:
 				_set_actor_power(i, first_tag, last_sprite)
@@ -20,25 +20,17 @@ static func set_power(cast_results: Dictionary) -> void:
 static func _get_spook_cost(pc_state: PcState, actor: Sprite) -> int:
 	var actor_state := ObjectState.get_state(actor) as ActorState
 	var cost: int = PcData.COST_SUB_TAG_TO_SPOOK[actor_state.sub_tag]
-
-	# if pc_state.count_item > 1:
-	if pc_state.count_ghost > PcData.COST_GHOST_THRESHOLD:
-		cost += PcData.COST_SPOOK_EXTRA
-	if pc_state.count_item >= PcData.MAX_ITEM:
-		cost += PcData.COST_SPOOK_EXTRA
-	if pc_state.has_ghost:
-		return cost
-
 	var pc_coord := pc_state.coord
 	var actor_coord := actor_state.coord
 	var pc_to_actor := CoordCalculator.get_ray_direction(pc_coord, actor_coord)
 	var actor_to_pc := actor_state.face_direction
 
+	if pc_state.has_ghost:
+		cost += PcData.COST_SPOOK_EXTRA
 	if (actor_to_pc == DirectionTag.NO_DIRECTION) or (pc_to_actor == actor_to_pc):
 		cost -= PcData.COST_SPOOK_FROM_BEHIND
 	elif not DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):
 		cost -= PcData.COST_SPOOK_FROM_SIDE
-
 	return max(cost, 0) as int
 
 

@@ -1,4 +1,4 @@
-class_name PcSail
+class_name SailInSwamp
 
 
 const NO_SHIP_FOR_HARBOR := "Cannot create a ship for harbor [%d, %d]."
@@ -49,44 +49,25 @@ static func add_dinghy(ref_random: RandomNumber, ref_create: CreateObject) \
 
 
 static func _set_spawn_ghost_timer(ref_random: RandomNumber) -> void:
-	var coord := FindObject.pc_coord
 	var state := FindObject.pc_state
-	var has_swamp := false
-	var has_harbor := false
-	var add_timer := 0
+	var add_timer: int
 
 	if state.has_ghost:
 		return
 	elif state.count_ghost == state.max_ghost:
 		return
-	elif not FindObjectHelper.has_land(coord):
+	elif not FindObjectHelper.has_land(FindObject.pc_coord):
 		return
-	else:
-		for i in CoordCalculator.get_neighbor(coord, 1):
-			if FindObjectHelper.has_swamp(i):
-				has_swamp = true
-				break
 	# There should be at least one swamp grid for the ghost dinghy to appear.
-	if not has_swamp:
+	elif not _has_nearby_swamp():
 		return
 
 	# Base value.
-	add_timer += PcData.TIMER_ADD_PER_TURN
+	add_timer = ref_random.get_int(PcData.MIN_TIMER_OFFSET,
+			PcData.MAX_TIMER_OFFSET)
 	# MP bonus.
-	if state.mp <= PcData.LOW_MP:
-		add_timer += PcData.TIMER_BONUS_FROM_LOW_MP
-	elif state.mp <= PcData.HIGH_MP:
-		add_timer += PcData.TIMER_BONUS_FROM_HIGH_MP
-	# Harbor bonus.
-	for i in CoordCalculator.get_neighbor(coord, PcData.MIN_RANGE_TO_HARBOR):
-		if FindObjectHelper.has_harbor(i):
-			has_harbor = true
-			break
-	if not has_harbor:
-		add_timer += PcData.TIMER_BONUS_FROM_HARBOR
-	# Random offset.
-	add_timer += ref_random.get_int(0, PcData.TIMER_OFFSET)
-
+	if (state.mp < PcData.LOW_MP) or (_is_in_actor_sight()):
+		add_timer += PcData.TIMER_BONUS_WHEN_IN_DANGER
 	state.spawn_ghost_timer += add_timer
 
 
@@ -102,3 +83,17 @@ static func _create_dinghy(ref_random: RandomNumber, ref_create: CreateObject) \
 		return
 	new_coord = ArrayHelper.get_rand_element(ground_coords, ref_random)
 	ref_create.create_building(SubTag.DINGHY, new_coord)
+
+
+static func _has_nearby_swamp() -> bool:
+	for i in CoordCalculator.get_neighbor(FindObject.pc_coord, 1):
+		if FindObjectHelper.has_swamp(i):
+			return true
+	return false
+
+
+static func _is_in_actor_sight() -> bool:
+	for i in DirectionTag.VALID_DIRECTIONS:
+		if FindObject.pc_state.is_in_npc_sight(i):
+			return true
+	return false

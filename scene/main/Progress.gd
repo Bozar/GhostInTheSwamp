@@ -18,19 +18,21 @@ func renew_world(next_actor: Sprite) -> void:
 
 	# Always renew world to guarantee that even if game ends (win or lose) after
 	# PC's turn, he is shown as refreshed.
-	$PcStartTurn.renew_world()
+	StartPcTurn.renew_world(_ref_RemoveObject)
 	# Before PC's turn, respawn actors and set actions in swamp or harbor.
 	if next_actor_is_pc:
 		$SpawnActor.renew_world()
-		$PcStartTurn.set_pc_state()
+		StartPcTurn.set_pc_state(_ref_CreateObject)
 	# When on land, PC may lose before an NPC's turn due to being spotted.
 	if pc_is_on_land:
 		# Always set PC state when on land.
-		cast_results = PcCastRay.renew_world(PcCastRay)
+		cast_results = CastRay.renew_world(CastRay)
 		ActorSight.set_sight_around_pc(cast_results)
 		# Set actions on land before PC's turn.
 		if next_actor_is_pc:
-			$PcStartTurn.set_movement_outside_swamp()
+			SailInSwamp.add_dinghy(_ref_RandomNumber, _ref_CreateObject)
+			StartPcTurn.set_movement_outside_swamp()
+			MpProgress.renew_world(cast_results, _ref_RandomNumber)
 			LandPowerHelper.set_power(cast_results)
 	# print(cast_results)
 
@@ -42,7 +44,6 @@ func renew_world(next_actor: Sprite) -> void:
 
 func _on_InitWorld_world_initialized() -> void:
 	$SpawnActor.set_reference()
-	$PcStartTurn.set_reference()
 
 	_active_the_first_harbor()
 
