@@ -80,19 +80,20 @@ const NODE_REF := {
 	},
 	NodeTag.REMOVE_OBJECT: {
 		TARGET_NODE: [
-			NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
+			NodeTag.ACTOR_ACTION, NodeTag.PROGRESS, NodeTag.PC_ACTION,
 		],
 	},
 	NodeTag.RANDOM_NUMBER: {
 		TARGET_NODE: [
-			NodeTag.INIT_WORLD, NodeTag.PLAYER_INPUT, NodeTag.ACTOR_ACTION,
-			NodeTag.PROGRESS, NodeTag.SETTING,
+			NodeTag.INIT_WORLD, NodeTag.ACTOR_ACTION, NodeTag.PROGRESS,
+			NodeTag.SETTING, NodeTag.INIT_WORLD_HELPER, NodeTag.PC_ACTION,
+			NodeTag.SPAWN_ACTOR,
 		],
 	},
 	NodeTag.CREATE_OBJECT: {
 		TARGET_NODE: [
 			NodeTag.INIT_WORLD, NodeTag.PROGRESS, NodeTag.ACTOR_ACTION,
-			NodeTag.PLAYER_INPUT,
+			NodeTag.INIT_WORLD_HELPER, NodeTag.PC_ACTION, NodeTag.SPAWN_ACTOR,
 		],
 	},
 	NodeTag.SETTING: {

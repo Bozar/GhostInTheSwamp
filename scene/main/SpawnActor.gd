@@ -2,11 +2,6 @@ extends Node2D
 class_name SpawnActor
 
 
-const REF_VARS := [
-	NodeTag.CREATE_OBJECT,
-	NodeTag.RANDOM_NUMBER,
-]
-
 var _ref_CreateObject: CreateObject
 var _ref_RandomNumber: RandomNumber
 
@@ -21,8 +16,6 @@ var _count_item := 0
 
 
 func set_reference() -> void:
-	NodeHelper.set_child_reference(self, REF_VARS)
-
 	_set_land_coords()
 	_create_tourist()
 

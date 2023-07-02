@@ -2,12 +2,6 @@ extends Node2D
 class_name PcAction
 
 
-const REF_VARS := [
-	NodeTag.REMOVE_OBJECT,
-	NodeTag.RANDOM_NUMBER,
-	NodeTag.CREATE_OBJECT,
-]
-
 var end_turn := false setget _set_none, get_end_turn
 var use_power := false setget _set_none, get_use_power
 
@@ -25,10 +19,6 @@ func get_end_turn() -> bool:
 func get_use_power() -> bool:
 	var state := FindObject.pc_state
 	return (state != null) and state.use_power
-
-
-func set_reference() -> void:
-	NodeHelper.set_child_reference(self, REF_VARS)
 
 
 func start_turn() -> void:

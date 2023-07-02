@@ -1,6 +1,6 @@
 # Export Settings
 
-* Godot engine: 3.4.4
+* Godot engine: 3.5.2
 * Embed pck: True
 * Include filter: `user/doc/*, user/palette/*, resource/dungeon_prefab/*`
 * Exclude filter: `bin/*, resource/REXPaint/*`

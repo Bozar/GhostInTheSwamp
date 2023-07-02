@@ -5,10 +5,7 @@ class_name PlayerInput
 signal special_key_pressed(input_tag)
 
 var _ref_Schedule: Schedule
-var _ref_RemoveObject: RemoveObject
-var _ref_RandomNumber: RandomNumber
 var _ref_SwitchScreen: SwitchScreen
-var _ref_CreateObject: CreateObject
 var _ref_Setting: Setting
 
 var _game_over := false
@@ -72,7 +69,6 @@ func _end_turn() -> void:
 
 
 func _on_InitWorld_world_initialized() -> void:
-	$PcAction.set_reference()
 	$PcFov.set_reference()
 
 
