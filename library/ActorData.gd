@@ -8,15 +8,15 @@ const SIGHT_RANGE := {
 	SubTag.PERFORMER: 4,
 }
 
-const MIN_WALK_DISTANCE := 5
-const MIN_DISTANCE_TO_PC := 5
-const MIN_DISTANCE_TO_ACTOR := 3
+const MIN_WALK_DISTANCE: int = 5
+const MIN_DISTANCE_TO_PC: int = 5
+const MIN_DISTANCE_TO_ACTOR: int = 3
 
-const INITIAL_MAX_ACTOR := 5
-const INITIAL_SCOUT := 2
-const INITIAL_ENGINEER := 2
-const INITIAL_PERFORMER := 1
-const ADD_ACTOR := 1
+const INITIAL_MAX_ACTOR: int = 5
+const INITIAL_SCOUT: int = 2
+const INITIAL_ENGINEER: int = 2
+const INITIAL_PERFORMER: int = 1
+const ADD_ACTOR: int = 1
 
 const COLLISION_SCORE := {
 	SubTag.TOURIST: 0,

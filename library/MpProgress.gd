@@ -16,7 +16,7 @@ static func _has_actor_in_line(cast_results: Dictionary) -> bool:
 
 static func _set_mp_progress(ref_random: RandomNumber) -> void:
 	var pc_state := FindObject.pc_state
-	var count_harbor := 0
+	var count_harbor: int = 0
 	var add_progress: int
 	var collide_reduction: int
 	var min_reduction: int = PcData.HARBOR_TO_MP_PROGRESS[1]

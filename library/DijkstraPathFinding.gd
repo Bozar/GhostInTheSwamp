@@ -12,7 +12,7 @@ static func get_path(dungeon: Dictionary, start_coord: IntCoord,
 	var min_distance := PathFindingData.OBSTACLE
 	var x: int
 	var y: int
-	var current_index := 0
+	var current_index: int = 0
 
 	ArrayHelper.filter_element(neighbor, func_host, is_passable_func, opt_arg)
 

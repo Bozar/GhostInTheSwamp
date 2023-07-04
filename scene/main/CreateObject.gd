@@ -6,7 +6,7 @@ signal sprite_created(new_sprite)
 
 
 func create(main_tag: String, sub_tag: String, coord: IntCoord, more_tags := [],
-		x_offset := 0, y_offset := 0) -> Sprite:
+		x_offset: int = 0, y_offset: int = 0) -> Sprite:
 	var new_sprite: Sprite
 	var sprite_color: String
 	var z_index: int

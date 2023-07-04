@@ -37,9 +37,9 @@ class_name ShadowCastFov
 #       v
 #
 
-const MIN_LEFT_SLOPE := 0.0
-const MAX_RIGHT_SLOPE := 1.0
-const MAX_OCTANT := 8
+const MIN_LEFT_SLOPE: float = 0.0
+const MAX_RIGHT_SLOPE: float = 1.0
+const MAX_OCTANT: int = 8
 
 const FOV_DATA := {
 	"dungeon_width": 0,

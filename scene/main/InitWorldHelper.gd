@@ -15,7 +15,7 @@ const SHRUB_CHAR := "#"
 const EXPAND_SHRUB_CHAR := "+"
 const ISLAND_CHAR := "R"
 
-const MAX_EXPAND := 3
+const MAX_EXPAND: int = 3
 
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject

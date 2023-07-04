@@ -45,7 +45,7 @@ static func get_rand_element(source: Array, rand):
 static func filter_element(source: Array, func_host: Object,
 		filter_in_func: String, opt_arg := []) -> void:
 	var filter_in := funcref(func_host, filter_in_func)
-	var counter := 0
+	var counter: int = 0
 
 	for i in range(source.size()):
 		if filter_in.call_func(source, i, opt_arg):

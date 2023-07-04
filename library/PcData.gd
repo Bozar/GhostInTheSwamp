@@ -1,16 +1,16 @@
 class_name PcData
 
 
-const SIGHT_RANGE := 5
+const SIGHT_RANGE: int = 5
 
-const LOW_MP := 1
-const HIGH_MP := 4
-const MAX_MP := 3
-const MAX_MP_WITH_RUM := 6
+const LOW_MP: int = 1
+const HIGH_MP: int = 4
+const MAX_MP: int = 3
+const MAX_MP_WITH_RUM: int = 6
 
-const MAX_MP_PROGRESS := 100
-const MAX_ACTOR_COLLISION := 10
-const MAX_VALID_HARBOR := 5
+const MAX_MP_PROGRESS: int = 100
+const MAX_ACTOR_COLLISION: int = 10
+const MAX_VALID_HARBOR: int = 5
 const HARBOR_TO_MP_PROGRESS := {
 	1: 5,
 	2: 25,
@@ -26,31 +26,31 @@ const ITEM_TO_MAX_GHOST := {
 	3: 20,
 }
 
-const MAX_GHOST_TIMER := 100
-const MIN_TIMER_OFFSET := 5
-const MAX_TIMER_OFFSET := 16
-const TIMER_BONUS_WHEN_IN_DANGER := 20
+const MAX_GHOST_TIMER: int = 100
+const MIN_TIMER_OFFSET: int = 5
+const MAX_TIMER_OFFSET: int = 16
+const TIMER_BONUS_WHEN_IN_DANGER: int = 20
 
-const MIN_RANGE_TO_HARBOR := 5
-const MAX_SAIL_DURATION := 5
+const MIN_RANGE_TO_HARBOR: int = 5
+const MAX_SAIL_DURATION: int = 5
 
-const COST_LAND_GROUND := 1
+const COST_LAND_GROUND: int = 1
 const COST_SUB_TAG_TO_SPOOK := {
 	SubTag.TOURIST: 1,
 	SubTag.SCOUT: 2,
 	SubTag.ENGINEER: 4,
 	SubTag.PERFORMER: 4,
 }
-const COST_SPOOK_EXTRA := 1
-const COST_SPOOK_FROM_BEHIND := 2
-const COST_SPOOK_FROM_SIDE := 1
+const COST_SPOOK_EXTRA: int = 1
+const COST_SPOOK_FROM_BEHIND: int = 2
+const COST_SPOOK_FROM_SIDE: int = 1
 
 const ACTOR_TO_TRAP := {
 	SubTag.SCOUT: SubTag.RUM,
 	SubTag.ENGINEER: SubTag.PARROT,
 	SubTag.PERFORMER: SubTag.ACCORDION,
 }
-const LOW_DROP_SCORE := 20
-const HIGH_DROP_SCORE := 41
-const MAX_DROP_SCORE := 80
-const MAX_HIT := 4
+const LOW_DROP_SCORE: int = 20
+const HIGH_DROP_SCORE: int = 41
+const MAX_DROP_SCORE: int = 80
+const MAX_HIT: int = 4

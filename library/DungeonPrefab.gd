@@ -68,10 +68,10 @@ const DICT_VALUE_WARNING := "Dict value is neither a string or an array."
 const WALL_CHAR := "#"
 const FLOOR_CHAR := "."
 
-const DO_NOT_EDIT := 0
-const HORIZONTAL_FLIP := 1
-const VERTICAL_FLIP := 2
-const ROTATE_RIGHT := 3
+const DO_NOT_EDIT: int = 0
+const HORIZONTAL_FLIP: int = 1
+const VERTICAL_FLIP: int = 2
+const ROTATE_RIGHT: int = 3
 
 
 # The argument `edit` accepts an array of constant integers: HORIZONTAL_FLIP,
@@ -168,7 +168,7 @@ static func _rotate_right(dungeon: Dictionary, max_x: int, max_y: int) \
 
 static func _get_matrix_size(matrix_dict: Dictionary) -> MatrixSize:
 	var max_row := matrix_dict.size()
-	var max_column := 0
+	var max_column: int = 0
 
 	if max_row > 0:
 		match typeof(matrix_dict[0]):

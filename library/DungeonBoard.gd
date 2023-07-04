@@ -7,7 +7,7 @@ const HASH_COLLIDE := "Hashes collide: [%d, %d], %s, %s."
 var _hash_to_sprite := {}
 
 
-func get_by_coord(main_tag: String, coord: IntCoord, layer := 0) -> Sprite:
+func get_by_coord(main_tag: String, coord: IntCoord, layer: int = 0) -> Sprite:
 	var hash_coord := ConvertCoord.hash_coord(coord, main_tag, layer)
 	return _hash_to_sprite.get(hash_coord, null)
 
@@ -33,7 +33,7 @@ func remove_state(sprite: Sprite) -> void:
 	var store_state := ObjectState.get_state(sprite)
 	var coord := ConvertCoord.sprite_to_coord(sprite)
 	var main_tag := store_state.main_tag
-	var layer := 0
+	var layer: int = 0
 	var hash_coord := ConvertCoord.hash_coord(coord, main_tag, layer)
 
 	_hash_to_sprite.erase(hash_coord)

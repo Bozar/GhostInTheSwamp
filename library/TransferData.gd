@@ -8,9 +8,9 @@ var json_parse_error := false setget _set_none, get_json_parse_error
 var wizard_mode := false setget _set_none, get_wizard_mode
 # Set rng_seed based on setting.json or debug_seed. Use rng_seed for actually
 # game play. Refer: Setting, RandomNumber, SidebarVBox.
-var rng_seed := 0 setget _set_none, get_rng_seed
+var rng_seed: int = 0 setget _set_none, get_rng_seed
 # Set debug_seed in debug screen. Refer: DebugVBox.
-var debug_seed := 0 setget _set_none, get_debug_seed
+var debug_seed: int = 0 setget _set_none, get_debug_seed
 var palette_name := "" setget _set_none, get_palette_name
 var show_full_map := false setget _set_none, get_show_full_map
 

@@ -1,7 +1,7 @@
 class_name WorldGenerator
 
 
-const HARD_RETRY_LIMIT := 999
+const HARD_RETRY_LIMIT: int = 999
 const WARN_RETRY := "Too many retries."
 const WARN_RAND := "Rand is not of type RandomNumber."
 
@@ -13,7 +13,7 @@ static func create_by_coord(all_coords: Array,
 		count_remaining: int, rand, func_host: Object,
 		is_valid_coord_func: String, is_valid_coord_opt_arg: Array,
 		create_here_func: String, create_here_opt_arg: Array,
-		max_retry := HARD_RETRY_LIMIT, retry := 0) -> void:
+		max_retry := HARD_RETRY_LIMIT, retry: int = 0) -> void:
 	var is_valid_coord := funcref(func_host, is_valid_coord_func)
 	var create_here := funcref(func_host, create_here_func)
 

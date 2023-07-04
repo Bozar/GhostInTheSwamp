@@ -12,7 +12,7 @@ var _count_actor := {
 	SubTag.PERFORMER: ActorData.INITIAL_PERFORMER,
 }
 var _max_actor := ActorData.INITIAL_MAX_ACTOR
-var _count_item := 0
+var _count_item: int = 0
 
 
 func set_reference() -> void:

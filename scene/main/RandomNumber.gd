@@ -17,8 +17,8 @@ func get_percent_chance(chance: int) -> bool:
 
 
 func get_weighted_chance(output_to_weight: Dictionary, default_output):
-	var max_weight := 0
-	var current_weight := 0
+	var max_weight: int = 0
+	var current_weight: int = 0
 	var this_weight: int
 	var output_weight: int
 

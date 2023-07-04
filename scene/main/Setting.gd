@@ -18,7 +18,7 @@ var _ref_RandomNumber: RandomNumber
 
 func load_setting() -> void:
 	var wizard_mode := false
-	var rng_seed := 0
+	var rng_seed: int = 0
 	var show_full_map := false
 	var palette_name := ""
 	var json_parse_error := false

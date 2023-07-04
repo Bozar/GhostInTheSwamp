@@ -1,13 +1,13 @@
 class_name DungeonSize
 
 
-const MAX_X := 21
-const MAX_Y := 15
+const MAX_X: int = 21
+const MAX_Y: int = 15
 
-const CENTER_X := 10
-const CENTER_Y := 7
+const CENTER_X: int = 10
+const CENTER_Y: int = 7
 
-const ARROW_MARGIN := 32
+const ARROW_MARGIN: int = 32
 
 
 static func init_dungeon_grids(out_dungeon: Dictionary, init_value = null,
@@ -46,7 +46,7 @@ static func init_dungeon_grids_by_func(out_dungeon: Dictionary,
 
 
 static func init_all_coords(out_coords: Array) -> void:
-	var row := 0
+	var row: int = 0
 
 	out_coords.resize(MAX_X * MAX_Y)
 	for x in range(0, MAX_X):

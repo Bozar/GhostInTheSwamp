@@ -58,7 +58,7 @@
 # 	_pc_pos = _ref_DungeonBoard.get_pc_coord()
 
 
-# func _approach_pc(start_point := [_pc_pos], step_length := 1, step_count := 1,
+# func _approach_pc(start_point := [_pc_pos], step_length: int = 1, step_count: int = 1,
 # 		opt_passable_arg := []) -> void:
 # 	var destination: Array
 

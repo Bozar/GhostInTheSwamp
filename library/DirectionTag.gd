@@ -2,14 +2,14 @@ class_name DirectionTag
 
 
 const INVALID_DIRECTION := -99
-const NO_DIRECTION := 0
-const UP := 1
-const RIGHT := 2
+const NO_DIRECTION: int = 0
+const UP: int = 1
+const RIGHT: int = 2
 const DOWN := -1
 const LEFT := -2
 
-const MAX_POSITIVE_DIRECTION := 2
-const MIN_POSITIVE_DIRECTION := 1
+const MAX_POSITIVE_DIRECTION: int = 2
+const MIN_POSITIVE_DIRECTION: int = 1
 
 const VALID_DIRECTIONS := [UP, DOWN, LEFT, RIGHT,]
 

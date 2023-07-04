@@ -5,7 +5,7 @@ static func get_sub_tag(actor_sub_tag: String, ref_random: RandomNumber) \
 		-> String:
 	var trap_sub_tag: String = PcData.ACTOR_TO_TRAP.get(actor_sub_tag,
 			SubTag.INVALID)
-	var add_score := 0
+	var add_score: int = 0
 	var state := FindObject.pc_state
 
 	if trap_sub_tag == SubTag.INVALID:

@@ -8,7 +8,7 @@ enum {
 	POWER_TAG,
 	TARGET_SPRITE,
 }
-const MAX_INT := 999
+const MAX_INT: int = 999
 
 var _sub_tag_to_item := {
 	SubTag.RUM: false,
@@ -41,26 +41,26 @@ var _direction_to_movement := {
 
 var mp := PcData.MAX_MP setget set_mp, get_mp
 var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
-var mp_progress := 0 setget set_mp_progress, get_mp_progress
-var actor_collision := 0 setget set_actor_collision, get_actor_collision
+var mp_progress: int = 0 setget set_mp_progress, get_mp_progress
+var actor_collision: int = 0 setget set_actor_collision, get_actor_collision
 
 # Increase the upper limit when collecting a new item.
 var max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0] setget _set_none, get_max_ghost
 # Add 1 after creating a ghost.
-var count_ghost := 0 setget set_count_ghost, get_count_ghost
+var count_ghost: int = 0 setget set_count_ghost, get_count_ghost
 
 var has_ghost := true
 # Spawn a ghost when the timer is below 1. Then reset it to its maximum.
-var spawn_ghost_timer := 0
+var spawn_ghost_timer: int = 0
 var max_sail_duration := PcData.MAX_SAIL_DURATION setget _set_none, \
 		get_max_sail_duration
 # Add 1 after moving in the swamp.
-var sail_duration := 0 setget set_sail_duration, get_sail_duration
+var sail_duration: int = 0 setget set_sail_duration, get_sail_duration
 var use_pirate_ship := false
 
 var use_power := false
 var show_sight := false
-var count_item := 0 setget _set_none, get_count_item
+var count_item: int = 0 setget _set_none, get_count_item
 
 
 func _init(_main_tag: String, _sub_tag: String, _sprite: Sprite).(_main_tag,

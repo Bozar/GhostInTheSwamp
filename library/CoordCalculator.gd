@@ -121,14 +121,15 @@ static func is_same_coord(this_coord: IntCoord, that_coord: IntCoord) -> bool:
 
 
 static func get_coord_by_direction(coord: IntCoord, direction_tag: int,
-		step := 1) -> IntCoord:
+		step: int = 1) -> IntCoord:
 	var offset := get_offset_by_direction(direction_tag, step)
 	return IntCoord.new(coord.x + offset.x, coord.y + offset.y)
 
 
-static func get_offset_by_direction(direction_tag: int, step := 1) -> IntCoord:
-	var x_offset := 0
-	var y_offset := 0
+static func get_offset_by_direction(direction_tag: int, step: int = 1) \
+		-> IntCoord:
+	var x_offset: int = 0
+	var y_offset: int = 0
 
 	match direction_tag:
 		DirectionTag.DOWN:

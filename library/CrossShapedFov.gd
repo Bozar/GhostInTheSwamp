@@ -41,9 +41,9 @@ class_name CrossShapedFov
 #
 
 const COORD_WARNING := "Neither face_x nor face_y is zero."
-const T_SHAPED_BACK := 1
-const SYMMETRIC_X := 0
-const SYMMETRIC_Y := 1
+const T_SHAPED_BACK: int = 1
+const SYMMETRIC_X: int = 0
+const SYMMETRIC_Y: int = 1
 
 const FOV_DATA := {
 	"dungeon_width": 0,

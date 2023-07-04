@@ -2,8 +2,8 @@ extends ScrollContainer
 class_name HelpVScroll
 
 
-const SCROLL_LINE := 20
-const SCROLL_PAGE := 300
+const SCROLL_LINE: int = 20
+const SCROLL_PAGE: int = 300
 const DUNGEON := "Dungeon"
 
 var _help_text: Array

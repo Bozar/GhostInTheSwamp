@@ -7,7 +7,7 @@ signal turn_started(current_sprite)
 var _ref_Progress: Progress
 
 var _actors := [null]
-var _pointer := 0
+var _pointer: int = 0
 var _remove_actors := []
 var _game_over := false
 
