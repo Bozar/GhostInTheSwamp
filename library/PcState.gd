@@ -10,6 +10,36 @@ enum {
 }
 const MAX_INT: int = 999
 
+var mp: int setget set_mp, get_mp
+var max_mp: int setget _set_none, get_max_mp
+var mp_progress: int setget set_mp_progress, get_mp_progress
+var actor_collision: int setget set_actor_collision, get_actor_collision
+
+# Increase the upper limit when collecting a new item.
+var max_ghost: int setget _set_none, get_max_ghost
+# Add 1 after creating a ghost.
+var count_ghost: int setget set_count_ghost, get_count_ghost
+
+var has_ghost := true
+# Spawn a ghost when the timer is below 1. Then reset it to its maximum.
+var spawn_ghost_timer: int = 0
+# Add 1 after moving in the swamp.
+var sail_duration: int setget set_sail_duration, get_sail_duration
+var use_pirate_ship := false
+
+var use_power := false
+var show_sight := false
+var count_item: int setget _set_none, get_count_item
+
+var _mp: int = PcData.MAX_MP
+var _max_mp: int = PcData.MAX_MP
+var _mp_progress: int = 0
+var _actor_collision: int = 0
+var _max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0]
+var _count_ghost: int = 0
+var _sail_duration: int = 0
+var _count_item: int = 0
+
 var _sub_tag_to_item := {
 	SubTag.RUM: false,
 	SubTag.PARROT: false,
@@ -39,90 +69,67 @@ var _direction_to_movement := {
 	DirectionTag.RIGHT: false,
 }
 
-var mp := PcData.MAX_MP setget set_mp, get_mp
-var max_mp := PcData.MAX_MP setget _set_none, get_max_mp
-var mp_progress: int = 0 setget set_mp_progress, get_mp_progress
-var actor_collision: int = 0 setget set_actor_collision, get_actor_collision
-
-# Increase the upper limit when collecting a new item.
-var max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0] setget _set_none, get_max_ghost
-# Add 1 after creating a ghost.
-var count_ghost: int = 0 setget set_count_ghost, get_count_ghost
-
-var has_ghost := true
-# Spawn a ghost when the timer is below 1. Then reset it to its maximum.
-var spawn_ghost_timer: int = 0
-var max_sail_duration := PcData.MAX_SAIL_DURATION setget _set_none, \
-		get_max_sail_duration
-# Add 1 after moving in the swamp.
-var sail_duration: int = 0 setget set_sail_duration, get_sail_duration
-var use_pirate_ship := false
-
-var use_power := false
-var show_sight := false
-var count_item: int = 0 setget _set_none, get_count_item
-
 
 func _init(_main_tag: String, _sub_tag: String, _sprite: Sprite).(_main_tag,
 		_sub_tag, _sprite) -> void:
 	_init_direction_to_sight_power()
 
 
-func get_mp() -> int:
-	return mp
-
-
 # MP can be negative.
-func set_mp(new_data: int) -> void:
-	mp = _fix_overflow(new_data, max_mp)
+func set_mp(value: int) -> void:
+	_mp = _fix_overflow(value, get_max_mp())
 
 
-func get_mp_progress() -> int:
-	return mp_progress
+func get_mp() -> int:
+	return _mp
+
+
+func get_max_mp() -> int:
+	return _max_mp
 
 
 # MP progress cannot be negative.
-func set_mp_progress(new_data: int) -> void:
-	mp_progress = _fix_overflow(new_data, MAX_INT, 0)
-	while mp_progress >= PcData.MAX_MP_PROGRESS:
-		mp_progress -= PcData.MAX_MP_PROGRESS
-		set_mp(mp + 1)
+func set_mp_progress(value: int) -> void:
+	_mp_progress = _fix_overflow(value, MAX_INT, 0)
+	while get_mp_progress() >= PcData.MAX_MP_PROGRESS:
+		_mp_progress -= PcData.MAX_MP_PROGRESS
+		set_mp(get_mp() + 1)
 
 
-func get_count_ghost() -> int:
-	return count_ghost
+func get_mp_progress() -> int:
+	return _mp_progress
 
 
-func set_count_ghost(new_data: int) -> void:
-	count_ghost = _fix_overflow(new_data, max_ghost, 0)
+func set_actor_collision(value: int) -> void:
+	_actor_collision = _fix_overflow(value, PcData.MAX_ACTOR_COLLISION, 0)
 
 
 func get_actor_collision() -> int:
-	return actor_collision
-
-
-func set_actor_collision(new_data: int) -> void:
-	actor_collision = _fix_overflow(new_data, PcData.MAX_ACTOR_COLLISION, 0)
-
-
-func get_sail_duration() -> int:
-	return sail_duration
+	return _actor_collision
 
 
 func get_max_ghost() -> int:
-	return max_ghost
+	return _max_ghost
 
 
-func set_sail_duration(new_data: int) -> void:
-	sail_duration = _fix_overflow(new_data, max_sail_duration, 0)
+func set_count_ghost(value: int) -> void:
+	_count_ghost = _fix_overflow(value, get_max_ghost(), 0)
 
 
-func get_max_sail_duration() -> int:
-	return max_sail_duration
+func get_count_ghost() -> int:
+	return _count_ghost
+
+
+func set_sail_duration(value: int) -> void:
+	_sail_duration = _fix_overflow(value, PcData.MAX_SAIL_DURATION, 0)
+
+
+func get_sail_duration() -> int:
+	return _sail_duration
 
 
 func get_count_item() -> int:
-	return count_item
+	return _count_item
 
 
 func has_item(sub_tag: String) -> bool:
@@ -133,14 +140,14 @@ func add_item(sub_tag: String) -> void:
 	# Add an item to inventory.
 	if _sub_tag_to_item.has(sub_tag) and (not _sub_tag_to_item[sub_tag]):
 		_sub_tag_to_item[sub_tag] = true
-		count_item += 1
+		_count_item += 1
 	else:
 		return
 	# Increase max_ghost.
-	_set_max_ghost()
+	_max_ghost = PcData.ITEM_TO_MAX_GHOST[get_count_item()]
 	# Rum increases max MP.
 	if sub_tag == SubTag.RUM:
-		max_mp = PcData.MAX_MP_WITH_RUM
+		_max_mp = PcData.MAX_MP_WITH_RUM
 
 
 func has_rum() -> bool:
@@ -211,19 +218,15 @@ func get_drop_score(sub_tag: String) -> int:
 	return _drop_score[sub_tag]
 
 
-func add_drop_score(sub_tag: String, new_data: int) -> void:
-	_drop_score[sub_tag] += new_data
+func add_drop_score(sub_tag: String, value: int) -> void:
+	_drop_score[sub_tag] += value
 	if _drop_score[sub_tag] < 0:
 		_drop_score[sub_tag] = 0
 
 
-func add_all_drop_scores(new_data: int) -> void:
+func add_all_drop_scores(value: int) -> void:
 	for i in _drop_score.keys():
-		add_drop_score(i, new_data)
-
-
-func get_max_mp() -> int:
-	return max_mp
+		add_drop_score(i, value)
 
 
 func reset_direction_to_sight_power() -> void:
@@ -234,12 +237,8 @@ func reset_direction_to_sight_power() -> void:
 		_direction_to_sight_power[i][TARGET_SPRITE] = null
 
 
-func _fix_overflow(new_data: int, upper := MAX_INT, lower := -MAX_INT) -> int:
-	return max(min(new_data, upper), lower) as int
-
-
-func _set_max_ghost() -> void:
-	max_ghost = PcData.ITEM_TO_MAX_GHOST[count_item]
+func _fix_overflow(value: int, upper := MAX_INT, lower := -MAX_INT) -> int:
+	return max(min(value, upper), lower) as int
 
 
 func _init_direction_to_sight_power() -> void:
@@ -252,5 +251,5 @@ func _init_direction_to_sight_power() -> void:
 		}
 
 
-func _set_none(__) -> void:
+func _set_none(_value) -> void:
 	return

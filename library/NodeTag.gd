@@ -22,5 +22,6 @@ const SIDEBAR_GUI := "MainGui/SidebarVBox"
 const HELP_GUI := "HelpGui/HelpVScroll"
 const DEBUG_GUI := "DebugGui/DebugVBox"
 const DEBUG_INPUT := "DebugInput"
+const DUNGEON_BOARD := "DungeonBoard"
 
 const REF_HELP_GUI := "_ref_HelpVScroll"

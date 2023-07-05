@@ -1,9 +1,10 @@
 extends StateManagerTemplate
 # class_name StateManager
+# =====Autoload=====
 
 
 const ORDERED_FUNC := [
-	"ObjectState", "DungeonBoard",
+	NodeTag.OBJECT_STATE, NodeTag.DUNGEON_BOARD,
 ]
 
 

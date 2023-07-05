@@ -92,9 +92,9 @@ func _get_line_of_sight() -> String:
 
 
 func _get_sink() -> String:
-	var max_sail := _pc_state.max_sail_duration
-	var sink := max_sail - _pc_state.sail_duration
-	var mp := _pc_state.mp
+	var max_sail: int = PcData.MAX_SAIL_DURATION
+	var sink: int = max_sail - _pc_state.sail_duration
+	var mp: int = _pc_state.mp
 
 	if (mp < 0) or (not _pc_state.use_pirate_ship):
 		mp = 0

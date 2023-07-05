@@ -2,64 +2,59 @@ class_name DungeonPrefab
 
 
 class PackedPrefab:
-	var max_x: int setget set_max_x, get_max_x
-	var max_y: int setget set_max_y, get_max_y
-	var prefab: Dictionary setget set_dungeon_prefab, get_dungeon_prefab
+	var max_x: int setget _set_none, get_max_x
+	var max_y: int setget _set_none, get_max_y
+	var prefab: Dictionary setget _set_none, get_prefab
+
+	var _max_x: int
+	var _max_y: int
+	var _prefab: Dictionary
 
 
-	func _init(_prefab: Dictionary, _max_x: int, _max_y: int) -> void:
-		prefab = _prefab
-		max_x = _max_x
-		max_y = _max_y
+	func _init(prefab_: Dictionary, max_x_: int, max_y_: int) -> void:
+		_prefab = prefab_
+		_max_x = max_x_
+		_max_y = max_y_
 
 
 	func get_max_x() -> int:
-		return max_x
-
-
-	func set_max_x(__) -> void:
-		return
+		return _max_x
 
 
 	func get_max_y() -> int:
-		return max_y
+		return _max_y
 
 
-	func set_max_y(__) -> void:
-		return
+	func get_prefab() -> Dictionary:
+		return _prefab
 
 
-	func get_dungeon_prefab() -> Dictionary:
-		return prefab
-
-
-	func set_dungeon_prefab(__) -> void:
+	func _set_none(_value) -> void:
 		return
 
 
 class MatrixSize:
-	var max_row: int setget set_max_row, get_max_row
-	var max_column: int setget set_max_column, get_max_column
+	var max_row: int setget _set_none, get_max_row
+	var max_column: int setget _set_none, get_max_column
+
+	var _max_row: int
+	var _max_column: int
 
 
-	func _init(_max_row: int, _max_column: int) -> void:
-		max_row = _max_row
-		max_column = _max_column
+	func _init(max_row_: int, max_column_: int) -> void:
+		_max_row = max_row_
+		_max_column = max_column_
 
 
 	func get_max_row() -> int:
-		return max_row
-
-
-	func set_max_row(__) -> void:
-		return
+		return _max_row
 
 
 	func get_max_column() -> int:
-		return max_column
+		return _max_column
 
 
-	func set_max_column(__) -> void:
+	func _set_none(_value) -> void:
 		return
 
 

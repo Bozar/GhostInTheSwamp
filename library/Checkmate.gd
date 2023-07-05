@@ -28,7 +28,7 @@ static func renew_world(next_is_pc: bool) -> Dictionary:
 
 static func _sink_in_swamp(state: PcState) -> bool:
 	# Ghost dinghy or pirate ship is still intact.
-	if state.sail_duration < state.max_sail_duration:
+	if state.sail_duration < PcData.MAX_SAIL_DURATION:
 		return false
 	# Use MP to support the pirate ship. The ghost ship cannot use MP.
 	elif state.use_pirate_ship:

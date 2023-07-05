@@ -1,5 +1,6 @@
 extends StateManagerTemplate
 # class_name ObjectState
+# =====Autoload=====
 
 
 const WARN_SET_TWICE := "State set twice: MainTag: %s, SubTag: %s."

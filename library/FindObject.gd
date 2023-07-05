@@ -1,5 +1,6 @@
 extends Node2D
 # class_name FindObject
+# =====Autoload=====
 
 
 const MULTIPLE_PC := "Find more than one PC object."
@@ -9,20 +10,23 @@ var pc: Sprite setget _set_none, get_pc
 var pc_coord: IntCoord setget _set_none, get_pc_coord
 var pc_state: PcState setget _set_none, get_pc_state
 
+var _pc: Sprite
+
 
 # There should be only one sprite in the group `SubTag.PC`.
 # The PC sprite should not be removed throughout the game.
 func get_pc() -> Sprite:
 	var find_pc: Array
 
-	if pc == null:
+	if _pc == null:
 		find_pc = get_sprites_with_tag(SubTag.PC)
 		if find_pc.size() > 1:
 			push_warning(MULTIPLE_PC)
 		elif find_pc.size() == 0:
 			push_warning(NO_PC)
-		return find_pc.pop_back()
-	return pc
+		else:
+			_pc = find_pc[0]
+	return _pc
 
 
 func get_pc_coord() -> IntCoord:
@@ -176,9 +180,13 @@ func has_actor_with_sub_tag(coord: IntCoord, sub_tag: String) -> bool:
 	return get_actor_with_sub_tag(coord, sub_tag) != null
 
 
+func remove_pc() -> void:
+	_pc = null
+
+
 func _is_not_queue_free(source: Array, index: int, _opt: Array) -> bool:
 	return not source[index].is_queued_for_deletion()
 
 
-func _set_none(__) -> void:
+func _set_none(_value) -> void:
 	return

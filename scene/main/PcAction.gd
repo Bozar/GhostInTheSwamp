@@ -110,7 +110,7 @@ func _move_in_swamp(source_coord: IntCoord, target_coord: IntCoord) -> void:
 	# StartPcTurn._remove_sprites().
 	if FindObjectHelper.has_harbor(target_coord):
 		_ref_CreateObject.create_building(SubTag.SHIP, source_coord)
-	elif pc_state.sail_duration < pc_state.max_sail_duration:
+	elif pc_state.sail_duration < PcData.MAX_SAIL_DURATION:
 		pc_state.sail_duration += 1
 	elif pc_state.use_pirate_ship and (pc_state.mp > 0):
 		pc_state.mp -= 1

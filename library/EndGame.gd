@@ -1,5 +1,6 @@
 extends Node2D
 # class_name EndGame
+# =====Autoload=====
 
 
 const PATH_TO_ROOT := "res://scene/main/RootScene.tscn"
@@ -15,6 +16,7 @@ func reload() -> void:
 	var old_scene: Node2D = get_tree().current_scene
 
 	StateManager.remove_all()
+	FindObject.remove_pc()
 
 	get_tree().root.add_child(new_scene)
 	get_tree().current_scene = new_scene

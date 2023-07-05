@@ -1,5 +1,6 @@
 extends StateManagerTemplate
 # class_name DungeonBoard
+# =====Autoload=====
 
 
 const HASH_COLLIDE := "Hashes collide: [%d, %d], %s, %s."
