@@ -12,11 +12,10 @@ const MIN_WALK_DISTANCE: int = 5
 const MIN_DISTANCE_TO_PC: int = 5
 const MIN_DISTANCE_TO_ACTOR: int = 3
 
-const INITIAL_MAX_ACTOR: int = 5
-const INITIAL_SCOUT: int = 2
-const INITIAL_ENGINEER: int = 2
-const INITIAL_PERFORMER: int = 1
-const ADD_ACTOR: int = 1
+const MAX_SCOUT: int = 2
+const MAX_ENGINEER: int = 2
+const MAX_PERFORMER: int = 2
+const MAX_ACTOR: int = MAX_SCOUT + MAX_ENGINEER + MAX_PERFORMER
 
 const COLLISION_SCORE := {
 	SubTag.TOURIST: 0,

@@ -54,3 +54,4 @@ const LOW_DROP_SCORE: int = 20
 const HIGH_DROP_SCORE: int = 41
 const MAX_DROP_SCORE: int = 80
 const MAX_HIT: int = 4
+const MAX_ITEM: int = 3

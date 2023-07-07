@@ -49,7 +49,8 @@ func _on_InitWorld_world_initialized() -> void:
 
 
 func _on_RemoveObject_sprite_removed(sprite: Sprite) -> void:
-	$SpawnActor.remove_actor(sprite)
+	if sprite.is_in_group(MainTag.ACTOR):
+		$SpawnActor.remove_actor(sprite)
 
 
 func _active_the_first_harbor() -> void:
