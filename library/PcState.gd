@@ -2,6 +2,8 @@ extends BasicSpriteData
 class_name PcState
 
 
+const ERR_TRAP_SUB_TAG := "%s is not a trap sub tag."
+
 enum {
 	NPC_SIGHT,
 	POWER_COST,
@@ -10,26 +12,27 @@ enum {
 }
 const MAX_INT: int = 999
 
-var mp: int setget set_mp, get_mp
-var max_mp: int setget _set_none, get_max_mp
-var mp_progress: int setget set_mp_progress, get_mp_progress
-var actor_collision: int setget set_actor_collision, get_actor_collision
+var mp: int setget _set_mp, _get_mp
+var max_mp: int setget _set_none, _get_max_mp
+var mp_progress: int setget _set_mp_progress, _get_mp_progress
+var actor_collision: int setget _set_actor_collision, _get_actor_collision
 
 # Increase the upper limit when collecting a new item.
-var max_ghost: int setget _set_none, get_max_ghost
+var max_ghost: int setget _set_none, _get_max_ghost
 # Add 1 after creating a ghost.
-var count_ghost: int setget set_count_ghost, get_count_ghost
+var count_ghost: int setget _set_count_ghost, _get_count_ghost
 
 var has_ghost := true
 # Spawn a ghost when the timer is below 1. Then reset it to its maximum.
 var spawn_ghost_timer: int = 0
 # Add 1 after moving in the swamp.
-var sail_duration: int setget set_sail_duration, get_sail_duration
+var sail_duration: int setget _set_sail_duration, _get_sail_duration
 var use_pirate_ship := false
 
 var use_power := false
 var show_sight := false
-var count_item: int setget _set_none, get_count_item
+var count_item: int setget _set_none, _get_count_item
+var inactive_counter: int setget _set_inactive_counter, _get_inactive_counter
 
 var _mp: int = PcData.MAX_MP
 var _max_mp: int = PcData.MAX_MP
@@ -39,6 +42,7 @@ var _max_ghost: int = PcData.ITEM_TO_MAX_GHOST[0]
 var _count_ghost: int = 0
 var _sail_duration: int = 0
 var _count_item: int = 0
+var _inactive_counter: int = 0
 
 var _sub_tag_to_item := {
 	SubTag.RUM: false,
@@ -75,63 +79,6 @@ func _init(_main_tag: String, _sub_tag: String, _sprite: Sprite).(_main_tag,
 	_init_direction_to_sight_power()
 
 
-# MP can be negative.
-func set_mp(value: int) -> void:
-	_mp = _fix_overflow(value, get_max_mp())
-
-
-func get_mp() -> int:
-	return _mp
-
-
-func get_max_mp() -> int:
-	return _max_mp
-
-
-# MP progress cannot be negative.
-func set_mp_progress(value: int) -> void:
-	_mp_progress = _fix_overflow(value, MAX_INT, 0)
-	while get_mp_progress() >= PcData.MAX_MP_PROGRESS:
-		_mp_progress -= PcData.MAX_MP_PROGRESS
-		set_mp(get_mp() + 1)
-
-
-func get_mp_progress() -> int:
-	return _mp_progress
-
-
-func set_actor_collision(value: int) -> void:
-	_actor_collision = _fix_overflow(value, PcData.MAX_ACTOR_COLLISION, 0)
-
-
-func get_actor_collision() -> int:
-	return _actor_collision
-
-
-func get_max_ghost() -> int:
-	return _max_ghost
-
-
-func set_count_ghost(value: int) -> void:
-	_count_ghost = _fix_overflow(value, get_max_ghost(), 0)
-
-
-func get_count_ghost() -> int:
-	return _count_ghost
-
-
-func set_sail_duration(value: int) -> void:
-	_sail_duration = _fix_overflow(value, PcData.MAX_SAIL_DURATION, 0)
-
-
-func get_sail_duration() -> int:
-	return _sail_duration
-
-
-func get_count_item() -> int:
-	return _count_item
-
-
 func has_item(sub_tag: String) -> bool:
 	return _sub_tag_to_item.get(sub_tag, false)
 
@@ -144,7 +91,7 @@ func add_item(sub_tag: String) -> void:
 	else:
 		return
 	# Increase max_ghost.
-	_max_ghost = PcData.ITEM_TO_MAX_GHOST[get_count_item()]
+	_max_ghost = PcData.ITEM_TO_MAX_GHOST[_get_count_item()]
 	# Rum increases max MP.
 	if sub_tag == SubTag.RUM:
 		_max_mp = PcData.MAX_MP_WITH_RUM
@@ -215,10 +162,17 @@ func set_direction_to_movement(direction_tag: int, can_move: bool) -> void:
 
 
 func get_drop_score(sub_tag: String) -> int:
+	if not _drop_score.has(sub_tag):
+		push_error(ERR_TRAP_SUB_TAG % sub_tag)
+		return 0
 	return _drop_score[sub_tag]
 
 
 func add_drop_score(sub_tag: String, value: int) -> void:
+	if not _drop_score.has(sub_tag):
+		push_error(ERR_TRAP_SUB_TAG % sub_tag)
+		return
+
 	_drop_score[sub_tag] += value
 	if _drop_score[sub_tag] < 0:
 		_drop_score[sub_tag] = 0
@@ -229,6 +183,13 @@ func add_all_drop_scores(value: int) -> void:
 		add_drop_score(i, value)
 
 
+func get_hit(sub_tag: String) -> int:
+	if not _drop_score.has(sub_tag):
+		push_error(ERR_TRAP_SUB_TAG % sub_tag)
+		return 0
+	return get_drop_score(sub_tag) / PcData.LOW_DROP_SCORE
+
+
 func reset_direction_to_sight_power() -> void:
 	for i in _direction_to_sight_power.keys():
 		_direction_to_sight_power[i][NPC_SIGHT] = false
@@ -237,7 +198,82 @@ func reset_direction_to_sight_power() -> void:
 		_direction_to_sight_power[i][TARGET_SPRITE] = null
 
 
-func _fix_overflow(value: int, upper := MAX_INT, lower := -MAX_INT) -> int:
+func is_inactive() -> bool:
+	return _inactive_counter == PcData.MAX_INACTIVE_COUNTER
+
+
+# MP can be negative.
+func _set_mp(value: int) -> void:
+	_mp = _fix_overflow(value, _get_max_mp(), PcData.MIN_MP)
+
+
+func _get_mp() -> int:
+	return _mp
+
+
+func _get_max_mp() -> int:
+	return _max_mp
+
+
+# MP progress cannot be negative.
+func _set_mp_progress(value: int) -> void:
+	_mp_progress = _fix_overflow(value, MAX_INT, 0)
+	while _get_mp_progress() >= PcData.MAX_MP_PROGRESS:
+		_mp_progress -= PcData.MAX_MP_PROGRESS
+		_set_mp(_get_mp() + 1)
+
+
+func _get_mp_progress() -> int:
+	return _mp_progress
+
+
+func _set_actor_collision(value: int) -> void:
+	_actor_collision = _fix_overflow(value, PcData.MAX_ACTOR_COLLISION, 0)
+
+
+func _get_actor_collision() -> int:
+	return _actor_collision
+
+
+func _get_max_ghost() -> int:
+	return _max_ghost
+
+
+func _set_count_ghost(value: int) -> void:
+	_count_ghost = _fix_overflow(value, _get_max_ghost(), 0)
+
+
+func _get_count_ghost() -> int:
+	return _count_ghost
+
+
+func _set_sail_duration(value: int) -> void:
+	_sail_duration = _fix_overflow(value, PcData.MAX_SAIL_DURATION, 0)
+
+
+func _get_sail_duration() -> int:
+	return _sail_duration
+
+
+func _get_count_item() -> int:
+	return _count_item
+
+
+func _set_inactive_counter(value: int) -> void:
+	if value < 0:
+		_inactive_counter = 0
+	elif value > PcData.MAX_INACTIVE_COUNTER:
+		_set_actor_collision(_get_actor_collision() + 1)
+		_inactive_counter = 0
+	else:
+		_inactive_counter = value
+
+
+func _get_inactive_counter() -> int:
+	return _inactive_counter
+
+
+func _fix_overflow(value: int, upper: int, lower: int) -> int:
 	return max(min(value, upper), lower) as int
 
 

@@ -119,8 +119,7 @@ func _get_inventory() -> String:
 
 func _get_drop_bar(sub_tag: String) -> String:
 	var bar := ""
-	var state := FindObject.pc_state
-	var hit := state.get_drop_score(sub_tag) / PcData.LOW_DROP_SCORE
+	var hit: int = FindObject.pc_state.get_hit(sub_tag)
 
 	for i in range(0, PcData.MAX_HIT):
 		if i < hit:

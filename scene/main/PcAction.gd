@@ -2,18 +2,19 @@ extends Node2D
 class_name PcAction
 
 
-var end_turn := false setget _set_none, get_end_turn
+var end_turn: bool setget _set_none, get_end_turn
 var use_power := false setget _set_none, get_use_power
 
 var _ref_RemoveObject: RemoveObject
 var _ref_RandomNumber: RandomNumber
 var _ref_CreateObject: CreateObject
 
+var _end_turn := false
 var _current_sprite_tag: String
 
 
 func get_end_turn() -> bool:
-	return end_turn
+	return _end_turn
 
 
 func get_use_power() -> bool:
@@ -22,7 +23,9 @@ func get_use_power() -> bool:
 
 
 func start_turn() -> void:
-	end_turn = false
+	print("Collision: %d" % FindObject.pc_state.actor_collision)
+	print("Inactive: %d" % FindObject.pc_state.inactive_counter)
+	_end_turn = false
 	_current_sprite_tag = FindObject.pc_state.sprite_tag
 
 
@@ -88,10 +91,10 @@ func press_wizard_key(input_tag: String) -> void:
 			DevKey.test(self)
 
 
-func _end_turn() -> void:
+func _end_pc_turn() -> void:
 	# Remove a trap when it is covered by PC or NPC.
 	_ref_RemoveObject.remove_trap(FindObject.pc_coord)
-	end_turn = true
+	_end_turn = true
 
 
 func _move_outside_swamp(pc_state: PcState, move_to: IntCoord) -> void:
@@ -99,8 +102,10 @@ func _move_outside_swamp(pc_state: PcState, move_to: IntCoord) -> void:
 		pc_state.use_pirate_ship = true
 	elif FindObjectHelper.has_dinghy(move_to):
 		pc_state.has_ghost = true
+
+	FindObject.pc_state.inactive_counter += 1
 	MoveObject.move(FindObject.pc, move_to)
-	_end_turn()
+	_end_pc_turn()
 
 
 func _move_in_swamp(source_coord: IntCoord, target_coord: IntCoord) -> void:
@@ -115,18 +120,21 @@ func _move_in_swamp(source_coord: IntCoord, target_coord: IntCoord) -> void:
 	elif pc_state.use_pirate_ship and (pc_state.mp > 0):
 		pc_state.mp -= 1
 
+	FindObject.pc_state.inactive_counter += 1
 	MoveObject.move(FindObject.pc, target_coord)
-	_end_turn()
+	_end_pc_turn()
 
 
 func _use_power_in_swamp(target_coord: IntCoord) -> void:
+	FindObject.pc_state.inactive_counter += 1
 	MoveObject.move(FindObject.pc, target_coord)
-	_end_turn()
+	_end_pc_turn()
 
 
 func _use_power_in_harbor(source_coord: IntCoord) -> void:
+	FindObject.pc_state.inactive_counter = 0
 	_light_harbor(FindObject.pc_state, source_coord)
-	_end_turn()
+	_end_pc_turn()
 
 
 func _use_power_on_land(direction_tag: int) -> void:
@@ -154,7 +162,8 @@ func _use_power_on_land(direction_tag: int) -> void:
 			(target_state as ActorState).reset_walk_path()
 		_:
 			return
-	_end_turn()
+	FindObject.pc_state.inactive_counter = 0
+	_end_pc_turn()
 
 
 func _set_none(__) -> void:

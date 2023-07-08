@@ -7,9 +7,11 @@ const LOW_MP: int = 1
 const HIGH_MP: int = 4
 const MAX_MP: int = 3
 const MAX_MP_WITH_RUM: int = 6
+const MIN_MP: int = -9
 
 const MAX_MP_PROGRESS: int = 100
 const MAX_ACTOR_COLLISION: int = 10
+const MAX_INACTIVE_COUNTER: int = 20
 const MAX_VALID_HARBOR: int = 5
 const HARBOR_TO_MP_PROGRESS := {
 	1: 5,
