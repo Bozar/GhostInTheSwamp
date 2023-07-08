@@ -23,8 +23,8 @@ func get_use_power() -> bool:
 
 
 func start_turn() -> void:
-	print("Collision: %d" % FindObject.pc_state.actor_collision)
-	print("Inactive: %d" % FindObject.pc_state.inactive_counter)
+	# print("Collision: %d" % FindObject.pc_state.actor_collision)
+	# print("Inactive: %d" % FindObject.pc_state.inactive_counter)
 	_end_turn = false
 	_current_sprite_tag = FindObject.pc_state.sprite_tag
 
