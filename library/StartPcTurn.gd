@@ -99,7 +99,7 @@ static func _try_move_outside_swamp(direction_tag: int) -> bool:
 			return false
 		return true
 	# Land.
-	elif _can_enter_harbor(pc_state, move_to):
+	elif HarborHelper.can_enter_by_coord(move_to):
 		return true
 	# Harbor.
 	elif FindObjectHelper.has_ship(move_to):
@@ -117,7 +117,7 @@ static func _try_move_in_swamp(direction_tag: int) -> bool:
 	var pc_state := FindObject.pc_state
 
 	# PC can enter a harbor from swamp.
-	if _can_enter_harbor(pc_state, move_to):
+	if HarborHelper.can_enter_by_coord(move_to):
 		return true
 	# PC can only sail into a swamp grid.
 	elif not FindObjectHelper.has_swamp(move_to):
@@ -130,7 +130,3 @@ static func _try_move_in_swamp(direction_tag: int) -> bool:
 		if FindObjectHelper.has_land_or_harbor(i):
 			return true
 	return false
-
-
-static func _can_enter_harbor(pc_state: PcState, move_to: IntCoord) -> bool:
-	return pc_state.has_accordion() and FindObjectHelper.has_harbor(move_to)

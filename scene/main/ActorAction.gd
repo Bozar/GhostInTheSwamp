@@ -47,7 +47,9 @@ func _actor_ai(current_sprite: Sprite) -> void:
 			# Turn off nearby harbor.
 			for i in CoordCalculator.get_neighbor(source_coord, 1):
 				if FindObjectHelper.has_harbor(i):
-					HarborHelper.toggle_harbor_with_coord(i, false)
+					HarborHelper.set_state_by_coord(i, TernaryLogic.FALSE,
+							TernaryLogic.UNKNOWN)
+					HarborHelper.set_sprite_by_coord(i)
 					break
 			# Update walk path.
 			_set_path_to_harbor(state)

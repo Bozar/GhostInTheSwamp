@@ -365,6 +365,11 @@ _global_script_classes=[ {
 "path": "res://library/SwitchSprite.gd"
 }, {
 "base": "Reference",
+"class": "TernaryLogic",
+"language": "GDScript",
+"path": "res://library/TernaryLogic.gd"
+}, {
+"base": "Reference",
 "class": "WorldGenerator",
 "language": "GDScript",
 "path": "res://library/WorldGenerator.gd"
@@ -451,6 +456,7 @@ _global_script_class_icons={
 "SubTag": "",
 "SwitchScreen": "",
 "SwitchSprite": "",
+"TernaryLogic": "",
 "WorldGenerator": "",
 "WorldTag": "",
 "ZIndex": ""

@@ -55,4 +55,6 @@ func _on_RemoveObject_sprite_removed(sprite: Sprite) -> void:
 
 func _active_the_first_harbor() -> void:
 	var harbor: Sprite = FindObject.get_sprites_with_tag(SubTag.FINAL_HARBOR)[0]
-	HarborHelper.toggle_harbor(harbor, true)
+
+	HarborHelper.set_state(harbor, TernaryLogic.TRUE, TernaryLogic.UNKNOWN)
+	HarborHelper.set_sprite(harbor)

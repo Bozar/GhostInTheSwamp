@@ -151,7 +151,7 @@ static func _cast_from_swamp(x: int, y: int, opt_arg: Array) -> bool:
 	# OUTPUT, BLOCK: SubTag.HARBOR.
 	# get_ray_path() can handle a pair of coords that is out of dungeon.
 	if FindObjectHelper.has_harbor(coord):
-		last_sprite = FindObjectHelper.get_harbor_with_coord(coord)
+		last_sprite = FindObjectHelper.get_harbor_by_coord(coord)
 		out_cast_result[direction][LAST_SPRITE] = last_sprite
 		return true
 	# OUTPUT, BLOCK: MainTag.ACTOR.

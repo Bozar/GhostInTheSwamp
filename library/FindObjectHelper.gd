@@ -48,7 +48,7 @@ static func get_harbors() -> Array:
 	return FindObject.get_sprites_with_tag(SubTag.HARBOR)
 
 
-static func get_harbor_with_coord(coord: IntCoord) -> Sprite:
+static func get_harbor_by_coord(coord: IntCoord) -> Sprite:
 	return FindObject.get_building_with_sub_tag(coord, SubTag.HARBOR)
 
 

@@ -192,4 +192,7 @@ func _drop_item(actor_sub_tag: String) -> void:
 func _light_harbor(pc_state: PcState, harbor_coord: IntCoord) -> void:
 	pc_state.has_ghost = false
 	pc_state.mp += 1
-	HarborHelper.toggle_harbor_with_coord(harbor_coord, true)
+
+	HarborHelper.set_state_by_coord(harbor_coord, TernaryLogic.TRUE,
+			TernaryLogic.UNKNOWN)
+	HarborHelper.set_sprite_by_coord(harbor_coord)

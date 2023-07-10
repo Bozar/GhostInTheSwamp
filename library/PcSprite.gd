@@ -23,7 +23,7 @@ static func set_default_sprite() -> void:
 	var new_sprite := SpriteTag.DEFAULT
 
 	if FindObjectHelper.has_harbor(coord):
-		building = FindObjectHelper.get_harbor_with_coord(coord)
+		building = FindObjectHelper.get_harbor_by_coord(coord)
 		if (ObjectState.get_state(building) as HarborState).is_active:
 			new_sprite = SpriteTag.ACTIVE_HARBOR
 		else:

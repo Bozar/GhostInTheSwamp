@@ -4,6 +4,8 @@ class_name SpriteTag
 
 const DEFAULT := "default"
 const ACTIVE := "active"
+const LOCKED_DEFAULT := "locked_default"
+const LOCKED_ACTIVE := "locked_active"
 
 const USE_POWER := "use_power"
 const DEFAULT_HARBOR := "default_harbor"

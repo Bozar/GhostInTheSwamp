@@ -4,7 +4,7 @@ class_name PcData
 const SIGHT_RANGE: int = 5
 
 const LOW_MP: int = 1
-const HIGH_MP: int = 4
+const HIGH_MP: int = 2
 const MAX_MP: int = 3
 const MAX_MP_WITH_RUM: int = 6
 const MIN_MP: int = -9

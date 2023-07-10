@@ -1,7 +1,7 @@
 class_name DevKey
 
 
-static func test(n: Node2D) -> void:
+static func test(_n: Node2D) -> void:
 	# var sub_tags := [
 	# 	SubTag.TOURIST,
 	# 	SubTag.SCOUT,
@@ -16,9 +16,20 @@ static func test(n: Node2D) -> void:
 	# MoveObject.move(FindObject.pc, IntCoord.new(FindObject.pc_coord.x,
 	# 		FindObject.pc_coord.y - 1))
 	# _add_dinghy(FindObject.pc_coord, n)
-	_teleport(2, n)
+	# _teleport(2, n)
+	_lock_harbor()
 	# n._end_turn()
 	return
+
+
+static func _lock_harbor() -> void:
+	var harbors: Array = FindObjectHelper.get_harbors()
+
+	HarborHelper.set_state(harbors[1], TernaryLogic.TRUE, TernaryLogic.TRUE)
+	HarborHelper.set_sprite(harbors[1])
+
+	HarborHelper.set_state(harbors[2], TernaryLogic.FALSE, TernaryLogic.TRUE)
+	HarborHelper.set_sprite(harbors[2])
 
 
 # 0: near land, 1: anywhere, 2: final harbor
