@@ -25,7 +25,7 @@ func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	if state.remove_self:
 		_ref_RemoveObject.remove(current_sprite)
 	else:
-		ActorSight.toggle_actor(current_sprite, FindObject.pc_state.show_sight)
+		ActorSight.set_sprite(current_sprite)
 	_ref_Schedule.end_turn()
 
 
@@ -47,8 +47,7 @@ func _actor_ai(current_sprite: Sprite) -> void:
 			# Turn off nearby harbor.
 			for i in CoordCalculator.get_neighbor(source_coord, 1):
 				if FindObjectHelper.has_harbor(i):
-					HarborHelper.set_state_by_coord(i, TernaryLogic.FALSE,
-							TernaryLogic.UNKNOWN)
+					HarborHelper.set_state_by_coord(i, false)
 					HarborHelper.set_sprite_by_coord(i)
 					break
 			# Update walk path.

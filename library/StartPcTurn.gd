@@ -5,11 +5,26 @@ class_name StartPcTurn
 static func renew_world(ref_remove: RemoveObject) -> void:
 	_remove_sprites(ref_remove)
 	_reset_state()
+	_reset_sprites()
+
+
+static func set_harbor_state() -> void:
+	var pc_coord: IntCoord = FindObject.pc_coord
+	var this_harbor: Sprite = FindObjectHelper.get_harbor_by_coord(pc_coord)
+	var harbor_state: HarborState
+
+	for i in FindObjectHelper.get_harbors():
+		harbor_state = ObjectState.get_state(i)
+		if i == this_harbor:
+			harbor_state.lock_counter += ActorData.LOCK_COUNTER
+		elif harbor_state.lock_counter > 0:
+			harbor_state.lock_counter -= 1
+			HarborHelper.set_sprite(i)
 
 
 static func set_pc_state(ref_create: CreateObject) -> void:
-	var pc_coord := FindObject.pc_coord
-	var pc_state := FindObject.pc_state
+	var pc_coord: IntCoord = FindObject.pc_coord
+	var pc_state: PcState = FindObject.pc_state
 
 	# Swamp.
 	if FindObjectHelper.has_swamp(pc_coord):
@@ -54,6 +69,11 @@ static func _remove_sprites(ref_remove: RemoveObject) -> void:
 	if not FindObjectHelper.has_harbor(FindObject.pc_coord):
 		for i in FindObject.get_sprites_with_tag(SubTag.SHIP):
 			ref_remove.remove(i)
+
+
+static func _reset_sprites() -> void:
+	for i in FindObjectHelper.get_harbors():
+		HarborHelper.set_sprite(i)
 
 
 static func _set_swamp_power(coord: IntCoord, state: PcState) -> void:

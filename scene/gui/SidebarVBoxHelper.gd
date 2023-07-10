@@ -98,8 +98,10 @@ func _get_sink() -> String:
 
 	if (mp < 0) or (not _pc_state.use_pirate_ship):
 		mp = 0
-	if sink < max_sail:
+	if FindObjectHelper.has_swamp(FindObject.pc_coord):
 		return SidebarText.SINK % [sink, mp]
+	# if sink < max_sail:
+	# 	return SidebarText.SINK % [sink, mp]
 	return ""
 
 

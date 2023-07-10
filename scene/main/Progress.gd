@@ -22,6 +22,7 @@ func renew_world(next_actor: Sprite) -> void:
 	# Before PC's turn, respawn actors and set actions in swamp or harbor.
 	if next_actor_is_pc:
 		$SpawnActor.renew_world()
+		StartPcTurn.set_harbor_state()
 		StartPcTurn.set_pc_state(_ref_CreateObject)
 	# When on land, PC may lose before an NPC's turn due to being spotted.
 	if pc_is_on_land:
@@ -55,6 +56,5 @@ func _on_RemoveObject_sprite_removed(sprite: Sprite) -> void:
 
 func _active_the_first_harbor() -> void:
 	var harbor: Sprite = FindObject.get_sprites_with_tag(SubTag.FINAL_HARBOR)[0]
-
-	HarborHelper.set_state(harbor, TernaryLogic.TRUE, TernaryLogic.UNKNOWN)
+	HarborHelper.set_state(harbor, true)
 	HarborHelper.set_sprite(harbor)

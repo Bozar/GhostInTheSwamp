@@ -23,3 +23,6 @@ const COLLISION_SCORE := {
 	SubTag.PERFORMER: 2,
 	SubTag.ENGINEER: 3,
 }
+
+const LOCK_COUNTER: int = 10
+const LOCK_THRESHOLD: int = 10

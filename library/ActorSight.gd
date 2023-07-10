@@ -2,17 +2,17 @@ class_name ActorSight
 
 
 # Change a sprite to an arrow that shows sight direction or back to normal.
-static func toggle_actor(sprite: Sprite, show_sight: bool) -> void:
-	var state := ObjectState.get_state(sprite) as ActorState
-	var new_tag := SpriteTag.DEFAULT
+static func set_sprite(actor: Sprite) -> void:
+	var state: ActorState = ObjectState.get_state(actor) as ActorState
+	var new_tag: String = SpriteTag.DEFAULT
+	var pc_state: PcState = FindObject.pc_state
 
-	if show_sight:
+	if pc_state.show_sight:
 		new_tag = DirectionTag.get_sprite_by_direction(state.face_direction)
-	SwitchSprite.set_sprite(sprite, new_tag)
-	state.show_sight = show_sight
+	SwitchSprite.set_sprite(actor, new_tag)
 
 
-# Change all actor sprites and set PC state.
+# Change all actor and harbor sprites, set PC state.
 static func toggle_sight_mode(exit_sight_mode := false) -> void:
 	var state := FindObject.pc_state
 
@@ -20,10 +20,12 @@ static func toggle_sight_mode(exit_sight_mode := false) -> void:
 		state.show_sight = false
 	else:
 		state.show_sight = not state.show_sight
+
 	for i in FindObject.get_sprites_with_tag(MainTag.ACTOR):
-		if i.is_in_group(SubTag.PC):
-			continue
-		toggle_actor(i, state.show_sight)
+		if not i.is_in_group(SubTag.PC):
+			set_sprite(i)
+	for i in FindObjectHelper.get_harbors():
+		HarborHelper.set_sprite(i)
 
 
 static func set_sight_around_pc(cast_results: Dictionary) -> void:
