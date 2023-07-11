@@ -3,6 +3,15 @@ class_name InitWorldHelper
 
 
 const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
+const PATH_TO_A0 := PATH_TO_PREFAB + "A0/"
+const PATH_TO_A1 := PATH_TO_PREFAB + "A1/"
+const PATH_TO_B0 := PATH_TO_PREFAB + "B0/"
+const PATH_TO_B1 := PATH_TO_PREFAB + "B1/"
+# Split the dungeon into ROW x COLUMN zones.
+const ROW_TO_PATH := {
+	0: [PATH_TO_A0, PATH_TO_A1,],
+	1: [PATH_TO_B0, PATH_TO_B1,],
+}
 
 const NO_NEIGHBOR := "[%s, %s] has no neighbor."
 
@@ -36,20 +45,52 @@ func init_ground_building() -> void:
 
 
 func _parse_prefab() -> DungeonPrefab.PackedPrefab:
-	var files := FileIoHelper.get_file_list(PATH_TO_PREFAB)
-	var path_to_file: String
+	# return _parse_full_map()
+
+	var row_to_prefab := {}
+	var file_list: Array
+	var read_file: FileParser
+	var combined_file: FileParser
+	var edit_arg: Array = _get_edit_arg()
+
+	# row: int
+	for row in ROW_TO_PATH.keys():
+		# column: int
+		for column in range(0, ROW_TO_PATH[row].size()):
+			# Select one file for a specific dungeon zone.
+			file_list = FileIoHelper.get_file_list(ROW_TO_PATH[row][column])
+			ArrayHelper.rand_picker(file_list, 1, _ref_RandomNumber)
+			# Leave the first zone in a row unchanged.
+			if column == 0:
+				combined_file = FileIoHelper.read_as_line(file_list[0])
+			# Append following zones into the first one.
+			else:
+				read_file = FileIoHelper.read_as_line(file_list[0])
+				FileIoHelper.append_column(combined_file, read_file)
+		# One file parser per row.
+		row_to_prefab[row] = combined_file
+
+	# Leave the first zone unchanged.
+	combined_file = row_to_prefab[0]
+	# row: int
+	for row in row_to_prefab.keys():
+		# Append following zones into the first one.
+		if row > 0:
+			FileIoHelper.append_row(combined_file, row_to_prefab[row])
+
+	return DungeonPrefab.get_prefab(combined_file.output_line, edit_arg)
+
+
+func _get_edit_arg() -> Array:
 	var edit_arg := [
-			DungeonPrefab.HORIZONTAL_FLIP,
-			DungeonPrefab.VERTICAL_FLIP
+		DungeonPrefab.HORIZONTAL_FLIP,
+		DungeonPrefab.VERTICAL_FLIP,
 	]
 
-	ArrayHelper.rand_picker(files, 1, _ref_RandomNumber)
-	path_to_file = PATH_TO_PREFAB + "test.txt"
-	# path_to_file = files[0]
 	for i in range(0, edit_arg.size()):
 		if _ref_RandomNumber.get_percent_chance(50):
 			edit_arg[i] = DungeonPrefab.DO_NOT_EDIT
-	return DungeonPrefab.get_prefab(path_to_file, edit_arg)
+	return edit_arg
 
 
 func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
@@ -130,3 +171,10 @@ func _create_expand_shrub(expand_coords: Array) -> void:
 	ArrayHelper.rand_picker(expand_coords, half_size, _ref_RandomNumber)
 	for i in expand_coords:
 		_ref_CreateObject.create_building(SubTag.SHRUB, i)
+
+
+func _parse_full_map() -> DungeonPrefab.PackedPrefab:
+	var path_to_file: String = PATH_TO_PREFAB + "test.txt"
+	var read_file: FileParser = FileIoHelper.read_as_line(path_to_file)
+	var edit_arg: Array = _get_edit_arg()
+	return DungeonPrefab.get_prefab(read_file.output_line, edit_arg)

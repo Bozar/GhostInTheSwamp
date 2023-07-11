@@ -2,9 +2,9 @@ class_name DungeonPrefab
 
 
 class PackedPrefab:
-	var max_x: int setget _set_none, get_max_x
-	var max_y: int setget _set_none, get_max_y
-	var prefab: Dictionary setget _set_none, get_prefab
+	var max_x: int setget _set_none, _get_max_x
+	var max_y: int setget _set_none, _get_max_y
+	var prefab: Dictionary setget _set_none, _get_prefab
 
 	var _max_x: int
 	var _max_y: int
@@ -17,15 +17,15 @@ class PackedPrefab:
 		_max_y = max_y_
 
 
-	func get_max_x() -> int:
+	func _get_max_x() -> int:
 		return _max_x
 
 
-	func get_max_y() -> int:
+	func _get_max_y() -> int:
 		return _max_y
 
 
-	func get_prefab() -> Dictionary:
+	func _get_prefab() -> Dictionary:
 		return _prefab
 
 
@@ -34,8 +34,8 @@ class PackedPrefab:
 
 
 class MatrixSize:
-	var max_row: int setget _set_none, get_max_row
-	var max_column: int setget _set_none, get_max_column
+	var max_row: int setget _set_none, _get_max_row
+	var max_column: int setget _set_none, _get_max_column
 
 	var _max_row: int
 	var _max_column: int
@@ -46,11 +46,11 @@ class MatrixSize:
 		_max_column = max_column_
 
 
-	func get_max_row() -> int:
+	func _get_max_row() -> int:
 		return _max_row
 
 
-	func get_max_column() -> int:
+	func _get_max_column() -> int:
 		return _max_column
 
 
@@ -63,58 +63,58 @@ const DICT_VALUE_WARNING := "Dict value is neither a string or an array."
 const WALL_CHAR := "#"
 const FLOOR_CHAR := "."
 
-const DO_NOT_EDIT: int = 0
-const HORIZONTAL_FLIP: int = 1
-const VERTICAL_FLIP: int = 2
-const ROTATE_RIGHT: int = 3
+enum {
+	DO_NOT_EDIT,
+	HORIZONTAL_FLIP,
+	VERTICAL_FLIP,
+	ROTATE_RIGHT,
+}
 
 
-# The argument `edit` accepts an array of constant integers: HORIZONTAL_FLIP,
-# VERTICAL_FLIP, ROTATE_RIGHT.
-static func get_prefab(path_to_prefab: String, edit := []) -> PackedPrefab:
-	var read_file := FileIoHelper.read_as_line(path_to_prefab)
+# parsed_file: {row: [column]}
+# edit: [HORIZONTAL_FLIP, VERTICAL_FLIP, ROTATE_RIGHT]
+static func get_prefab(parsed_file: Dictionary, edit := []) -> PackedPrefab:
 	var dungeon := {}
 	var matrix_size: MatrixSize
 	var max_x: int
 	var max_y: int
 	var refresh_size := false
 
-	if read_file.parse_success and (read_file.output_line.size() > 0):
-		matrix_size = _get_matrix_size(read_file.output_line)
-		max_x = matrix_size.max_column
-		max_y = matrix_size.max_row
+	matrix_size = _get_matrix_size(parsed_file)
+	max_x = matrix_size.max_column
+	max_y = matrix_size.max_row
 
-		# The file is read by lines. Therefore in order to get a grid [x, y], we
-		# need to call output_line[y][x], which is inconvenient. Swap [x, y] and
-		# [y, x] to make life easier.
-		#
-		# column
-		# ----------> x
-		# |
-		# | row
-		# |
-		# v y
-		for x in range(0, max_x):
-			dungeon[x] = []
-			dungeon[x].resize(max_y)
-			for y in range(0, max_y):
-				dungeon[x][y] = read_file.output_line[y][x]
+	# The file is read by lines. Therefore in order to get a grid [x, y], we
+	# need to call output_line[y][x], which is inconvenient. Swap [x, y] and
+	# [y, x] to make life easier.
+	#
+	# column
+	# ----------> x
+	# |
+	# | row
+	# |
+	# v y
+	for x in range(0, max_x):
+		dungeon[x] = []
+		dungeon[x].resize(max_y)
+		for y in range(0, max_y):
+			dungeon[x][y] = parsed_file[y][x]
 
-		for i in edit:
-			match i:
-				HORIZONTAL_FLIP:
-					dungeon = _horizontal_flip(dungeon, max_x, max_y)
-				VERTICAL_FLIP:
-					dungeon = _vertical_flip(dungeon, max_x, max_y)
-				ROTATE_RIGHT:
-					dungeon = _rotate_right(dungeon, max_x, max_y)
-					refresh_size = true
-			# Update max_x and max_y after the prefab is rotated.
-			if refresh_size:
-				matrix_size = _get_matrix_size(dungeon)
-				max_x = matrix_size.max_row
-				max_y = matrix_size.max_column
-				refresh_size = false
+	for i in edit:
+		match i:
+			HORIZONTAL_FLIP:
+				dungeon = _horizontal_flip(dungeon, max_x, max_y)
+			VERTICAL_FLIP:
+				dungeon = _vertical_flip(dungeon, max_x, max_y)
+			ROTATE_RIGHT:
+				dungeon = _rotate_right(dungeon, max_x, max_y)
+				refresh_size = true
+		# Update max_x and max_y after the prefab is rotated.
+		if refresh_size:
+			matrix_size = _get_matrix_size(dungeon)
+			max_x = matrix_size.max_row
+			max_y = matrix_size.max_column
+			refresh_size = false
 	return PackedPrefab.new(dungeon, max_x, max_y)
 
 

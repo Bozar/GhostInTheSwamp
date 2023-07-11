@@ -1,6 +1,9 @@
 class_name FileIoHelper
 
 
+const ERR_ROW_MISMATCH := "Two files have different rows."
+
+
 static func read_as_text(path_to_file: String) -> FileParser:
 	var new_file: File = File.new()
 	var file_parser := FileParser.new()
@@ -62,3 +65,20 @@ static func get_file_list(path_to_dir: String) -> Array:
 
 static func has_file(path_to_file: String) -> bool:
 	return File.new().file_exists(path_to_file)
+
+
+static func append_row(source: FileParser, append: FileParser) -> FileParser:
+	var new_row: int = source.output_line.size()
+
+	for i in append.output_line.keys():
+		source.output_line[i + new_row] = append.output_line[i]
+	return source
+
+
+static func append_column(source: FileParser, append: FileParser) -> FileParser:
+	if source.output_line.size() != append.output_line.size():
+		push_error(ERR_ROW_MISMATCH)
+		return source
+	for i in source.output_line.keys():
+		source.output_line[i] += append.output_line[i]
+	return source
