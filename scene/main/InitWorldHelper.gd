@@ -3,15 +3,15 @@ class_name InitWorldHelper
 
 
 const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
-const PATH_TO_A0 := PATH_TO_PREFAB + "A0/"
-const PATH_TO_A1 := PATH_TO_PREFAB + "A1/"
-const PATH_TO_A2 := PATH_TO_PREFAB + "A2/"
-const PATH_TO_B0 := PATH_TO_PREFAB + "B0/"
-const PATH_TO_B1 := PATH_TO_PREFAB + "B1/"
-const PATH_TO_B2 := PATH_TO_PREFAB + "B2/"
-const PATH_TO_C0 := PATH_TO_PREFAB + "C0/"
-const PATH_TO_C1 := PATH_TO_PREFAB + "C1/"
-const PATH_TO_C2 := PATH_TO_PREFAB + "C2/"
+const PATH_TO_A0 := PATH_TO_PREFAB + "a0/"
+const PATH_TO_A1 := PATH_TO_PREFAB + "a1/"
+const PATH_TO_A2 := PATH_TO_PREFAB + "a2/"
+const PATH_TO_B0 := PATH_TO_PREFAB + "b0/"
+const PATH_TO_B1 := PATH_TO_PREFAB + "b1/"
+const PATH_TO_B2 := PATH_TO_PREFAB + "b2/"
+const PATH_TO_C0 := PATH_TO_PREFAB + "c0/"
+const PATH_TO_C1 := PATH_TO_PREFAB + "c1/"
+const PATH_TO_C2 := PATH_TO_PREFAB + "c2/"
 # Split the dungeon into ROW x COLUMN zones.
 const ROW_TO_PATH := {
 	0: [PATH_TO_A0, PATH_TO_A1, PATH_TO_A2,],
