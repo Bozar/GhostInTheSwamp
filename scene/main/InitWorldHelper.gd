@@ -5,12 +5,18 @@ class_name InitWorldHelper
 const PATH_TO_PREFAB := "res://resource/dungeon_prefab/"
 const PATH_TO_A0 := PATH_TO_PREFAB + "A0/"
 const PATH_TO_A1 := PATH_TO_PREFAB + "A1/"
+const PATH_TO_A2 := PATH_TO_PREFAB + "A2/"
 const PATH_TO_B0 := PATH_TO_PREFAB + "B0/"
 const PATH_TO_B1 := PATH_TO_PREFAB + "B1/"
+const PATH_TO_B2 := PATH_TO_PREFAB + "B2/"
+const PATH_TO_C0 := PATH_TO_PREFAB + "C0/"
+const PATH_TO_C1 := PATH_TO_PREFAB + "C1/"
+const PATH_TO_C2 := PATH_TO_PREFAB + "C2/"
 # Split the dungeon into ROW x COLUMN zones.
 const ROW_TO_PATH := {
-	0: [PATH_TO_A0, PATH_TO_A1,],
-	1: [PATH_TO_B0, PATH_TO_B1,],
+	0: [PATH_TO_A0, PATH_TO_A1, PATH_TO_A2,],
+	1: [PATH_TO_B0, PATH_TO_B1, PATH_TO_B2,],
+	2: [PATH_TO_C0, PATH_TO_C1, PATH_TO_C2,],
 }
 
 const NO_NEIGHBOR := "[%s, %s] has no neighbor."
@@ -18,6 +24,7 @@ const NO_NEIGHBOR := "[%s, %s] has no neighbor."
 const LAND_CHAR := "-"
 const FAR_LAND_CHAR := "F"
 const EXPAND_LAND_CHAR := "E"
+const EXPAND_DIRECTION_CHAR := "X"
 const HARBOR_CHAR := "H"
 const FINAL_HARBOR_CHAR := "r"
 const SHRUB_CHAR := "#"
@@ -35,11 +42,13 @@ func init_ground_building() -> void:
 	var expand_coords := {
 		EXPAND_LAND_CHAR: [],
 		EXPAND_SHRUB_CHAR: [],
+		EXPAND_DIRECTION_CHAR: [],
 	}
 
 	# Land, harbor, shrub, island.
 	_create_ground_building(packed_prefab, expand_coords)
-	_create_expand_land(expand_coords[EXPAND_LAND_CHAR])
+	_create_expand_land(expand_coords[EXPAND_LAND_CHAR],
+			expand_coords[EXPAND_DIRECTION_CHAR])
 	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
 	_create_swamp()
 
@@ -60,6 +69,7 @@ func _parse_prefab() -> DungeonPrefab.PackedPrefab:
 			# Select one file for a specific dungeon zone.
 			file_list = FileIoHelper.get_file_list(ROW_TO_PATH[row][column])
 			ArrayHelper.rand_picker(file_list, 1, _ref_RandomNumber)
+			print(file_list[0].get_file())
 			# Leave the first zone in a row unchanged.
 			if column == 0:
 				combined_file = FileIoHelper.read_as_line(file_list[0])
@@ -70,12 +80,13 @@ func _parse_prefab() -> DungeonPrefab.PackedPrefab:
 		# One file parser per row.
 		row_to_prefab[row] = combined_file
 
-	# Leave the first zone unchanged.
-	combined_file = row_to_prefab[0]
 	# row: int
-	for row in row_to_prefab.keys():
-		# Append following zones into the first one.
-		if row > 0:
+	for row in range(0, row_to_prefab.size()):
+		# Leave the first zone unchanged.
+		if row == 0:
+			combined_file = row_to_prefab[row]
+		# Append following zones into the first one by ascending order.
+		else:
 			FileIoHelper.append_row(combined_file, row_to_prefab[row])
 
 	return DungeonPrefab.get_prefab(combined_file.output_line, edit_arg)
@@ -117,6 +128,9 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 					_ref_CreateObject.create_building(SubTag.ISLAND, coord)
 				EXPAND_LAND_CHAR:
 					out_expand_coords[EXPAND_LAND_CHAR].push_back(coord)
+				EXPAND_DIRECTION_CHAR:
+					out_expand_coords[EXPAND_DIRECTION_CHAR].push_back(
+							ConvertCoord.hash_coord(coord))
 				EXPAND_SHRUB_CHAR:
 					out_expand_coords[EXPAND_SHRUB_CHAR].push_back(coord)
 				_:
@@ -133,17 +147,17 @@ func _create_swamp() -> void:
 		_ref_CreateObject.create_ground(SubTag.SWAMP, i)
 
 
-func _create_expand_land(expand_coords: Array) -> void:
+func _create_expand_land(expand_coords: Array, expand_directions: Array) -> void:
 	var land_coord: IntCoord
 	var ray_direction: int
 	var max_length: int
 	var new_coords: Array
 
 	for i in expand_coords:
-		land_coord = _get_land_coord(i)
+		land_coord = _get_land_coord(i, expand_directions)
 		if land_coord == null:
 			continue
-		ray_direction = CoordCalculator.get_ray_direction(land_coord, i)
+		ray_direction = CoordCalculator.get_ray_direction(i, land_coord)
 		max_length = _ref_RandomNumber.get_int(0, MAX_EXPAND)
 		new_coords = CoordCalculator.get_ray_path(i, max_length,
 				ray_direction, true, false, self, "_is_ray_obstacle")
@@ -151,11 +165,13 @@ func _create_expand_land(expand_coords: Array) -> void:
 			_ref_CreateObject.create_ground(SubTag.LAND, nc)
 
 
-func _get_land_coord(coord: IntCoord) -> IntCoord:
-	var neighbor := CoordCalculator.get_neighbor(coord, 1)
+func _get_land_coord(coord: IntCoord, directions: Array) -> IntCoord:
+	var coord_index: int
 
-	for i in neighbor:
-		if FindObject.has_ground(i):
+	for i in CoordCalculator.get_neighbor(coord, 1):
+		coord_index = directions.find(ConvertCoord.hash_coord(i))
+		if coord_index > -1:
+			ArrayHelper.remove_by_index(directions, coord_index)
 			return i
 	push_warning(NO_NEIGHBOR % [coord.x, coord.y])
 	return null
@@ -166,7 +182,7 @@ func _is_ray_obstacle(_x: int, _y: int, _opt: Array) -> bool:
 
 
 func _create_expand_shrub(expand_coords: Array) -> void:
-	var half_size := expand_coords.size() / 2
+	var half_size: int = expand_coords.size() / 2
 
 	ArrayHelper.rand_picker(expand_coords, half_size, _ref_RandomNumber)
 	for i in expand_coords:
