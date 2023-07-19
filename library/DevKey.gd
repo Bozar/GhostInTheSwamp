@@ -38,7 +38,7 @@ static func _teleport(destination: int, n: Node2D) -> void:
 					SubTag.FINAL_HARBOR)[0])
 
 	MoveObject.move(FindObject.pc, coord)
-	n._end_turn()
+	n._end_pc_turn()
 
 
 static func _add_dinghy(coord: IntCoord, n: Node2D) -> void:
