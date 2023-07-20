@@ -20,13 +20,12 @@ static func set_power(cast_results: Dictionary) -> void:
 static func _get_spook_cost(pc_state: PcState, actor: Sprite) -> int:
 	var actor_state := ObjectState.get_state(actor) as ActorState
 	var cost: int = PcData.COST_SUB_TAG_TO_SPOOK[actor_state.sub_tag]
-	var pc_coord := pc_state.coord
-	var actor_coord := actor_state.coord
-	var pc_to_actor := CoordCalculator.get_ray_direction(pc_coord, actor_coord)
+	var pc_to_actor := CoordCalculator.get_ray_direction(pc_state.coord,
+			actor_state.coord)
 	var actor_to_pc := actor_state.face_direction
 
 	if pc_state.has_ghost:
-		cost += PcData.COST_SPOOK_EXTRA
+		cost += max(PcData.COST_SPOOK_WITH_GHOST, pc_state.count_item) as int
 	if (actor_to_pc == DirectionTag.NO_DIRECTION) or (pc_to_actor == actor_to_pc):
 		cost -= PcData.COST_SPOOK_FROM_BEHIND
 	elif not DirectionTag.is_opposite_direction(pc_to_actor, actor_to_pc):

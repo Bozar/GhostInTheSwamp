@@ -29,9 +29,9 @@ const ITEM_TO_MAX_GHOST := {
 }
 
 const MAX_GHOST_TIMER: int = 100
-const MIN_TIMER_OFFSET: int = 10
-const MAX_TIMER_OFFSET: int = 31
-const TIMER_BONUS_WHEN_IN_DANGER: int = 20
+const MIN_BASE_TIMER: int = 0
+const MAX_BASE_TIMER: int = 3
+const BONUS_TIMER: int = 20
 
 const MIN_RANGE_TO_HARBOR: int = 5
 const MAX_SAIL_DURATION: int = 5
@@ -43,7 +43,7 @@ const COST_SUB_TAG_TO_SPOOK := {
 	SubTag.ENGINEER: 4,
 	SubTag.PERFORMER: 4,
 }
-const COST_SPOOK_EXTRA: int = 1
+const COST_SPOOK_WITH_GHOST: int = 1
 const COST_SPOOK_FROM_BEHIND: int = 2
 const COST_SPOOK_FROM_SIDE: int = 1
 

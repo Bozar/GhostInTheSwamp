@@ -1,11 +1,11 @@
 class_name BasicSpriteData
 
 
-var main_tag: String setget _set_none, get_main_tag
-var sub_tag: String setget _set_none, get_sub_tag
+var main_tag: String setget _set_none, _get_main_tag
+var sub_tag: String setget _set_none, _get_sub_tag
 var fov_memory := false
 var sprite_tag: String = SpriteTag.DEFAULT
-var coord: IntCoord setget _set_none, get_coord
+var coord: IntCoord setget _set_none, _get_coord
 
 var _main_tag := ""
 var _sub_tag := ""
@@ -18,15 +18,15 @@ func _init(main_tag_: String, sub_tag_: String, sprite_: Sprite) -> void:
 	_self_sprite = sprite_
 
 
-func get_main_tag() -> String:
+func _get_main_tag() -> String:
 	return _main_tag
 
 
-func get_sub_tag() -> String:
+func _get_sub_tag() -> String:
 	return _sub_tag
 
 
-func get_coord() -> IntCoord:
+func _get_coord() -> IntCoord:
 	return ConvertCoord.sprite_to_coord(_self_sprite)
 
 

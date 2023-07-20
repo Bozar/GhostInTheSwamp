@@ -63,11 +63,10 @@ static func _set_spawn_ghost_timer(ref_random: RandomNumber) -> void:
 		return
 
 	# Base value.
-	add_timer = ref_random.get_int(PcData.MIN_TIMER_OFFSET,
-			PcData.MAX_TIMER_OFFSET)
-	# MP bonus.
+	add_timer = ref_random.get_int(PcData.MIN_BASE_TIMER, PcData.MAX_BASE_TIMER)
+	# MP or NPC bonus.
 	if (state.mp < PcData.LOW_MP) or (_is_in_actor_sight()):
-		add_timer += PcData.TIMER_BONUS_WHEN_IN_DANGER
+		add_timer += PcData.BONUS_TIMER
 	state.spawn_ghost_timer += add_timer
 
 
