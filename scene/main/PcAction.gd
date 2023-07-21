@@ -162,7 +162,7 @@ func _use_power_on_land(direction_tag: int) -> void:
 			(target_state as ActorState).reset_walk_path()
 		_:
 			return
-	FindObject.pc_state.inactive_counter = 0
+	pc_state.inactive_counter = 0
 	_end_pc_turn()
 
 
