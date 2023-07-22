@@ -25,6 +25,7 @@ const LAND_CHAR := "-"
 const FAR_LAND_CHAR := "F"
 const EXPAND_LAND_CHAR := "E"
 const EXPAND_DIRECTION_CHAR := "X"
+const LAND_MARK_CHAR := "="
 const HARBOR_CHAR := "H"
 const FINAL_HARBOR_CHAR := "r"
 const SHRUB_CHAR := "#"
@@ -39,18 +40,20 @@ var _ref_CreateObject: CreateObject
 
 func init_ground_building() -> void:
 	var packed_prefab := _parse_prefab()
-	var expand_coords := {
+	var record_coords := {
 		EXPAND_LAND_CHAR: [],
 		EXPAND_SHRUB_CHAR: [],
 		EXPAND_DIRECTION_CHAR: [],
+		LAND_MARK_CHAR: [],
 	}
 
 	# Land, harbor, shrub, island.
-	_create_ground_building(packed_prefab, expand_coords)
-	_create_expand_land(expand_coords[EXPAND_LAND_CHAR],
-			expand_coords[EXPAND_DIRECTION_CHAR])
-	_create_expand_shrub(expand_coords[EXPAND_SHRUB_CHAR])
+	_create_ground_building(packed_prefab, record_coords)
+	_create_expand_land(record_coords)
+	_create_expand_shrub(record_coords)
 	_create_swamp()
+
+	_set_land_mark_sprite(record_coords)
 
 
 func _parse_prefab() -> DungeonPrefab.PackedPrefab:
@@ -105,7 +108,7 @@ func _get_edit_arg() -> Array:
 
 
 func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
-		out_expand_coords: Dictionary) -> void:
+		out_record_coords: Dictionary) -> void:
 	var coord: IntCoord
 
 	for x in range(0, packed_prefab.max_x):
@@ -117,6 +120,9 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 				FAR_LAND_CHAR:
 					_ref_CreateObject.create_ground(SubTag.LAND, coord,
 							[SubTag.FAR_LAND])
+				LAND_MARK_CHAR:
+					_ref_CreateObject.create_ground(SubTag.LAND, coord)
+					out_record_coords[LAND_MARK_CHAR].push_back(coord)
 				HARBOR_CHAR:
 					_ref_CreateObject.create_building(SubTag.HARBOR, coord)
 				FINAL_HARBOR_CHAR:
@@ -127,12 +133,12 @@ func _create_ground_building(packed_prefab: DungeonPrefab.PackedPrefab,
 				ISLAND_CHAR:
 					_ref_CreateObject.create_building(SubTag.ISLAND, coord)
 				EXPAND_LAND_CHAR:
-					out_expand_coords[EXPAND_LAND_CHAR].push_back(coord)
+					out_record_coords[EXPAND_LAND_CHAR].push_back(coord)
 				EXPAND_DIRECTION_CHAR:
-					out_expand_coords[EXPAND_DIRECTION_CHAR].push_back(
+					out_record_coords[EXPAND_DIRECTION_CHAR].push_back(
 							ConvertCoord.hash_coord(coord))
 				EXPAND_SHRUB_CHAR:
-					out_expand_coords[EXPAND_SHRUB_CHAR].push_back(coord)
+					out_record_coords[EXPAND_SHRUB_CHAR].push_back(coord)
 				_:
 					pass
 
@@ -147,22 +153,27 @@ func _create_swamp() -> void:
 		_ref_CreateObject.create_ground(SubTag.SWAMP, i)
 
 
-func _create_expand_land(expand_coords: Array, expand_directions: Array) -> void:
+func _create_expand_land(record_coords: Dictionary) -> void:
+	var expand_coords: Array = record_coords[EXPAND_LAND_CHAR]
+	var expand_directions: Array = record_coords[EXPAND_DIRECTION_CHAR]
+	var land_mark_coords: Array = record_coords[LAND_MARK_CHAR]
 	var land_coord: IntCoord
 	var ray_direction: int
 	var max_length: int
 	var new_coords: Array
 
-	for i in expand_coords:
-		land_coord = _get_land_coord(i, expand_directions)
+	for ec in expand_coords:
+		land_coord = _get_land_coord(ec, expand_directions)
 		if land_coord == null:
 			continue
-		ray_direction = CoordCalculator.get_ray_direction(i, land_coord)
+		ray_direction = CoordCalculator.get_ray_direction(ec, land_coord)
 		max_length = _ref_RandomNumber.get_int(0, MAX_EXPAND)
-		new_coords = CoordCalculator.get_ray_path(i, max_length,
+		new_coords = CoordCalculator.get_ray_path(ec, max_length,
 				ray_direction, true, false, self, "_is_ray_obstacle")
-		for nc in new_coords:
-			_ref_CreateObject.create_ground(SubTag.LAND, nc)
+		for i in range(0, new_coords.size()):
+			if i == MAX_EXPAND - 1:
+				land_mark_coords.push_back(new_coords[i])
+			_ref_CreateObject.create_ground(SubTag.LAND, new_coords[i])
 
 
 func _get_land_coord(coord: IntCoord, directions: Array) -> IntCoord:
@@ -181,7 +192,8 @@ func _is_ray_obstacle(_x: int, _y: int, _opt: Array) -> bool:
 	return false
 
 
-func _create_expand_shrub(expand_coords: Array) -> void:
+func _create_expand_shrub(record_coords: Dictionary) -> void:
+	var expand_coords: Array = record_coords[EXPAND_SHRUB_CHAR]
 	var half_size: int = expand_coords.size() / 2
 
 	ArrayHelper.rand_picker(expand_coords, half_size, _ref_RandomNumber)
@@ -194,3 +206,8 @@ func _parse_full_map() -> DungeonPrefab.PackedPrefab:
 	var read_file: FileParser = FileIoHelper.read_as_line(path_to_file)
 	var edit_arg: Array = _get_edit_arg()
 	return DungeonPrefab.get_prefab(read_file.output_line, edit_arg)
+
+
+func _set_land_mark_sprite(record_coords: Dictionary) -> void:
+	for i in record_coords[LAND_MARK_CHAR]:
+		SwitchSprite.set_sprite(FindObject.get_ground(i), SpriteTag.ACTIVE)

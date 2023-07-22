@@ -27,6 +27,12 @@ const ITEM_TO_MAX_GHOST := {
 	2: 20,
 	3: 20,
 }
+const ITEM_TO_ALARM_CHANCE := {
+	0: 10,
+	1: 20,
+	2: 40,
+	3: 60,
+}
 
 const MAX_GHOST_TIMER: int = 100
 const MIN_BASE_TIMER: int = 0

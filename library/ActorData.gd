@@ -16,6 +16,7 @@ const MAX_SCOUT: int = 2
 const MAX_ENGINEER: int = 2
 const MAX_PERFORMER: int = 2
 const MAX_ACTOR: int = MAX_SCOUT + MAX_ENGINEER + MAX_PERFORMER
+# const MAX_ACTOR: int = 0
 
 const COLLISION_SCORE := {
 	SubTag.TOURIST: 0,
