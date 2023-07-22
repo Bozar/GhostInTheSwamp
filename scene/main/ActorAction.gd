@@ -13,13 +13,16 @@ var _harbor_states := []
 var _harbor_to_neighbor := {}
 var _neighbor_to_harbor := {}
 var _land_coords := []
+var _hash_land_coords := []
 var _engineer_end_coords := []
+var _alarm_coords := []
 
 
 func _on_Schedule_turn_started(current_sprite: Sprite) -> void:
 	var state: ActorState
 
 	if current_sprite.is_in_group(SubTag.PC):
+		_set_alarm(ObjectState.get_state(current_sprite))
 		return
 	_actor_ai(current_sprite)
 
@@ -54,7 +57,6 @@ func _actor_ai(current_sprite: Sprite) -> void:
 	if state.walk_path.size() < 1:
 		if state.sub_tag == SubTag.ENGINEER:
 			_set_path_to_harbor(state)
-			# print(ConvertCoord.hash_coord(state.end_point))
 		# Tourist, Scout, Performer.
 		else:
 			_set_path_to_land(state)
@@ -110,6 +112,8 @@ func _set_coords() -> void:
 		# A dead end or a crossroad.
 		if count_neighbor != 2:
 			_land_coords.push_back(coord)
+			_hash_land_coords.push_back(ConvertCoord.hash_coord(coord))
+	_hash_land_coords.sort()
 
 
 func _set_path_to_pc(state: ActorState) -> void:
@@ -158,6 +162,8 @@ func _set_path_to_land(actor_state: ActorState) -> void:
 	var actor_coord := actor_state.coord
 	var new_coord := actor_coord
 
+	if _alarm_coords.size() > 0:
+		new_coord = _alarm_coords.pop_back()
 	while CoordCalculator.is_same_coord(new_coord, actor_coord):
 		new_coord = ArrayHelper.get_rand_element(_land_coords, _ref_RandomNumber)
 	actor_state.walk_path = ActorWalkPath.get_path(new_coord, actor_coord,
@@ -197,3 +203,16 @@ func _get_end_coord(actor_coord: IntCoord) -> IntCoord:
 			ArrayHelper.shuffle(_engineer_end_coords, _ref_RandomNumber)
 		end_coord = _engineer_end_coords.pop_back()
 	return end_coord
+
+
+func _set_alarm(pc_state: PcState) -> void:
+	var pc_coord: IntCoord = pc_state.coord
+	var hash_pc_coord: int = ConvertCoord.hash_coord(pc_coord)
+	var count_item: int = pc_state.count_item
+	var alarm_chance: int
+
+	if not ArrayHelper.has_element_bsearch(_hash_land_coords, hash_pc_coord):
+		return
+	alarm_chance = PcData.ITEM_TO_ALARM_CHANCE.get(count_item, 0)
+	if _ref_RandomNumber.get_percent_chance(alarm_chance):
+		_alarm_coords.push_back(pc_coord)
