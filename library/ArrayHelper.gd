@@ -104,3 +104,10 @@ static func reverse_iterate(source: Array, func_host: Object,
 
 	for i in range(source.size() - 1, -1, -1):
 		reverse_iterate.call_func(source, i, opt_arg)
+
+
+static func has_element_bsearch(source: Array, value) -> bool:
+	var search_index: int = source.bsearch(value)
+	if search_index > source.size() - 1:
+		return false
+	return value == source[search_index]
