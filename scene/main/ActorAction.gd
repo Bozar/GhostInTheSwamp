@@ -63,6 +63,8 @@ func _actor_ai(current_sprite: Sprite) -> void:
 
 	# Decide whether the next grid in the walk path is reachable.
 	target_coord = state.walk_path.pop_back()
+	state.face_direction = CoordCalculator.get_ray_direction(source_coord,
+			target_coord)
 	if FindObject.has_actor(target_coord):
 		# Wait beside PC.
 		if CoordCalculator.is_same_coord(target_coord, FindObject.pc_coord):
@@ -79,9 +81,6 @@ func _actor_ai(current_sprite: Sprite) -> void:
 				return
 			else:
 				_ref_RemoveObject.remove(target_sprite)
-
-	state.face_direction = CoordCalculator.get_ray_direction(source_coord,
-			target_coord)
 	MoveObject.move(current_sprite, target_coord)
 
 
