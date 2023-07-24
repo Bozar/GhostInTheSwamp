@@ -24,8 +24,8 @@ const HARBOR_TO_MP_PROGRESS := {
 const ITEM_TO_MAX_GHOST := {
 	0: 10,
 	1: 15,
-	2: 20,
-	3: 20,
+	2: 15,
+	3: 15,
 }
 const ITEM_TO_ALARM_CHANCE := {
 	0: 10,
