@@ -8,7 +8,7 @@ var _ref_HelpVScroll: HelpVScroll
 var _input_to_funcref: Dictionary
 
 
-func _on_InitWorld_world_selected(_new_world: String) -> void:
+func _on_InitWorld_world_initialized() -> void:
 	if _input_to_funcref.size() > 0:
 		return
 

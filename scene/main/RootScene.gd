@@ -12,13 +12,8 @@ const SIGNAL_BIND := {
 		SOURCE_NODE: NodeTag.INIT_WORLD,
 		TARGET_NODE: [
 			NodeTag.PROGRESS, NodeTag.SIDEBAR_GUI, NodeTag.PLAYER_INPUT,
-			NodeTag.DEBUG_GUI, NodeTag.ACTOR_ACTION,
-		],
-	},
-	"world_selected": {
-		SOURCE_NODE: NodeTag.INIT_WORLD,
-		TARGET_NODE: [
-			NodeTag.HELP_GUI, NodeTag.HELP_INPUT,
+			NodeTag.DEBUG_GUI, NodeTag.ACTOR_ACTION, NodeTag.HELP_GUI,
+			NodeTag.HELP_INPUT,
 		],
 	},
 	SignalTag.TURN_STARTED: {

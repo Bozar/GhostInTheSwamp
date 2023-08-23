@@ -1,7 +1,7 @@
 class_name SidebarText
 
 
-const VERSION := "%s0.4.4"
+const VERSION := "%s1.0.0"
 # const VERSION := "0.3.1-\nNightly-\n04-16-2021"
 const WIZARD := "+"
 

@@ -15,8 +15,6 @@ func init_world() -> void:
 	var pc_coord: IntCoord
 
 	_ref_Setting.load_setting()
-	emit_signal("world_selected", "demo")
-
 	$InitWorldHelper.init_ground_building()
 	pc_coord = _init_pc()
 	_init_indicator(pc_coord.x, pc_coord.y)

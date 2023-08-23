@@ -53,8 +53,8 @@ func switch_help_text(switch_to_next: bool) -> void:
 	_reset_scroll_bar()
 
 
-func _on_InitWorld_world_selected(new_world: String) -> void:
-	_help_text = InitWorldData.get_help(new_world)
+func _on_InitWorld_world_initialized() -> void:
+	_help_text = InitWorldData.get_help()
 	_reset_index()
 
 	get_node(DUNGEON).modulate = Palette.get_text_color(true)

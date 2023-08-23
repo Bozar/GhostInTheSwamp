@@ -1,35 +1,35 @@
 class_name InitWorldData
 
 
-const WORLD_PLACEHOLDER := "%str%"
+const PATH_TO_HELP := "res://user/doc/"
+const HINT_PREFIX := "hint_"
 const HINT_PLACEHOLDER := "[INPUT_HINT]\n"
 
-const HELP_PATH := "res://user/doc/%str%.md"
+const HELP_FILES := [
+	"cheat_sheet.md",
+	"introduction.md",
+	"key_bindings.md",
+	"game_world.md",
+	"player_character_1.md",
+	"player_character_2.md",
+	"player_character_3.md",
+	"non_player_characters.md",
+	"game_settings.md",
+]
 
-const GENERAL_HELP := "res://user/doc/general.md"
-const KEY_BINDING_HELP := "res://user/doc/keybinding.md"
 
-const HINT_DUNGEON := "res://user/doc/hint_dungeon.md"
-const HINT_GENERAL := "res://user/doc/hint_general.md"
-const HINT_KEY_BINDING := "res://user/doc/hint_keybinding.md"
-
-
-static func get_help(world_tag: String) -> Array:
-	var world_name: String = WorldTag.get_world_name(world_tag).to_lower()
-	var dungeon: String = HELP_PATH.replace(WORLD_PLACEHOLDER, world_name)
-	var parse_help := [
-		FileIoHelper.read_as_text(dungeon),
-		FileIoHelper.read_as_text(KEY_BINDING_HELP),
-		FileIoHelper.read_as_text(GENERAL_HELP),
-	]
-	var parse_hint := [
-		FileIoHelper.read_as_text(HINT_DUNGEON),
-		FileIoHelper.read_as_text(HINT_KEY_BINDING),
-		FileIoHelper.read_as_text(HINT_GENERAL),
-	]
+static func get_help() -> Array:
+	var parse_help := []
+	var parse_hint := []
 	var help_text: String
 	var hint_text: String
 	var result := []
+
+	for i in HELP_FILES:
+		help_text = PATH_TO_HELP + i
+		hint_text = PATH_TO_HELP + HINT_PREFIX + i
+		parse_help.push_back(FileIoHelper.read_as_text(help_text))
+		parse_hint.push_back(FileIoHelper.read_as_text(hint_text))
 
 	for i in parse_help.size():
 		if parse_help[i].parse_success and parse_hint[i].parse_success:
@@ -40,10 +40,3 @@ static func get_help(world_tag: String) -> Array:
 		else:
 			result.push_back("")
 	return result
-
-
-static func _load_data(file_path: String, world_tag: String):
-	var world_name: String = WorldTag.get_world_name(world_tag)
-	var full_path: String = file_path.replace(WORLD_PLACEHOLDER, world_name)
-
-	return load(full_path)
